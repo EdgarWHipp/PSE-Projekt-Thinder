@@ -10,7 +10,7 @@ public interface BaseRepository<T> {
     Optional<T> getById(int id);
 
     Exception save(T obj);
-    
+
     Exception delete(int id);
 
 }

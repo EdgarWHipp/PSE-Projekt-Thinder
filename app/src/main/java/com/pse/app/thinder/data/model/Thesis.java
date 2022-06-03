@@ -1,8 +1,8 @@
 package com.pse.app.thinder.data.model;
 
-import com.google.gson.annotations.SerializedName;
-
 import android.media.Image;
+
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
