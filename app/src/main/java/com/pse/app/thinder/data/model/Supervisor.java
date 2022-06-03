@@ -9,10 +9,6 @@ public class Supervisor {
     @SerializedName("id")
     int supervisorId;
 
-    String password;
-
-    String eMail;
-
     String university;
     @SerializedName("degree")
     String academicDegree;
