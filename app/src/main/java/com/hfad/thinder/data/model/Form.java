@@ -4,6 +4,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class Form {
     @SerializedName("text")
-    String questions;
+    private String questions;
+
+    public String getQuestions() {
+        return questions;
+    }
 
 }

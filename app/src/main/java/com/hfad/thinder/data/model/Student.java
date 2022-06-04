@@ -4,14 +4,32 @@ import com.google.gson.annotations.SerializedName;
 
 public class Student {
 
-    String firstName;
+    private String firstName;
 
-    String lastName;
+    private String lastName;
     @SerializedName("id")
-    int studentId;
+    private int studentId;
+    private String university;
+    private String degree;
 
-    String university;
+    public String getFirstName() {
+        return firstName;
+    }
 
-    String degree;
+    public String getLastName() {
+        return lastName;
+    }
+
+    public int getStudentId() {
+        return studentId;
+    }
+
+    public String getUniversity() {
+        return university;
+    }
+
+    public String getDegree() {
+        return degree;
+    }
 
 }

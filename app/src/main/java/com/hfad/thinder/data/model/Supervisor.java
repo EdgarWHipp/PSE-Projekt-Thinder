@@ -3,20 +3,49 @@ package com.hfad.thinder.data.model;
 import com.google.gson.annotations.SerializedName;
 
 public class Supervisor {
-    String firstName;
+    private String firstName;
 
-    String lastName;
+    private String lastName;
     @SerializedName("id")
-    int supervisorId;
+    private int supervisorId;
 
-    String university;
+    private String university;
     @SerializedName("degree")
-    String academicDegree;
+    private String academicDegree;
+    private String location;
+    private String institute;
+    private String phoneNumber;
 
-    String location;
+    public String getFirstName() {
+        return firstName;
+    }
 
-    String institute;
+    public String getLastName() {
+        return lastName;
+    }
 
-    String phoneNumber;
+    public int getSupervisorId() {
+        return supervisorId;
+    }
+
+    public String getUniversity() {
+        return university;
+    }
+
+    public String getAcademicDegree() {
+        return academicDegree;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getInstitute() {
+        return institute;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
 }

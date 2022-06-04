@@ -3,9 +3,23 @@ package com.hfad.thinder.data.source.repository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Singleton instance of a StudentRepository.
+ */
+public final class StudentRepository implements BaseRepository {
+    private static StudentRepository INSTANCE;
 
-public class StudentRepository implements BaseRepository {
+    private StudentRepository() {
 
+    }
+
+    public static StudentRepository getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new StudentRepository();
+        }
+
+        return INSTANCE;
+    }
 
     @Override
     public List getAll() {
@@ -18,14 +32,12 @@ public class StudentRepository implements BaseRepository {
     }
 
     @Override
-    public Exception save(Object obj) {
-        return null;
+    public boolean save(Object obj) {
+        return false;
     }
 
     @Override
-    public Exception delete(int id) {
-        return null;
+    public boolean delete(int id) {
+        return false;
     }
-
-
 }

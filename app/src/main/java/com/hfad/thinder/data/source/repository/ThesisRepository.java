@@ -3,8 +3,23 @@ package com.hfad.thinder.data.source.repository;
 import java.util.List;
 import java.util.Optional;
 
-public class ThesisRepository implements BaseRepository {
+/**
+ * Singleton instance of a ThesisRepository.
+ * Database access to fetch theses is launched over this class.
+ */
+public final class ThesisRepository implements BaseRepository {
+    private static ThesisRepository INSTANCE;
 
+    private ThesisRepository() {
+
+    }
+
+    public static ThesisRepository getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new ThesisRepository();
+        }
+        return INSTANCE;
+    }
 
     @Override
     public List getAll() {
@@ -17,12 +32,12 @@ public class ThesisRepository implements BaseRepository {
     }
 
     @Override
-    public Exception save(Object obj) {
-        return null;
+    public boolean save(Object obj) {
+        return false;
     }
 
     @Override
-    public Exception delete(int id) {
-        return null;
+    public boolean delete(int id) {
+        return false;
     }
 }

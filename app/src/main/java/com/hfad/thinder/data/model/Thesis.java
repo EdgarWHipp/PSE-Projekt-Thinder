@@ -8,13 +8,32 @@ import java.util.List;
 
 public class Thesis {
     @SerializedName("id")
-    int thesisId;
+    private int thesisId;
 
-    String name;
+    private String name;
     @SerializedName("text")
-    String body;
-
-    Form form;
+    private String body;
+    private Form form;
     @SerializedName("list")
-    List<Image> images;
+    private List<Image> images;
+
+    public int getThesisId() {
+        return thesisId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public Form getForm() {
+        return form;
+    }
+
+    public List<Image> getImages() {
+        return images;
+    }
 }
