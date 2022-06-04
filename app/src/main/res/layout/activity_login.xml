@@ -95,8 +95,7 @@
         android:backgroundTint="@color/green_400"
         android:text="@string/register"
         android:onClick="goToRegisterActivity"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:backgroundTint="@color/green_400" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
