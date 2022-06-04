@@ -1,7 +1,5 @@
 package com.pse.app.thinder.data.source.repository;
 
-import com.pse.app.thinder.data.model.Thesis;
-
 import java.util.List;
 import java.util.Optional;
 

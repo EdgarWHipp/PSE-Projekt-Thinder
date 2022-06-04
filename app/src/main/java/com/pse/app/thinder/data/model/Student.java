@@ -10,10 +10,6 @@ public class Student {
     @SerializedName("id")
     int studentId;
 
-    String password;
-
-    String eMail;
-
     String university;
 
     String degree;
