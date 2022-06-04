@@ -11,6 +11,6 @@ public interface ThesisApiService {
     /**
      * This function gets a list of the Thesis objects that the user needs to continue swiping.
      */
-    @GET("Theses")
+    @GET("api/Theses")
     Call<List<Thesis>> getTheses();
 }

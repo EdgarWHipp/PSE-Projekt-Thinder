@@ -1,5 +1,7 @@
 package com.hfad.thinder.viewmodels;
 
-public class RegistrationViewModel {
+import androidx.lifecycle.ViewModel;
+
+public class RegistrationViewModel extends ViewModel {
 
 }
