@@ -7,4 +7,17 @@
     <string name="login">Anmelden</string>
     <string name="register">Registrieren</string>
     <string name="forgot_password">Passwort vergessen</string>
+    <string name="first_name">Vorname</string>
+    <string name="insert_first_name">Vorname eingeben</string>
+    <string name="last_name">Nachname</string>
+    <string name="insert_last_name">Nachname eingeben</string>
+    <string name="confirm_password">Passwort bestätigen</string>
+    <string name="university">Universität</string>
+    <string name="choose_university">Universität wählen</string>
+    <string name="registration">Registrierung</string>
+    <string name="forgot_password_text">Sie haben per E-Mail einen Code erhalten, welchen Sie zum
+        Zurücksetzen Ihres Passwortes nutzen können.</string>
+    <string name="insert_code">Code eingeben</string>
+    <string name="new_password">Neues Passwort</string>
+    <string name="code">Code</string>
 </resources>
