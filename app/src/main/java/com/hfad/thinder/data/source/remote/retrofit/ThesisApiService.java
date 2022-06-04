@@ -1,6 +1,6 @@
-package com.pse.app.thinder.data.source.remote.retrofit;
+package com.hfad.thinder.data.source.remote.retrofit;
 
-import com.pse.app.thinder.data.model.Thesis;
+import com.hfad.thinder.data.model.Thesis;
 
 import java.util.List;
 

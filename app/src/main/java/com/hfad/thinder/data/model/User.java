@@ -1,4 +1,4 @@
-package com.pse.app.thinder.data.model;
+package com.hfad.thinder.data.model;
 
 public class User {
     String password;

@@ -1,11 +1,11 @@
-package com.pse.app.thinder.viewmodels;
+package com.hfad.thinder.viewmodels;
 
 import android.view.View;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.pse.app.thinder.data.model.User;
+import com.hfad.thinder.data.model.User;
 
 public class LoginViewModel extends ViewModel {
     public MutableLiveData<String> emailAddress = new MutableLiveData<>();
