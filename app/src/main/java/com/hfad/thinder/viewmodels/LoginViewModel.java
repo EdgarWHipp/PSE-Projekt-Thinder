@@ -13,7 +13,6 @@ public class LoginViewModel extends ViewModel {
 
     private static final Pattern PASSWORD_PATTERN = Pattern.compile();//Todo: geeignetes Pattern überlegen
 
-    public LoginViewModel(Repository loginRepository) {this.loginRepository = loginRepository} //Todo: Richtiges Repository fehlt
 
     public MutableLiveData<LoginFormState> getLoginFormState() {
         return this.loginFormState;
