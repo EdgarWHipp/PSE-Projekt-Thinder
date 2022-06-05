@@ -3,6 +3,8 @@ plugins {
 }
 
 android {
+
+
     compileSdk 32
 
     defaultConfig {
@@ -15,6 +17,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+
     buildTypes {
         release {
             minifyEnabled false
@@ -25,12 +28,16 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    // Allows binding of UI components to data sources, also see: https://developer.android.com/topic/libraries/data-binding#java
+    buildFeatures {
+        dataBinding true
+    }
+
 }
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'com.google.android.material:material:1.6.1'
     // enables use of toolbars
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
