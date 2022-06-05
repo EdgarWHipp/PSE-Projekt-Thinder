@@ -1,102 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/linearLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/fab_margin"
-    android:paddingTop="@dimen/fab_margin"
-    android:paddingRight="@dimen/fab_margin"
-    android:paddingBottom="@dimen/fab_margin">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_thinder_logo_v1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
 
-    <TextView
-        android:id="@+id/twloginemail"
-        style="@style/body_2"
+        <variable
+            name="viewmodel"
+            type="com.hfad.thinder.viewmodels.LoginViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/logo_distance"
-        android:text="@string/email"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/fab_margin"
+        android:paddingTop="@dimen/fab_margin"
+        android:paddingRight="@dimen/fab_margin"
+        android:paddingBottom="@dimen/fab_margin">
 
-    <EditText
-        android:id="@+id/etLoginEMail"
-        style="@style/headline_h6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:autofillHints="password"
-        android:drawableEnd="@drawable/ic_mail"
-        android:hint="@string/insert_email"
-        android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/twloginemail" />
 
-    <TextView
-        android:id="@+id/twloginpassword"
-        style="@style/body_2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/password"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etLoginEMail" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_thinder_logo_v1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/etLoginPassword"
-        style="@style/headline_h6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:autofillHints="emailAddress"
-        android:drawableEnd="@drawable/ic_lock"
-        android:hint="@string/insert_password"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/twloginpassword" />
+        <TextView
+            android:id="@+id/twloginemail"
+            style="@style/body_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/logo_distance"
+            android:text="@string/email"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-    <Button
-        android:id="@+id/btForgotPassword"
-        style="@style/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
-        android:text="@string/forgot_password"
-        android:onClick="goToForgotPasswordActivity"
-        android:textColor="@color/blue_700"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etLoginPassword" />
+        <EditText
+            android:id="@+id/etLoginEMail"
+            style="@style/headline_h6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="password"
+            android:drawableEnd="@drawable/ic_mail"
+            android:hint="@string/insert_email"
+            android:inputType="textEmailAddress"
+            android:text="@={viewmodel.email}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/twloginemail" />
 
-    <Button
-        android:id="@+id/btLogin"
-        style="@style/button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/login"
-        app:layout_constraintBottom_toTopOf="@+id/btRegister" />
+        <TextView
+            android:id="@+id/twloginpassword"
+            style="@style/body_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/password"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etLoginEMail" />
 
-    <Button
-        android:id="@+id/btRegister"
-        style="@style/button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/green_400"
-        android:text="@string/register"
-        android:onClick="goToRegisterActivity"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        <EditText
+            android:id="@+id/etLoginPassword"
+            style="@style/headline_h6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="emailAddress"
+            android:drawableEnd="@drawable/ic_lock"
+            android:hint="@string/insert_password"
+            android:inputType="textPassword"
+            android:text="@={viewmodel.password}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/twloginpassword" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/btForgotPassword"
+            style="@style/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:text="@string/forgot_password"
+            android:onClick="goToForgotPasswordActivity"
+            android:textColor="@color/blue_700"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etLoginPassword" />
+
+        <Button
+            android:id="@+id/btLogin"
+            style="@style/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/login"
+            android:onClick="@{() -> viewmodel.login()}"
+            app:layout_constraintBottom_toTopOf="@+id/twerrormsg" />
+
+        <TextView
+            android:id="@+id/twerrormsg"
+            style="@style/body_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{viewmodel.errorMessage}"
+            android:gravity="center"
+            android:textColor="@color/red_500"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btRegister" />
+
+        <Button
+            android:id="@+id/btRegister"
+            style="@style/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/green_400"
+            android:text="@string/register"
+            android:onClick="goToRegisterActivity"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+
 
 
