@@ -13,8 +13,35 @@ import com.hfad.thinder.viewmodels.LoginViewModel;
 
 public class LoginActivity extends AppCompatActivity {
 
+<<<<<<
+  <HEAD
+          ActivityLoginBinding mBinding;
+  LoginViewModel viewmodel;
   ActivityLoginBinding mBinding;
   LoginViewModel viewmodel;
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    // Inflate view and obtain an instance of the binding class
+    mBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
+    // obtain the viewmodel component
+    viewmodel = new ViewModelProvider(this).get(LoginViewModel.class);
+    // assign the component to a property in the binding class
+    mBinding.setViewmodel(viewmodel);
+    mBinding.setLifecycleOwner(this);
+  }
+=======
+
+  public void goToRegisterActivity(View view) {
+    Intent intent = new Intent(this, RegisterActivity.class);
+    startActivity(intent);
+  }
+
+  public void goToForgotPasswordActivity(View view) {
+    Intent intent = new Intent(this, ForgotPasswordActivity.class);
+    startActivity(intent);
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -37,4 +64,5 @@ public class LoginActivity extends AppCompatActivity {
     Intent intent = new Intent(this, ForgotPasswordActivity.class);
     startActivity(intent);
   }
+>>>>>>>a6883fe3d843dc92ff9dabdb70909c0815f693da
 }

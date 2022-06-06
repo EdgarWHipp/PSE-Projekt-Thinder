@@ -1,181 +1,243 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    <data>
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:minHeight="?attr/actionBarSize"
-        app:title="@string/registration"
-        app:titleTextColor="@android:color/black">
+        <
 
-    </androidx.appcompat.widget.Toolbar>
+        <
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/grey_400" />
+        <
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+        <
+
+        <
+
+        <
+
+        < HEAD
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:minHeight="?attr/actionBarSize"
+            app:title="@string/registration"
+            app:titleTextColor="@android:color/black">
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey_400" />
+        =======
+
+        <variable
+            name="viewmodel"
+            type="com.hfad.thinder.viewmodels.RegistrationViewModel" />
+    </data>
+    >>>>>>> a6883fe3d843dc92ff9dabdb70909c0815f693da
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
 
-        android:paddingLeft="@dimen/fab_margin"
-        android:paddingTop="@dimen/fab_margin"
-        android:paddingRight="@dimen/fab_margin"
-        android:paddingBottom="@dimen/fab_margin">
-
-        <TextView
-            android:id="@+id/twloginemail"
-            style="@style/body_2"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:minHeight="?attr/actionBarSize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/email"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:titleTextColor="@android:color/black"
+            app:title="@string/registration"
+            android:background="@color/white">
 
-        <EditText
-            android:id="@+id/etLoginEMail"
-            style="@style/headline_h6"
+        </androidx.appcompat.widget.Toolbar>
+
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autofillHints="password"
-            android:drawableEnd="@drawable/ic_mail"
-            android:hint="@string/insert_email"
-            android:inputType="textEmailAddress"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/twloginemail" />
+            android:layout_height="1dp"
+            android:background="@color/grey_400" />
 
-        <TextView
-            android:id="@+id/twfirstname"
-            style="@style/body_2"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/first_name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etLoginEMail" />
+            android:layout_height="match_parent"
 
-        <EditText
-            android:id="@+id/etfirstname"
-            style="@style/headline_h6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autofillHints="name"
-            android:drawableEnd="@drawable/ic_person_firstname"
-            android:hint="@string/insert_first_name"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/twfirstname" />
+            android:paddingLeft="@dimen/fab_margin"
+            android:paddingTop="@dimen/fab_margin"
+            android:paddingRight="@dimen/fab_margin"
+            android:paddingBottom="@dimen/fab_margin">
 
-        <TextView
-            android:id="@+id/twlastname"
-            style="@style/body_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/last_name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etfirstname" />
+            <TextView
+                android:id="@+id/twloginemail"
+                style="@style/body_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/email"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/etlastname"
-            style="@style/headline_h6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autofillHints="password"
-            android:drawableEnd="@drawable/ic_person"
-            android:hint="@string/insert_last_name"
-            android:inputType="textEmailAddress"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/twlastname" />
+            <EditText
+                android:id="@+id/etLoginEMail"
+                style="@style/headline_h6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="password"
+                android:drawableEnd="@drawable/ic_mail"
+                android:text="@={viewmodel.email}"
+                android:hint="@string/insert_email"
+                android:inputType="textEmailAddress"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/twloginemail" />
+
+            <TextView
+                android:id="@+id/twfirstname"
+                style="@style/body_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/first_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etLoginEMail" />
+
+            <EditText
+                android:id="@+id/etfirstname"
+                style="@style/headline_h6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="name"
+                android:drawableEnd="@drawable/ic_person_firstname"
+                android:hint="@string/insert_first_name"
+                android:inputType="textPersonName"
+                android:text="@={viewmodel.firstName}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/twfirstname" />
+
+            <TextView
+                android:id="@+id/twlastname"
+                style="@style/body_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/last_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etfirstname" />
+
+            <EditText
+                android:id="@+id/etlastname"
+                style="@style/headline_h6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="password"
+                android:drawableEnd="@drawable/ic_person"
+                android:hint="@string/insert_last_name"
+                android:inputType="textPersonName"
+                android:text="@={viewmodel.lastName}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/twlastname" />
 
 
-        <TextView
-            android:id="@+id/twloginpassword"
-            style="@style/body_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/password"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etlastname" />
+            <TextView
+                android:id="@+id/twloginpassword"
+                style="@style/body_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/password"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etlastname" />
 
-        <EditText
-            android:id="@+id/etLoginPassword"
-            style="@style/headline_h6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autofillHints="emailAddress"
-            android:drawableEnd="@drawable/ic_lock"
-            android:hint="@string/insert_password"
-            android:inputType="textPassword"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/twloginpassword" />
+            <EditText
+                android:id="@+id/etLoginPassword"
+                style="@style/headline_h6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="emailAddress"
+                android:drawableEnd="@drawable/ic_lock"
+                android:hint="@string/insert_password"
+                android:inputType="textPassword"
+                android:text="@={viewmodel.password}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/twloginpassword" />
 
-        <TextView
-            android:id="@+id/twconfirmpassword"
-            style="@style/body_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/confirm_password"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etLoginPassword" />
+            <TextView
+                android:id="@+id/twconfirmpassword"
+                style="@style/body_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/confirm_password"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etLoginPassword" />
 
-        <EditText
-            android:id="@+id/etconfirmpassword"
-            style="@style/headline_h6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autofillHints="emailAddress"
-            android:drawableEnd="@drawable/ic_lock_open"
-            android:hint="@string/insert_password"
-            android:inputType="textPassword"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/twconfirmpassword" />
+            <EditText
+                android:id="@+id/etconfirmpassword"
+                style="@style/headline_h6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="emailAddress"
+                android:drawableEnd="@drawable/ic_lock_open"
+                android:hint="@string/insert_password"
+                android:inputType="textPassword"
+                android:text="@={viewmodel.passwordConfirmation}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/twconfirmpassword" />
 
-        <TextView
-            android:id="@+id/etchooseuniversity"
-            style="@style/body_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/university"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etconfirmpassword" />
+            <TextView
+                android:id="@+id/etchooseuniversity"
+                style="@style/body_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/university"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etconfirmpassword" />
 
-        <Spinner
-            android:id="@+id/spchooseuniversity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etchooseuniversity">
+            <Spinner
+                android:id="@+id/spchooseuniversity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@{viewmodel.universities}"
+                android:selectedItemPosition="@={viewmodel.selectedItemPosition}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etchooseuniversity">
 
-        </Spinner>
+            </Spinner>
 
-        <Button
-            android:id="@+id/btRegister"
-            style="@style/button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/green_400"
-            android:text="@string/register"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            <TextView
+                android:id="@+id/twerrormsg"
+                style="@style/body_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{viewmodel.errorMessage}"
+                android:gravity="center"
+                android:textColor="@color/red_500"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/btRegister" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</LinearLayout>
+            <Button
+                android:id="@+id/btRegister"
+                style="@style/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/green_400"
+                android:text="@string/register"
+                android:onClick="@{() -> viewmodel.register()}"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</layout>
+
 

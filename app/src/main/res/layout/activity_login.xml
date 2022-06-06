@@ -91,6 +91,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etLoginPassword" />
 
+        <
+
+        <
+
+        <
+
+        <
+
+        <
+
+        <
+
+        < HEAD
+
         <Button
             android:id="@+id/btLogin"
             style="@style/button"
@@ -99,6 +113,9 @@
             android:onClick="@{() -> viewmodel.login()}"
             android:text="@string/login"
             app:layout_constraintBottom_toTopOf="@+id/twerrormsg" />
+
+        =======
+        >>>>>>> a6883fe3d843dc92ff9dabdb70909c0815f693da
 
         <TextView
             android:id="@+id/twerrormsg"
@@ -110,7 +127,35 @@
             android:textColor="@color/red_500"
             app:layout_constraintBottom_toTopOf="@+id/btRegister"
             app:layout_constraintEnd_toEndOf="parent"
+
+        <
+
+        <
+
+        <
+
+        <
+
+        <
+
+        <
+
+        < HEAD
             app:layout_constraintStart_toStartOf="parent" />
+        =======
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btLogin" />
+
+        <Button
+            android:id="@+id/btLogin"
+            style="@style/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/login"
+            android:onClick="@{() -> viewmodel.login()}"
+            app:layout_constraintBottom_toTopOf="@+id/btRegister" />
+        >>>>>>> a6883fe3d843dc92ff9dabdb70909c0815f693da
+
 
         <Button
             android:id="@+id/btRegister"
