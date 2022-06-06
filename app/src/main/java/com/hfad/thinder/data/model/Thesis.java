@@ -2,6 +2,8 @@ package com.hfad.thinder.data.model;
 
 import android.media.Image;
 
+import androidx.annotation.Nullable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -28,7 +30,7 @@ public class Thesis {
   public String getBody() {
     return body;
   }
-
+  @Nullable
   public Form getForm() {
     return form;
   }
