@@ -1,5 +1,7 @@
 package com.hfad.thinder.data.source.repository;
 
+import com.hfad.thinder.data.model.Thesis;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -7,13 +9,17 @@ import java.util.Optional;
  * Singleton instance of a ThesisRepository.
  * Database access to fetch theses is launched over this class.
  */
-public final class ThesisRepository implements BaseRepository {
+public final class ThesisRepository implements BaseRepository<Thesis> {
     private static ThesisRepository INSTANCE;
 
     private ThesisRepository() {
 
     }
 
+    /**
+     *
+     * @return current instance of ThesisRepository singleton class.
+     */
     public static ThesisRepository getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new ThesisRepository();
@@ -27,17 +33,17 @@ public final class ThesisRepository implements BaseRepository {
     }
 
     @Override
-    public Optional getById(int id) {
+    public Optional getById(final int id) {
         return Optional.empty();
     }
 
     @Override
-    public boolean save(Object obj) {
+    public boolean save(final Thesis thesis) {
         return false;
     }
 
     @Override
-    public boolean delete(int id) {
+    public boolean delete(final int id) {
         return false;
     }
 }
