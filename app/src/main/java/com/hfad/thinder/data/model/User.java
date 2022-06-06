@@ -5,37 +5,39 @@ package com.hfad.thinder.data.model;
  */
 
 public class User {
-    private final String password;
+  private final String password;
 
-    private final String eMail;
+  private final String eMail;
 
-    private int userId;
+  private int userId;
 
-    private int firstName;
-    private int lastName;
+  private String firstName;
+  private String lastName;
 
-    public User(String password, String eMail) {
-        this.password = password;
-        this.eMail = eMail;
-    }
+  private String university;
 
-    public String getPassword() {
-        return password;
-    }
+  public User(String password, String eMail, int userId, String firstName, String lastName) {
+    this.password = password;
+    this.eMail = eMail;
+  }
 
-    public String geteMail() {
-        return eMail;
-    }
+  public String getPassword() {
+    return password;
+  }
 
-    public int getId() {
-        return userId;
-    }
+  public String geteMail() {
+    return eMail;
+  }
 
-    public int getFirstName() {
-        return firstName;
-    }
+  public int getId() {
+    return userId;
+  }
 
-    public int getLastName() {
-        return lastName;
-    }
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
 }
