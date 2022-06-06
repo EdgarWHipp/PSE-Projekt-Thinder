@@ -82,7 +82,7 @@ public final class UserRepository implements BaseRepository<User> {
    * @param email
    * @return
    */
-  public boolean check(String password, String email) {
+  public boolean checkIfUserIsRegistrated(String password, String email) {
     return users.stream().anyMatch(user -> user.getPassword().equals(password) && user.geteMail().equals(email));
   }
 }
