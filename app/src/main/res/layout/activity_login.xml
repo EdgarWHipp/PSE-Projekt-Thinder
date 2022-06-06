@@ -91,15 +91,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etLoginPassword" />
 
-        <Button
-            android:id="@+id/btLogin"
-            style="@style/button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/login"
-            android:onClick="@{() -> viewmodel.login()}"
-            app:layout_constraintBottom_toTopOf="@+id/twerrormsg" />
-
         <TextView
             android:id="@+id/twerrormsg"
             style="@style/body_2"
@@ -110,7 +101,17 @@
             android:textColor="@color/red_500"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btLogin" />
+
+        <Button
+            android:id="@+id/btLogin"
+            style="@style/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/login"
+            android:onClick="@{() -> viewmodel.login()}"
             app:layout_constraintBottom_toTopOf="@+id/btRegister" />
+
 
         <Button
             android:id="@+id/btRegister"
