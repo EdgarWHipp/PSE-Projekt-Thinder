@@ -84,8 +84,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
-            android:onClick="goToForgotPasswordActivity"
             android:text="@string/forgot_password"
+            android:onClick="goToForgotPasswordActivity"
             android:textColor="@color/blue_700"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -96,8 +96,8 @@
             style="@style/button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{() -> viewmodel.login()}"
             android:text="@string/login"
+            android:onClick="@{() -> viewmodel.login()}"
             app:layout_constraintBottom_toTopOf="@+id/twerrormsg" />
 
         <TextView
@@ -105,12 +105,12 @@
             style="@style/body_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:text="@{viewmodel.errorMessage}"
+            android:gravity="center"
             android:textColor="@color/red_500"
-            app:layout_constraintBottom_toTopOf="@+id/btRegister"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btRegister" />
 
         <Button
             android:id="@+id/btRegister"
@@ -118,8 +118,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/green_400"
-            android:onClick="goToRegisterActivity"
             android:text="@string/register"
+            android:onClick="goToRegisterActivity"
             app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,12 +10,12 @@ import java.util.Optional;
  */
 public interface BaseRepository<T> {
 
-  List<T> getAll();
+    List<T> getAll();
 
-  Optional<T> getById(int id);
+    Optional<T> getById(int id);
 
-  boolean save(T obj);
+    boolean save(T obj);
 
-  boolean delete(int id);
+    boolean delete(int id);
 
 }
