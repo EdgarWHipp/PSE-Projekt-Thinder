@@ -31,8 +31,7 @@ public final class UserRepository implements BaseRepository<User> {
     return INSTANCE;
   }
 
-  /**
-   * only used for local testing - ID information is handled in the backend.
+  /** only used for local testing - ID information is handled in the backend.
    * returns an incrementing userId for each user object to use.
    *
    * @return
@@ -51,12 +50,11 @@ public final class UserRepository implements BaseRepository<User> {
     return Optional.empty();
   }
 
-  /**
-   * Adds the given user to the private local users list.
-   *
-   * @param user
-   * @return
-   */
+    /**
+     * Adds the given user to the private local users list.
+     * @param user
+     * @return
+     */
   @Override
   public boolean save(User user) {
 
