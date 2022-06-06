@@ -9,17 +9,22 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface ThesisApiService {
-    /**
-     * This function gets a list of the Thesis objects
-     * that the user needs to continue swiping.
-     * @return List of calls
-     */
-    @GET("api/Theses")
-    Call<List<Thesis>> getTheses();
-    /**
-     * Posts a new registrated user to the backend.
-     * @return List of calls
-     */
-    @POST("api/Users")
-    Call<List<Thesis>> postNewUser();
+  /**
+   * This function gets a list of the Thesis objects
+   * that the user needs to continue swiping.
+   *
+   * @return List of calls
+   */
+  @GET("api/Theses")
+  Call<List<Thesis>> getTheses();
+
+  /**
+   * Posts a new registrated user to the backend.
+   *
+   * @return List of calls
+   */
+  @POST("api/Users")
+  Call<List<Thesis>> postNewUser();
+
+
 }

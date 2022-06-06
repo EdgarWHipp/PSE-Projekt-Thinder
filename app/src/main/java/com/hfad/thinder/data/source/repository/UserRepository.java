@@ -53,7 +53,6 @@ public final class UserRepository implements BaseRepository<User> {
   }
 
   /**
-   *
    * @return all users that are registered are returned.
    */
   @Override
