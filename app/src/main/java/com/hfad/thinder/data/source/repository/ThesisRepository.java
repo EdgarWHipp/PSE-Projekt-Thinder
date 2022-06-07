@@ -34,7 +34,7 @@ public final class ThesisRepository implements BaseRepository<Thesis> {
     }
     return INSTANCE;
   }
-
+  /**
   private Call<List<Thesis>> getTheses() {
     Retrofit api = new Retrofit.Builder()
             .baseUrl("").addConverterFactory(GsonConverterFactory.create()).build();
@@ -47,9 +47,9 @@ public final class ThesisRepository implements BaseRepository<Thesis> {
         if (!response.isSuccessful()) {
           System.out.println(response.code());
         }
-        /**
+      
          * Theses are now acquired through the response.body() call and post.getForm() as an example.
-         */
+
 
       }
 
@@ -60,6 +60,7 @@ public final class ThesisRepository implements BaseRepository<Thesis> {
     });
 
   }
+        */
 
   @Override
   public List getAll() {
