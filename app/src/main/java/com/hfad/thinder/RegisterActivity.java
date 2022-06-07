@@ -31,6 +31,8 @@ public class RegisterActivity extends AppCompatActivity {
     mBinding.setLifecycleOwner(this);
 
     // my_child_toolbar is defined in the layout file
+    Toolbar myChildToolbar = mBinding.toolbar;
+
     setSupportActionBar(myChildToolbar);
     // Get a support ActionBar corresponding to this toolbar
     ActionBar ab = getSupportActionBar();

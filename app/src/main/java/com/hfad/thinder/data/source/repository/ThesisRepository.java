@@ -47,7 +47,7 @@ public final class ThesisRepository implements BaseRepository<Thesis> {
         if (!response.isSuccessful()) {
           System.out.println(response.code());
         }
-      
+
          * Theses are now acquired through the response.body() call and post.getForm() as an example.
 
 
