@@ -150,7 +150,7 @@ public class RegistrationViewModel extends ViewModel {
   }
 
   private boolean passwordFormIsValid() {
-      if (password == null) {
+      if (password.getValue() == null) {
         registrationFormState.setValue(new RegistrationFormState(null, "Passwort ist Null", null, false));
         return false;
       }
@@ -178,7 +178,7 @@ public class RegistrationViewModel extends ViewModel {
     }
 
     private boolean formIsFull() {
-      if (firstName == null || lastName == null || selectedItemPosition == null) {
+      if (firstName.getValue() == null || lastName.getValue() == null || selectedItemPosition.getValue() == null) {
         registrationFormState.setValue(new RegistrationFormState(null, null, "Alle Felder müssen ausgefüllt sein", false));
         return false;
       }

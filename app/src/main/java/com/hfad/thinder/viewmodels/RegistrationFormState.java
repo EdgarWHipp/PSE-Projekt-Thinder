@@ -17,6 +17,9 @@ public class RegistrationFormState {
   private boolean isValid;
 
   public RegistrationFormState(boolean isValid) {
+    passwordError = null;
+    emailError = null;
+    notFullError = null;
     this.isValid = isValid;
   }
 

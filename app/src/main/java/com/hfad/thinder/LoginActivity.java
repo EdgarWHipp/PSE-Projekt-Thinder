@@ -2,6 +2,8 @@ package com.hfad.thinder;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,7 +29,27 @@ public class LoginActivity extends AppCompatActivity {
     // assign the component to a property in the binding class
     mBinding.setViewmodel(viewmodel);
     mBinding.setLifecycleOwner(this);
+
+    TextWatcher afterTextChangedListener = new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        //ignore
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+        //ignore
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+        viewmodel.loginDataChanged();
+      }
+    };
+    mBinding.etLoginEMail.addTextChangedListener(afterTextChangedListener);
+    mBinding.etLoginPassword.addTextChangedListener(afterTextChangedListener);
   }
+
 
   public void goToRegisterActivity(View view) {
     Intent intent = new Intent(this, RegisterActivity.class);

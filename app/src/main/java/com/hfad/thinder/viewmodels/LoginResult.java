@@ -16,6 +16,7 @@ public class LoginResult {
   }
 
   public LoginResult(boolean success) {
+    this.errorMessage = null;
     this.success = success;
   }
 

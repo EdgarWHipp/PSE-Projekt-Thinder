@@ -83,6 +83,12 @@ public class RegisterActivity extends AppCompatActivity {
       }
     };
 
+    mBinding.etLoginEMail.addTextChangedListener(afterTextChangedListener);
+    mBinding.etLoginPassword.addTextChangedListener(afterTextChangedListener);
+    mBinding.etfirstname.addTextChangedListener(afterTextChangedListener);
+    mBinding.etlastname.addTextChangedListener(afterTextChangedListener);
+
+
 
   }
 }

@@ -95,7 +95,7 @@
             style="@style/body_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{viewmodel.errorMessage}"
+            android:text="@{viewmodel.loginResult.getErrorMessage}"
             android:gravity="center"
             android:textColor="@color/red_500"
             app:layout_constraintEnd_toEndOf="parent"
@@ -109,6 +109,7 @@
             android:layout_height="wrap_content"
             android:text="@string/login"
             android:onClick="@{() -> viewmodel.login()}"
+            android:clickable="@{viewmodel.isDataValid.booleanValue()}"
             app:layout_constraintBottom_toTopOf="@+id/btRegister" />
 
 
