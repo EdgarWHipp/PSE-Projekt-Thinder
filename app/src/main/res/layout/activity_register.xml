@@ -181,7 +181,7 @@
                 style="@style/body_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewmodel.errorMessage}"
+                android:text="@{viewmodel.registrationResult.errorMessage}"
                 android:gravity="center"
                 android:textColor="@color/red_500"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -196,6 +196,7 @@
                 android:backgroundTint="@color/green_400"
                 android:text="@string/register"
                 android:onClick="@{() -> viewmodel.register()}"
+                android:clickable="@{viewmodel.registrationFormState.dataValid}"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
