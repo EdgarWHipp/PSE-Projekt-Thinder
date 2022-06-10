@@ -16,8 +16,8 @@ import com.hfad.thinder.viewmodels.LoginViewModel;
 
 public class LoginActivity extends AppCompatActivity {
 
-  ActivityLoginBinding mBinding;
-  LoginViewModel viewmodel;
+  private ActivityLoginBinding mBinding;
+  private LoginViewModel viewmodel;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

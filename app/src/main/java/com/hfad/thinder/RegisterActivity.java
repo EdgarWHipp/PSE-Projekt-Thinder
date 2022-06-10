@@ -22,8 +22,8 @@ import com.hfad.thinder.viewmodels.RegistrationViewModel;
 
 public class RegisterActivity extends AppCompatActivity {
 
-  ActivityRegisterBinding mBinding;
-  RegistrationViewModel viewmodel;
+  private ActivityRegisterBinding mBinding;
+  private RegistrationViewModel viewmodel;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
