@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="viewmodel"
             type="com.hfad.thinder.viewmodels.RegistrationViewModel" />
@@ -12,6 +14,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         android:orientation="vertical">
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:minHeight="?attr/actionBarSize"
@@ -19,12 +22,13 @@
             android:layout_height="wrap_content"
             app:titleTextColor="@android:color/black"
             app:title="@string/registration"
-            android:background="@color/white">
-        </androidx.appcompat.widget.Toolbar>
+            android:background="@color/white"></androidx.appcompat.widget.Toolbar>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/grey_400" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -196,7 +200,7 @@
                 android:backgroundTint="@color/green_400"
                 android:text="@string/register"
                 android:onClick="@{() -> viewmodel.register()}"
-                android:clickable="@{viewmodel.registrationFormState.dataValid}"
+                android:enabled="@{viewmodel.registrationFormState.dataValid}"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

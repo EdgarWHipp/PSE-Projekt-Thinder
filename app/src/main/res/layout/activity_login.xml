@@ -90,6 +90,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etLoginPassword" />
+
         <TextView
             android:id="@+id/twerrormsg"
             style="@style/body_2"
@@ -109,7 +110,7 @@
             android:layout_height="wrap_content"
             android:text="@string/login"
             android:onClick="@{() -> viewmodel.login()}"
-            android:clickable="@{viewmodel.isDataValid.booleanValue()}"
+            android:enabled="@{viewmodel.isDataValid.booleanValue()}"
             app:layout_constraintBottom_toTopOf="@+id/btRegister" />
 
 
