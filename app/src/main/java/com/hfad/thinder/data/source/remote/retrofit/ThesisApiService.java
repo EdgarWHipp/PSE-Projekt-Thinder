@@ -99,6 +99,8 @@ public interface ThesisApiService {
    *
    * @return List of calls
    */
+  @POST("api/Users")
+  Call<List<Thesis>> postNewUser();
   @DELETE("api/Users/{Uuid}")
   Call<List<Thesis>> deleteUser();
 
