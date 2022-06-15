@@ -41,8 +41,6 @@ dependencies {
     // enables use of toolbars
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.navigation:navigation-fragment:2.4.2'
-    implementation 'androidx.navigation:navigation-ui:2.4.2'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
