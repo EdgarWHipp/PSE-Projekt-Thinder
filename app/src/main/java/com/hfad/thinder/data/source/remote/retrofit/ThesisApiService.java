@@ -68,17 +68,14 @@ public interface ThesisApiService {
 
   /**
    * This function gets a list of the Thesis objects
-   * that the user needs to continue swiping.
    * that the user has already liked.
    *
    * @return List of calls
    */
-  @GET("api/Theses")
   @GET("/api/Users/Theses")
   Call<List<Thesis>> getTheses();
 
   /**
-   * Posts a new registrated user to the backend.
    * Gets the information about a specific user
    *
    * @return List of calls
