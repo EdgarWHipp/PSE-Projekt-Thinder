@@ -13,8 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Thinder"
         tools:targetApi="31">
+
         <activity
-            android:name="com.hfad.thinder.LoginActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,22 +23,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name="com.hfad.thinder.RegisterActivity"
+            android:name=".RegisterActivity"
             android:exported="false"
-            android:parentActivityName="com.hfad.thinder.LoginActivity">
+            android:parentActivityName=".LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".LoginActivity" />
         </activity>
+
         <activity
-            android:name="com.hfad.thinder.ForgotPasswordActivity"
+            android:name=".ForgotPasswordActivity"
             android:exported="false"
-            android:parentActivityName="com.hfad.thinder.LoginActivity">
+            android:parentActivityName=".LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".LoginActivity" />
         </activity>
+
+        <activity
+            android:name=".SupervisorActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
