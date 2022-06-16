@@ -25,4 +25,16 @@
     <string name="home_screen">Startseite</string>
     <string name="profile">Profil</string>
     <string name="edit_profile">Profil bearbeiten</string>
+    <string name="personal_data">Persönliche Daten</string>
+    <string name="academical_degree">Akademischer Grad</string>
+    <string name="building">Gebäude</string>
+    <string name="insert_building">Gebäude eingeben</string>
+    <string name="room">Raum</string>
+    <string name="insert_room">Raum eingeben</string>
+    <string name="phone_number">Telefonnummer</string>
+    <string name="insert_phone_number">Telefonnummer eingeben</string>
+    <string name="institute">Institut</string>
+    <string name="insert_institute">Institut eingeben</string>
+    <string name="remove">Entfernen</string>
+    <string name="save">Speichern</string>
 </resources>
