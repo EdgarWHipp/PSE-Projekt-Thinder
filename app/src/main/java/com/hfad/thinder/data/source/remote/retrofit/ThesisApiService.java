@@ -69,19 +69,14 @@ public interface ThesisApiService {
   Call<List<User>> getNewUser();
 
   /**
-<<<<<<< HEAD
    * Returns all theses that the user has aready liked
-=======
-   * This function gets a list of the Thesis objects
-   * that the user has already liked.
-   *
->>>>>>> ed47274e2e2bde6425205b42fdd4f128c050827c
    * @return List of calls
    */
   @GET("/api/Users/Theses")
   Call<List<Thesis>> getTheses();
 
   /**
+   * Posts a new registrated user to the backend.
    * Gets the information about a specific user
    *
    * @return List of calls
