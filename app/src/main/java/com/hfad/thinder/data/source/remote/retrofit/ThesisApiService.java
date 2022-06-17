@@ -22,27 +22,29 @@ public interface ThesisApiService {
    */
 
   @POST("/api/Theses")
-  Call<List<Thesis>> postNewThesis();
-
-
-  @GET("api/Users/Theses/{Uuid}")
-  Call<Thesis> getThesis();
-
+  Call<Thesis> postNewThesis();
   /**
-   * Applies changes to a specific thesis (determined through the id)
+   * Returns a specific thesis that exists inside the global list of added theses
    *
-   * @return List of calls
+   * @return call
    */
-  @PUT("api/Users/Theses/{Uuid}")
-  Call<Thesis> changeThesis();
-
+  @GET("/api/Theses/{Uuid}")
+  Call<List<Thesis>> getThesis();
   /**
-   * Deletes a specific thesis (determined through the id)
+   * Changes a specified Thesis inside the global list of all theses
    *
-   * @return List of calls
+   * @return call
    */
-  @DELETE("api/Users/Theses/{Uuid}")
-  Call<List<Thesis>> deleteThesis();
+  @PUT("/api/Theses/{Uuid}")
+  Call<Thesis> putNewThesis();
+  /**
+   * Deletes a specified thesis inside the backend (global list of all theses)
+   *
+   * @return call
+   */
+  @DELETE("/api/Theses/{Uuid}")
+  Call<Thesis> deleteThesis();
+
 
 
   // api/Users HTTP requests
@@ -67,13 +69,9 @@ public interface ThesisApiService {
   Call<List<User>> getNewUser();
 
   /**
-   * This function gets a list of the Thesis objects
-   * that the user needs to continue swiping.
-   * that the user has already liked.
-   *
+   * Returns all theses that the user has aready liked
    * @return List of calls
    */
-  @GET("api/Theses")
   @GET("/api/Users/Theses")
   Call<List<Thesis>> getTheses();
 
@@ -99,8 +97,6 @@ public interface ThesisApiService {
    *
    * @return List of calls
    */
-  @POST("api/Users")
-  Call<List<Thesis>> postNewUser();
   @DELETE("api/Users/{Uuid}")
   Call<List<Thesis>> deleteUser();
 
@@ -108,9 +104,36 @@ public interface ThesisApiService {
   @POST("api/Users/{Uuid}/Verify")
   Call<Boolean> isVerified();
 
+  /**
+   * This function returns a specified thesis inside the users already liked theses
+   *
+   * @return List of calls
+   */
+  @GET("api/Users/Theses/{Uuid}")
+  Call<Thesis> getUserThesis();
+
+  /**
+   * Applies changes to a specific thesis (determined through the id)
+   *
+   * @return List of calls
+   */
+  @PUT("api/Users/Theses/{Uuid}")
+  Call<Thesis> changeUserThesis();
+
+  /**
+   * Deletes a specific thesis (determined through the id)
+   *
+   * @return List of calls
+   */
+  @DELETE("api/Users/Theses/{Uuid}")
+  Call<List<Thesis>> deleteUserThesis();
 
   // api/Unis HTTP requests
-
+  /**
+   *Returns a specific university?
+   *
+   * @return List of calls
+   */
   @GET("api/Unis")
   Call<List<Thesis>> getUnis();
 
