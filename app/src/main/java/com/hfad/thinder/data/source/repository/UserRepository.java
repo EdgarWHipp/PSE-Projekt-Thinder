@@ -1,6 +1,7 @@
 package com.hfad.thinder.data.source.repository;
 
 import com.hfad.thinder.data.model.User;
+import com.hfad.thinder.data.source.remote.UsersRemoteDataSource;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +12,7 @@ import java.util.Optional;
  * for the first local test run of the frontend.
  */
 public final class UserRepository implements BaseRepository<User> {
+  private UsersRemoteDataSource dataSource;
   /**
    * Defines the Userrepository singleton instance.
    */

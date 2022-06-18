@@ -19,6 +19,14 @@ public class Thesis {
   @SerializedName("list")
   private List<Image> images;
 
+  public Thesis(int thesisId, String name, String body, Form form, List<Image> images) {
+    this.thesisId = thesisId;
+    this.name = name;
+    this.body = body;
+    this.form = form;
+    this.images = images;
+  }
+
   public int getThesisId() {
     return thesisId;
   }

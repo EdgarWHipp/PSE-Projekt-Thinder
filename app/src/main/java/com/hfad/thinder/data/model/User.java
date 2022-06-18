@@ -13,13 +13,18 @@ public class User {
 
     private String firstName;
     private String lastName;
+    private String university;
 
-    public User(String password, String eMail, String firstName, String lastName) {
+    public User(String password, String eMail, int userId, String firstName, String lastName, String university) {
         this.password = password;
         this.eMail = eMail;
+        this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.university = university;
     }
+
+
 
     public String getPassword() {
         return password;
