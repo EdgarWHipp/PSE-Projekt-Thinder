@@ -17,12 +17,12 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:minHeight="?attr/actionBarSize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:titleTextColor="@android:color/black"
+            android:background="@color/white"
+            android:minHeight="?attr/actionBarSize"
             app:title="@string/registration"
-            android:background="@color/white"></androidx.appcompat.widget.Toolbar>
+            app:titleTextColor="@android:color/black"></androidx.appcompat.widget.Toolbar>
 
         <View
             android:layout_width="match_parent"
@@ -54,9 +54,9 @@
                 android:layout_height="wrap_content"
                 android:autofillHints="password"
                 android:drawableEnd="@drawable/ic_mail"
-                android:text="@={viewmodel.email}"
                 android:hint="@string/insert_email"
                 android:inputType="textEmailAddress"
+                android:text="@={viewmodel.email}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/twloginemail" />
@@ -185,12 +185,12 @@
                 style="@style/body_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewmodel.registrationResult.errorMessage}"
                 android:gravity="center"
+                android:text="@{viewmodel.registrationResult.errorMessage}"
                 android:textColor="@color/red_500"
+                app:layout_constraintBottom_toTopOf="@+id/btRegister"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/btRegister" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <Button
                 android:id="@+id/btRegister"
@@ -198,9 +198,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/green_400"
-                android:text="@string/register"
-                android:onClick="@{() -> viewmodel.register()}"
                 android:enabled="@{viewmodel.registrationFormState.dataValid}"
+                android:onClick="@{() -> viewmodel.register()}"
+                android:text="@string/register"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

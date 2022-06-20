@@ -3,10 +3,10 @@
 
     <item
         android:id="@+id/thesisManagerFragment"
-        android:title="@string/home_screen"
-        android:icon="@drawable/ic_home" />
+        android:icon="@drawable/ic_home"
+        android:title="@string/home_screen" />
     <item
         android:id="@+id/supervisorProfileFragment"
-        android:title="@string/profile"
-        android:icon="@drawable/ic_person" />
+        android:icon="@drawable/ic_person"
+        android:title="@string/profile" />
 </menu>

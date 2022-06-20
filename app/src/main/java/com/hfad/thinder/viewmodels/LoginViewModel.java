@@ -1,7 +1,6 @@
 package com.hfad.thinder.viewmodels;
 
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -34,7 +33,6 @@ public class LoginViewModel extends ViewModel {
   }
 
 
-
   //----------- getter and setter --------------------------------------
 
   public MutableLiveData<Boolean> getIsDataValid() {
@@ -44,12 +42,12 @@ public class LoginViewModel extends ViewModel {
     return isDataValid;
   }
 
-    public MutableLiveData<LoginResult> getLoginResult() {
-      if(loginResult == null) {
-        loginResult = new MutableLiveData<>();
-      }
-      return this.loginResult;
+  public MutableLiveData<LoginResult> getLoginResult() {
+    if (loginResult == null) {
+      loginResult = new MutableLiveData<>();
     }
+    return this.loginResult;
+  }
 
   public MutableLiveData<String> getEmail() {
     if (email == null) {
@@ -73,7 +71,6 @@ public class LoginViewModel extends ViewModel {
   public void setPassword(String password) {
     this.password.setValue(password);
   }
-
 
 
 }

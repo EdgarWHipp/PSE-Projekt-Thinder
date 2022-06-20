@@ -38,6 +38,7 @@ public class Thesis {
   public String getBody() {
     return body;
   }
+
   @Nullable
   public Form getForm() {
     return form;

@@ -12,12 +12,12 @@ import java.util.Optional;
  * for the first local test run of the frontend.
  */
 public final class UserRepository implements BaseRepository<User> {
-  private UsersRemoteDataSource dataSource;
   /**
    * Defines the Userrepository singleton instance.
    */
   @SuppressWarnings("checkstyle:StaticVariableName")
   private static UserRepository INSTANCE;
+  private UsersRemoteDataSource dataSource;
   /**
    * Declares the global id counter for users.
    */
@@ -58,13 +58,15 @@ public final class UserRepository implements BaseRepository<User> {
    * @return all users that are registered are returned.
    */
   @Override
-  public List getAll() {
-    return users;
+  public List<User> getAll() {
+    return dataSource.getUsers();
+
   }
 
   @Override
-  public Optional getById(final int id) {
-    return Optional.empty();
+  public Optional<User> getById(final int id) {
+    return dataSource.getUser(id);
+
   }
 
   /**
@@ -75,9 +77,7 @@ public final class UserRepository implements BaseRepository<User> {
    */
   @Override
   public boolean save(final User user) {
-
-
-    return users.add(user);
+    return dataSource.postNewUser(user);
   }
 
   /**
@@ -89,19 +89,8 @@ public final class UserRepository implements BaseRepository<User> {
    */
   @Override
   public boolean delete(final int id) {
-    return users.removeIf(user -> user.getId() == id);
+    return dataSource.deleteUser(id);
   }
 
-  /**
-   * Checks if a user exists with the given password and email pair.
-   *
-   * @param password
-   * @param email
-   * @return true if the user is registered or false otherwise.
-   */
-  public boolean checkIfUserIsRegistrated(
-          final String password, final String email) {
-    return users.stream().anyMatch(user -> user.getPassword().equals(password)
-            && user.geteMail().equals(email));
-  }
+
 }

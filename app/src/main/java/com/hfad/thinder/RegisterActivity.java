@@ -1,6 +1,9 @@
 package com.hfad.thinder;
 
-import androidx.annotation.Nullable;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -8,14 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.widget.EditText;
-
-import com.hfad.thinder.databinding.ActivityLoginBinding;
 import com.hfad.thinder.databinding.ActivityRegisterBinding;
-import com.hfad.thinder.viewmodels.LoginViewModel;
 import com.hfad.thinder.viewmodels.RegistrationFormState;
 import com.hfad.thinder.viewmodels.RegistrationViewModel;
 
@@ -45,7 +41,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     // Enable the Up button
     ab.setDisplayHomeAsUpEnabled(true);
-
 
 
     //Setzt Fehlermeldungen für das Eingabeformat
@@ -87,7 +82,6 @@ public class RegisterActivity extends AppCompatActivity {
     mBinding.etLoginPassword.addTextChangedListener(afterTextChangedListener);
     mBinding.etfirstname.addTextChangedListener(afterTextChangedListener);
     mBinding.etlastname.addTextChangedListener(afterTextChangedListener);
-
 
 
   }

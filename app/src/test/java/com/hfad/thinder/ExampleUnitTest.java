@@ -1,7 +1,5 @@
 package com.hfad.thinder;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 
 /**
@@ -10,8 +8,9 @@ import org.junit.Test;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class ExampleUnitTest {
-  @Test
-  public void addition_isCorrect() {
-    assertEquals(4, 2 + 2);
+  @Test //TO DO -> Start writing tests on the local host
+  public void add_theses_to_list_of_liked_theses_for_user_and_get_them() {
+    // get("/hello").then().body();
+
   }
 }
