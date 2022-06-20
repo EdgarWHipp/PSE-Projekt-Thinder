@@ -4,7 +4,8 @@ import com.hfad.thinder.data.model.Thesis;
 
 import java.util.List;
 
-import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -21,31 +22,31 @@ public interface ThesisApiService {
      */
 
     @POST("/api/Theses")
-    Call<Thesis> postNewThesis();
+    Response<Thesis> postNewThesis(@Body Thesis thesis);
 
     /**
      * Returns a specific thesis that exists inside the global list of added theses
      *
-     * @return call
+     * @return Response
      */
     @GET("/api/Theses/{Uuid}")
-    Call<List<Thesis>> getThesis(@Path("id") int thesisId);
+    Response<Thesis> getThesis(@Path("id") int thesisId);
 
     /**
      * Changes a specified Thesis inside the global list of all theses
      *
-     * @return call
+     * @return Response
      */
     @PUT("/api/Theses/{Uuid}")
-    Call<Thesis> putNewThesis(@Path("id") int thesisId);
+    Response<Thesis> putNewThesis(@Path("id") int thesisId);
 
     /**
      * Deletes a specified thesis inside the backend (global list of all theses)
      *
-     * @return call
+     * @return Response
      */
     @DELETE("/api/Theses/{Uuid}")
-    Call<Thesis> deleteThesis(@Path("id") int thesisId);
+    Response<Thesis> deleteThesis(@Path("id") int thesisId);
 
 
     // api/Unis HTTP requests {TO-DO -> Where do i put this?}
@@ -53,10 +54,10 @@ public interface ThesisApiService {
     /**
      * Returns a specific university?
      *
-     * @return List of calls
+     * @return List of Responses
      */
     @GET("api/Unis")
-    Call<List<Thesis>> getUnis();
+    Response<List<Thesis>> getUnis();
 
 
 }

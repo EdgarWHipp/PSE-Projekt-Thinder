@@ -6,6 +6,7 @@ import com.hfad.thinder.data.model.User;
 import java.util.List;
 
 import retrofit2.Response;
+import retrofit2.Retrofit;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -88,7 +89,7 @@ public interface UsersApiService {
      * @return List of Responses
      */
     @PUT("api/Users/Theses/{Uuid}")
-    Response<Thesis> changeUserThesis(@Path("id") int thesisId);
+    Response<Thesis> changeUserThesis(@Path("id") int thesisId,@Body Thesis thesis);
 
     /**
      * Deletes a specific thesis (determined through the id)
@@ -96,6 +97,6 @@ public interface UsersApiService {
      * @return List of Responses
      */
     @DELETE("api/Users/Theses/{Uuid}")
-    Response<List<Thesis>> deleteUserThesis(@Path("id") int thesisId);
+    Response<Thesis> deleteUserThesis(@Path("id") int thesisId);
 
 }

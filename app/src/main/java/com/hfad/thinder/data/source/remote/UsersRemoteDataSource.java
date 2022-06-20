@@ -8,14 +8,19 @@ import java.util.List;
 import java.util.Optional;
 
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class UsersRemoteDataSource {
-    private UsersApiService apiService;
 
+    Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl("https://sampleAddress.com")
+            .build();
+
+    UsersApiService userService = retrofit.create(UsersApiService.class);
 
     public List<Thesis> getThesesFromUser(int userId) {
         try {
-            Response<List<Thesis>> result = apiService.getTheses(userId);
+            Response<List<Thesis>> result = userService.getTheses(userId);
             if (result.isSuccessful()) {
                 List<Thesis> returnVal = result.body();
                 return returnVal;
@@ -34,7 +39,7 @@ public class UsersRemoteDataSource {
     }
 
     public List<User> getUsers() {
-        Response<List<User>> result = apiService.getUsers();
+        Response<List<User>> result = userService.getUsers();
         try {
             if (result.isSuccessful()) {
                 List<User> returnVal = result.body();
@@ -52,9 +57,9 @@ public class UsersRemoteDataSource {
 
     }
 
-    public boolean postNewUser(User user) {
+    public boolean createNewUser(User user) {
         try {
-            Response<User> result = apiService.postNewUser(user);
+            Response<User> result = userService.postNewUser(user);
             if (result.isSuccessful()) {
                 //User returnVal = result.body();
                 return true;
@@ -74,7 +79,7 @@ public class UsersRemoteDataSource {
 
     public boolean deleteUser(final int id) {
         try {
-            Response<User> result = apiService.deleteUser(id);
+            Response<User> result = userService.deleteUser(id);
             if (result.isSuccessful()) {
                 //User returnVal = result.body();
                 return true;
@@ -90,7 +95,7 @@ public class UsersRemoteDataSource {
 
     public Optional<User> getUser(final int id) {
         try {
-            Response<User> result = apiService.getUser(id);
+            Response<User> result = userService.getUser(id);
             if (result.isSuccessful() && result.body() != null) {
                 User returnVal = result.body();
                 return Optional.of(returnVal);
@@ -106,7 +111,7 @@ public class UsersRemoteDataSource {
 
     public boolean updateUser(final int id, final User user) {
         try {
-            Response<User> result = apiService.changeUser(id, user);
+            Response<User> result = userService.changeUser(id, user);
             if (result.isSuccessful() && result.body() != null) {
 
                 return true;
@@ -119,5 +124,49 @@ public class UsersRemoteDataSource {
         }
         return false;
     }
+    public boolean deleteUserThesis(final int id){
+        try {
+            Response<Thesis> result = userService.deleteUserThesis(id);
+            if (result.isSuccessful() && result.body() != null) {
 
+                return true;
+
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            // TO DO - bad practise!, dont return false return some error
+            return false;
+        }
+        return false;
+    }
+    public boolean changeUserThesis(final int id, final Thesis thesis){
+        try {
+            Response<Thesis> result = userService.changeUserThesis(id,thesis);
+            if (result.isSuccessful() && result.body() != null) {
+
+                return true;
+
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            // TO DO - bad practise!, dont return false return some error
+            return false;
+        }
+        return false;
+    }
+    public Optional<Thesis> getUserThesis(final int id){
+        try {
+            Response<Thesis> result = userService.getUserThesis(id);
+            if (result.isSuccessful() && result.body() != null) {
+
+                return Optional.of(result.body());
+
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            // TO DO - bad practise!, dont return false return some error
+            return Optional.ofNullable(null);
+        }
+        return Optional.ofNullable(null);
+    }
 }

@@ -77,7 +77,7 @@ public final class UserRepository implements BaseRepository<User> {
      */
     @Override
     public boolean save(final User user) {
-        return dataSource.postNewUser(user);
+        return dataSource.createNewUser(user);
     }
 
     /**
