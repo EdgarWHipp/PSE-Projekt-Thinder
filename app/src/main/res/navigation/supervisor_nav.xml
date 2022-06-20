@@ -14,7 +14,14 @@
         android:id="@+id/thesisManagerFragment"
         android:name="com.hfad.thinder.ThesisManagerFragment"
         android:label="fragment_thesis_manager"
-        tools:layout="@layout/fragment_thesis_manager" />
+        tools:layout="@layout/fragment_thesis_manager">
+        <action
+            android:id="@+id/action_thesisManagerFragment_to_newThesisFragment"
+            app:destination="@id/newThesisFragment" />
+        <action
+            android:id="@+id/action_thesisManagerFragment_to_editThesisFragment"
+            app:destination="@id/editThesisFragment" />
+    </fragment>
     <fragment
         android:id="@+id/newThesisFragment"
         android:name="com.hfad.thinder.NewThesisFragment"

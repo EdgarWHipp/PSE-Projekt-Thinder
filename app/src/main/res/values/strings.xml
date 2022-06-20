@@ -37,4 +37,6 @@
     <string name="insert_institute">Institut eingeben</string>
     <string name="remove">Entfernen</string>
     <string name="save">Speichern</string>
+    <string name="created_theses">Erstellte Arbeiten</string>
+    <string name="action_add">Hinzufügen</string>
 </resources>
