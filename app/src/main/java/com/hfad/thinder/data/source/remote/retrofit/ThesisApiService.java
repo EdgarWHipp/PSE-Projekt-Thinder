@@ -16,7 +16,11 @@ public interface ThesisApiService {
 
 
     // api/Theses HTTP requests
-
+    /**
+     * Gets all theses that the supervisors have uploaded.
+    */
+    @GET("/api/Theses")
+    Response<List<Thesis>> getAllTheses();
     /**
      * Adds a new thesis to the list of all available ones
      */
@@ -49,15 +53,7 @@ public interface ThesisApiService {
     Response<Thesis> deleteThesis(@Path("id") int thesisId);
 
 
-    // api/Unis HTTP requests {TO-DO -> Where do i put this?}
 
-    /**
-     * Returns a specific university?
-     *
-     * @return List of Responses
-     */
-    @GET("api/Unis")
-    Response<List<Thesis>> getUnis();
 
 
 }

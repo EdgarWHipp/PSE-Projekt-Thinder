@@ -58,7 +58,7 @@ public final class UserRepository implements BaseRepository<User> {
      * @return all users that are registered are returned.
      */
     @Override
-    public List<User> getAll() {
+    public Optional<List<User>> getAll() {
         return dataSource.getUsers();
 
     }

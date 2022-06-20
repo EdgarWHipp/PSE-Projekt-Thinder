@@ -30,18 +30,18 @@ public final class ThesisRepository implements BaseRepository<Thesis> {
 
 
     @Override
-    public List getAll() {
-        return null;
+    public Optional<List<Thesis>> getAll() {
+        return thesisRemoteDataSource.getAllTheses();
     }
 
     @Override
-    public Optional getById(final int id) {
-        return Optional.empty();
+    public Optional<Thesis> getById(final int id) {
+        return thesisRemoteDataSource.getThesis(id);
     }
 
     @Override
     public boolean save(final Thesis thesis) {
-        return false;
+        return thesisRemoteDataSource.createNewThesis(thesis);
     }
 
     @Override

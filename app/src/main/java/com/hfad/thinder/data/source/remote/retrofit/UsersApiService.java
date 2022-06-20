@@ -80,23 +80,23 @@ public interface UsersApiService {
      *
      * @return List of Responses
      */
-    @GET("api/Users/Theses/{Uuid}")
-    Response<Thesis> getUserThesis(@Path("id") int thesisId);
+    @GET("api/Users/{userId}Theses/{thesisId}")
+    Response<Thesis> getUserThesis(@Path("userId") int userId,@Path("userId") int thesisId );
 
     /**
      * Applies changes to a specific thesis (determined through the id)
      *
      * @return List of Responses
      */
-    @PUT("api/Users/Theses/{Uuid}")
-    Response<Thesis> changeUserThesis(@Path("id") int thesisId,@Body Thesis thesis);
+    @PUT("api/Users/{Uuid}Theses/{thesisId}")
+    Response<Thesis> changeUserThesis(@Path("Uuid") int userId,@Path("thesisId") int thesisId,@Body Thesis thesis);
 
     /**
      * Deletes a specific thesis (determined through the id)
      *
      * @return List of Responses
      */
-    @DELETE("api/Users/Theses/{Uuid}")
-    Response<Thesis> deleteUserThesis(@Path("id") int thesisId);
+    @DELETE("api/Users/{userId}/Theses/{thesisId}")
+    Response<Thesis> deleteUserThesis(@Path("userId") int userId,@Path("userId") int thesisId );
 
 }

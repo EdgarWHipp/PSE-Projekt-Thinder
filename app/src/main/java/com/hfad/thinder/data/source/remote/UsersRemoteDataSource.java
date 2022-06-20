@@ -38,21 +38,21 @@ public class UsersRemoteDataSource {
 
     }
 
-    public List<User> getUsers() {
+    public Optional<List<User>> getUsers() {
         Response<List<User>> result = userService.getUsers();
         try {
             if (result.isSuccessful()) {
                 List<User> returnVal = result.body();
-                return returnVal;
+                return Optional.of(returnVal);
 
             } else {
                 // TO DO - bad practise!, dont return null return some error
-                return null;
+                return Optional.ofNullable(null);
             }
         } catch (Exception e) {
             System.out.println(e);
             // TO DO - bad practise!, dont return null return some error
-            return null;
+            return Optional.ofNullable(null);
         }
 
     }
@@ -124,9 +124,9 @@ public class UsersRemoteDataSource {
         }
         return false;
     }
-    public boolean deleteUserThesis(final int id){
+    public boolean deleteUserThesis(final int userId,final int thesisId){
         try {
-            Response<Thesis> result = userService.deleteUserThesis(id);
+            Response<Thesis> result = userService.deleteUserThesis(userId,thesisId);
             if (result.isSuccessful() && result.body() != null) {
 
                 return true;
@@ -139,9 +139,11 @@ public class UsersRemoteDataSource {
         }
         return false;
     }
-    public boolean changeUserThesis(final int id, final Thesis thesis){
+    /* This function might be useless.
+
+    public boolean changeLikedThesis(final int userId,final int thesisId, final Thesis thesis){
         try {
-            Response<Thesis> result = userService.changeUserThesis(id,thesis);
+            Response<Thesis> result = userService.changeUserThesis(userId,thesisId,thesis);
             if (result.isSuccessful() && result.body() != null) {
 
                 return true;
@@ -154,9 +156,11 @@ public class UsersRemoteDataSource {
         }
         return false;
     }
-    public Optional<Thesis> getUserThesis(final int id){
+    */
+
+    public Optional<Thesis> getUserThesis(final int userId,final int thesisId){
         try {
-            Response<Thesis> result = userService.getUserThesis(id);
+            Response<Thesis> result = userService.getUserThesis(userId,thesisId);
             if (result.isSuccessful() && result.body() != null) {
 
                 return Optional.of(result.body());
