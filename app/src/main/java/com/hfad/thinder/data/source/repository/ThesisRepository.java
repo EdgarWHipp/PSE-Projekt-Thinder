@@ -11,41 +11,41 @@ import java.util.Optional;
  * Database access to fetch theses is launched over this class.
  */
 public final class ThesisRepository implements BaseRepository<Thesis> {
-  private static ThesisRepository INSTANCE;
-  private ThesisRemoteDataSource thesisRemoteDataSource;
+    private static ThesisRepository INSTANCE;
+    private ThesisRemoteDataSource thesisRemoteDataSource;
 
-  private ThesisRepository() {
+    private ThesisRepository() {
 
-  }
-
-  /**
-   * @return current instance of ThesisRepository singleton class.
-   */
-  public static ThesisRepository getInstance() {
-    if (INSTANCE == null) {
-      INSTANCE = new ThesisRepository();
     }
-    return INSTANCE;
-  }
+
+    /**
+     * @return current instance of ThesisRepository singleton class.
+     */
+    public static ThesisRepository getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new ThesisRepository();
+        }
+        return INSTANCE;
+    }
 
 
-  @Override
-  public List getAll() {
-    return null;
-  }
+    @Override
+    public List getAll() {
+        return null;
+    }
 
-  @Override
-  public Optional getById(final int id) {
-    return Optional.empty();
-  }
+    @Override
+    public Optional getById(final int id) {
+        return Optional.empty();
+    }
 
-  @Override
-  public boolean save(final Thesis thesis) {
-    return false;
-  }
+    @Override
+    public boolean save(final Thesis thesis) {
+        return false;
+    }
 
-  @Override
-  public boolean delete(final int id) {
-    return false;
-  }
+    @Override
+    public boolean delete(final int id) {
+        return false;
+    }
 }

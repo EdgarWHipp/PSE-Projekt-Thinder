@@ -14,14 +14,14 @@ import com.hfad.thinder.databinding.ActivitySupervisorBinding;
 
 public class SupervisorActivity extends AppCompatActivity {
 
-  private ActivitySupervisorBinding mBinding;
+    private ActivitySupervisorBinding mBinding;
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    mBinding = DataBindingUtil.setContentView(this, R.layout.activity_supervisor);
-    BottomNavigationView bottomNavigationView = mBinding.bottomNavigationView;
-    NavController navController = findNavController(this, R.id.supervisorFragmentContainer);
-    NavigationUI.setupWithNavController(bottomNavigationView, navController);
-  }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_supervisor);
+        BottomNavigationView bottomNavigationView = mBinding.bottomNavigationView;
+        NavController navController = findNavController(this, R.id.supervisorFragmentContainer);
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+    }
 }
