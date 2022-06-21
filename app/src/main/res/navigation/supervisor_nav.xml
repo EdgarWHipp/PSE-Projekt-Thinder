@@ -8,12 +8,12 @@
     <fragment
         android:id="@+id/supervisorProfileFragment"
         android:name="com.hfad.thinder.SupervisorProfileFragment"
-        android:label="fragment_supervisor_profile"
+        android:label="@string/edit_profile"
         tools:layout="@layout/fragment_supervisor_profile" />
     <fragment
         android:id="@+id/thesisManagerFragment"
         android:name="com.hfad.thinder.ThesisManagerFragment"
-        android:label="fragment_thesis_manager"
+        android:label="@string/created_theses"
         tools:layout="@layout/fragment_thesis_manager">
         <action
             android:id="@+id/action_thesisManagerFragment_to_newThesisFragment"
