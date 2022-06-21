@@ -43,7 +43,7 @@ public class Thesis {
     public Form getForm() {
         return form;
     }
-
+    @Nullable
     public List<Image> getImages() {
         return images;
     }

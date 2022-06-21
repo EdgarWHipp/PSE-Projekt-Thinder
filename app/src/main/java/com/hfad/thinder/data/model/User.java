@@ -1,16 +1,16 @@
 package com.hfad.thinder.data.model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Model of the User Class, contains all attributes that is required for a user upon registration.
  */
 
 public class User {
     private final String password;
-
     private final String eMail;
-
+    @SerializedName("id")
     private int userId;
-
     private String firstName;
     private String lastName;
     private String university;
