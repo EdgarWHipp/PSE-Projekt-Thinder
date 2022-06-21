@@ -22,10 +22,23 @@ public class ApiCallUnitTest {
             body("user.id", equalTo("1")).
             body("user.university", equalTo("KIT")).
             body("user.password", equalTo("password"));
-
   }
   @Test
   public void check_hello() {
     when().get("/hello").then().assertThat().body("",equalTo("Hello, Gandalf"));
   }
+  @Test
+  public void post_a_thesis() {
+    given().params("1","Telematik Arbeit","body of this sample thesis",null,null).
+            when().
+            post("/api/Theses").
+            then().
+            body("thesis.id", equalTo("1")).
+            body("thesis.name", equalTo("Telematik Arbeit")).
+            body("thesis.body", equalTo("body of this sample thesis")).
+            body("thesis.form", equalTo(null)).
+            body("thesis.imageList", equalTo(null));
+
+  }
+
 }
