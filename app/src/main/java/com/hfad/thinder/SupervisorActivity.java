@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.navigation.NavController;
+import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -25,18 +26,15 @@ public class SupervisorActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = mBinding.bottomNavigationView;
         NavController navController = findNavController(this, R.id.supervisorFragmentContainer);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
+
         // my_child_toolbar is defined in the layout file
         myChildToolbar = mBinding.toolbar;
 
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.supervisorProfileFragment, R.id.thesisManagerFragment).build();
+
         setSupportActionBar(myChildToolbar);
+        NavigationUI.setupWithNavController(myChildToolbar, navController, appBarConfiguration);
     }
 
-    /**
-     * Sets the title of the actionbar referenced in the xml layout
-     *
-     * @param title new title
-     */
-    public void setActionBarTitle(String title) {
-        myChildToolbar.setTitle(title);
-    }
+
 }

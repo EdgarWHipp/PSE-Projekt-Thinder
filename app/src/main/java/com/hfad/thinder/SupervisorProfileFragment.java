@@ -2,15 +2,13 @@ package com.hfad.thinder;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+
+import com.hfad.thinder.databinding.FragmentSupervisorProfileBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +25,8 @@ public class SupervisorProfileFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private FragmentSupervisorProfileBinding binding;
 
     public SupervisorProfileFragment() {
         // Required empty public constructor
@@ -53,7 +53,7 @@ public class SupervisorProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setHasOptionsMenu(false);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -63,14 +63,11 @@ public class SupervisorProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_supervisor_profile, container, false);
+
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_supervisor_profile, container, false);
+        View view = binding.getRoot();
         return view;
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(0, menu);
-        ((SupervisorActivity) requireActivity()).setActionBarTitle("test");
-    }
 }

@@ -15,6 +15,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:minHeight="?attr/actionBarSize"
+            app:title="@string/app_name"
             app:titleTextColor="@android:color/black" />
 
         <View

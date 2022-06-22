@@ -39,4 +39,6 @@
     <string name="save">Speichern</string>
     <string name="created_theses">Erstellte Arbeiten</string>
     <string name="action_add">Hinzufügen</string>
+    <string name="create_thesis">Arbeit erstellen</string>
+    <string name="edit_thesis">Arbeit bearbeiten</string>
 </resources>
