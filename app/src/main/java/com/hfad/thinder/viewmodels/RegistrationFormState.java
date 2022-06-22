@@ -5,48 +5,59 @@ import androidx.annotation.Nullable;
 // Klasse gibt an, ob die Eingabe bei der Registrierung einem bestimmten format entspricht.
 public class RegistrationFormState {
 
-    @Nullable
-    private String passwordError;
+  @Nullable
+  private String passwordErrorMessage;
 
-    @Nullable
-    private String emailError;
+  @Nullable
+  private String passwordConfirmationErrorMessage;
 
-    @Nullable
-    private String notFullError;
+  @Nullable
+  private String emailErrorMessage;
 
-    private boolean isValid;
+  @Nullable
+  private String firstNameErrorMessage;
 
-    public RegistrationFormState(boolean isValid) {
-        passwordError = null;
-        emailError = null;
-        notFullError = null;
-        this.isValid = isValid;
-    }
-
-    public RegistrationFormState(String emailError, String passwordError, String notFullError, boolean isValid) {
-        this.emailError = emailError;
-        this.passwordError = passwordError;
-        this.notFullError = notFullError;
-        this.isValid = isValid;
-    }
+  @Nullable
+  private String lastNameErrorMessage;
 
 
-    public boolean isDataValid() {
-        return isValid;
-    }
+  private boolean isValid;
 
-    @Nullable
-    public String getPasswordError() {
-        return passwordError;
-    }
 
-    @Nullable
-    public String getEmailError() {
-        return this.emailError;
-    }
+  public RegistrationFormState(String emailErrorMessage, String firstNameErrorMessage, String lastNameErrorMessage, String passwordErrorMessage, String passwordConfirmationErrorMessage) {
+    this.emailErrorMessage = emailErrorMessage;
+    this.passwordErrorMessage = passwordErrorMessage;
+    this.firstNameErrorMessage = firstNameErrorMessage;
+    this.lastNameErrorMessage = lastNameErrorMessage;
+    this.passwordConfirmationErrorMessage = passwordConfirmationErrorMessage;
+    this.isValid = (emailErrorMessage == null && firstNameErrorMessage == null && lastNameErrorMessage == null && passwordErrorMessage == null && passwordConfirmationErrorMessage == null);
+  }
 
-    @Nullable
-    public String getNotFullError() {
-        return this.notFullError;
-    }
+
+  public boolean isDataValid() {
+    return isValid;
+  }
+
+  @Nullable
+  public String getEmailErrorMessage() {
+    return this.emailErrorMessage;
+  }
+
+  @Nullable
+  public String getFirstNameErrorMessage() {
+    return this.firstNameErrorMessage;
+  }
+
+  @Nullable
+  public String getLastNameErrorMessage() { return this.lastNameErrorMessage; }
+
+  @Nullable
+  public String getPasswordErrorMessage() {
+    return passwordErrorMessage;
+  }
+
+  @Nullable
+  public String getPasswordConfirmationErrorMessage() { return this.passwordConfirmationErrorMessage; }
+
+
 }
