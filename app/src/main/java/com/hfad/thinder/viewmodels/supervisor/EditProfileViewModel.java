@@ -1,13 +1,13 @@
 package com.hfad.thinder.viewmodels.supervisor;
 
 import androidx.lifecycle.MutableLiveData;
+import com.hfad.thinder.data.source.repository.UserRepository;
 
 public class EditProfileViewModel {
+  private final UserRepository editProfileRepository = UserRepository.getInstance();
   private EditProfileFormState formState;
   private EditProfileResult safeResult;
   private EditProfileResult deleteResult;
-  //private SupervisorRepository editProfileRepository;
-
   private MutableLiveData<String> academicTitle;
   private MutableLiveData<String> firstName;
   private MutableLiveData<String> lastName;

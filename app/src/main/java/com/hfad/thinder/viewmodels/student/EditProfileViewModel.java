@@ -1,11 +1,13 @@
 package com.hfad.thinder.viewmodels.student;
 
 import androidx.lifecycle.MutableLiveData;
-import com.hfad.thinder.data.source.repository.StudentRepository;
+import com.hfad.thinder.data.source.repository.UserRepository;
 import java.util.ArrayList;
 
+;
+
 public class EditProfileViewModel {
-  private final StudentRepository editProfileRepository = StudentRepository.getInstance();
+  private final UserRepository editProfileRepository = UserRepository.getInstance();
   private EditProfileFormState formState;
   private EditProfileResult safeResult;
   private EditProfileResult deleteResult;
