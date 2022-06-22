@@ -1,7 +1,6 @@
 package com.hfad.thinder;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -9,23 +8,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.hfad.thinder.databinding.FragmentThesisManagerBinding;
-import com.hfad.thinder.viewmodels.SupervisorViewModel;
-
-import java.util.zip.Inflater;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,7 +34,6 @@ public class ThesisManagerFragment extends Fragment {
     private String mParam2;
 
     private FragmentThesisManagerBinding binding;
-    private SupervisorViewModel viewmodel;
 
     private View view;
 

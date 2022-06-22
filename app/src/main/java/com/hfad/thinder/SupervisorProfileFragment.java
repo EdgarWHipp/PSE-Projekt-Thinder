@@ -2,21 +2,13 @@ package com.hfad.thinder;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.hfad.thinder.databinding.FragmentSupervisorProfileBinding;
-import com.hfad.thinder.viewmodels.SupervisorViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,7 +27,6 @@ public class SupervisorProfileFragment extends Fragment {
     private String mParam2;
 
     private FragmentSupervisorProfileBinding binding;
-    private SupervisorViewModel viewmodel;
 
     public SupervisorProfileFragment() {
         // Required empty public constructor
