@@ -11,9 +11,9 @@ import java.util.regex.Pattern;
 public class RegistrationViewModel extends ViewModel {
   private static final Pattern PASSWORD_PATTERN =
       Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$");
+  private final UserRepository registrationRepository = UserRepository.getInstance();
   private MutableLiveData<RegistrationFormState> registrationFormState = new MutableLiveData<>();
   private MutableLiveData<RegistrationResult> registrationResult = new MutableLiveData<>();
-  private UserRepository registrationRepository = UserRepository.getInstance();
   private ArrayList<String> testUniversities;//Todo:löschen
 
   // Position of the item selected by the spinner, i.e. the entry of the university

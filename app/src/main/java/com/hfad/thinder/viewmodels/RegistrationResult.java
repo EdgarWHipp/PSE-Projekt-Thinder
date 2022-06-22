@@ -2,29 +2,25 @@ package com.hfad.thinder.viewmodels;
 
 import androidx.annotation.Nullable;
 
-//Enthält informationen darüber, ob die Registrierung erfolgreich war
+
 public class RegistrationResult {
 
-    @Nullable
-    private String errorMessage;
+  @Nullable
+  private final String errorMessage;
 
-    private boolean success;
+  private final boolean success;
 
-    public RegistrationResult(String errorMessage, boolean success) {
-        this.errorMessage = errorMessage;
-        this.success = success;
-    }
+  public RegistrationResult(@Nullable String errorMessage, boolean success) {
+    this.errorMessage = errorMessage;
+    this.success = success;
+  }
+  
+  @Nullable
+  public String getErrorMessage() {
+    return this.errorMessage;
+  }
 
-    public RegistrationResult(boolean success) {
-        this.success = success;
-    }
-
-    @Nullable
-    public String getErrorMessage() {
-        return this.errorMessage;
-    }
-
-    public boolean getSuccess() {
-        return this.success;
-    }
+  public boolean getSuccess() {
+    return this.success;
+  }
 }

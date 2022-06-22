@@ -6,31 +6,37 @@ import androidx.annotation.Nullable;
 public class RegistrationFormState {
 
   @Nullable
-  private String passwordErrorMessage;
+  private final String passwordErrorMessage;
 
   @Nullable
-  private String passwordConfirmationErrorMessage;
+  private final String passwordConfirmationErrorMessage;
 
   @Nullable
-  private String emailErrorMessage;
+  private final String emailErrorMessage;
 
   @Nullable
-  private String firstNameErrorMessage;
+  private final String firstNameErrorMessage;
 
   @Nullable
-  private String lastNameErrorMessage;
+  private final String lastNameErrorMessage;
 
 
-  private boolean isValid;
+  private final boolean isValid;
 
 
-  public RegistrationFormState(String emailErrorMessage, String firstNameErrorMessage, String lastNameErrorMessage, String passwordErrorMessage, String passwordConfirmationErrorMessage) {
+  public RegistrationFormState(@Nullable String emailErrorMessage,
+                               @Nullable String firstNameErrorMessage,
+                               @Nullable String lastNameErrorMessage,
+                               @Nullable String passwordErrorMessage,
+                               @Nullable String passwordConfirmationErrorMessage) {
     this.emailErrorMessage = emailErrorMessage;
     this.passwordErrorMessage = passwordErrorMessage;
     this.firstNameErrorMessage = firstNameErrorMessage;
     this.lastNameErrorMessage = lastNameErrorMessage;
     this.passwordConfirmationErrorMessage = passwordConfirmationErrorMessage;
-    this.isValid = (emailErrorMessage == null && firstNameErrorMessage == null && lastNameErrorMessage == null && passwordErrorMessage == null && passwordConfirmationErrorMessage == null);
+    this.isValid = (emailErrorMessage == null && firstNameErrorMessage == null &&
+        lastNameErrorMessage == null && passwordErrorMessage == null &&
+        passwordConfirmationErrorMessage == null);
   }
 
 
@@ -49,7 +55,9 @@ public class RegistrationFormState {
   }
 
   @Nullable
-  public String getLastNameErrorMessage() { return this.lastNameErrorMessage; }
+  public String getLastNameErrorMessage() {
+    return this.lastNameErrorMessage;
+  }
 
   @Nullable
   public String getPasswordErrorMessage() {
@@ -57,7 +65,9 @@ public class RegistrationFormState {
   }
 
   @Nullable
-  public String getPasswordConfirmationErrorMessage() { return this.passwordConfirmationErrorMessage; }
+  public String getPasswordConfirmationErrorMessage() {
+    return this.passwordConfirmationErrorMessage;
+  }
 
 
 }
