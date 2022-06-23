@@ -3,6 +3,8 @@ package com.hfad.thinder.data.source.remote;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.remote.retrofit.UsersApiService;
+import com.hfad.thinder.viewmodels.LoginResult;
+import com.hfad.thinder.viewmodels.RegistrationResult;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,40 +40,36 @@ public class UsersRemoteDataSource {
 
     }
 
-    public Optional<List<User>> getUsers() {
-        Response<List<User>> result = userService.getUsers();
+    public LoginResult login(String password, String eMail) {
+        Response<List<User>> result = userService.login(password,eMail);
         try {
             if (result.isSuccessful()) {
                 List<User> returnVal = result.body();
-                return Optional.of(returnVal);
+                return new LoginResult(null,true);
 
             } else {
-                // TO DO - bad practise!, dont return null return some error
-                return Optional.ofNullable(null);
+
+                return new LoginResult("login not successful",false);
             }
         } catch (Exception e) {
-            System.out.println(e);
-            // TO DO - bad practise!, dont return null return some error
-            return Optional.ofNullable(null);
+
+
+            return new LoginResult(e.toString(),false);
         }
 
     }
 
-    public boolean createNewUser(User user) {
+    public RegistrationResult createNewUser(User user) {
         try {
             Response<User> result = userService.postNewUser(user);
             if (result.isSuccessful()) {
-                //User returnVal = result.body();
-                return true;
+                return new RegistrationResult(null,true);
 
             } else {
-                // TO DO - bad practise!, dont return false return some error
-                return false;
+                return new RegistrationResult("registration not successful",false);
             }
         } catch (Exception e) {
-            System.out.println(e);
-            // TO DO - bad practise!, dont return false return some error
-            return false;
+            return new RegistrationResult(e.toString(),false);
         }
 
 

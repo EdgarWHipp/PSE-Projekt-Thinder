@@ -52,16 +52,5 @@ public class ApiCallUnitTest {
             body("thesis.imageList", equalTo(null));
 
   }
-  @Test
-  public void fixed_thesis_test() {
-    when().
-            get("/api/userTest/{thesisId}", 1).
-            then(). statusCode(200).
-            body("thesis.id", equalTo("1")).
-            body("thesis.name", equalTo("Telematik Arbeit")).
-            body("thesis.body", equalTo("body of this sample thesis")).
-            body("thesis.form", equalTo(null)).
-            body("thesis.imageList", equalTo(null));
 
-  }
 }

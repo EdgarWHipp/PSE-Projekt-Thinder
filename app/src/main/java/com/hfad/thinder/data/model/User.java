@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Model of the User Class, contains all attributes that is required for a user upon registration.
  */
 
-public abstract class User {
+public class User {
     private final String password;
     private final String eMail;
     @SerializedName("id")
@@ -19,6 +19,14 @@ public abstract class User {
         this.password = password;
         this.eMail = eMail;
         this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.university = university;
+    }
+    public User(String password, String eMail, String firstName, String lastName, String university) {
+        this.password = password;
+        this.eMail = eMail;
+
         this.firstName = firstName;
         this.lastName = lastName;
         this.university = university;

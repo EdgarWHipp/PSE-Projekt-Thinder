@@ -32,11 +32,11 @@ public interface UsersApiService {
 
     /**
      * Gets information about the users from the backend.
-     *
+     * Used as login
      * @return List of Responses
      */
     @GET("/api/Users")
-    Response<List<User>> getUsers();
+    Response<List<User>> login(String password, String eMail);
 
     /**
      * Returns all theses that the user has aready liked
@@ -47,7 +47,7 @@ public interface UsersApiService {
     Response<List<Thesis>> getTheses(@Path("id") int userId);
 
     /**
-     * Posts a new registrated user to the backend.
+     *
      * Gets the information about a specific user
      *
      * @return List of Responses

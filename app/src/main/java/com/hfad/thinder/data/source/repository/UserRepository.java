@@ -2,6 +2,8 @@ package com.hfad.thinder.data.source.repository;
 
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.remote.UsersRemoteDataSource;
+import com.hfad.thinder.viewmodels.LoginResult;
+import com.hfad.thinder.viewmodels.RegistrationResult;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +13,8 @@ import java.util.Optional;
  * User data is saved locally in a List
  * for the first local test run of the frontend.
  */
-public final class UserRepository implements BaseRepository<User> {
+public final class UserRepository {
+    static int id;
     /**
      * Defines the Userrepository singleton instance.
      */
@@ -44,40 +47,32 @@ public final class UserRepository implements BaseRepository<User> {
         return INSTANCE;
     }
 
-    /**
-     * only used for local testing - ID information is handled in the backend.
-     * returns an incrementing userId for each user object to use.
-     *
-     * @return the next counter value (old counter value +1)
-     */
-    public int iterUserId() {
-        return getInstance().userId++;
-    }
+
 
     /**
-     * @return all users that are registered are returned.
+     * handles the login -> sends the password and the mail and checks if such a user is already registrated.
+     * @return the id of the user
      */
-    @Override
-    public Optional<List<User>> getAll() {
-        return dataSource.getUsers();
+
+    public LoginResult login(String password, String eMail) {
+        return dataSource.login(password, eMail);
 
     }
 
-    @Override
+
     public Optional<User> getById(final int id) {
         return dataSource.getUser(id);
-
     }
 
     /**
      * Adds the given user to the private local users list.
      *
-     * @param user
+     * @param firstName,secondName,university,password,eMail
      * @return true if the call succeeds and false otherwise.
      */
-    @Override
-    public boolean save(final User user) {
-        return dataSource.createNewUser(user);
+
+    public RegistrationResult registrate(String firstName, String secondName,String university,String password, String eMail) {
+        return dataSource.createNewUser(new User(password,eMail,firstName,secondName,university));
     }
 
     /**
@@ -87,7 +82,7 @@ public final class UserRepository implements BaseRepository<User> {
      * @param id userId in User class
      * @return
      */
-    @Override
+
     public boolean delete(final int id) {
         return dataSource.deleteUser(id);
     }

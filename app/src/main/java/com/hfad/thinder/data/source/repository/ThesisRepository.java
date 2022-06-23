@@ -28,10 +28,8 @@ public final class ThesisRepository implements BaseRepository<Thesis> {
         return INSTANCE;
     }
 
-
     @Override
-    public Optional<List<Thesis>> getAll() {
-        return thesisRemoteDataSource.getAllTheses();
+   public Optional<List<Thesis>> getAll() {return thesisRemoteDataSource.getAllTheses();
     }
 
     @Override
