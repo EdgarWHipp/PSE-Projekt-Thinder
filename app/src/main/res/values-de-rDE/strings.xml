@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="insert_email">E-Mail Adresse eingeben</string>
+    <string name="insert_password">Passwort eingeben</string>
+    <string name="password">Passwort</string>
+    <string name="email">E-Mail</string>
+    <string name="login">Anmelden</string>
+    <string name="register">Registrieren</string>
+    <string name="forgot_password">Passwort vergessen</string>
+    <string name="first_name">Vorname</string>
+    <string name="insert_first_name">Vorname eingeben</string>
+    <string name="last_name">Nachname</string>
+    <string name="insert_last_name">Nachname eingeben</string>
+    <string name="confirm_password">Passwort bestätigen</string>
+    <string name="university">Universität</string>
+    <string name="choose_university">Universität wählen</string>
+    <string name="registration">Registrierung</string>
+    <string name="forgot_password_text">Sie haben per E-Mail einen Code erhalten, welchen Sie zum
+        Zurücksetzen Ihres Passwortes nutzen können.</string>
+    <string name="insert_code">Code eingeben</string>
+    <string name="new_password">Neues Passwort</string>
+    <string name="code">Code</string>
+    <string name="home_screen">Startseite</string>
+    <string name="profile">Profil</string>
+    <string name="edit_profile">Profil bearbeiten</string>
+    <string name="personal_data">Persönliche Daten</string>
+    <string name="academical_degree">Akademischer Grad</string>
+    <string name="building">Gebäude</string>
+    <string name="insert_building">Gebäude eingeben</string>
+    <string name="room">Raum</string>
+    <string name="insert_room">Raum eingeben</string>
+    <string name="phone_number">Telefonnummer</string>
+    <string name="insert_phone_number">Telefonnummer eingeben</string>
+    <string name="institute">Institut</string>
+    <string name="insert_institute">Institut eingeben</string>
+    <string name="remove">Entfernen</string>
+    <string name="save">Speichern</string>
+    <string name="created_theses">Erstellte Arbeiten</string>
+    <string name="action_add">Hinzufügen</string>
+    <string name="create_thesis">Arbeit erstellen</string>
+    <string name="edit_thesis">Arbeit bearbeiten</string>
+    <string name="name_of_thesis">Name der Arbeit</string>
+    <string name="insert_name_of_thesis">Name der Arbeit eingeben</string>
+    <string name="task">Aufgabe</string>
+    <string name="add_task">Aufgabentext hinzufügen</string>
+    <string name="motivation">Motivation</string>
+    <string name="add_motivation">Motivationstext hinzufügen</string>
+    <string name="student_questions">Fragen an den Studenten</string>
+    <string name="add_questions">Fragen hinzufügen</string>
+    <string name="supervising_professor">Betreuender Professor</string>
+    <string name="insert_supervising_professor">Betreuenden Professor eingeben</string>
+    <string name="add_courses_of_study">Studiengänge hinzufügen</string>
+    <string name="add_images_from_galery">Bilder aus Galarie hinzufügen</string>
+</resources>

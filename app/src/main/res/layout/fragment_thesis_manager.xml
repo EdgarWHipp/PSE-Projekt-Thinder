@@ -18,16 +18,12 @@
             android:paddingRight="@dimen/fab_margin"
             android:paddingBottom="@dimen/fab_margin">
 
-            <TextView
-                android:id="@+id/twPersonalData"
-                style="@style/headline_h5"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/personal_data"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="match_parent">
 
+            </androidx.recyclerview.widget.RecyclerView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

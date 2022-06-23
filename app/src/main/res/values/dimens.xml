@@ -2,4 +2,6 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="logo_distance">40dp</dimen>
+    <dimen name="muliline_textview_linenum">5</dimen>
+    <dimen name="multiline_textview_padding">2dp</dimen>
 </resources>
