@@ -14,7 +14,7 @@ import java.util.Optional;
  * for the first local test run of the frontend.
  */
 public final class UserRepository {
-    static int id;
+    private int currentId;
     /**
      * Defines the Userrepository singleton instance.
      */
@@ -55,7 +55,8 @@ public final class UserRepository {
      */
 
     public LoginResult login(String password, String eMail) {
-        return dataSource.login(password, eMail);
+        currentId=dataSource.login(password, eMail).getSecond();
+        return dataSource.login(password, eMail).getFirst();
 
     }
 

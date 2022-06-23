@@ -36,7 +36,7 @@ public interface UsersApiService {
      * @return List of Responses
      */
     @GET("/api/Users")
-    Response<List<User>> login(String password, String eMail);
+    Response<User> login(@Body Login login);
 
     /**
      * Returns all theses that the user has aready liked

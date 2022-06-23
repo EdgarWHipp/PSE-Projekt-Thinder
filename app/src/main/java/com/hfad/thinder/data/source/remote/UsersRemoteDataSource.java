@@ -2,7 +2,9 @@ package com.hfad.thinder.data.source.remote;
 
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.User;
+import com.hfad.thinder.data.source.remote.retrofit.Login;
 import com.hfad.thinder.data.source.remote.retrofit.UsersApiService;
+import com.hfad.thinder.data.source.repository.LoginTuple;
 import com.hfad.thinder.viewmodels.LoginResult;
 import com.hfad.thinder.viewmodels.RegistrationResult;
 
@@ -40,21 +42,22 @@ public class UsersRemoteDataSource {
 
     }
 
-    public LoginResult login(String password, String eMail) {
-        Response<List<User>> result = userService.login(password,eMail);
+    public LoginTuple login(String password, String eMail) {
+        Response<User> result = userService.login(new Login(password, eMail));
         try {
             if (result.isSuccessful()) {
-                List<User> returnVal = result.body();
-                return new LoginResult(null,true);
+                User returnVal = result.body();
+
+                return new LoginTuple(new LoginResult(null,true),returnVal.getId());
 
             } else {
 
-                return new LoginResult("login not successful",false);
+                return new LoginTuple(new LoginResult("login not successful",false),0);
             }
         } catch (Exception e) {
 
 
-            return new LoginResult(e.toString(),false);
+            return new LoginTuple(new LoginResult(e.toString(),false),0);
         }
 
     }
