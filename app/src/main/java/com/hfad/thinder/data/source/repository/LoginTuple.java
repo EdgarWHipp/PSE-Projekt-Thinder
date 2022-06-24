@@ -1,4 +1,4 @@
-package com.hfad.thinder.data.source.remote.retrofit;
+package com.hfad.thinder.data.source.repository;
 
 
 import com.hfad.thinder.data.source.result.Result;

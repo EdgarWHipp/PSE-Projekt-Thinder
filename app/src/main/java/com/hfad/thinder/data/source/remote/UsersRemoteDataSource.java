@@ -3,7 +3,7 @@ package com.hfad.thinder.data.source.remote;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.remote.retrofit.UsersApiService;
-import com.hfad.thinder.data.source.remote.retrofit.LoginTuple;
+import com.hfad.thinder.data.source.repository.LoginTuple;
 import com.hfad.thinder.data.source.result.Result;
 
 import java.util.List;

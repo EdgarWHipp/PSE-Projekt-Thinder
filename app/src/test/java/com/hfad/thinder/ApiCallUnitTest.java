@@ -5,9 +5,11 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static io.restassured.filter.log.RequestLoggingFilter.with;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import io.restassured.RestAssured;
+import io.restassured.response.ResponseBody;
 
 public class ApiCallUnitTest {
   private String localHost="127.0.0.1:5432";
@@ -55,9 +57,10 @@ public class ApiCallUnitTest {
   }
   @Test
   public void test_live_server_basic() {
-    when().
-            get("https://thinder-api.herokuapp.com/helloOpen", 1).
-            then(). statusCode(200).assertThat().body("",equalTo("sample"));
+    String bodyAsString = RestAssured.get("https://thinder-api.herokuapp.com/helloOpen").body().asString();
+    Assert.assertEquals(bodyAsString.contains("Hello world!"),true);
+
+
 
   }
 
