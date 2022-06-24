@@ -12,7 +12,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.ResponseBody;
 
 public class ApiCallUnitTest {
-  private String localHost="127.0.0.1:5432";
+  private String localHost="localhost:5432";
   @Test
   public void post_a_user() {
     given().params("password","example@gmail.com",1,"max","mustermann","KIT").
@@ -28,7 +28,9 @@ public class ApiCallUnitTest {
   }
   @Test
   public void check_hello() {
-    when().get(localHost+"/hello").then().assertThat().body("",equalTo("Hello, Gandalf"));
+    String bodyAsString = RestAssured.get(localHost+"/hello").body().asString();
+    Assert.assertEquals(bodyAsString.contains("Hello, Gandalf"),true);
+
   }
   @Test
   public void post_a_thesis() {
