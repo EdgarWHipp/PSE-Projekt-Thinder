@@ -31,8 +31,8 @@ public interface UsersApiService {
     Response<User> postNewUser(@Body User user);
 
     /**
-     * Gets information about the users from the backend.
-     * Used as login
+     *
+     * Used as login function -  also requests the user id.
      * @return List of Responses
      */
     @GET("/api/Users")
