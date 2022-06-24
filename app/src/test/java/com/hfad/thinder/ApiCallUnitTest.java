@@ -10,11 +10,12 @@ import org.junit.Test;
 import io.restassured.RestAssured;
 
 public class ApiCallUnitTest {
+  private String localHost="127.0.0.1:5432";
   @Test
   public void post_a_user() {
     given().params("password","example@gmail.com",1,"max","mustermann","KIT").
             when().
-            post("/api/Users").
+            post(localHost+"/api/Users").
             then().
             body("user.firstName", equalTo("max")).
             body("user.lastName", equalTo("mustermann")).
@@ -25,7 +26,7 @@ public class ApiCallUnitTest {
   }
   @Test
   public void check_hello() {
-    when().get("/hello").then().assertThat().body("",equalTo("Hello, Gandalf"));
+    when().get(localHost+"/hello").then().assertThat().body("",equalTo("Hello, Gandalf"));
   }
   @Test
   public void post_a_thesis() {
@@ -43,13 +44,20 @@ public class ApiCallUnitTest {
   @Test
   public void fixed_thesis_test() {
     when().
-            get("/api/thesisTest/{thesisId}", 1).
+            get(localHost+"/api/thesisTest/{thesisId}", 1).
             then(). statusCode(200).
             body("thesis.id", equalTo("1")).
             body("thesis.name", equalTo("Telematik Arbeit")).
             body("thesis.body", equalTo("body of this sample thesis")).
             body("thesis.form", equalTo(null)).
             body("thesis.imageList", equalTo(null));
+
+  }
+  @Test
+  public void test_live_server_basic() {
+    when().
+            get("https://thinder-api.herokuapp.com/helloOpen", 1).
+            then(). statusCode(200).assertThat().body("",equalTo("sample"));
 
   }
 

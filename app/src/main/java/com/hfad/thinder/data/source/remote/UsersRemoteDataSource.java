@@ -57,7 +57,7 @@ public class UsersRemoteDataSource {
         } catch (Exception e) {
 
 
-            return new LoginTuple(new LoginResult(e.toString(),false),0);
+            return new LoginTuple(new LoginResult("login not successful due to : "+e.toString(),false),0);
         }
 
     }
