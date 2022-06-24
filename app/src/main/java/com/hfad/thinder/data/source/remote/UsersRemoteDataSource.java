@@ -2,11 +2,9 @@ package com.hfad.thinder.data.source.remote;
 
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.User;
-import com.hfad.thinder.data.source.remote.retrofit.Login;
 import com.hfad.thinder.data.source.remote.retrofit.UsersApiService;
-import com.hfad.thinder.data.source.repository.LoginTuple;
-import com.hfad.thinder.viewmodels.LoginResult;
-import com.hfad.thinder.viewmodels.RegistrationResult;
+import com.hfad.thinder.data.source.remote.retrofit.LoginTuple;
+import com.hfad.thinder.data.source.result.Result;
 
 import java.util.List;
 import java.util.Optional;
@@ -48,31 +46,31 @@ public class UsersRemoteDataSource {
             if (result.isSuccessful()) {
                 User returnVal = result.body();
 
-                return new LoginTuple(new LoginResult(null,true),returnVal.getId());
+                return new LoginTuple(new Result(null,true),returnVal.getId());
 
             } else {
 
-                return new LoginTuple(new LoginResult("login not successful",false),0);
+                return new LoginTuple(new Result("login not successful",false),0);
             }
         } catch (Exception e) {
 
 
-            return new LoginTuple(new LoginResult("login not successful due to : "+e.toString(),false),0);
+            return new LoginTuple(new Result("login not successful due to : "+e.toString(),false),0);
         }
 
     }
 
-    public RegistrationResult createNewUser(User user) {
+    public Result createNewUser(User user) {
         try {
             Response<User> result = userService.postNewUser(user);
             if (result.isSuccessful()) {
-                return new RegistrationResult(null,true);
+                return new Result(null,true);
 
             } else {
-                return new RegistrationResult("registration not successful",false);
+                return new Result("registration not successful",false);
             }
         } catch (Exception e) {
-            return new RegistrationResult(e.toString(),false);
+            return new Result(e.toString(),false);
         }
 
 

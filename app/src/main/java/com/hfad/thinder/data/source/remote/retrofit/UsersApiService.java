@@ -2,11 +2,11 @@ package com.hfad.thinder.data.source.remote.retrofit;
 
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.User;
+import com.hfad.thinder.data.source.remote.Login;
 
 import java.util.List;
 
 import retrofit2.Response;
-import retrofit2.Retrofit;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;

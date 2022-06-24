@@ -1,4 +1,4 @@
-package com.hfad.thinder.data.source.remote.retrofit;
+package com.hfad.thinder.data.source.remote;
 
 public class Login {
   public String password;

@@ -2,6 +2,7 @@ package com.hfad.thinder.data.source.repository;
 
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.remote.UsersRemoteDataSource;
+import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.viewmodels.LoginResult;
 import com.hfad.thinder.viewmodels.RegistrationResult;
 
@@ -54,7 +55,7 @@ public final class UserRepository {
      * @return the id of the user
      */
 
-    public LoginResult login(String password, String eMail) {
+    public Result login(String password, String eMail) {
         currentId=dataSource.login(password, eMail).getSecond();
         return dataSource.login(password, eMail).getFirst();
 
@@ -72,7 +73,7 @@ public final class UserRepository {
      * @return true if the call succeeds and false otherwise.
      */
 
-    public RegistrationResult registrate(String firstName, String secondName,String university,String password, String eMail) {
+    public Result registrate(String firstName, String secondName, String university, String password, String eMail) {
         return dataSource.createNewUser(new User(password,eMail,firstName,secondName,university));
     }
 
