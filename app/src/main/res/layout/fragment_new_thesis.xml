@@ -37,7 +37,9 @@
                     android:text="@string/name_of_thesis"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"></TextView>
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </TextView>
 
                 <EditText
                     android:id="@+id/etInsertNameOfThesis"
@@ -47,7 +49,9 @@
                     android:hint="@string/insert_name_of_thesis"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvThesisTitle"></EditText>
+                    app:layout_constraintTop_toBottomOf="@+id/tvThesisTitle">
+
+                </EditText>
 
                 <TextView
                     android:id="@+id/tvTask"
@@ -57,7 +61,9 @@
                     android:text="@string/task"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/etInsertNameOfThesis"></TextView>
+                    app:layout_constraintTop_toBottomOf="@+id/etInsertNameOfThesis">
+
+                </TextView>
 
                 <EditText
                     android:id="@+id/etInsertTask"
@@ -86,7 +92,9 @@
                     android:text="@string/motivation"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/etInsertTask"></TextView>
+                    app:layout_constraintTop_toBottomOf="@+id/etInsertTask">
+
+                </TextView>
 
                 <EditText
                     android:id="@+id/etInsertMotivation"
@@ -115,7 +123,9 @@
                     android:text="@string/student_questions"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/etInsertMotivation"></TextView>
+                    app:layout_constraintTop_toBottomOf="@+id/etInsertMotivation">
+                    
+                </TextView>
 
                 <EditText
                     android:id="@+id/etInsertQuestions"
@@ -135,6 +145,85 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvQuestions">
 
                 </EditText>
+
+                <TextView
+                    android:id="@+id/tvSupervisingProf"
+                    style="@style/body_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/supervising_professor"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/etInsertQuestions">
+
+                </TextView>
+
+                <EditText
+                    android:id="@+id/etInsertSupervisingProf"
+                    style="@style/headline_h6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/insert_supervising_professor"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSupervisingProf">
+
+                </EditText>
+
+                <Button
+                    android:id="@+id/btPickDegrees"
+                    style="@style/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_courses_of_study"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/etInsertSupervisingProf">
+
+                </Button>
+
+                <TextView
+                    android:id="@+id/tvCoursesOfStudy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/body_2"
+                    android:text="Informatik, Physik, Mathematik"
+                    android:background="@drawable/bg_rounded"
+                    android:padding="@dimen/multiline_textview_padding"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btPickDegrees">
+
+                </TextView>
+
+                <Button
+                    android:id="@+id/btAddImages"
+                    style="@style/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_images_from_galery"
+                    android:drawableEnd="@drawable/ic_image_search"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvCoursesOfStudy">
+
+                </Button>
+
+                <TextView
+                    android:id="@+id/tvImagesFromGallery"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/body_2"
+                    android:text="Solarpanele.png"
+                    android:background="@drawable/bg_rounded"
+                    android:padding="@dimen/multiline_textview_padding"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btAddImages">
+
+                </TextView>
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 

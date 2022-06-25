@@ -17,158 +17,173 @@
             android:paddingRight="@dimen/fab_margin"
             android:paddingBottom="@dimen/fab_margin">
 
-            <TextView
-                android:id="@+id/twPersonalData"
-                style="@style/headline_h5"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/personal_data"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="0dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/btSaveProfile">
 
-            <TextView
-                android:id="@+id/twDegree"
-                style="@style/body_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/fab_margin"
-                android:text="@string/academical_degree"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/twPersonalData" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/twFirstName"
-                style="@style/body_2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/first_name"
-                app:layout_constraintEnd_toStartOf="@+id/twLastName"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spChooseDegree" />
+                    <TextView
+                        android:id="@+id/twPersonalData"
+                        style="@style/headline_h5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/personal_data"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/twLastName"
-                style="@style/body_2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/last_name"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/twFirstName"
-                app:layout_constraintTop_toBottomOf="@+id/spChooseDegree" />
+                    <TextView
+                        android:id="@+id/twDegree"
+                        style="@style/body_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/fab_margin"
+                        android:text="@string/academical_degree"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/twPersonalData" />
 
-            <Spinner
-                android:id="@+id/spChooseDegree"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/twDegree">
+                    <TextView
+                        android:id="@+id/twFirstName"
+                        style="@style/body_2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/first_name"
+                        app:layout_constraintEnd_toStartOf="@+id/twLastName"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/spChooseDegree" />
 
-            </Spinner>
+                    <TextView
+                        android:id="@+id/twLastName"
+                        style="@style/body_2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/last_name"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/twFirstName"
+                        app:layout_constraintTop_toBottomOf="@+id/spChooseDegree" />
 
-            <EditText
-                android:id="@+id/etFirstName"
-                style="@style/body_1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:hint="@string/insert_first_name"
-                app:layout_constraintEnd_toStartOf="@+id/etLastName"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/twFirstName" />
+                    <Spinner
+                        android:id="@+id/spChooseDegree"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/twDegree">
 
-            <EditText
-                android:id="@+id/etLastName"
-                style="@style/body_1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:hint="@string/insert_last_name"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/etFirstName"
-                app:layout_constraintTop_toBottomOf="@+id/twLastName" />
+                    </Spinner>
 
-            <TextView
-                android:id="@+id/twBuilding"
-                style="@style/body_2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/building"
-                app:layout_constraintEnd_toStartOf="@+id/twLastName"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etFirstName" />
+                    <EditText
+                        android:id="@+id/etFirstName"
+                        style="@style/body_1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/insert_first_name"
+                        app:layout_constraintEnd_toStartOf="@+id/etLastName"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/twFirstName" />
 
-            <TextView
-                android:id="@+id/twRoom"
-                style="@style/body_2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/room"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/twFirstName"
-                app:layout_constraintTop_toBottomOf="@+id/etLastName" />
+                    <EditText
+                        android:id="@+id/etLastName"
+                        style="@style/body_1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/insert_last_name"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/etFirstName"
+                        app:layout_constraintTop_toBottomOf="@+id/twLastName" />
 
-            <EditText
-                android:id="@+id/etBuilding"
-                style="@style/body_1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:hint="@string/insert_building"
-                app:layout_constraintEnd_toStartOf="@+id/etRoom"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/twBuilding" />
+                    <TextView
+                        android:id="@+id/twBuilding"
+                        style="@style/body_2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/building"
+                        app:layout_constraintEnd_toStartOf="@+id/twLastName"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/etFirstName" />
 
-            <EditText
-                android:id="@+id/etRoom"
-                style="@style/body_1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:hint="@string/insert_room"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/etBuilding"
-                app:layout_constraintTop_toBottomOf="@+id/twRoom" />
+                    <TextView
+                        android:id="@+id/twRoom"
+                        style="@style/body_2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/room"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/twFirstName"
+                        app:layout_constraintTop_toBottomOf="@+id/etLastName" />
 
-            <TextView
-                android:id="@+id/twPhoneNumber"
-                style="@style/body_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/phone_number"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etBuilding" />
+                    <EditText
+                        android:id="@+id/etBuilding"
+                        style="@style/body_1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/insert_building"
+                        app:layout_constraintEnd_toStartOf="@+id/etRoom"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/twBuilding" />
 
-            <EditText
-                android:id="@+id/etPhoneNumber"
-                style="@style/body_1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/insert_phone_number"
-                android:inputType="phone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/twPhoneNumber" />
+                    <EditText
+                        android:id="@+id/etRoom"
+                        style="@style/body_1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/insert_room"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/etBuilding"
+                        app:layout_constraintTop_toBottomOf="@+id/twRoom" />
 
-            <TextView
-                android:id="@+id/twInstitute"
-                style="@style/body_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/institute"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etPhoneNumber" />
+                    <TextView
+                        android:id="@+id/twPhoneNumber"
+                        style="@style/body_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/phone_number"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/etBuilding" />
 
-            <EditText
-                android:id="@+id/etInstitute"
-                style="@style/body_1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/insert_institute"
-                android:inputType="phone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/twInstitute" />
+                    <EditText
+                        android:id="@+id/etPhoneNumber"
+                        style="@style/body_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/insert_phone_number"
+                        android:inputType="phone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/twPhoneNumber" />
+
+                    <TextView
+                        android:id="@+id/twInstitute"
+                        style="@style/body_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/institute"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/etPhoneNumber" />
+
+                    <EditText
+                        android:id="@+id/etInstitute"
+                        style="@style/body_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/insert_institute"
+                        android:inputType="phone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/twInstitute" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </ScrollView>
+
 
             <Button
                 android:id="@+id/btRemoveProfile"
