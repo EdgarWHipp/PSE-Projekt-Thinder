@@ -3,6 +3,8 @@ package com.hfad.thinder.data.source.remote;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.remote.retrofit.UsersApiService;
+import com.hfad.thinder.data.source.repository.LoginTuple;
+import com.hfad.thinder.data.source.result.Result;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +15,7 @@ import retrofit2.Retrofit;
 public class UsersRemoteDataSource {
 
     Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://sampleAddress.com")
+            .baseUrl("https://thinder-api.herokuapp.com")
             .build();
 
     UsersApiService userService = retrofit.create(UsersApiService.class);
@@ -38,40 +40,37 @@ public class UsersRemoteDataSource {
 
     }
 
-    public Optional<List<User>> getUsers() {
-        Response<List<User>> result = userService.getUsers();
+    public LoginTuple login(String password, String eMail) {
+        Response<User> result = userService.login(new Login(password, eMail));
         try {
             if (result.isSuccessful()) {
-                List<User> returnVal = result.body();
-                return Optional.of(returnVal);
+                User returnVal = result.body();
+
+                return new LoginTuple(new Result(null,true),returnVal.getId());
 
             } else {
-                // TO DO - bad practise!, dont return null return some error
-                return Optional.ofNullable(null);
+
+                return new LoginTuple(new Result("login not successful",false),0);
             }
         } catch (Exception e) {
-            System.out.println(e);
-            // TO DO - bad practise!, dont return null return some error
-            return Optional.ofNullable(null);
+
+
+            return new LoginTuple(new Result("login not successful due to : "+e.toString(),false),0);
         }
 
     }
 
-    public boolean createNewUser(User user) {
+    public Result createNewUser(User user) {
         try {
             Response<User> result = userService.postNewUser(user);
             if (result.isSuccessful()) {
-                //User returnVal = result.body();
-                return true;
+                return new Result(null,true);
 
             } else {
-                // TO DO - bad practise!, dont return false return some error
-                return false;
+                return new Result("registration not successful",false);
             }
         } catch (Exception e) {
-            System.out.println(e);
-            // TO DO - bad practise!, dont return false return some error
-            return false;
+            return new Result(e.toString(),false);
         }
 
 

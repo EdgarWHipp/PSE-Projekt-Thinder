@@ -12,7 +12,7 @@ import retrofit2.Retrofit;
 
 public class UniversityRemoteDataSource {
   Retrofit retrofit = new Retrofit.Builder()
-          .baseUrl("https://sampleAddress.com")
+          .baseUrl("https://thinder-api.herokuapp.com")
           .build();
 
   UniversityApiService universityService = retrofit.create(UniversityApiService.class);

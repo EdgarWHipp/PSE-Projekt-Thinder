@@ -2,11 +2,11 @@ package com.hfad.thinder.data.source.remote.retrofit;
 
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.User;
+import com.hfad.thinder.data.source.remote.Login;
 
 import java.util.List;
 
 import retrofit2.Response;
-import retrofit2.Retrofit;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -31,12 +31,12 @@ public interface UsersApiService {
     Response<User> postNewUser(@Body User user);
 
     /**
-     * Gets information about the users from the backend.
      *
+     * Used as login function -  also requests the user id.
      * @return List of Responses
      */
     @GET("/api/Users")
-    Response<List<User>> getUsers();
+    Response<User> login(@Body Login login);
 
     /**
      * Returns all theses that the user has aready liked
@@ -47,7 +47,7 @@ public interface UsersApiService {
     Response<List<Thesis>> getTheses(@Path("id") int userId);
 
     /**
-     * Posts a new registrated user to the backend.
+     *
      * Gets the information about a specific user
      *
      * @return List of Responses

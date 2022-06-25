@@ -5,16 +5,19 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static io.restassured.filter.log.RequestLoggingFilter.with;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import io.restassured.RestAssured;
+import io.restassured.response.ResponseBody;
 
 public class ApiCallUnitTest {
+  private String localHost="localhost:5432";
   @Test
   public void post_a_user() {
     given().params("password","example@gmail.com",1,"max","mustermann","KIT").
             when().
-            post("/api/Users").
+            post(localHost+"/api/Users").
             then().
             body("user.firstName", equalTo("max")).
             body("user.lastName", equalTo("mustermann")).
@@ -25,7 +28,9 @@ public class ApiCallUnitTest {
   }
   @Test
   public void check_hello() {
-    when().get("/hello").then().assertThat().body("",equalTo("Hello, Gandalf"));
+    String bodyAsString = RestAssured.get(localHost+"/hello").body().asString();
+    Assert.assertEquals(bodyAsString.contains("Hello, Gandalf"),true);
+
   }
   @Test
   public void post_a_thesis() {
@@ -43,7 +48,7 @@ public class ApiCallUnitTest {
   @Test
   public void fixed_thesis_test() {
     when().
-            get("/api/thesisTest/{thesisId}", 1).
+            get(localHost+"/api/thesisTest/{thesisId}", 1).
             then(). statusCode(200).
             body("thesis.id", equalTo("1")).
             body("thesis.name", equalTo("Telematik Arbeit")).
@@ -53,15 +58,12 @@ public class ApiCallUnitTest {
 
   }
   @Test
-  public void fixed_thesis_test() {
-    when().
-            get("/api/userTest/{thesisId}", 1).
-            then(). statusCode(200).
-            body("thesis.id", equalTo("1")).
-            body("thesis.name", equalTo("Telematik Arbeit")).
-            body("thesis.body", equalTo("body of this sample thesis")).
-            body("thesis.form", equalTo(null)).
-            body("thesis.imageList", equalTo(null));
+  public void test_live_server_basic() {
+    String bodyAsString = RestAssured.get("https://thinder-api.herokuapp.com/helloOpen").body().asString();
+    Assert.assertEquals(bodyAsString.contains("Hello world!"),true);
+
+
 
   }
+
 }

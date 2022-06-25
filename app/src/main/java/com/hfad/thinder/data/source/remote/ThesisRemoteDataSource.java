@@ -11,7 +11,7 @@ import retrofit2.Retrofit;
 
 public class ThesisRemoteDataSource {
     Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://sampleAddress.com")
+            .baseUrl("https://thinder-api.herokuapp.com")
             .build();
 
     ThesisApiService thesisService = retrofit.create(ThesisApiService.class);

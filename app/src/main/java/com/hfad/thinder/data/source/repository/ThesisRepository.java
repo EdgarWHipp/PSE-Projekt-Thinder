@@ -10,7 +10,7 @@ import java.util.Optional;
  * Singleton instance of a ThesisRepository.
  * Database access to fetch theses is launched over this class.
  */
-public final class ThesisRepository implements BaseRepository<Thesis> {
+public final class ThesisRepository {
     private static ThesisRepository INSTANCE;
     private ThesisRemoteDataSource thesisRemoteDataSource;
 
@@ -29,22 +29,20 @@ public final class ThesisRepository implements BaseRepository<Thesis> {
     }
 
 
-    @Override
-    public Optional<List<Thesis>> getAll() {
-        return thesisRemoteDataSource.getAllTheses();
+   public Optional<List<Thesis>> getAll() {return thesisRemoteDataSource.getAllTheses();
     }
 
-    @Override
+
     public Optional<Thesis> getById(final int id) {
         return thesisRemoteDataSource.getThesis(id);
     }
 
-    @Override
+
     public boolean save(final Thesis thesis) {
         return thesisRemoteDataSource.createNewThesis(thesis);
     }
 
-    @Override
+
     public boolean delete(final int id) {
         return false;
     }
