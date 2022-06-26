@@ -1,18 +1,22 @@
-package com.hfad.thinder;
+package com.hfad.thinder.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
+import com.hfad.thinder.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link EditThesisFragment#newInstance} factory method to
+ * Use the {@link NewThesisFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EditThesisFragment extends Fragment {
+public class NewThesisFragment extends Fragment implements View.OnClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,7 +27,9 @@ public class EditThesisFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public EditThesisFragment() {
+    private Button goToStudyOfCoursesFragment;
+
+    public NewThesisFragment() {
         // Required empty public constructor
     }
 
@@ -33,11 +39,11 @@ public class EditThesisFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment EditThesisFragment.
+     * @return A new instance of fragment NewThesisFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static EditThesisFragment newInstance(String param1, String param2) {
-        EditThesisFragment fragment = new EditThesisFragment();
+    public static NewThesisFragment newInstance(String param1, String param2) {
+        NewThesisFragment fragment = new NewThesisFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -58,6 +64,15 @@ public class EditThesisFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_thesis, container, false);
+        View view = inflater.inflate(R.layout.fragment_new_thesis, container, false);
+        goToStudyOfCoursesFragment = (Button) view.findViewById(R.id.btPickDegrees);
+        goToStudyOfCoursesFragment.setOnClickListener(this);
+
+        return view;
+    }
+
+    @Override
+    public void onClick(View view) {
+        Navigation.findNavController(view).navigate(R.id.action_newThesisFragment_to_coursesOfStudyFragment);
     }
 }

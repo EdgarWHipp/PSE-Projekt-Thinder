@@ -1,4 +1,4 @@
-package com.hfad.thinder;
+package com.hfad.thinder.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.ActivityLoginBinding;
 import com.hfad.thinder.viewmodels.LoginViewModel;
 

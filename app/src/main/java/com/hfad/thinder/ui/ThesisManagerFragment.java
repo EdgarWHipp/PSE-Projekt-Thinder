@@ -1,4 +1,4 @@
-package com.hfad.thinder;
+package com.hfad.thinder.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,6 +15,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentThesisManagerBinding;
 
 /**

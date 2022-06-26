@@ -50,4 +50,6 @@
     <string name="insert_supervising_professor">Enter supervising professor</string>
     <string name="add_courses_of_study">Add courses of study</string>
     <string name="add_images_from_galery">Add images from galery</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

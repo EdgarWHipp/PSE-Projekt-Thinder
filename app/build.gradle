@@ -43,6 +43,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.navigation:navigation-fragment:2.4.2'
     implementation 'androidx.navigation:navigation-ui:2.4.2'
+    implementation 'androidx.cardview:cardview:1.0.0'
 
     testImplementation 'junit:junit:4.13.2'
     // The REST Assured dependencies are used to test the api calls in the model (tests are run on a local postgres server with port:5432 )

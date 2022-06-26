@@ -1,21 +1,20 @@
-package com.hfad.thinder;
+package com.hfad.thinder.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
-import com.hfad.thinder.databinding.FragmentSupervisorProfileBinding;
+import com.hfad.thinder.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link SupervisorProfileFragment#newInstance} factory method to
+ * Use the {@link EditThesisFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SupervisorProfileFragment extends Fragment {
+public class EditThesisFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,9 +25,7 @@ public class SupervisorProfileFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private FragmentSupervisorProfileBinding binding;
-
-    public SupervisorProfileFragment() {
+    public EditThesisFragment() {
         // Required empty public constructor
     }
 
@@ -38,11 +35,11 @@ public class SupervisorProfileFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SupervisorProfileFragment.
+     * @return A new instance of fragment EditThesisFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SupervisorProfileFragment newInstance(String param1, String param2) {
-        SupervisorProfileFragment fragment = new SupervisorProfileFragment();
+    public static EditThesisFragment newInstance(String param1, String param2) {
+        EditThesisFragment fragment = new EditThesisFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -53,7 +50,6 @@ public class SupervisorProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(false);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -63,11 +59,7 @@ public class SupervisorProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_supervisor_profile, container, false);
-
         // Inflate the layout for this fragment
-        View view = binding.getRoot();
-        return view;
+        return inflater.inflate(R.layout.fragment_edit_thesis, container, false);
     }
-
 }

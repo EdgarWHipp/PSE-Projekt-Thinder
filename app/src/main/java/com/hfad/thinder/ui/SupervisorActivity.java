@@ -1,4 +1,4 @@
-package com.hfad.thinder;
+package com.hfad.thinder.ui;
 
 import static androidx.navigation.Navigation.findNavController;
 
@@ -12,6 +12,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.ActivitySupervisorBinding;
 
 public class SupervisorActivity extends AppCompatActivity {

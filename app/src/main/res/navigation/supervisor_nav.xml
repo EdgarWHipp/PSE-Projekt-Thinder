@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/supervisorProfileFragment"
-        android:name="com.hfad.thinder.SupervisorProfileFragment"
+        android:name="com.hfad.thinder.ui.SupervisorProfileFragment"
         android:label="@string/edit_profile"
         tools:layout="@layout/fragment_supervisor_profile" />
     <fragment
         android:id="@+id/thesisManagerFragment"
-        android:name="com.hfad.thinder.ThesisManagerFragment"
+        android:name="com.hfad.thinder.ui.ThesisManagerFragment"
         android:label="@string/created_theses"
         tools:layout="@layout/fragment_thesis_manager">
         <action
@@ -24,12 +24,21 @@
     </fragment>
     <fragment
         android:id="@+id/newThesisFragment"
-        android:name="com.hfad.thinder.NewThesisFragment"
+        android:name="com.hfad.thinder.ui.NewThesisFragment"
         android:label="@string/create_thesis"
-        tools:layout="@layout/fragment_new_thesis" />
+        tools:layout="@layout/fragment_new_thesis">
+        <action
+            android:id="@+id/action_newThesisFragment_to_coursesOfStudyFragment"
+            app:destination="@id/coursesOfStudyFragment" />
+    </fragment>
     <fragment
         android:id="@+id/editThesisFragment"
-        android:name="com.hfad.thinder.EditThesisFragment"
+        android:name="com.hfad.thinder.ui.EditThesisFragment"
         android:label="@string/edit_thesis"
         tools:layout="@layout/fragment_edit_thesis" />
+    <fragment
+        android:id="@+id/coursesOfStudyFragment"
+        android:name="com.hfad.thinder.ui.CoursesOfStudyFragment"
+        android:label="fragment_courses_of_study"
+        tools:layout="@layout/fragment_courses_of_study" />
 </navigation>
