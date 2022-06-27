@@ -1,53 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    xmlns:card_view="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="8dp"
+    android:clickable="true"
+    card_view:cardUseCompatPadding="true"
+    android:layout_margin="5dp"
+    android:foreground="?android:selectableItemBackground">
 
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:layout_margin="4dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tvTitle"
+            style="@style/body_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="Laserprozessierung von Dünnschicht Solarzellen"
+            android:ellipsize="end"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ivThesisManagerItem"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tvTitle"
-                style="@style/body_1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Laserprozessierung von Dünnschicht Solarzellen"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/ivThesisManagerItem"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvDescription"
-                style="@style/body_2"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:text="Diese Arbeit umfasst die Herstellung und Charakterisierung von Solarzellen und
+        <TextView
+            android:id="@+id/tvDescription"
+            style="@style/body_2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:text="Diese Arbeit umfasst die Herstellung und Charakterisierung von Solarzellen und
 dünnen Funktionsschichten sowie insbesondere..."
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/ivThesisManagerItem"
-                app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ivThesisManagerItem"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
-            <ImageView
-                android:id="@+id/ivThesisManagerItem"
-                android:layout_width="62dp"
-                android:layout_height="62dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/backgrounds/scenic" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/ivThesisManagerItem"
+            android:layout_width="62dp"
+            android:layout_height="62dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

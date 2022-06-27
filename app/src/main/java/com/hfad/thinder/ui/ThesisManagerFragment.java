@@ -7,6 +7,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.SearchView;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -14,9 +17,13 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentThesisManagerBinding;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,6 +42,12 @@ public class ThesisManagerFragment extends Fragment {
     private String mParam2;
 
     private FragmentThesisManagerBinding binding;
+
+    private ArrayList<ThesisManagerItem> elements;
+
+    private RecyclerView recyclerView;
+    private ThesisManagerAdapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     private View view;
 
@@ -73,6 +86,24 @@ public class ThesisManagerFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
+        elements = new ArrayList<ThesisManagerItem>();
+        elements.add(new ThesisManagerItem(" Control and Diagnostics System Generator for Complex FPGA-Based Measurement Systems ", "Test", R.drawable.index));
+        elements.add(new ThesisManagerItem(" Commissioning and testing of pre-series triple GEM prototypes for CBM-MuCh in the mCBM experiment at the SIS18 facility of GSI ", "Test", R.drawable.index));
+        elements.add(new ThesisManagerItem(" An equation-of-state-meter for CBM using PointNet ", "Test", R.drawable.index));
+        elements.add(new ThesisManagerItem(" Performance of the MSMGRPC with the Highest Granularity of the CBM-TOF Wall in Cosmic Ray Tests ", "Test", R.drawable.index));
+        elements.add(new ThesisManagerItem(" Astrophysics with heavy-ion beams ", "Test", R.drawable.index));
+        elements.add(new ThesisManagerItem(" Development and implementation of a time-based signal generation scheme for the muon chamber simulation of the CBM experiment at FAIR ", "Test", R.drawable.index));
+        elements.add(new ThesisManagerItem(" Data-Driven Methods for Spectator Symmetry Plane Estimation in CBM Experiment at FAIR ", "Test", R.drawable.index));
+        elements.add(new ThesisManagerItem(" Data-Driven Methods for Spectator Symmetry Plane Estimation in CBM Experiment at FAIR ", "Test", R.drawable.index));
+        elements.add(new ThesisManagerItem(" Data-Driven Methods for Spectator Symmetry Plane Estimation in CBM Experiment at FAIR ", "Test", R.drawable.index));
+
+
+        recyclerView = binding.recyclerView;
+        layoutManager = new LinearLayoutManager(view.getContext());
+        adapter = new ThesisManagerAdapter(elements);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -91,6 +122,23 @@ public class ThesisManagerFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.theses_manager_menu, menu);
 
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                adapter.getFilter().filter(s);
+                return false;
+            }
+        });
     }
 
     @Override
