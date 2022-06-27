@@ -9,20 +9,22 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        card_view:cardUseCompatPadding="true"
+        card_view:cardCornerRadius="10dp"
         card_view:cardBackgroundColor="#E6E6E6"
-        card_view:cardCornerRadius="8dp"
         card_view:cardElevation="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <RadioButton
-                android:id="@+id/rbCoursesOfStudy"
+            <CheckBox
+                android:id="@+id/cbCoursesOfStudy"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textAlignment="textStart"

@@ -52,4 +52,6 @@
     <string name="add_images_from_galery">Add images from galery</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="choose_courses_of_study">Choose courses of study</string>
+    <string name="search">Search</string>
 </resources>

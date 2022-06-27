@@ -4,8 +4,9 @@ public class CourseOfStudyItem {
     private String courseOfStudy;
     private boolean picked = false;
 
-    public CourseOfStudyItem(String courseOfStudy) {
+    public CourseOfStudyItem(String courseOfStudy, boolean picked) {
         this.courseOfStudy = courseOfStudy;
+        this.picked = picked;
     }
 
     public String getCourseOfStudy() {

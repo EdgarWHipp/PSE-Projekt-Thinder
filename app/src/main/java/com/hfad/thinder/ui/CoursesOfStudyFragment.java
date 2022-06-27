@@ -9,8 +9,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.SearchView;
 
 import com.hfad.thinder.R;
 
@@ -34,7 +39,7 @@ public class CoursesOfStudyFragment extends Fragment {
     private ArrayList<CourseOfStudyItem> elements;
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private CoursesOfStudyAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     private View view;
@@ -72,13 +77,15 @@ public class CoursesOfStudyFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         elements = new ArrayList<CourseOfStudyItem>();
-        elements.add(new CourseOfStudyItem("Informatik"));
-        elements.add(new CourseOfStudyItem("Mathematik"));
-        elements.add(new CourseOfStudyItem("Biologie"));
-        elements.add(new CourseOfStudyItem("Physik"));
-        elements.add(new CourseOfStudyItem("Elektrotechnik"));
-        elements.add(new CourseOfStudyItem("Maschinenbau"));
+        elements.add(new CourseOfStudyItem("Informatik", false));
+        elements.add(new CourseOfStudyItem("Mathematik", true));
+        elements.add(new CourseOfStudyItem("Biologie", false));
+        elements.add(new CourseOfStudyItem("Physik", true));
+        elements.add(new CourseOfStudyItem("Elektrotechnik", false));
+        elements.add(new CourseOfStudyItem("Maschinenbau", true));
+        elements.add(new CourseOfStudyItem("Wirtschaftsinformatik", true));
 
         mRecyclerView = view.findViewById(R.id.rvCoursesOfStudy);
         mLayoutManager = new LinearLayoutManager(view.getContext());
@@ -95,5 +102,29 @@ public class CoursesOfStudyFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_courses_of_study, container, false);
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.courses_of_study_menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                mAdapter.getFilter().filter(s);
+                return false;
+            }
+        });
     }
 }
