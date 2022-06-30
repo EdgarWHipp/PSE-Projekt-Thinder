@@ -5,14 +5,20 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static io.restassured.filter.log.RequestLoggingFilter.with;
 
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
 
 import io.restassured.RestAssured;
+import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
+import io.restassured.specification.RequestSpecification;
 
 public class ApiCallUnitTest {
-  private String localHost="localhost:5432";
+  private String localHost="http://localhost:8080/";
   @Test
   public void post_a_user() {
     given().params("password","example@gmail.com",1,"max","mustermann","KIT").
@@ -62,8 +68,24 @@ public class ApiCallUnitTest {
     String bodyAsString = RestAssured.get("https://thinder-api.herokuapp.com/helloOpen").body().asString();
     Assert.assertEquals(bodyAsString.contains("Hello world!"),true);
 
-
-
+  }
+  @Test
+  public void test_post_user() throws JSONException {
+    JSONObject userJson = new JSONObject()
+            .put("firstName","max")
+            .put("lastName","mustermann")
+            .put("password","testpw")
+            .put("mail","max@student.kit.edu");
+    given()
+            .port(8080) // port number
+            .body(userJson.toString())   // use jsonObj toString method
+            .when()
+            .post("/users");
+    RequestSpecification request = given();
+    request.body(userJson.toString());
+    System.out.println(userJson.toString());
+    Response response = request.post(localHost+"users");
+    System.out.println("The status received: " + response.asString());
   }
 
 }
