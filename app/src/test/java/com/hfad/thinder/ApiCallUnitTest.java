@@ -70,7 +70,13 @@ public class ApiCallUnitTest {
 
   }
   @Test
-  public void test_post_user() throws JSONException {
+  public void test_post_a_uni_and_one_user() throws JSONException {
+    JSONObject universityJson =new JSONObject()
+            .put("name","KIT")
+            .put("members","null")
+            .put("studentMailRegex",".@student.kit.edu")
+            .put("supervisorMailRegex",".@kit.edu");
+
     JSONObject userJson = new JSONObject()
             .put("firstName","max")
             .put("lastName","mustermann")
@@ -78,14 +84,21 @@ public class ApiCallUnitTest {
             .put("mail","max@student.kit.edu");
     given()
             .port(8080) // port number
-            .body(userJson.toString())   // use jsonObj toString method
+            .body(universityJson.toString())   // use jsonObj toString method
             .when()
-            .post("/users");
-    RequestSpecification request = given();
-    request.body(userJson.toString());
-    System.out.println(userJson.toString());
-    Response response = request.post(localHost+"users");
-    System.out.println("The status received: " + response.asString());
+            .post("/university")
+            .then()
+            .statusCode(200);
+    given()
+            .port(8080)
+            .body(userJson.toString())
+            .when()
+            .post("/users")
+            .then()
+            .statusCode(200);
+
+
+
   }
 
 }
