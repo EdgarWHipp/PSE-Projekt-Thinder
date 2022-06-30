@@ -50,8 +50,9 @@
     <string name="insert_supervising_professor">Enter supervising professor</string>
     <string name="add_courses_of_study">Add courses of study</string>
     <string name="add_images_from_galery">Add images from galery</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="choose_courses_of_study">Choose courses of study</string>
     <string name="search">Search</string>
+    <string name="verification_successful">Your verification was successful!</string>
+    <string name="token_error">The email token is no longer valid. A new token has been sent to you by mail.</string>
+    <string name="verfication_failure">Your verification was not successful.</string>
 </resources>

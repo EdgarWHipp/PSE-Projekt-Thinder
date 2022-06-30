@@ -53,4 +53,7 @@
     <string name="add_images_from_galery">Bilder aus Galerie hinzufügen</string>
     <string name="choose_courses_of_study">Studiengänge wählen</string>
     <string name="search">Suchen</string>
+    <string name="verification_successful">Ihre Verifizierung war erfolgreich!</string>
+    <string name="token_error">Der E-Mail Token ist nicht mehr gültig. Ein neuer Token wurde Ihnen per Mail zugesendet.</string>
+    <string name="verfication_failure">Ihre Verifizierung ist fehlgeschlagen.</string>
 </resources>
