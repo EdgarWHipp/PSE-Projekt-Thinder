@@ -17,19 +17,23 @@ public class LoginViewModel extends ViewModel {
 
   //Ruft die Login Funktion im Repository auf und aktualisiert den Zustand der Anmeldung
   public void login() {
-    // use email.getValue() and password.getValue() to access the Strings of the LiveData object
-    // Result restult = loginRepository.login(email, password);
-    /**
-     * Todo: Implementiere Festlegung des loginResults, wenn Implementierung des Repositories bekannt ist
-     * Todo: muss im Falle eines Fehlers das errorMessage Attribut entsprechend anpassen
-     */
-    // For testing purposes display saved password and email as error
-    loginResult.setValue(new LoginResult(email.getValue() + " " + password.getValue(), false));
+    //Result restult;
+    //restult = loginRepository.login(email.getValue(), password.getValue());
+    //Todo: Implementiere Festlegung des loginResults, wenn Implementierung des Repositories bekannt ist
+    //if (!restult.getSuccess()) {//Todo ändern
+    //loginResult.setValue(new LoginResult(email.getValue() + " " + password.getValue() + "Succes",
+    //  false));
+    //} else if (!false) {
+    //loginResult.setValue(new LoginResult(email.getValue() + " " + password.getValue() + "Succes",
+    //  false));
+    //}
+    loginResult.setValue(new LoginResult("loginErrror", false));
   }
 
   public void loginDataChanged() {
     isDataValid.setValue(
-        email.getValue() != null && password.getValue() != null && !email.getValue().equals("") &&
+        email.getValue() != null && password.getValue() != null &&
+            !email.getValue().equals("") &&
             !password.getValue().equals(""));
   }
 
