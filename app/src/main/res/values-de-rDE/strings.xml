@@ -56,4 +56,6 @@
     <string name="verification_successful">Ihre Verifizierung war erfolgreich!</string>
     <string name="token_error">Der E-Mail Token ist nicht mehr gültig. Ein neuer Token wurde Ihnen per Mail zugesendet.</string>
     <string name="verfication_failure">Ihre Verifizierung ist fehlgeschlagen.</string>
+    <string name="last_step">Ein letzter Schritt fehlt noch</string>
+    <string name="look_at_mail">Es wurde eine E-Mail in Ihr Postfach gesendet. Das Anklicken dieses Links bestätigt Ihre Mail und beendet die Registrierung.</string>
 </resources>
