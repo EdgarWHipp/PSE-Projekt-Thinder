@@ -69,7 +69,7 @@ public class ApiCallUnitTest {
             .put("supervisor",supervisor)
             .put("studentRatings","null")
             .put("images","null")
-            .put("possibleDegrees","Computer Science Bachelor")
+            .put("possibleDegrees","Computer Science Bachelor");
     given()
             .port(8080)
             .body(supervisor.toString())
