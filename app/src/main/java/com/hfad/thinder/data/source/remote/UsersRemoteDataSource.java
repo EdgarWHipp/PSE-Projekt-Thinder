@@ -50,12 +50,12 @@ public class UsersRemoteDataSource {
 
             } else {
 
-                return new LoginTuple(new Result("login not successful",false),0);
+                return new LoginTuple(new Result("login not successful",false),"");
             }
         } catch (Exception e) {
 
 
-            return new LoginTuple(new Result("login not successful due to : "+e.toString(),false),0);
+            return new LoginTuple(new Result("login not successful due to : "+e.toString(),false),"");
         }
 
     }
@@ -64,7 +64,7 @@ public class UsersRemoteDataSource {
         try {
             Response<User> result = userService.postNewUser(user);
             if (result.isSuccessful()) {
-                return new Result(null,true);
+                return new Result(true);
 
             } else {
                 return new Result("registration not successful",false);
