@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.hfad.thinder.viewmodels.VerifyTokenViewModel" />
+
+        <import type="com.hfad.thinder.viewmodels.VerifyTokenStates" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            setVerifyTokenBackgroundColor="@{viewmodel.state}">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                setVerifyTokenBackgroundImage="@{viewmodel.state}"
+                android:layout_centerInParent="true"
+                android:goneUnless="@{(viewmodel.state == VerifyTokenStates.SUCCESSFUL || viewmodel.state == VerifyTokenStates.FAILURE)}">
+
+            </ImageView>
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:indeterminate="true"
+                android:goneUnless="@{viewmodel.state == VerifyTokenStates.LOADING}"
+                android:background="@android:color/transparent" />
+        </RelativeLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ui.VerifyTokenActivity"
+            android:padding="@dimen/fab_margin">
+
+            <TextView
+                android:id="@+id/tvSuccessMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                setVerifyTokenText="@{viewmodel.state}"
+                style="@style/headline_h5"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/tvErrorHasOccured"
+                android:text="@string/token_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/headline_h6"
+                android:gravity="center"
+                app:layout_constraintTop_toBottomOf="@id/tvSuccessMessage"
+                android:goneUnless="@{viewmodel.state == VerifyTokenStates.FAILURE}" />
+
+            <TextView
+                android:id="@+id/tvEnterToken"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Token"
+                app:layout_constraintBottom_toTopOf="@id/etEnterToken"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <EditText
+                android:id="@+id/etEnterToken"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/btVerifyToken"
+                android:hint="@string/insert_token"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <Button
+                android:id="@+id/btVerifyToken"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:text="@string/verify_token"
+                android:onClick="@{() -> viewmodel.VerifyToken()}"
+                android:enabled="@{(viewmodel.state == VerifyTokenStates.IDLE || viewmodel.state == VerifyTokenStates.FAILURE)}" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+
+</layout>
