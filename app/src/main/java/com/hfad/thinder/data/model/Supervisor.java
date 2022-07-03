@@ -11,7 +11,7 @@ public class Supervisor extends User{
     private String phoneNumber;
 
 
-    public Supervisor(String password, String eMail, int userId, String firstName,
+    public Supervisor(String password, String eMail, String userId, String firstName,
                       String lastName, String university, String academicDegree, String location, String institute, String phoneNumber) {
         super(password, eMail, userId, firstName, lastName, university);
         this.academicDegree = academicDegree;
