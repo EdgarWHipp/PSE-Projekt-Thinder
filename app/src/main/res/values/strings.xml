@@ -56,6 +56,9 @@
     <string name="token_error">The email token is no longer valid. A new token has been sent to you by mail.</string>
     <string name="verification_failure">Your verification was not successful.</string>
     <string name="last_step">One last step remaining</string>
-    <string name="look_at_mail">An email has been sent to your mailbox containing a link. Clicking this link will confirm your email end finish the registration.</string>
+    <string name="look_at_mail">An email has been sent to your mailbox. Enter the token it contains in the field below and press \"VERIFY TOKEN\" to complete the registration.</string>
     <string name="verification_ongoing">The given token is currently undertaking verification.</string>
+    <string name="verify_token">Verify token</string>
+    <string name="insert_token">Enter token</string>
+    <string name="Token">Token</string>
 </resources>

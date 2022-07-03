@@ -1,17 +1,14 @@
 package com.hfad.thinder.util;
 
-import android.annotation.SuppressLint;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.IdRes;
 import androidx.databinding.BindingAdapter;
 
 import com.hfad.thinder.R;
 
-import com.hfad.thinder.viewmodels.ConfirmPasswordStates;
+import com.hfad.thinder.viewmodels.VerifyTokenStates;
 
 public class BindingAdapters {
     /**
@@ -25,10 +22,13 @@ public class BindingAdapters {
         view.setVisibility((visible ? View.VISIBLE : View.GONE));
     }
 
-    @BindingAdapter("setConfirmPasswordBackgroundColor")
-    public static void setConfirmPasswordBackgroundColor(View view, ConfirmPasswordStates state) {
+    @BindingAdapter("setVerifyTokenBackgroundColor")
+    public static void setVerifyTokenBackgroundColor(View view, VerifyTokenStates state) {
         int color = R.color.grey_400;
         switch (state) {
+            case IDLE:
+                color = R.color.grey_400;
+                break;
             case LOADING:
                 color = R.color.grey_400;
                 break;
@@ -41,10 +41,12 @@ public class BindingAdapters {
         view.setBackgroundResource(color);
     }
 
-    @BindingAdapter("setConfirmPasswordBackgroundImage")
-    public static void setConfirmPasswordBackgroundImage(ImageView imageView, ConfirmPasswordStates state) {
+    @BindingAdapter("setVerifyTokenBackgroundImage")
+    public static void setVerifyTokenBackgroundImage(ImageView imageView, VerifyTokenStates state) {
         int image = R.drawable.ic_cancel;
         switch (state) {
+            case IDLE:
+                break;
             case LOADING:
                 break;
             case FAILURE:
@@ -56,10 +58,13 @@ public class BindingAdapters {
         imageView.setBackgroundResource(image);
     }
 
-    @BindingAdapter("setConfirmPasswordText")
-    public static void setConfirmPasswordText(TextView textView, ConfirmPasswordStates state) {
+    @BindingAdapter("setVerifyTokenText")
+    public static void setVerifyTokenText(TextView textView, VerifyTokenStates state) {
         int text = R.string.verification_failure;
         switch (state) {
+            case IDLE:
+                text = R.string.look_at_mail;
+                break;
             case LOADING:
                 text = R.string.verification_ongoing;
                 break;
