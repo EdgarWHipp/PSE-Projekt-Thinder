@@ -15,21 +15,13 @@ import java.util.Optional;
  * for the first local test run of the frontend.
  */
 public final class UserRepository {
-    private int currentId;
+    private String currentId;
     /**
      * Defines the Userrepository singleton instance.
      */
     @SuppressWarnings("checkstyle:StaticVariableName")
     private static UserRepository INSTANCE;
     private UsersRemoteDataSource dataSource;
-    /**
-     * Declares the global id counter for users.
-     */
-    private int userId = -1;
-    /**
-     * List of all registered users.
-     */
-    private List<User> users;
 
     private UserRepository() {
 
@@ -60,6 +52,15 @@ public final class UserRepository {
         return dataSource.login(password, eMail).getFirst();
 
     }
+    /*
+    public Result verifyToken(Token token){
+        if(token.isValid()){
+            return new Result(true);
+        }else {
+            return new Result()
+        }
+    }
+    */
 
 
     public Optional<User> getById(final int id) {

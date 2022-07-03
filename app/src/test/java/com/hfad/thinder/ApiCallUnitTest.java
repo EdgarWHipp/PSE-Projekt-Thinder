@@ -52,15 +52,36 @@ public class ApiCallUnitTest {
 
   }
   @Test
-  public void fixed_thesis_test() {
-    when().
-            get(localHost+"/api/thesisTest/{thesisId}", 1).
-            then(). statusCode(200).
-            body("thesis.id", equalTo("1")).
-            body("thesis.name", equalTo("Telematik Arbeit")).
-            body("thesis.body", equalTo("body of this sample thesis")).
-            body("thesis.form", equalTo(null)).
-            body("thesis.imageList", equalTo(null));
+  public void fixed_thesis_test() throws JSONException {
+    JSONObject supervisor = new JSONObject()
+            .put("academicDegree","Computer Science Bachelor")
+            .put("building","101.123")
+            .put("officeNumber","123")
+            .put("institute","Anthropomatik und Robotik")
+            .put("phoneNumber","12345678")
+            .put("theses","null");
+
+    JSONObject thesis = new JSONObject()
+            .put("id","123")
+            .put("name","exampleThesis")
+            .put("description","text")
+            .put("questionForm","text")
+            .put("supervisor",supervisor)
+            .put("studentRatings","null")
+            .put("images","null")
+            .put("possibleDegrees","Computer Science Bachelor");
+    given()
+            .port(8080)
+            .body(supervisor.toString())
+            .when()
+            .post(localHost+"users").
+            then(). statusCode(200);
+    given()
+            .port(8080)
+            .body(thesis.toString())
+            .when()
+            .post(localHost+"theses").
+            then(). statusCode(200);
 
   }
   @Test

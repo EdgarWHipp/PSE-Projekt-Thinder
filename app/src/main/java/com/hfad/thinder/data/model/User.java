@@ -10,12 +10,12 @@ public class User {
     private final String password;
     private final String eMail;
     @SerializedName("id")
-    private int userId;
+    private String userId;
     private String firstName;
     private String lastName;
     private String university;
 
-    public User(String password, String eMail, int userId, String firstName, String lastName, String university) {
+    public User(String password, String eMail, String userId, String firstName, String lastName, String university) {
         this.password = password;
         this.eMail = eMail;
         this.userId = userId;
@@ -41,7 +41,7 @@ public class User {
         return eMail;
     }
 
-    public int getId() {
+    public String getId() {
         return userId;
     }
 
