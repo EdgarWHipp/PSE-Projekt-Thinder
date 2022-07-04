@@ -6,10 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.hfad.thinder.R;
+import com.hfad.thinder.databinding.FragmentNewThesisBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,7 +30,9 @@ public class NewThesisFragment extends Fragment implements View.OnClickListener 
     private String mParam1;
     private String mParam2;
 
-    private Button goToStudyOfCoursesFragment;
+    private Button studyOfCoursesButton;
+    private Button imagePickerButton;
+    private FragmentNewThesisBinding binding;
 
     public NewThesisFragment() {
         // Required empty public constructor
@@ -63,16 +68,31 @@ public class NewThesisFragment extends Fragment implements View.OnClickListener 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_new_thesis, container, false);
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_new_thesis, container, false);
-        goToStudyOfCoursesFragment = (Button) view.findViewById(R.id.btPickDegrees);
-        goToStudyOfCoursesFragment.setOnClickListener(this);
+        View view = binding.getRoot();
+        studyOfCoursesButton = binding.btPickCoursesOfStudy;
+        studyOfCoursesButton.setOnClickListener(this);
+        imagePickerButton = binding.btAddImages;
+        imagePickerButton.setOnClickListener(this);
 
         return view;
     }
 
     @Override
     public void onClick(View view) {
-        Navigation.findNavController(view).navigate(R.id.action_newThesisFragment_to_coursesOfStudyFragment);
+        switch(view.getId()){
+            case R.id.btPickCoursesOfStudy:
+                Navigation.findNavController(view).navigate(R.id.action_newThesisFragment_to_coursesOfStudyFragment);
+                break;
+            case R.id.btAddImages:
+                ImagePicker.with(this)
+                        .crop(4f,3f)
+                        .compress(1024)
+                        .galleryOnly()
+                        .start();
+                break;
+        }
+
     }
 }
