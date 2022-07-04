@@ -84,7 +84,7 @@ public interface UsersApiService {
      *
      * @return List of Responses
      */
-    @GET("users/{userId}Theses/{thesisId}")
+    @GET("users/{userId}/Theses/{thesisId}")
     Response<Thesis> getUserThesis(@Path("userId") int userId,@Path("userId") int thesisId );
 
     /**
@@ -92,7 +92,7 @@ public interface UsersApiService {
      *
      * @return List of Responses
      */
-    @PUT("users/{Uuid}Theses/{thesisId}")
+    @PUT("users/{Uuid}/Theses/{thesisId}")
     Response<Thesis> changeUserThesis(@Path("Uuid") int userId,@Path("thesisId") int thesisId,@Body Thesis thesis);
 
     /**
