@@ -20,6 +20,19 @@ public class UsersRemoteDataSource {
 
     UsersApiService userService = retrofit.create(UsersApiService.class);
 
+    public boolean isVerify(String token,String userId){
+        try {
+            Response<Boolean> result = userService.isVerifyToken(token,userId);
+            if (result.isSuccessful()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            return false;
+        }
+    }
     public List<Thesis> getThesesFromUser(int userId) {
         try {
             Response<List<Thesis>> result = userService.getTheses(userId);

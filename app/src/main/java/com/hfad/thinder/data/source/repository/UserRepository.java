@@ -6,6 +6,8 @@ import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.viewmodels.LoginResult;
 import com.hfad.thinder.viewmodels.RegistrationResult;
 
+import org.json.JSONObject;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -52,15 +54,22 @@ public final class UserRepository {
         return dataSource.login(password, eMail).getFirst();
 
     }
-    /*
-    public Result verifyToken(Token token){
-        if(token.isValid()){
+
+    /**
+     * Used to verify the token, returns the necessary Result class.
+     * @param token
+     * @param userId
+     * @return The result class with error message null and success value true or, when the call is unsuccessful, a full error message and a success value of false.
+     */
+    public Result verifyToken(String token,String userId){
+
+        if(dataSource.isVerify(token,userId)){
             return new Result(true);
         }else {
-            return new Result()
+            return new Result("You entered the wrong token",false);
         }
     }
-    */
+
 
 
     public Optional<User> getById(final int id) {

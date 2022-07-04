@@ -19,7 +19,13 @@ public interface UsersApiService {
 
     // api/Users HTTP requests
 
-
+    /**
+     * Posts the received token from the user that they received over an email and checks if it is correct (inside the backend).
+     * @param token
+     * @return true if the token is correct for the specific user id, else it returns false
+     */
+    @POST("/users/confirmRegristration/{Uuid}")
+    Response<Boolean> isVerifyToken(@Body String token,@Path("Uuid") String userId);
     /**
      * Creates a new registrated user to the backend.
      *
