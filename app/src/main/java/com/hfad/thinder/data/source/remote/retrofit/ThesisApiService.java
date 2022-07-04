@@ -19,13 +19,13 @@ public interface ThesisApiService {
     /**
      * Gets all theses that the supervisors have uploaded.
     */
-    @GET("/api/Theses")
+    @GET("theses")
     Response<List<Thesis>> getAllTheses();
     /**
      * Adds a new thesis to the list of all available ones
      */
 
-    @POST("/api/Theses")
+    @POST("theses")
     Response<Thesis> postNewThesis(@Body Thesis thesis);
 
     /**
@@ -33,7 +33,7 @@ public interface ThesisApiService {
      *
      * @return Response
      */
-    @GET("/api/Theses/{Uuid}")
+    @GET("theses/{Uuid}")
     Response<Thesis> getThesis(@Path("id") int thesisId);
 
     /**
@@ -41,7 +41,7 @@ public interface ThesisApiService {
      *
      * @return Response
      */
-    @PUT("/api/Theses/{Uuid}")
+    @PUT("theses/{Uuid}")
     Response<Thesis> putNewThesis(@Path("id") int thesisId);
 
     /**
@@ -49,7 +49,7 @@ public interface ThesisApiService {
      *
      * @return Response
      */
-    @DELETE("/api/Theses/{Uuid}")
+    @DELETE("theses/{Uuid}")
     Response<Thesis> deleteThesis(@Path("id") int thesisId);
 
 

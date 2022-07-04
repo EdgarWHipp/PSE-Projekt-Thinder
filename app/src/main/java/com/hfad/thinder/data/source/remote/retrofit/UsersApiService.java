@@ -24,8 +24,8 @@ public interface UsersApiService {
      * @param token
      * @return true if the token is correct for the specific user id, else it returns false
      */
-    @POST("/users/confirmRegristration/{Uuid}")
-    Response<Boolean> isVerifyToken(@Body String token,@Path("Uuid") String userId);
+    @POST("users/verify")
+    Response<Boolean> isVerifyToken(@Body String token);
     /**
      * Creates a new registrated user to the backend.
      *
@@ -33,7 +33,7 @@ public interface UsersApiService {
      * @return List of Responses
      */
 
-    @POST("/api/Users")
+    @POST("users")
     Response<User> postNewUser(@Body User user);
 
     /**
@@ -41,7 +41,7 @@ public interface UsersApiService {
      * Used as login function -  also requests the user id.
      * @return List of Responses
      */
-    @GET("/api/Users")
+    @GET("users")
     Response<User> login(@Body Login login);
 
     /**
@@ -49,7 +49,7 @@ public interface UsersApiService {
      *
      * @return List of Responses
      */
-    @GET("/api/Users/{Uuid}/Theses")
+    @GET("users/{Uuid}/Theses")
     Response<List<Thesis>> getTheses(@Path("id") int userId);
 
     /**
@@ -58,7 +58,7 @@ public interface UsersApiService {
      *
      * @return List of Responses
      */
-    @GET("api/Users/{Uuid}")
+    @GET("users/{Uuid}")
     Response<User> getUser(@Path("id") int userId);
 
     /**
@@ -66,7 +66,7 @@ public interface UsersApiService {
      *
      * @return List of Responses
      */
-    @PUT("api/Users/{Uuid}")
+    @PUT("users/{Uuid}")
     Response<User> changeUser(@Path("id") int userId, @Body User user);
 
     /**
@@ -74,19 +74,17 @@ public interface UsersApiService {
      *
      * @return List of Responses
      */
-    @DELETE("api/Users/{Uuid}")
+    @DELETE("users/{Uuid}")
     Response<User> deleteUser(@Path("id") int userId);
 
-    //Was macht das hier eigentlich ? TO-DO
-    @POST("api/Users/{Uuid}/Verify")
-    Response<Boolean> isVerified();
+
 
     /**
      * This function returns a specified thesis inside the users already liked theses
      *
      * @return List of Responses
      */
-    @GET("api/Users/{userId}Theses/{thesisId}")
+    @GET("users/{userId}Theses/{thesisId}")
     Response<Thesis> getUserThesis(@Path("userId") int userId,@Path("userId") int thesisId );
 
     /**
@@ -94,7 +92,7 @@ public interface UsersApiService {
      *
      * @return List of Responses
      */
-    @PUT("api/Users/{Uuid}Theses/{thesisId}")
+    @PUT("users/{Uuid}Theses/{thesisId}")
     Response<Thesis> changeUserThesis(@Path("Uuid") int userId,@Path("thesisId") int thesisId,@Body Thesis thesis);
 
     /**
@@ -102,7 +100,7 @@ public interface UsersApiService {
      *
      * @return List of Responses
      */
-    @DELETE("api/Users/{userId}/Theses/{thesisId}")
+    @DELETE("users/{userId}/Theses/{thesisId}")
     Response<Thesis> deleteUserThesis(@Path("userId") int userId,@Path("userId") int thesisId );
 
 }

@@ -58,12 +58,11 @@ public final class UserRepository {
     /**
      * Used to verify the token, returns the necessary Result class.
      * @param token
-     * @param userId
      * @return The result class with error message null and success value true or, when the call is unsuccessful, a full error message and a success value of false.
      */
-    public Result verifyToken(String token,String userId){
+    public Result verifyToken(String token){
 
-        if(dataSource.isVerify(token,userId)){
+        if(dataSource.isVerify(token)){
             return new Result(true);
         }else {
             return new Result("You entered the wrong token",false);

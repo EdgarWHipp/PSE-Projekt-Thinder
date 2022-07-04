@@ -15,14 +15,14 @@ import retrofit2.Retrofit;
 public class UsersRemoteDataSource {
 
     Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://thinder-api.herokuapp.com")
+            .baseUrl("https://thinder-api.herokuapp.com/")
             .build();
 
     UsersApiService userService = retrofit.create(UsersApiService.class);
 
-    public boolean isVerify(String token,String userId){
+    public boolean isVerify(String token){
         try {
-            Response<Boolean> result = userService.isVerifyToken(token,userId);
+            Response<Boolean> result = userService.isVerifyToken(token);
             if (result.isSuccessful()) {
                 return true;
             } else {
