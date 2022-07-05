@@ -10,8 +10,6 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        // Needed for image picker
-        maven { url "https://jitpack.io" }
     }
 }
 rootProject.name = "Thinder"

@@ -61,7 +61,5 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
-    // Image picker used for selecting thesis images from gallery
-    implementation 'com.github.dhaval2404:imagepicker:2.1'
 
 }

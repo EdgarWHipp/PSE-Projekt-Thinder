@@ -203,7 +203,7 @@
                         style="@style/button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/add_images_from_galery"
+                        android:text="@string/add_images_from_gallery"
                         android:drawableEnd="@drawable/ic_image_search"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"

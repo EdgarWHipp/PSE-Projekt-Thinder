@@ -1,16 +1,29 @@
 package com.hfad.thinder.ui;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.ClipData;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentNewThesisBinding;
 
@@ -32,7 +45,11 @@ public class NewThesisFragment extends Fragment implements View.OnClickListener 
 
     private Button studyOfCoursesButton;
     private Button imagePickerButton;
+
+    private String imagePath;
+
     private FragmentNewThesisBinding binding;
+
 
     public NewThesisFragment() {
         // Required empty public constructor
@@ -86,13 +103,70 @@ public class NewThesisFragment extends Fragment implements View.OnClickListener 
                 Navigation.findNavController(view).navigate(R.id.action_newThesisFragment_to_coursesOfStudyFragment);
                 break;
             case R.id.btAddImages:
-                ImagePicker.with(this)
-                        .crop(4f,3f)
-                        .compress(1024)
-                        .galleryOnly()
-                        .start();
+                if(ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(getActivity(), "test", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    intent.setType("image/*");
+                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(intent, 10);
+                } else {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                }
+
                 break;
         }
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data == null)
+            return;
+        Context context = getActivity();
+        imagePath = "";
+
+        if(requestCode == 10 && resultCode == Activity.RESULT_OK){
+            if(data.getData() != null){
+                Uri uri = data.getData();
+                imagePath = getFileName(uri);
+                binding.tvImagesFromGallery.setText(imagePath);
+            } else if(data.getClipData() != null){
+                ClipData mClipData = data.getClipData();
+                String paths = "";
+                for(int i = 0; i < mClipData.getItemCount(); ++i){
+                    ClipData.Item item = mClipData.getItemAt(i);
+                    Uri uri = item.getUri();
+                    imagePath += (getFileName(uri) + " ");
+                }
+                binding.tvImagesFromGallery.setText(imagePath);
+            }
+
+
+        }
+    }
+
+    @SuppressLint("Range")
+    private String getFileName(Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            Cursor cursor = getActivity().getContentResolver().query(uri, null, null, null, null);
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        if (result == null) {
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut != -1) {
+                result = result.substring(cut + 1);
+            }
+        }
+        return result;
     }
 }

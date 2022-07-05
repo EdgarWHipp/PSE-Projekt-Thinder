@@ -50,7 +50,7 @@
     <string name="supervising_professor">Betreuender Professor</string>
     <string name="insert_supervising_professor">Betreuenden Professor eingeben</string>
     <string name="add_courses_of_study">Studiengänge hinzufügen</string>
-    <string name="add_images_from_galery">Bilder aus Galerie hinzufügen</string>
+    <string name="add_images_from_gallery">Bilder aus Galerie hinzufügen</string>
     <string name="choose_courses_of_study">Studiengänge wählen</string>
     <string name="search">Suchen</string>
     <string name="verification_successful">Ihre Verifizierung war erfolgreich!</string>
