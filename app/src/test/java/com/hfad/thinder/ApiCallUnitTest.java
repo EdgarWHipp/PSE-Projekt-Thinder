@@ -20,7 +20,7 @@ import io.restassured.specification.RequestSpecification;
 public class ApiCallUnitTest {
   private String localHost="http://localhost:8080/";
   @Test
-  public void post_a_user() {
+  public void post_a_student() {
     given().params("password","example@gmail.com",1,"max","mustermann","KIT").
             when().
             post(localHost+"/api/Users").
@@ -32,27 +32,14 @@ public class ApiCallUnitTest {
             body("user.university", equalTo("KIT")).
             body("user.password", equalTo("password"));
   }
+
   @Test
-  public void check_hello() {
-    String bodyAsString = RestAssured.get(localHost+"/hello").body().asString();
-    Assert.assertEquals(bodyAsString.contains("Hello, Gandalf"),true);
+  public void registrate_a_user_complete() {
+    
 
   }
   @Test
-  public void post_a_thesis() {
-    given().params("1","Telematik Arbeit","body of this sample thesis",null,null).
-            when().
-            post("/api/Theses").
-            then().
-            body("thesis.id", equalTo("1")).
-            body("thesis.name", equalTo("Telematik Arbeit")).
-            body("thesis.body", equalTo("body of this sample thesis")).
-            body("thesis.form", equalTo(null)).
-            body("thesis.imageList", equalTo(null));
-
-  }
-  @Test
-  public void fixed_thesis_test() throws JSONException {
+  public void post_a_thesis_and_the_necessary_supervisor() throws JSONException {
     JSONObject supervisor = new JSONObject()
             .put("academicDegree","Computer Science Bachelor")
             .put("building","101.123")

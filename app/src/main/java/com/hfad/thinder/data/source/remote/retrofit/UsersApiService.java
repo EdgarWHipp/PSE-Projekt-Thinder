@@ -1,5 +1,7 @@
 package com.hfad.thinder.data.source.remote.retrofit;
 
+import com.hfad.thinder.data.model.Student;
+import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.remote.Login;
@@ -66,8 +68,11 @@ public interface UsersApiService {
      *
      * @return List of Responses
      */
-    @PUT("users/{Uuid}")
-    Response<User> changeUser(@Path("id") int userId, @Body User user);
+    @PUT("students/{Uuid}")
+    Response<Student> changeStudent(@Path("id") int studentId, @Body Student student);
+
+    @PUT("supervisor/{Uuid}")
+    Response<Supervisor> changeStudent(@Path("id") int supervisorId, @Body Supervisor supervisor);
 
     /**
      * Deletes a specific user

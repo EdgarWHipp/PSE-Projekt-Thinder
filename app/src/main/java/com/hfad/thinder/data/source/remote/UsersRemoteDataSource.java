@@ -1,5 +1,7 @@
 package com.hfad.thinder.data.source.remote;
 
+import com.hfad.thinder.data.model.Student;
+import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.remote.retrofit.UsersApiService;
@@ -121,9 +123,24 @@ public class UsersRemoteDataSource {
         return Optional.ofNullable(null);
     }
 
-    public boolean updateUser(final int id, final User user) {
+    public boolean updateStudent(final int id, final Student student) {
         try {
-            Response<User> result = userService.changeUser(id, user);
+            Response<Student> result = userService.changeStudent(id, student);
+            if (result.isSuccessful() && result.body() != null) {
+
+                return true;
+
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            // TO DO - bad practise!, dont return false return some error
+            return false;
+        }
+        return false;
+    }
+    public boolean updateSupervisor(final int id, final Supervisor supervisor) {
+        try {
+            Response<Supervisor> result = userService.changeStudent(id, supervisor);
             if (result.isSuccessful() && result.body() != null) {
 
                 return true;
