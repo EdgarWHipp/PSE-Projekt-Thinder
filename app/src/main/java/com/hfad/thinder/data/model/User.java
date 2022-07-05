@@ -15,21 +15,21 @@ public class User {
     private String lastName;
     private String university;
 
-    public User(String password, String eMail, String userId, String firstName, String lastName, String university) {
+    public User(String password, String eMail, String userId, String firstName, String lastName) {
         this.password = password;
         this.eMail = eMail;
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.university = university;
+
     }
-    public User(String password, String eMail, String firstName, String lastName, String university) {
+    public User(String password, String eMail, String firstName, String lastName) {
         this.password = password;
         this.eMail = eMail;
 
         this.firstName = firstName;
         this.lastName = lastName;
-        this.university = university;
+
     }
 
 

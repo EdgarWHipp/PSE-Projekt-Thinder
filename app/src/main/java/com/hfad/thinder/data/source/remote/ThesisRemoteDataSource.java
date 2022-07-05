@@ -8,9 +8,11 @@ import java.util.Optional;
 
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ThesisRemoteDataSource {
     Retrofit retrofit = new Retrofit.Builder()
+             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl("https://thinder-api.herokuapp.com")
             .build();
 

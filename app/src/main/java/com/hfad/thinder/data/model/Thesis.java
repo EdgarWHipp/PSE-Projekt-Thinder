@@ -45,6 +45,16 @@ public class Thesis {
         this.images = images;
     }
 
+    public Thesis(String name, String body, Form form, Set<Image> images, Supervisor supervisor, Set<ThesisRating> studentRatings, Set<Degree> possibleDegrees) {
+        this.name = name;
+        this.body = body;
+        this.form = form;
+        this.images = images;
+        this.supervisor = supervisor;
+        this.studentRatings = studentRatings;
+        this.possibleDegrees = possibleDegrees;
+    }
+
     public int getThesisId() {
         return thesisId;
     }
