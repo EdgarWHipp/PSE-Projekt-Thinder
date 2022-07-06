@@ -26,7 +26,7 @@ public final class UserRepository {
     private static UserRepository INSTANCE;
     private UsersRemoteDataSource dataSource= new UsersRemoteDataSource();
 
-    private UserRepository() {
+    public UserRepository() {
 
     }
 

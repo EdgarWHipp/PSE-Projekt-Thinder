@@ -8,6 +8,7 @@ import static io.restassured.filter.log.RequestLoggingFilter.with;
 import com.google.gson.JsonObject;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
+import com.hfad.thinder.data.source.result.Result;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -91,9 +92,11 @@ public class ApiCallUnitTest {
   // works as of 05.07
   @Test
   public void test_post_a_uni_and_one_user() throws JSONException {
-    ThesisRepository.getInstance().addThesis("exampleThesis","blabla",null,null,null,null);
-    UserRepository.getInstance().registrate("max","mustermann","testpassword","max@student.kit.edu");
-/*
+    //ThesisRepository.getInstance().addThesis("exampleThesis","blabla",null,null,null,null);
+    UserRepository userRepository =new UserRepository();
+    Result result =userRepository.registrate("max","mustermann","testpassword","max@student.kit.edu");
+  System.out.print(result.getErrorMessage() +result.getSuccess());
+    /*
     JSONObject universityJson =new JSONObject()
             .put("name","KIT")
             .put("members",null)

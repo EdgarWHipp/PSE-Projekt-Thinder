@@ -13,7 +13,7 @@ public class Supervisor extends User{
 
     public Supervisor(String password, String eMail, String userId, String firstName,
                       String lastName, String university, String academicDegree, String location, String institute, String phoneNumber) {
-        super(password, eMail, userId, firstName, lastName);
+        super(password, eMail, firstName, lastName);
         this.academicDegree = academicDegree;
         this.location = location;
         this.institute = institute;
