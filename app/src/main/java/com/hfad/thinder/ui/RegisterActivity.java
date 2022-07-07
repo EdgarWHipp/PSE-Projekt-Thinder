@@ -8,9 +8,11 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 
 import com.hfad.thinder.R;
@@ -87,6 +89,16 @@ public class RegisterActivity extends AppCompatActivity {
             }
         };
 
+        final Observer<Boolean> registrationSuccessfulObserver = new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable final Boolean registrationSuccessful){
+                if(registrationSuccessful){
+                    goToVerifyTokenActivity();
+                }
+            }
+        };
+
+        viewmodel.getRegistrationSuccessful().observe(this, registrationSuccessfulObserver);
 
         mBinding.etLoginEMail.addTextChangedListener(afterTextChangedListener);
         mBinding.etfirstname.addTextChangedListener(afterTextChangedListener);
@@ -95,5 +107,10 @@ public class RegisterActivity extends AppCompatActivity {
         mBinding.etconfirmpassword.addTextChangedListener(afterTextChangedListener);
 
 
+    }
+
+    private void goToVerifyTokenActivity() {
+        Intent intent = new Intent(this, VerifyTokenActivity.class);
+        startActivity(intent);
     }
 }

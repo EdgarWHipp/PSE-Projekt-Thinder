@@ -26,10 +26,16 @@ public class RegistrationViewModel extends ViewModel {
   private MutableLiveData<String> password;
   private MutableLiveData<String> passwordConfirmation;
 
+  private MutableLiveData<Boolean> registrationSuccessful;
+
 
   // This function is called when the user presses the register button
   public void register() {
     registrationResult.setValue(new RegistrationResult("Registration Error", false));
+    // Code here should only be executed if registration data is valid
+
+    // This should only be changed to true if registration was successful 
+    registrationSuccessful.setValue(true);
   }
 
   //Ändert den Zustand der Validität der Email und des Passworts
@@ -61,6 +67,14 @@ public class RegistrationViewModel extends ViewModel {
       selectedItemPosition = new MutableLiveData<Integer>();
     }
     return selectedItemPosition;
+  }
+
+  public MutableLiveData<Boolean> getRegistrationSuccessful(){
+    if(registrationSuccessful == null) {
+      registrationSuccessful = new MutableLiveData<Boolean>();
+      registrationSuccessful.setValue(false);
+    }
+    return registrationSuccessful;
   }
 
   public void setSelectedItemPosition(MutableLiveData<Integer> selectedItemPosition) {
@@ -120,6 +134,10 @@ public class RegistrationViewModel extends ViewModel {
 
   public void setPasswordConfirmation(MutableLiveData<String> passwordConfirmation) {
     this.passwordConfirmation = passwordConfirmation;
+  }
+
+  public void setRegistrationSuccessful(MutableLiveData<Boolean> registrationSuccessful){
+    this.registrationSuccessful = registrationSuccessful;
   }
 
   public MutableLiveData<ArrayList<String>> getUniversities() {
