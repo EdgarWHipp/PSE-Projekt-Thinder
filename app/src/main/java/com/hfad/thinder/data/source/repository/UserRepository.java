@@ -1,5 +1,6 @@
 package com.hfad.thinder.data.source.repository;
 
+import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.remote.UsersRemoteDataSource;
 import com.hfad.thinder.data.source.result.Result;
@@ -23,9 +24,9 @@ public final class UserRepository {
      */
     @SuppressWarnings("checkstyle:StaticVariableName")
     private static UserRepository INSTANCE;
-    private UsersRemoteDataSource dataSource;
+    private UsersRemoteDataSource dataSource= new UsersRemoteDataSource();
 
-    private UserRepository() {
+    public UserRepository() {
 
     }
 
@@ -82,8 +83,8 @@ public final class UserRepository {
      * @return true if the call succeeds and false otherwise.
      */
 
-    public Result registrate(String firstName, String secondName, String university, String password, String eMail) {
-        return dataSource.createNewUser(new User(password,eMail,firstName,secondName,university));
+    public Result registrate(String firstName, String secondName, String password, String eMail) {
+        return dataSource.createNewUser(new User(password,eMail,firstName,secondName));
     }
 
     /**

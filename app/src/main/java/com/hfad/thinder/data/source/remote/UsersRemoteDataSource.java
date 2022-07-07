@@ -4,6 +4,7 @@ import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.User;
+import com.hfad.thinder.data.response.UserResponse;
 import com.hfad.thinder.data.source.remote.retrofit.UsersApiService;
 import com.hfad.thinder.data.source.repository.LoginTuple;
 import com.hfad.thinder.data.source.result.Result;
@@ -11,16 +12,22 @@ import com.hfad.thinder.data.source.result.Result;
 import java.util.List;
 import java.util.Optional;
 
+import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UsersRemoteDataSource {
 
     Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://thinder-api.herokuapp.com/")
+            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl("http://localhost:8080/")
             .build();
 
     UsersApiService userService = retrofit.create(UsersApiService.class);
+
 
     public boolean isVerify(String token){
         try {
@@ -35,7 +42,7 @@ public class UsersRemoteDataSource {
             return false;
         }
     }
-    public List<Thesis> getThesesFromUser(int userId) {
+    private List<Thesis> getThesesFromUser(int userId) {
         try {
             Response<List<Thesis>> result = userService.getTheses(userId);
             if (result.isSuccessful()) {
@@ -61,7 +68,7 @@ public class UsersRemoteDataSource {
             if (result.isSuccessful()) {
                 User returnVal = result.body();
 
-                return new LoginTuple(new Result(null,true),returnVal.getId());
+                return new LoginTuple(new Result(null,true),null);
 
             } else {
 
@@ -77,7 +84,8 @@ public class UsersRemoteDataSource {
 
     public Result createNewUser(User user) {
         try {
-            Response<User> result = userService.postNewUser(user);
+
+            Call<UserResponse> result = userService.postNewUser(user);
             if (result.isSuccessful()) {
                 return new Result(true);
 

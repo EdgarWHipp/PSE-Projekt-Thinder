@@ -37,12 +37,15 @@ public class Thesis {
     private Set<Degree> possibleDegrees;
 
 
-    public Thesis(int thesisId, String name, String body, Form form, Set<Image> images) {
-        this.thesisId = thesisId;
+
+    public Thesis(String name, String body, Form form, Set<Image> images, Supervisor supervisor, Set<ThesisRating> studentRatings, Set<Degree> possibleDegrees) {
         this.name = name;
         this.body = body;
         this.form = form;
         this.images = images;
+        this.supervisor = supervisor;
+        this.studentRatings = studentRatings;
+        this.possibleDegrees = possibleDegrees;
     }
 
     public int getThesisId() {

@@ -1,6 +1,7 @@
 package com.hfad.thinder.data.source.remote;
 
 import com.hfad.thinder.data.model.Thesis;
+import com.hfad.thinder.data.model.University;
 import com.hfad.thinder.data.source.remote.retrofit.UniversityApiService;
 import com.hfad.thinder.data.source.remote.retrofit.UsersApiService;
 
@@ -9,9 +10,13 @@ import java.util.Optional;
 
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UniversityRemoteDataSource {
   Retrofit retrofit = new Retrofit.Builder()
+          .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+          .addConverterFactory(GsonConverterFactory.create())
           .baseUrl("https://thinder-api.herokuapp.com")
           .build();
 
@@ -31,5 +36,9 @@ public class UniversityRemoteDataSource {
       return Optional.ofNullable(null);
     }
     return Optional.ofNullable(null);
+  }
+  public boolean createUniversity(University university){
+      return false;
+
   }
 }

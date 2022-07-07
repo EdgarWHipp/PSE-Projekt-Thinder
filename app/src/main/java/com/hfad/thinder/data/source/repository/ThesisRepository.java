@@ -1,10 +1,16 @@
 package com.hfad.thinder.data.source.repository;
 
+import android.media.Image;
+
+import com.hfad.thinder.data.model.Degree;
+import com.hfad.thinder.data.model.Form;
+import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.remote.ThesisRemoteDataSource;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Singleton instance of a ThesisRepository.
@@ -12,7 +18,7 @@ import java.util.Optional;
  */
 public final class ThesisRepository {
     private static ThesisRepository INSTANCE;
-    private ThesisRemoteDataSource thesisRemoteDataSource;
+    private ThesisRemoteDataSource thesisRemoteDataSource =new ThesisRemoteDataSource();
 
     private ThesisRepository() {
 
@@ -37,9 +43,9 @@ public final class ThesisRepository {
         return thesisRemoteDataSource.getThesis(id);
     }
 
-
-    public boolean save(final Thesis thesis) {
-        return thesisRemoteDataSource.createNewThesis(thesis);
+//Supervisor entfernen? bzw nur variablen annehmen?
+    public boolean addThesis(String name, String body, Form form, Supervisor supervisor, Set<Degree> degrees , Set<Image> images) {
+        return thesisRemoteDataSource.createNewThesis(new Thesis(name,body,form,images,supervisor,null,degrees));
     }
 
 

@@ -6,6 +6,9 @@ import static io.restassured.RestAssured.when;
 import static io.restassured.filter.log.RequestLoggingFilter.with;
 
 import com.google.gson.JsonObject;
+import com.hfad.thinder.data.source.repository.ThesisRepository;
+import com.hfad.thinder.data.source.repository.UserRepository;
+import com.hfad.thinder.data.source.result.Result;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,8 +38,17 @@ public class ApiCallUnitTest {
 
   @Test
   public void registrate_a_user_complete() {
-    
+    JSONObject user = new JSONObject();
 
+
+
+
+    given().header("Content-type", "application/json")
+            .port(8080)
+            .body(user.toString())
+            .when()
+            .post(localHost+"users/verify").
+            then(). statusCode(200);
   }
   @Test
   public void post_a_thesis_and_the_necessary_supervisor() throws JSONException {
@@ -57,13 +69,13 @@ public class ApiCallUnitTest {
             .put("studentRatings","null")
             .put("images","null")
             .put("possibleDegrees","Computer Science Bachelor");
-    given()
+    given().header("Content-type", "application/json")
             .port(8080)
             .body(supervisor.toString())
             .when()
             .post(localHost+"users").
             then(). statusCode(200);
-    given()
+    given().header("Content-type", "application/json")
             .port(8080)
             .body(thesis.toString())
             .when()
@@ -77,36 +89,42 @@ public class ApiCallUnitTest {
     Assert.assertEquals(bodyAsString.contains("Hello world!"),true);
 
   }
+  // works as of 05.07
   @Test
   public void test_post_a_uni_and_one_user() throws JSONException {
+    //ThesisRepository.getInstance().addThesis("exampleThesis","blabla",null,null,null,null);
+    UserRepository userRepository =new UserRepository();
+    Result result =userRepository.registrate("max","mustermann","testpassword","max@student.kit.edu");
+  System.out.print(result.getErrorMessage() +result.getSuccess());
+    /*
     JSONObject universityJson =new JSONObject()
             .put("name","KIT")
-            .put("members","null")
-            .put("studentMailRegex",".@student.kit.edu")
-            .put("supervisorMailRegex",".@kit.edu");
+            .put("members",null)
+            .put("studentMailRegex",".*@student.kit.edu")
+            .put("supervisorMailRegex",".*@kit.edu");
 
     JSONObject userJson = new JSONObject()
             .put("firstName","max")
             .put("lastName","mustermann")
-            .put("password","testpw")
+            .put("password","testpassword")
             .put("mail","max@student.kit.edu");
-    given()
+    System.out.println(universityJson.toString());
+    given().header("Content-type", "application/json")
             .port(8080) // port number
             .body(universityJson.toString())   // use jsonObj toString method
             .when()
             .post("/university")
             .then()
             .statusCode(200);
-    given()
+
+    given().header("Content-type", "application/json")
             .port(8080)
             .body(userJson.toString())
             .when()
             .post("/users")
             .then()
             .statusCode(200);
-
-
-
+*/
   }
 
 }

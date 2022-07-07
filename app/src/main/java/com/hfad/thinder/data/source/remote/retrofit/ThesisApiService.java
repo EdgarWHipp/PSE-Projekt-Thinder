@@ -8,6 +8,7 @@ import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -24,7 +25,7 @@ public interface ThesisApiService {
     /**
      * Adds a new thesis to the list of all available ones
      */
-
+    @Headers("Accept: application/json")
     @POST("theses")
     Response<Thesis> postNewThesis(@Body Thesis thesis);
 
