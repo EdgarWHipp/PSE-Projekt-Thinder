@@ -2,7 +2,6 @@ package com.hfad.thinder.data.source.remote;
 
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.University;
-import com.hfad.thinder.data.response.PostResponse;
 import com.hfad.thinder.data.source.remote.retrofit.UniversityApiService;
 import com.hfad.thinder.data.source.remote.retrofit.UsersApiService;
 import com.hfad.thinder.data.source.result.Result;

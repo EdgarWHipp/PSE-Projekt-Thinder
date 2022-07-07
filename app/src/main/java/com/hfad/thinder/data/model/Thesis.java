@@ -12,15 +12,27 @@ import java.util.Set;
 public class Thesis {
     @SerializedName("id")
     private int thesisId;
-
+    @SerializedName("name")
     private String name;
-    @SerializedName("description")
+    @SerializedName("body")
     private String body;
-
+    @SerializedName("form")
+    private Form form;
+    @SerializedName("images")
+    @Nullable
+    private Set<Image> images;
+    @SerializedName("supervisor")
+    private Supervisor supervisor;
+    @SerializedName("studentRatings")
+    @Nullable
+    private Set<ThesisRating> studentRatings;
+    @SerializedName("possibleDegrees")
+    private Set<Degree> possibleDegrees;
     public Supervisor getSupervisor() {
         return supervisor;
     }
-    @Nullable
+
+
     public Set<ThesisRating> getStudentRatings() {
         return studentRatings;
     }
@@ -29,12 +41,7 @@ public class Thesis {
         return possibleDegrees;
     }
 
-    @SerializedName("questionForm")
-    private Form form;
-    private Set<Image> images;
-    private Supervisor supervisor;
-    private Set<ThesisRating> studentRatings;
-    private Set<Degree> possibleDegrees;
+
 
 
 

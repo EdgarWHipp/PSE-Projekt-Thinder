@@ -1,11 +1,13 @@
 package com.hfad.thinder.data.source.remote;
 
+import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.remote.retrofit.UsersApiService;
 import com.hfad.thinder.data.source.repository.LoginTuple;
+import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 
 import org.json.JSONException;
@@ -13,6 +15,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -30,23 +33,49 @@ public class UsersRemoteDataSource {
     String url = "http://localhost:8080";
 
 
-    public Result extendUserToStudent(){
-        return null;
-    }
-    public Result extendUserToSupervisor(String degree,String location, String institute,String phoneNumber){
-        try {
-            JSONObject supervisorInfo = new JSONObject()
-                    .put("academic",degree)
-                    .put("location",location)
-                    .put("institute",institute)
-                    .put("phoneNumber",phoneNumber);
+    public Result extendUserToStudent(Set<Degree> degrees){
 
-            RequestBody body=RequestBody.create(supervisorInfo.toString(),JSON);
+        try {
+            JSONObject studentJson = new JSONObject()
+                    .put("degrees",degrees)
+                    .put("thesesRatings",null);
+
+
+            RequestBody body=RequestBody.create(studentJson.toString(),JSON);
 
 
             Request request= new Request.Builder()
-                    .url(url+"/users/")
-                    .post(body)
+                    .url(url+"/student/"+ UserRepository.getInstance().getCurrentUUID())
+                    .put(body)
+                    .build();
+
+            Call call = client.newCall(request);
+            okhttp3.Response response = call.execute();
+            if (response.isSuccessful()){
+                return new Result(true);
+            }else{
+                return new Result("did not receive Statuscode 200",false);
+            }
+
+        } catch (Exception e) {
+            return new Result(e.toString(),false);
+        }
+    }
+    public Result extendUserToSupervisor(String degree,String location, String institute,String phoneNumber){
+        try {
+            JSONObject supervisorJson = new JSONObject()
+                    .put("academicDegree",degree)
+                    .put("location",location)
+                    .put("institute",institute)
+                    .put("phoneNumber",phoneNumber)
+                    .put("theses",null);
+
+            RequestBody body=RequestBody.create(supervisorJson.toString(),JSON);
+
+
+            Request request= new Request.Builder()
+                    .url(url+"/supervisor/"+ UserRepository.getInstance().getCurrentUUID())
+                    .put(body)
                     .build();
 
             Call call = client.newCall(request);
@@ -93,9 +122,9 @@ public class UsersRemoteDataSource {
 
 
     }
-/*
+
     public LoginTuple login(String password, String eMail) {
-        return new LoginTuple(new Result("login not successful",false),"");
+
 
         try {
             JSONObject loginJson = new JSONObject()
@@ -104,22 +133,24 @@ public class UsersRemoteDataSource {
             RequestBody body=RequestBody.create(loginJson.toString(),JSON);
             Request request= new Request.Builder()
                     .url(url+"/users/")
-                    .get(body)
+                    .get()
                     .build();
 
             Call call = client.newCall(request);
             okhttp3.Response response = call.execute();
+
             if (response.isSuccessful()){
-                return new LoginTuple(new Result(true),response.;
+                //parse response to get id!
+                return new LoginTuple(new Result(true),null);
             }else{
-                return new Result("did not receive Statuscode 200",false);
+                return new LoginTuple( new Result("did not receive Statuscode 200",false),null);
             }
         } catch (Exception e) {
             return new LoginTuple(new Result("login not successful due to : "+e.toString(),false),null);
         }
 
     }
-    */
+
 
 
     public Result createNewUser(User user) throws JSONException {
@@ -140,7 +171,10 @@ public class UsersRemoteDataSource {
 
             Call call = client.newCall(request);
             okhttp3.Response response = call.execute();
+            System.out.println(response.body().string());
             if (response.isSuccessful()){
+
+                UserRepository.getInstance().setCurrentUUID(null);
                 return new Result(true);
             }else{
                 return new Result("did not receive Statuscode 200",false);

@@ -7,6 +7,7 @@ import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.remote.ThesisRemoteDataSource;
+import com.hfad.thinder.data.source.result.Result;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,7 +45,7 @@ public final class ThesisRepository {
     }
 
 //Supervisor entfernen? bzw nur variablen annehmen?
-    public boolean addThesis(String name, String body, Form form, Supervisor supervisor, Set<Degree> degrees , Set<Image> images) {
+    public Result addThesis(String name, String body, Form form, Supervisor supervisor, Set<Degree> degrees , Set<Image> images) {
         return thesisRemoteDataSource.createNewThesis(new Thesis(name,body,form,images,supervisor,null,degrees));
     }
 

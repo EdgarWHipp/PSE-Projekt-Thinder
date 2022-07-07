@@ -2,15 +2,30 @@ package com.hfad.thinder.data.source.remote;
 
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.remote.retrofit.ThesisApiService;
+import com.hfad.thinder.data.source.remote.retrofit.UsersApiService;
+import com.hfad.thinder.data.source.result.Result;
+
+import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Optional;
 
+import okhttp3.Call;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ThesisRemoteDataSource {
+    private static final MediaType JSON
+            = MediaType.parse("application/json; charset=utf-8");
+    UsersApiService userService;
+    OkHttpClient client = new OkHttpClient();
+    String url = "http://localhost:8080";
+
     Retrofit retrofit = new Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl("https://thinder-api.herokuapp.com")
@@ -49,20 +64,38 @@ public class ThesisRemoteDataSource {
         return Optional.ofNullable(null);
     }
 
-    public boolean createNewThesis(final Thesis thesis) {
+    public Result createNewThesis(final Thesis thesis) {
         try {
-            Response<Thesis> result = thesisService.postNewThesis(thesis);
-            if (result.isSuccessful() && result.body() != null) {
+            JSONObject thesisJson = new JSONObject()
+                    .put("name",thesis.getName())
+                    .put("body",thesis.getBody())
+                    .put("form",thesis.getForm())
+                    .put("images",thesis.getImages())
+                    .put("supervisor",thesis.getSupervisor())
+                    .put("studentRatings",thesis.getStudentRatings())
+                    .put("possibleDegrees",thesis.getPossibleDegrees());
 
-                return true;
 
+
+            RequestBody body=RequestBody.create(thesisJson.toString(),JSON);
+
+
+            Request request= new Request.Builder()
+                    .url(url+"/theses/")
+                    .post(body)
+                    .build();
+
+            Call call = client.newCall(request);
+            okhttp3.Response response = call.execute();
+            if (response.isSuccessful()){
+                return new Result(true);
+            }else{
+                return new Result("did not receive Statuscode 200",false);
             }
         } catch (Exception e) {
-            System.out.println(e);
-            // TO DO - bad practise!, dont return false return some error
-            return false;
+            return new Result(e.toString(),false);
         }
-        return false;
+
     }
 
     public boolean changeThesis(final int id) {

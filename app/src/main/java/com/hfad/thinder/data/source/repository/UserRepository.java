@@ -1,5 +1,6 @@
 package com.hfad.thinder.data.source.repository;
 
+import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.remote.UsersRemoteDataSource;
@@ -12,6 +13,8 @@ import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * Singleton instance of a StudentRepository.
@@ -19,7 +22,7 @@ import java.util.Optional;
  * for the first local test run of the frontend.
  */
 public final class UserRepository {
-    private String currentId;
+    private UUID currentId;
     /**
      * Defines the Userrepository singleton instance.
      */
@@ -30,6 +33,15 @@ public final class UserRepository {
     private UserRepository() {
 
     }
+
+    public UUID getCurrentUUID() {
+        return currentId;
+    }
+    public void setCurrentUUID(UUID id) {
+        currentId=id;
+    }
+
+
 
     /**
      * Get an instance of the user repository.
@@ -46,6 +58,9 @@ public final class UserRepository {
 
 
 
+    public Result studentRegistration(Set<Degree> degrees){
+        return dataSource.extendUserToStudent(degrees);
+    }
     /**
      * handles the login -> sends the password and the mail and checks if such a user is already registrated.
      * @return the id of the user

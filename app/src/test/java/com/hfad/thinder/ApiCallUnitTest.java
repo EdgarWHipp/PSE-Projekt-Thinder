@@ -95,9 +95,10 @@ public class ApiCallUnitTest {
 
     Result universityResult = UniversityRepository.getInstance().addUniversity("KIT",".*@student.kit.edu",".*@kit.edu");
     Result resultUser = UserRepository.getInstance().registrate("edgar","hipp","password123","uxmnx@student.kit.edu");
-    Result verifyResult = UserRepository.getInstance().verifyToken();
-
-
+    //Post auf theses noch nicht implementiert -> Result thesisResult = ThesisRepository.getInstance().addThesis("thesisName","thesisBody",null,null,null,null);
+    Result loginResult = UserRepository.getInstance().studentRegistration(null);
+   //Assert.assertEquals(thesisResult.getSuccess() , true);
+    //Assert.assertEquals(loginResult.getSuccess(),true);
    Assert.assertEquals(universityResult.getSuccess() , true);
    Assert.assertEquals(resultUser.getSuccess() , true);
 
