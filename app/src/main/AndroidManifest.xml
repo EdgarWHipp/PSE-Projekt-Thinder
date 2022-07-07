@@ -4,6 +4,8 @@
     package="com.hfad.thinder">
     // Needed to access image gallery
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    //Needed to acces the internet
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:requestLegacyExternalStorage="true"
         android:allowBackup="true"

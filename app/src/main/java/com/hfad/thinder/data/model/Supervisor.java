@@ -6,8 +6,11 @@ public class Supervisor extends User{
 
     @SerializedName("degree")
     private String academicDegree;
+    @SerializedName("location")
     private String location;
+    @SerializedName("institute")
     private String institute;
+    @SerializedName("phoneNumber")
     private String phoneNumber;
 
 
@@ -20,6 +23,21 @@ public class Supervisor extends User{
         this.phoneNumber = phoneNumber;
     }
 
+    public void setAcademicDegree(String academicDegree) {
+        this.academicDegree = academicDegree;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setInstitute(String institute) {
+        this.institute = institute;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
     public String getAcademicDegree() {
         return academicDegree;

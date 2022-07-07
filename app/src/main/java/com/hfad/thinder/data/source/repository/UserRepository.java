@@ -7,6 +7,7 @@ import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.viewmodels.LoginResult;
 import com.hfad.thinder.viewmodels.RegistrationResult;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public final class UserRepository {
     private static UserRepository INSTANCE;
     private UsersRemoteDataSource dataSource= new UsersRemoteDataSource();
 
-    public UserRepository() {
+    private UserRepository() {
 
     }
 
@@ -83,7 +84,7 @@ public final class UserRepository {
      * @return true if the call succeeds and false otherwise.
      */
 
-    public Result registrate(String firstName, String secondName, String password, String eMail) {
+    public Result registrate(String firstName, String secondName, String password, String eMail) throws JSONException {
         return dataSource.createNewUser(new User(password,eMail,firstName,secondName));
     }
 

@@ -1,12 +1,14 @@
 package com.hfad.thinder.data.source.repository;
 
+import com.hfad.thinder.data.model.University;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.remote.ThesisRemoteDataSource;
 import com.hfad.thinder.data.source.remote.UniversityRemoteDataSource;
+import com.hfad.thinder.data.source.result.Result;
 
 import java.util.Set;
 
-public class UniversityRepository {
+public final class UniversityRepository {
   private static UniversityRepository INSTANCE;
   private UniversityRemoteDataSource universityRemoteDataSource =new UniversityRemoteDataSource();
 
@@ -24,8 +26,8 @@ public class UniversityRepository {
     return INSTANCE;
   }
 
-  public boolean addUniversity(String name, Set<User> users,String studentMailRegex,String supervisorMailRegex){
-    return false;
+  public Result addUniversity(String name, String studentMailRegex, String supervisorMailRegex){
+     return universityRemoteDataSource.createUniversity(new University(name,studentMailRegex,supervisorMailRegex));
 
   }
 }

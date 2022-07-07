@@ -4,31 +4,63 @@ import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.User;
-import com.hfad.thinder.data.response.UserResponse;
 import com.hfad.thinder.data.source.remote.retrofit.UsersApiService;
 import com.hfad.thinder.data.source.repository.LoginTuple;
 import com.hfad.thinder.data.source.result.Result;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 import java.util.Optional;
 
-import retrofit2.Call;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Call;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UsersRemoteDataSource {
-
-    Retrofit retrofit = new Retrofit.Builder()
-            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("http://localhost:8080/")
-            .build();
-
-    UsersApiService userService = retrofit.create(UsersApiService.class);
+    // Für die ganze HTTP Funktionalitäten noch neue Klassen hinzufügen!
+    private static final MediaType JSON
+            = MediaType.parse("application/json; charset=utf-8");
+    UsersApiService userService;
+    OkHttpClient client = new OkHttpClient();
+    String url = "http://localhost:8080";
 
 
+    public Result extendUserToStudent(){
+        return null;
+    }
+    public Result extendUserToSupervisor(String degree,String location, String institute,String phoneNumber){
+        try {
+            JSONObject supervisorInfo = new JSONObject()
+                    .put("academic",degree)
+                    .put("location",location)
+                    .put("institute",institute)
+                    .put("phoneNumber",phoneNumber);
+
+            RequestBody body=RequestBody.create(supervisorInfo.toString(),JSON);
+
+
+            Request request= new Request.Builder()
+                    .url(url+"/users/")
+                    .post(body)
+                    .build();
+
+            Call call = client.newCall(request);
+            okhttp3.Response response = call.execute();
+            if (response.isSuccessful()){
+                return new Result(true);
+            }else{
+                return new Result("did not receive Statuscode 200",false);
+            }
+
+        } catch (Exception e) {
+            return new Result(e.toString(),false);
+        }
+    }
     public boolean isVerify(String token){
         try {
             Response<Boolean> result = userService.isVerifyToken(token);
@@ -61,41 +93,62 @@ public class UsersRemoteDataSource {
 
 
     }
-
+/*
     public LoginTuple login(String password, String eMail) {
-        Response<User> result = userService.login(new Login(password, eMail));
+        return new LoginTuple(new Result("login not successful",false),"");
+
         try {
-            if (result.isSuccessful()) {
-                User returnVal = result.body();
+            JSONObject loginJson = new JSONObject()
+                    .put("password",password)
+                    .put("mail",eMail);
+            RequestBody body=RequestBody.create(loginJson.toString(),JSON);
+            Request request= new Request.Builder()
+                    .url(url+"/users/")
+                    .get(body)
+                    .build();
 
-                return new LoginTuple(new Result(null,true),null);
-
-            } else {
-
-                return new LoginTuple(new Result("login not successful",false),"");
+            Call call = client.newCall(request);
+            okhttp3.Response response = call.execute();
+            if (response.isSuccessful()){
+                return new LoginTuple(new Result(true),response.;
+            }else{
+                return new Result("did not receive Statuscode 200",false);
             }
         } catch (Exception e) {
-
-
-            return new LoginTuple(new Result("login not successful due to : "+e.toString(),false),"");
+            return new LoginTuple(new Result("login not successful due to : "+e.toString(),false),null);
         }
 
     }
+    */
 
-    public Result createNewUser(User user) {
+
+    public Result createNewUser(User user) throws JSONException {
         try {
+        JSONObject userJson = new JSONObject()
+                .put("firstName",user.getFirstName())
+                .put("lastName",user.getLastName())
+                .put("password",user.getPassword())
+                .put("mail",user.geteMail());
 
-            Call<UserResponse> result = userService.postNewUser(user);
-            if (result.isSuccessful()) {
+        RequestBody body=RequestBody.create(userJson.toString(),JSON);
+
+
+            Request request= new Request.Builder()
+                    .url(url+"/users/")
+                    .post(body)
+                    .build();
+
+            Call call = client.newCall(request);
+            okhttp3.Response response = call.execute();
+            if (response.isSuccessful()){
                 return new Result(true);
-
-            } else {
-                return new Result("registration not successful",false);
+            }else{
+                return new Result("did not receive Statuscode 200",false);
             }
+
         } catch (Exception e) {
             return new Result(e.toString(),false);
         }
-
 
     }
 

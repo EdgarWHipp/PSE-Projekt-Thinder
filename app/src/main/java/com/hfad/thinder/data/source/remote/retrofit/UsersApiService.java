@@ -4,9 +4,8 @@ import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.User;
-import com.hfad.thinder.data.response.UserResponse;
+
 import com.hfad.thinder.data.source.remote.Login;
-import com.hfad.thinder.data.source.repository.UserRepository;
 
 import java.util.List;
 
@@ -15,12 +14,12 @@ import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface UsersApiService {
+
 
 
     // api/Users HTTP requests
@@ -38,9 +37,9 @@ public interface UsersApiService {
      * @param user
      * @return List of Responses
      */
-    @Headers("Accept: application/json")
-    @POST("users/")
-    Call<UserResponse> postNewUser(@Body User user);
+
+    @POST("/users/")
+    Call<User> postNewUser(@Body User user);
 
     /**
      *

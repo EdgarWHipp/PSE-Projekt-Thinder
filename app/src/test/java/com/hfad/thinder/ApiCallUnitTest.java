@@ -7,6 +7,7 @@ import static io.restassured.filter.log.RequestLoggingFilter.with;
 
 import com.google.gson.JsonObject;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
+import com.hfad.thinder.data.source.repository.UniversityRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 
@@ -87,44 +88,20 @@ public class ApiCallUnitTest {
   public void test_live_server_basic() {
     String bodyAsString = RestAssured.get("https://thinder-api.herokuapp.com/helloOpen").body().asString();
     Assert.assertEquals(bodyAsString.contains("Hello world!"),true);
-
   }
-  // works as of 05.07
+
   @Test
-  public void test_post_a_uni_and_one_user() throws JSONException {
-    //ThesisRepository.getInstance().addThesis("exampleThesis","blabla",null,null,null,null);
-    UserRepository userRepository =new UserRepository();
-    Result result =userRepository.registrate("max","mustermann","testpassword","max@student.kit.edu");
-  System.out.print(result.getErrorMessage() +result.getSuccess());
-    /*
-    JSONObject universityJson =new JSONObject()
-            .put("name","KIT")
-            .put("members",null)
-            .put("studentMailRegex",".*@student.kit.edu")
-            .put("supervisorMailRegex",".*@kit.edu");
+  public void full_registration_including_posting_a_university() throws JSONException {
 
-    JSONObject userJson = new JSONObject()
-            .put("firstName","max")
-            .put("lastName","mustermann")
-            .put("password","testpassword")
-            .put("mail","max@student.kit.edu");
-    System.out.println(universityJson.toString());
-    given().header("Content-type", "application/json")
-            .port(8080) // port number
-            .body(universityJson.toString())   // use jsonObj toString method
-            .when()
-            .post("/university")
-            .then()
-            .statusCode(200);
+    Result universityResult = UniversityRepository.getInstance().addUniversity("KIT",".*@student.kit.edu",".*@kit.edu");
+    Result resultUser = UserRepository.getInstance().registrate("edgar","hipp","password123","uxmnx@student.kit.edu");
+    Result verifyResult = UserRepository.getInstance().verifyToken();
 
-    given().header("Content-type", "application/json")
-            .port(8080)
-            .body(userJson.toString())
-            .when()
-            .post("/users")
-            .then()
-            .statusCode(200);
-*/
+
+   Assert.assertEquals(universityResult.getSuccess() , true);
+   Assert.assertEquals(resultUser.getSuccess() , true);
+
+
   }
 
 }

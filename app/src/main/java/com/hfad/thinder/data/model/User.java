@@ -1,5 +1,6 @@
 package com.hfad.thinder.data.model;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -7,10 +8,17 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class User {
-
+    @SerializedName("password")
+    @Expose
     private final String password;
+    @SerializedName("eMail")
+    @Expose
     private final String eMail;
+    @SerializedName("firstName")
+    @Expose
     private String firstName;
+    @SerializedName("lastName")
+    @Expose
     private String lastName;
 
 
@@ -23,6 +31,14 @@ public class User {
 
     }
 
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
     public String getPassword() {
         return password;
