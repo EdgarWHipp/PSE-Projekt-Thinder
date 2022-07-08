@@ -3,6 +3,7 @@ package com.hfad.thinder.viewmodels;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import com.hfad.thinder.R;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -11,7 +12,8 @@ import java.util.regex.Pattern;
 public class RegistrationViewModel extends ViewModel {
   private static final Pattern PASSWORD_PATTERN =
       Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$");
-  private final UserRepository registrationRepository = UserRepository.getInstance();
+  private static final UserRepository userRepository = UserRepository.getInstance();
+
   private MutableLiveData<RegistrationFormState> registrationFormState = new MutableLiveData<>();
   private MutableLiveData<RegistrationResult> registrationResult = new MutableLiveData<>();
   private ArrayList<String> testUniversities;//Todo:löschen
@@ -26,16 +28,19 @@ public class RegistrationViewModel extends ViewModel {
   private MutableLiveData<String> password;
   private MutableLiveData<String> passwordConfirmation;
 
-  private MutableLiveData<Boolean> registrationSuccessful;
-
 
   // This function is called when the user presses the register button
   public void register() {
-    registrationResult.setValue(new RegistrationResult("Registration Error", false));
-    // Code here should only be executed if registration data is valid
+    //Result result = userRepository.registrate(firstName.getValue(), lastName.getValue(), //Todo warte darauf, dass repository result zurück gibt
+    //universities.getValue().get(selectedItemPosition.getValue()), password.getValue(),
+    // email.getValue());
+    //if (!result.getSuccess()) {
+    // registrationResult.setValue(new RegistrationResult(R.string.token_error,
+    //    false));//Todo echten fehler aus Backend erhaltern
+    // } else {
+    registrationResult.setValue(new RegistrationResult(null, true));
+    // }
 
-    // This should only be changed to true if registration was successful 
-    registrationSuccessful.setValue(true);
   }
 
   //Ändert den Zustand der Validität der Email und des Passworts
@@ -46,7 +51,7 @@ public class RegistrationViewModel extends ViewModel {
             lastNameFormatIsValid(), passwordFormIsValid(), passwordConfirmationFormIsValid()));
   }
 
-//--------------------getter and setter --------------------------------------
+  //--------------------getter and setter --------------------------------------
 
   public MutableLiveData<RegistrationFormState> getRegistrationFormState() {
     if (registrationFormState == null) {
@@ -67,14 +72,6 @@ public class RegistrationViewModel extends ViewModel {
       selectedItemPosition = new MutableLiveData<Integer>();
     }
     return selectedItemPosition;
-  }
-
-  public MutableLiveData<Boolean> getRegistrationSuccessful(){
-    if(registrationSuccessful == null) {
-      registrationSuccessful = new MutableLiveData<Boolean>();
-      registrationSuccessful.setValue(false);
-    }
-    return registrationSuccessful;
   }
 
   public void setSelectedItemPosition(MutableLiveData<Integer> selectedItemPosition) {
@@ -136,10 +133,6 @@ public class RegistrationViewModel extends ViewModel {
     this.passwordConfirmation = passwordConfirmation;
   }
 
-  public void setRegistrationSuccessful(MutableLiveData<Boolean> registrationSuccessful){
-    this.registrationSuccessful = registrationSuccessful;
-  }
-
   public MutableLiveData<ArrayList<String>> getUniversities() {
     if (testUniversities == null) {
       testUniversities = new ArrayList<String>();
@@ -164,53 +157,53 @@ public class RegistrationViewModel extends ViewModel {
     //Todo: hole Universitäten aus dem Repository
   }
 
-  private String passwordFormIsValid() {
+  private Integer passwordFormIsValid() {
     if (password.getValue() == null || password.getValue().equals("")) {
-      return "Passwortfeld darf nicht leer sein";
+      return R.string.no_password_error;
     }
     if (password.getValue().length() < 8) {
-      return "Password ist zu kurz";
+      return R.string.password_to_short_error;
     }
     Matcher m = PASSWORD_PATTERN.matcher(password.getValue());
     if (!m.matches()) {
-      return "Passwort muss mindestens eine Zahl und einen Großbuchstaben enthalten";
+      return R.string.password_not_safe_error;
     }
     return null;
   }
 
-  private String passwordConfirmationFormIsValid() {
+  private Integer passwordConfirmationFormIsValid() {
     if (passwordConfirmation.getValue() == null || passwordConfirmation.getValue().equals("")) {
-      return "Passwort muss bestätigt werden";
+      return R.string.no_password_confirmation_error;
       //Todo: seltsamen Bugg beheben
     }
     if (password.getValue() == null ||
         !password.getValue().equals(passwordConfirmation.getValue())) {
-      return "Passwörter stimmen nicht überein";
+      return R.string.passwords_do_not_match_error;
     }
     return null;
   }
 
 
-  private String emailFormatIsValid() {
+  private Integer emailFormatIsValid() {
     if (email.getValue() == null || email.getValue().equals("")) {
-      return "E-Mail muss angegeben werden";
+      return R.string.no_email_error;
     }
     if (!email.getValue().contains("@")) {
-      return "Invalide E-Mail Adresse";
+      return R.string.invalid_email_error;
     }
     return null;
   }
 
-  private String firstNameFormatIsValid() {
+  private Integer firstNameFormatIsValid() {
     if (firstName.getValue() == null || firstName.getValue().equals("")) {
-      return "Vorname Muss angegeben werden";
+      return R.string.no_first_name_error;
     }
     return null;
   }
 
-  private String lastNameFormatIsValid() {
+  private Integer lastNameFormatIsValid() {
     if (lastName.getValue() == null || lastName.getValue().equals("")) {
-      return "Nachname muss angegeben werden";
+      return R.string.no_last_name_error;
     }
     return null;
   }

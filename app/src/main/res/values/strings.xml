@@ -61,4 +61,15 @@
     <string name="verify_token">Verify token</string>
     <string name="insert_token">Enter token</string>
     <string name="Token">Token</string>
+
+    <!-- Registration View Model Strings -->
+    <string name="no_password_error">Password field must not be empty</string>
+    <string name="password_to_short_error">Password to short</string>
+    <string name="password_not_safe_error">Password needs to contain at least one number and one upper case letter</string>
+    <string name="no_password_confirmation_error">Password confirmation field must not be empty</string>
+    <string name="passwords_do_not_match_error">Passwords do not match</string>
+    <string name="no_email_error">E-Mail field must not be empty</string>
+    <string name="invalid_email_error">Invalid E-Mail address</string>
+    <string name="no_first_name_error">First name field must not be empty</string>
+    <string name="no_last_name_error">Last name field must not be empty</string>
 </resources>

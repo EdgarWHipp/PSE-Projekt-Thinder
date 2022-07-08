@@ -6,37 +6,38 @@ import androidx.annotation.Nullable;
 public class RegistrationFormState {
 
   @Nullable
-  private final String passwordErrorMessage;
+  private final Integer passwordErrorMessageResourceId;
 
   @Nullable
-  private final String passwordConfirmationErrorMessage;
+  private final Integer passwordConfirmationErrorMessageResourceId;
 
   @Nullable
-  private final String emailErrorMessage;
+  private final Integer emailErrorMessageResourceId;
 
   @Nullable
-  private final String firstNameErrorMessage;
+  private final Integer firstNameErrorMessageResourceId;
 
   @Nullable
-  private final String lastNameErrorMessage;
+  private final Integer lastNameErrorMessageResourceId;
 
 
   private final boolean isValid;
 
 
-  public RegistrationFormState(@Nullable String emailErrorMessage,
-                               @Nullable String firstNameErrorMessage,
-                               @Nullable String lastNameErrorMessage,
-                               @Nullable String passwordErrorMessage,
-                               @Nullable String passwordConfirmationErrorMessage) {
-    this.emailErrorMessage = emailErrorMessage;
-    this.passwordErrorMessage = passwordErrorMessage;
-    this.firstNameErrorMessage = firstNameErrorMessage;
-    this.lastNameErrorMessage = lastNameErrorMessage;
-    this.passwordConfirmationErrorMessage = passwordConfirmationErrorMessage;
-    this.isValid = (emailErrorMessage == null && firstNameErrorMessage == null &&
-        lastNameErrorMessage == null && passwordErrorMessage == null &&
-        passwordConfirmationErrorMessage == null);
+  public RegistrationFormState(@Nullable Integer emailErrorMessageResourceId,
+                               @Nullable Integer firstNameErrorMessageResourceId,
+                               @Nullable Integer lastNameErrorMessageResourceId,
+                               @Nullable Integer passwordErrorMessage,
+                               @Nullable Integer passwordConfirmationErrorMessage) {
+    this.emailErrorMessageResourceId = emailErrorMessageResourceId;
+    this.passwordErrorMessageResourceId = passwordErrorMessage;
+    this.firstNameErrorMessageResourceId = firstNameErrorMessageResourceId;
+    this.lastNameErrorMessageResourceId = lastNameErrorMessageResourceId;
+    this.passwordConfirmationErrorMessageResourceId = passwordConfirmationErrorMessage;
+    this.isValid =
+        (emailErrorMessageResourceId == null && firstNameErrorMessageResourceId == null &&
+            lastNameErrorMessageResourceId == null && passwordErrorMessage == null &&
+            passwordConfirmationErrorMessage == null);
   }
 
 
@@ -45,28 +46,28 @@ public class RegistrationFormState {
   }
 
   @Nullable
-  public String getEmailErrorMessage() {
-    return this.emailErrorMessage;
+  public Integer getEmailErrorMessageResourceId() {
+    return this.emailErrorMessageResourceId;
   }
 
   @Nullable
-  public String getFirstNameErrorMessage() {
-    return this.firstNameErrorMessage;
+  public Integer getFirstNameErrorMessageResourceId() {
+    return this.firstNameErrorMessageResourceId;
   }
 
   @Nullable
-  public String getLastNameErrorMessage() {
-    return this.lastNameErrorMessage;
+  public Integer getLastNameErrorMessageResourceId() {
+    return this.lastNameErrorMessageResourceId;
   }
 
   @Nullable
-  public String getPasswordErrorMessage() {
-    return passwordErrorMessage;
+  public Integer getPasswordErrorMessageResourceId() {
+    return passwordErrorMessageResourceId;
   }
 
   @Nullable
-  public String getPasswordConfirmationErrorMessage() {
-    return this.passwordConfirmationErrorMessage;
+  public Integer getPasswordConfirmationErrorMessageResourceId() {
+    return this.passwordConfirmationErrorMessageResourceId;
   }
 
 

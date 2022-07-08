@@ -62,4 +62,15 @@
     <string name="verify_token">Token verifizieren</string>
     <string name="insert_token">Token eingeben</string>
     <string name="Token">Token</string>
+
+    <!-- Registration View Model Strings -->
+    <string name="no_password_error">Passwortfeld darf nicht leer sein</string>
+    <string name="password_to_short_error">Password ist zu kurz</string>
+    <string name="password_not_safe_error">Passwort muss mindestens eine Zahl und einen Großbuchstaben enthalten</string>
+    <string name="no_password_confirmation_error">Passwort muss bestätigt werden</string>
+    <string name="passwords_do_not_match_error">Passwörter stimmen nicht überein</string>
+    <string name="no_email_error">E-Mail muss angegeben werden</string>
+    <string name="invalid_email_error">Invalide E-Mail Adresse</string>
+    <string name="no_first_name_error">Vorname Muss angegeben werden</string>
+    <string name="no_last_name_error">Nachname muss angegeben werden</string>
 </resources>
