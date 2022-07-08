@@ -6,18 +6,19 @@ import androidx.annotation.Nullable;
 public class RegistrationResult {
 
   @Nullable
-  private final Integer errorMessageRessourceID;
+  private final String errorMessage;
+
 
   private final boolean isSuccess;
 
-  public RegistrationResult(@Nullable Integer errorMessage, boolean isSuccess) {
-    this.errorMessageRessourceID = errorMessage;
+  public RegistrationResult(@Nullable String errorMessage, boolean isSuccess) {
+    this.errorMessage = errorMessage;
     this.isSuccess = isSuccess;
   }
 
   @Nullable
-  public Integer getErrorMessage() {
-    return this.errorMessageRessourceID;
+  public String getErrorMessage() {
+    return this.errorMessage;
   }
 
   public boolean isSuccess() {
