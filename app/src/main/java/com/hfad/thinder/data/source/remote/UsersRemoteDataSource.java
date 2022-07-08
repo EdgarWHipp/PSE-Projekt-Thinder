@@ -90,34 +90,28 @@ public class UsersRemoteDataSource {
             return new Result(e.toString(),false);
         }
     }
-    public boolean isVerify(String token){
+    public Result isVerify(String token){
         try {
-            Response<Boolean> result = userService.isVerifyToken(token);
-            if (result.isSuccessful()) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-            return false;
-        }
-    }
-    private List<Thesis> getThesesFromUser(int userId) {
-        try {
-            Response<List<Thesis>> result = userService.getTheses(userId);
-            if (result.isSuccessful()) {
-                List<Thesis> returnVal = result.body();
-                return returnVal;
+            JSONObject tokenJson = new JSONObject()
+                    .put("token",token);
+            RequestBody body=RequestBody.create(tokenJson.toString(),JSON);
 
-            } else {
-                // TO DO - bad practise!, dont return null return some error
-                return null;
+
+            Request request= new Request.Builder()
+                    .url(url+"/users/verify/")
+                    .put(body)
+                    .build();
+
+            Call call = client.newCall(request);
+            okhttp3.Response response = call.execute();
+            if (response.isSuccessful()){
+                return new Result(true);
+            }else{
+                return new Result("did not receive Statuscode 200",false);
             }
+
         } catch (Exception e) {
-            System.out.println(e);
-            // TO DO - bad practise!, dont return null return some error
-            return null;
+            return new Result(e.toString(),false);
         }
 
 
@@ -172,6 +166,9 @@ public class UsersRemoteDataSource {
             Call call = client.newCall(request);
             okhttp3.Response response = call.execute();
             System.out.println(response.body().string());
+            //user ID und Typ abfragen
+
+
             if (response.isSuccessful()){
 
                 UserRepository.getInstance().setCurrentUUID(null);

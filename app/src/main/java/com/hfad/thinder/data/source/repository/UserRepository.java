@@ -1,17 +1,14 @@
 package com.hfad.thinder.data.source.repository;
 
 import com.hfad.thinder.data.model.Degree;
-import com.hfad.thinder.data.model.Thesis;
+import com.hfad.thinder.data.model.Student;
+import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.remote.UsersRemoteDataSource;
 import com.hfad.thinder.data.source.result.Result;
-import com.hfad.thinder.viewmodels.LoginResult;
-import com.hfad.thinder.viewmodels.RegistrationResult;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -23,6 +20,16 @@ import java.util.UUID;
  */
 public final class UserRepository {
     private UUID currentId;
+    private USERTYPE type;
+
+    public UUID getCurrentId() {
+        return currentId;
+    }
+
+    public USERTYPE getType() {
+        return type;
+    }
+
     /**
      * Defines the Userrepository singleton instance.
      */
@@ -72,17 +79,25 @@ public final class UserRepository {
 
     }
 
+    public void setCurrentId(UUID currentId) {
+        this.currentId = currentId;
+    }
+
+    public void setType(USERTYPE type) {
+        this.type = type;
+    }
+
     /**
      * Used to verify the token, returns the necessary Result class.
      * @param token
      * @return The result class with error message null and success value true or, when the call is unsuccessful, a full error message and a success value of false.
      */
-    public Result verifyToken(String token){
+    public boolean verifyToken(String token){
 
-        if(dataSource.isVerify(token)){
-            return new Result(true);
+        if(dataSource.isVerify(token).getSuccess()){
+            return true;
         }else {
-            return new Result("You entered the wrong token",false);
+            return false;
         }
     }
 
@@ -99,8 +114,8 @@ public final class UserRepository {
      * @return true if the call succeeds and false otherwise.
      */
 
-    public Result registrate(String firstName, String secondName, String password, String eMail) throws JSONException {
-        return dataSource.createNewUser(new User(password,eMail,firstName,secondName));
+    public boolean registrate(String firstName, String secondName, String password, String eMail) throws JSONException {
+        return dataSource.createNewUser(new User(password,eMail,firstName,secondName)).getSuccess();
     }
 
     /**
@@ -114,6 +129,11 @@ public final class UserRepository {
     public boolean delete(final int id) {
         return dataSource.deleteUser(id);
     }
-
+    public boolean extendUserToStudent(Set<Degree> degrees){
+        return dataSource.extendUserToStudent(degrees).getSuccess();
+    }
+    public boolean extendUserToSupervisor(String degree, String location, String institute,String phoneNumber){
+        return dataSource.extendUserToSupervisor(degree,location,institute,phoneNumber).getSuccess();
+    }
 
 }
