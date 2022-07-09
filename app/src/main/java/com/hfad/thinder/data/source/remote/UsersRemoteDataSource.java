@@ -16,7 +16,9 @@ import org.json.JSONObject;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
+import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -29,6 +31,7 @@ public class UsersRemoteDataSource {
     private static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
     UsersApiService userService;
+    com.hfad.thinder.data.source.remote.okhttp.UsersApiService okHttpService;
     OkHttpClient client = new OkHttpClient();
     String url = "http://localhost:8080";
 
@@ -58,28 +61,15 @@ public class UsersRemoteDataSource {
             }
 
         } catch (Exception e) {
-            return new Result(e.toString(),false);
+            return new Result("Error occurred in the API",false);
         }
     }
     public Result extendUserToSupervisor(String degree,String location, String institute,String phoneNumber){
         try {
-            JSONObject supervisorJson = new JSONObject()
-                    .put("academicDegree",degree)
-                    .put("location",location)
-                    .put("institute",institute)
-                    .put("phoneNumber",phoneNumber)
-                    .put("theses",null);
 
-            RequestBody body=RequestBody.create(supervisorJson.toString(),JSON);
+            okhttp3.Response response = okHttpService
+                    .extendUserToSupervisorResponse(degree,location,institute,phoneNumber);
 
-
-            Request request= new Request.Builder()
-                    .url(url+"/supervisor/"+ UserRepository.getInstance().getCurrentUUID())
-                    .put(body)
-                    .build();
-
-            Call call = client.newCall(request);
-            okhttp3.Response response = call.execute();
             if (response.isSuccessful()){
                 return new Result(true);
             }else{
@@ -87,23 +77,13 @@ public class UsersRemoteDataSource {
             }
 
         } catch (Exception e) {
-            return new Result(e.toString(),false);
+            return new Result("Error occurred in the API",false);
         }
     }
     public Result isVerify(String token){
         try {
-            JSONObject tokenJson = new JSONObject()
-                    .put("token",token);
-            RequestBody body=RequestBody.create(tokenJson.toString(),JSON);
 
-
-            Request request= new Request.Builder()
-                    .url(url+"/users/verify/")
-                    .put(body)
-                    .build();
-
-            Call call = client.newCall(request);
-            okhttp3.Response response = call.execute();
+            okhttp3.Response response = okHttpService.loginResponse(token);
             if (response.isSuccessful()){
                 return new Result(true);
             }else{
@@ -111,7 +91,7 @@ public class UsersRemoteDataSource {
             }
 
         } catch (Exception e) {
-            return new Result(e.toString(),false);
+            return new Result("Error occurred in the API",false);
         }
 
 
@@ -121,18 +101,8 @@ public class UsersRemoteDataSource {
 
 
         try {
-            JSONObject loginJson = new JSONObject()
-                    .put("password",password)
-                    .put("mail",eMail);
-            RequestBody body=RequestBody.create(loginJson.toString(),JSON);
-            Request request= new Request.Builder()
-                    .url(url+"/users/")
-                    .get()
-                    .build();
 
-            Call call = client.newCall(request);
-            okhttp3.Response response = call.execute();
-
+            okhttp3.Response response = okHttpService.usersLoginResponse(password,eMail);
             if (response.isSuccessful()){
                 //parse response to get id!
                 return new LoginTuple(new Result(true),null);
@@ -140,7 +110,7 @@ public class UsersRemoteDataSource {
                 return new LoginTuple( new Result("did not receive Statuscode 200",false),null);
             }
         } catch (Exception e) {
-            return new LoginTuple(new Result("login not successful due to : "+e.toString(),false),null);
+            return new LoginTuple(new Result("Error occurred in the API",false),null);
         }
 
     }
@@ -149,22 +119,8 @@ public class UsersRemoteDataSource {
 
     public Result createNewUser(User user) throws JSONException {
         try {
-        JSONObject userJson = new JSONObject()
-                .put("firstName",user.getFirstName())
-                .put("lastName",user.getLastName())
-                .put("password",user.getPassword())
-                .put("mail",user.geteMail());
 
-        RequestBody body=RequestBody.create(userJson.toString(),JSON);
-
-
-            Request request= new Request.Builder()
-                    .url(url+"/users/")
-                    .post(body)
-                    .build();
-
-            Call call = client.newCall(request);
-            okhttp3.Response response = call.execute();
+            okhttp3.Response response = okHttpService.createNewUserResponse(user);
             System.out.println(response.body().string());
             //user ID und Typ abfragen
 
@@ -178,25 +134,27 @@ public class UsersRemoteDataSource {
             }
 
         } catch (Exception e) {
-            return new Result(e.toString(),false);
+            return new Result("Error occurred in the API",false);
         }
 
     }
 
-    public boolean deleteUser(final int id) {
+    public Result deleteUser() {
         try {
-            Response<User> result = userService.deleteUser(id);
-            if (result.isSuccessful()) {
+            okhttp3.Response response=okHttpService.deleteUserResponse();
+            if (response.isSuccessful()) {
                 //User returnVal = result.body();
-                return true;
+                return new Result(true);
 
+            }else{
+                return new Result("did not receive Statuscode 200",false);
             }
         } catch (Exception e) {
             System.out.println(e);
             // TO DO - bad practise!, dont return false return some error
-            return false;
+            return new Result("Error occurred in the API",false);
         }
-        return false;
+
     }
 
     public Optional<User> getUser(final int id) {
@@ -214,6 +172,8 @@ public class UsersRemoteDataSource {
         }
         return Optional.ofNullable(null);
     }
+
+
 
     public boolean updateStudent(final int id, final Student student) {
         try {

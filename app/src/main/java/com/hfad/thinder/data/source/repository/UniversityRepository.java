@@ -6,6 +6,7 @@ import com.hfad.thinder.data.source.remote.ThesisRemoteDataSource;
 import com.hfad.thinder.data.source.remote.UniversityRemoteDataSource;
 import com.hfad.thinder.data.source.result.Result;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 public final class UniversityRepository {
@@ -29,5 +30,8 @@ public final class UniversityRepository {
   public Result addUniversity(String name, String studentMailRegex, String supervisorMailRegex){
      return universityRemoteDataSource.createUniversity(new University(name,studentMailRegex,supervisorMailRegex));
 
+  }
+  public ArrayList<University> getAllUniversities(){
+    return universityRemoteDataSource.getUnis();
   }
 }

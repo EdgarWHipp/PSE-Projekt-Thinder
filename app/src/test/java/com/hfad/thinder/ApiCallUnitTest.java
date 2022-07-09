@@ -20,6 +20,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
 import io.restassured.specification.RequestSpecification;
+import okhttp3.HttpUrl;
 
 public class ApiCallUnitTest {
   private String localHost="http://localhost:8080/";
@@ -92,9 +93,8 @@ public class ApiCallUnitTest {
 
   @Test
   public void full_registration_including_posting_a_university() throws JSONException {
-
-    Result universityResult = UniversityRepository.getInstance().addUniversity("KIT",".*@student.kit.edu",".*@kit.edu");
-    boolean resultUser = UserRepository.getInstance().registrate("edgar","hipp","password123","uxmnx@student.kit.edu");
+    Result universityResult = UniversityRepository.getInstance().addUniversity("KSSIT",".*@student.kit.edu",".*@kit.edu");
+    Result resultUser = UserRepository.getInstance().registrate("edgar","hipp","password123","uxsdmnx@student.kit.edu");
     //Post auf theses noch nicht implementiert -> Result thesisResult = ThesisRepository.getInstance().addThesis("thesisName","thesisBody",null,null,null,null);
     Result loginResult = UserRepository.getInstance().studentRegistration(null);
    //Assert.assertEquals(thesisResult.getSuccess() , true);

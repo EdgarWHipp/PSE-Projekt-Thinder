@@ -114,26 +114,27 @@ public final class UserRepository {
      * @return true if the call succeeds and false otherwise.
      */
 
-    public boolean registrate(String firstName, String secondName, String password, String eMail) throws JSONException {
-        return dataSource.createNewUser(new User(password,eMail,firstName,secondName)).getSuccess();
+    public Result registrate(String firstName, String secondName, String password, String eMail) throws JSONException {
+        return dataSource.createNewUser(new User(password,eMail,firstName,secondName));
     }
 
     /**
      * Deletes the user with the given id,
      * if the call is not successful false is returned.
      *
-     * @param id userId in User class
+     * @param
      * @return
      */
 
-    public boolean delete(final int id) {
-        return dataSource.deleteUser(id);
+    public Result delete() {
+        return dataSource.deleteUser();
     }
-    public boolean extendUserToStudent(Set<Degree> degrees){
-        return dataSource.extendUserToStudent(degrees).getSuccess();
+
+    public Result extendUserToStudent(Set<Degree> degrees){
+        return dataSource.extendUserToStudent(degrees);
     }
-    public boolean extendUserToSupervisor(String degree, String location, String institute,String phoneNumber){
-        return dataSource.extendUserToSupervisor(degree,location,institute,phoneNumber).getSuccess();
+    public Result extendUserToSupervisor(String degree, String location, String institute,String phoneNumber){
+        return dataSource.extendUserToSupervisor(degree,location,institute,phoneNumber);
     }
 
 }

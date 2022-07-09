@@ -8,6 +8,7 @@ import com.hfad.thinder.data.source.result.Result;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,20 +38,17 @@ public class UniversityRemoteDataSource {
 
   UniversityApiService universityService = retrofit.create(UniversityApiService.class);
 
-  public Optional<List<String>> getUnis() {
+  public ArrayList<University> getUnis() {
     try {
-      Response<List<String>> result = universityService.getUnis();
-      if (result.isSuccessful() && result.body() != null) {
-
-        Optional.of(result.body());
-
-      }
+      Request request= new Request.Builder()
+              .url(url+"/university/")
+              .get()
+              .build();
+// return an array list of the universities
     } catch (Exception e) {
-      System.out.println(e);
-      // TO DO - bad practise!, dont return false return some error
-      return Optional.ofNullable(null);
+      return null;
     }
-    return Optional.ofNullable(null);
+    return null;
   }
 
 
