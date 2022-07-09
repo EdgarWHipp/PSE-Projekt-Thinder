@@ -121,7 +121,7 @@ public class UsersRemoteDataSource {
         try {
 
             okhttp3.Response response = okHttpService.createNewUserResponse(user);
-            System.out.println(response.body().string());
+
             //user ID und Typ abfragen
 
 

@@ -19,7 +19,6 @@ import okhttp3.Response;
 public class UsersApiService {
   private static final MediaType JSON
           = MediaType.parse("application/json; charset=utf-8");
-  com.hfad.thinder.data.source.remote.retrofit.UsersApiService userService;
   com.hfad.thinder.data.source.remote.okhttp.UsersApiService okHttpService;
   OkHttpClient client = new OkHttpClient();
   String url = "http://localhost:8080";
