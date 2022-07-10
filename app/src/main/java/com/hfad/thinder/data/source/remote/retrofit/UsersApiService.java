@@ -5,7 +5,7 @@ import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.User;
 
-import com.hfad.thinder.data.source.remote.Login;
+import com.hfad.thinder.data.model.Login;
 
 import java.util.List;
 

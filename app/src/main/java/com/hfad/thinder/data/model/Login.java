@@ -1,4 +1,4 @@
-package com.hfad.thinder.data.source.remote;
+package com.hfad.thinder.data.model;
 
 public class Login {
   public String password;
