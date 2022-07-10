@@ -1,6 +1,7 @@
 package com.hfad.thinder.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import com.hfad.thinder.R;
 
 import android.os.Bundle;
 
