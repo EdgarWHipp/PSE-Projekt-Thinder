@@ -8,6 +8,7 @@ import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.model.Login;
 
 import java.util.List;
+import java.util.UUID;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -93,7 +94,7 @@ public interface UsersApiService {
      * @return List of Responses
      */
     @GET("users/{userId}/Theses/{thesisId}")
-    Response<Thesis> getUserThesis(@Path("userId") int userId,@Path("userId") int thesisId );
+    Response<Thesis> getUserThesis(@Path("userId") UUID thesisId );
 
     /**
      * Applies changes to a specific thesis (determined through the id)

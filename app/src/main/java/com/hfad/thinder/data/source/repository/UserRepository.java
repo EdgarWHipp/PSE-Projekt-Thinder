@@ -65,7 +65,9 @@ public final class UserRepository {
     }
 
 
-
+    public Result getUserThesis(UUID thesisId){
+        return dataSource.getUserThesis(thesisId);
+    }
 
     /**
      * handles the login -> sends the password and the mail and checks if such a user is already registrated.
@@ -113,7 +115,7 @@ public final class UserRepository {
      * @return true if the call succeeds and false otherwise.
      */
 
-    public Result registrate(String firstName, String secondName, String password, String eMail) throws JSONException {
+    public Result registrate(String firstName, String secondName, String password, String eMail) {
         return dataSource.createNewUser(new User(password,eMail,firstName,secondName));
     }
 
