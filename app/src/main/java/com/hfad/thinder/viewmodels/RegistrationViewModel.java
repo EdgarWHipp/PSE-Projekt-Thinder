@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.R;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,9 +16,6 @@ public class RegistrationViewModel extends ViewModel {
 
   private MutableLiveData<RegistrationFormState> registrationFormState = new MutableLiveData<>();
   private MutableLiveData<RegistrationResult> registrationResult = new MutableLiveData<>();
-
-  // Position of the item selected by the spinner, i.e. the entry of the university
-  private MutableLiveData<Integer> selectedItemPosition;
 
   private MutableLiveData<String> email;
   private MutableLiveData<String> firstName;
@@ -66,16 +62,6 @@ public class RegistrationViewModel extends ViewModel {
     return this.registrationResult;
   }
 
-  public MutableLiveData<Integer> getSelectedItemPosition() {
-    if (selectedItemPosition == null) {
-      selectedItemPosition = new MutableLiveData<Integer>();
-    }
-    return selectedItemPosition;
-  }
-
-  public void setSelectedItemPosition(MutableLiveData<Integer> selectedItemPosition) {
-    this.selectedItemPosition = selectedItemPosition;
-  }
 
   public MutableLiveData<String> getEmail() {
     if (email == null) {
@@ -134,9 +120,6 @@ public class RegistrationViewModel extends ViewModel {
 
   //---------private methods---------------------------------------------------------------------
 
-  private void loadUniversities() {
-    //Todo: hole Universitäten aus dem Repository
-  }
 
   private Integer passwordFormIsValid() {
     if (password.getValue() == null || password.getValue().equals("")) {
