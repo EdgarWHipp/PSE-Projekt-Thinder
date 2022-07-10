@@ -98,12 +98,24 @@ public class ThesisManagerFragment extends Fragment {
         elements.add(new ThesisManagerItem(" Data-Driven Methods for Spectator Symmetry Plane Estimation in CBM Experiment at FAIR ", "Test", R.drawable.index));
 
 
+        buildRecyclerView(view);
+    }
+
+    private void buildRecyclerView(View view) {
         recyclerView = binding.recyclerView;
         layoutManager = new LinearLayoutManager(view.getContext());
         adapter = new ThesisManagerAdapter(elements);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new ThesisManagerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                // Handle click events
+                Navigation.findNavController(view).navigate(R.id.action_thesisManagerFragment_to_editThesisFragment);
+            }
+        });
     }
 
     @Override
@@ -122,6 +134,10 @@ public class ThesisManagerFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.theses_manager_menu, menu);
 
+        buildSearchView(menu);
+    }
+
+    private void buildSearchView(Menu menu) {
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
 

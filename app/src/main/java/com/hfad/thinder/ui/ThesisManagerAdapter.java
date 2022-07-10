@@ -19,17 +19,38 @@ public class ThesisManagerAdapter extends RecyclerView.Adapter<ThesisManagerAdap
 
     private ArrayList<ThesisManagerItem> elements;
     private ArrayList<ThesisManagerItem> elementsFull;
+    private OnItemClickListener listener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.listener = listener;
+    }
 
     public static class ThesisManagerViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
         public TextView description;
         public ImageView image;
 
-        public ThesisManagerViewHolder(@NonNull View itemView) {
+        public ThesisManagerViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             title = itemView.findViewById(R.id.tvTitle);
             description = itemView.findViewById(R.id.tvDescription);
             image = itemView.findViewById(R.id.ivThesisManagerItem);
+
+            itemView.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view){
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -42,7 +63,7 @@ public class ThesisManagerAdapter extends RecyclerView.Adapter<ThesisManagerAdap
     @Override
     public ThesisManagerAdapter.ThesisManagerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_thesis_manager, parent, false);
-        ThesisManagerAdapter.ThesisManagerViewHolder coursesOfStudyViewHolder = new ThesisManagerAdapter.ThesisManagerViewHolder(v);
+        ThesisManagerAdapter.ThesisManagerViewHolder coursesOfStudyViewHolder = new ThesisManagerAdapter.ThesisManagerViewHolder(v, listener);
         return coursesOfStudyViewHolder;
     }
 
