@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/thesisManagerFragment"
+        android:id="@+id/swipeScreenFragment"
+        android:icon="@drawable/ic_fire"
+        android:title="@string/swipe_screen"/>
+    <item
+        android:id="@+id/likedThesesFragment"
         android:icon="@drawable/ic_home"
         android:title="@string/home_screen" />
     <item
-        android:id="@+id/supervisorProfileFragment"
+        android:id="@+id/studentProfileFragment"
         android:icon="@drawable/ic_person"
         android:title="@string/profile" />
 </menu>

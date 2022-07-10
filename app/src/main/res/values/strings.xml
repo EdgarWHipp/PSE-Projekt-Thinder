@@ -60,18 +60,22 @@
     <string name="verification_ongoing">The given token is currently undertaking verification.</string>
     <string name="verify_token">Verify token</string>
     <string name="insert_token">Enter token</string>
-    <string name="Token">Token</string>
+    <string name="token">Token</string>
+    <!-- Student Strings -->
+    <string name="swipe_screen">Swipe screen</string>
+    <string name="fill_out_form">Fill out form</string>
+    <string name="liked_theses">Liked theses</string>
+    <string name="details">Details</string>
+    <string name="hello_blank_fragment">remove</string>
 
     <!-- Registration View Model Strings -->
     <string name="no_password_error">Password field must not be empty</string>
-    <string name="password_to_short_error">Password to short</string>
+    <string name="password_to_short_error">Password too short</string>
     <string name="password_not_safe_error">Password needs to contain at least one number and one upper case letter</string>
     <string name="no_password_confirmation_error">Password confirmation field must not be empty</string>
     <string name="passwords_do_not_match_error">Passwords do not match</string>
-    <string name="no_email_error">E-Mail field must not be empty</string>
-    <string name="invalid_email_error">Invalid E-Mail address</string>
+    <string name="no_email_error">E-mail field must not be empty</string>
+    <string name="invalid_email_error">Invalid E-mail address</string>
     <string name="no_first_name_error">First name field must not be empty</string>
     <string name="no_last_name_error">Last name field must not be empty</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

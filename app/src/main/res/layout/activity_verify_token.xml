@@ -72,7 +72,7 @@
                 android:id="@+id/tvEnterToken"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Token"
+                android:text="@string/token"
                 app:layout_constraintBottom_toTopOf="@id/etEnterToken"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />

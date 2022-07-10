@@ -61,7 +61,12 @@
     <string name="verification_ongoing">Der übergebene Token befindet sich momentan in der Verifizierung.</string>
     <string name="verify_token">Token verifizieren</string>
     <string name="insert_token">Token eingeben</string>
-    <string name="Token">Token</string>
+    <string name="token">Token</string>
+    <!-- student strings -->
+    <string name="swipe_screen">Swipe Seite</string>
+    <string name="fill_out_form">Formular ausfüllen</string>
+    <string name="liked_theses">Positiv bewertete Abschlussarbeiten</string>
+    <string name="details">Details</string>
 
     <!-- Registration View Model Strings -->
     <string name="no_password_error">Passwortfeld darf nicht leer sein</string>
