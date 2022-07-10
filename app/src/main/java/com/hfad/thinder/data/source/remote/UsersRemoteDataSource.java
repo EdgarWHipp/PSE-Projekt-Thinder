@@ -125,7 +125,7 @@ public class UsersRemoteDataSource {
 
 
 
-    public Result createNewUser(User user) throws JSONException {
+    public Result createNewUser(User user) {
         try {
 
             okhttp3.Response response = okHttpService.createNewUserResponse(user);
@@ -251,19 +251,7 @@ public class UsersRemoteDataSource {
     }
     */
 
-    public Optional<Thesis> getUserThesis(final int userId,final int thesisId){
-        try {
-            Response<Thesis> result = userService.getUserThesis(userId,thesisId);
-            if (result.isSuccessful() && result.body() != null) {
-
-                return Optional.of(result.body());
-
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-            // TO DO - bad practise!, dont return false return some error
-            return Optional.ofNullable(null);
-        }
-        return Optional.ofNullable(null);
+    public Result getUserThesis(final UUID thesisId) {
+        return new Result(false);
     }
 }

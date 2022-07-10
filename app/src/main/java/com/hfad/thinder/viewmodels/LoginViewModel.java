@@ -3,31 +3,31 @@ package com.hfad.thinder.viewmodels;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.source.repository.UserRepository;
+import com.hfad.thinder.data.source.result.Result;
 
 
 //Todo: Javadoc schreiben.
 public class LoginViewModel extends ViewModel {
 
   private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
-  private UserRepository loginRepository = UserRepository.getInstance();
+  private UserRepository userRepository = UserRepository.getInstance();
   private MutableLiveData<Boolean> isDataValid = new MutableLiveData<>();
   private MutableLiveData<String> email;
   private MutableLiveData<String> password;
 
   //Ruft die Login Funktion im Repository auf und aktualisiert den Zustand der Anmeldung
   public void login() {
-    //Result restult;
-    //restult = loginRepository.login(email.getValue(), password.getValue());
-    //Todo: Implementiere Festlegung des loginResults, wenn Implementierung des Repositories bekannt ist
-    //if (!restult.getSuccess()) {//Todo ändern
-    //loginResult.setValue(new LoginResult(email.getValue() + " " + password.getValue() + "Succes",
-    //  false));
-    //} else if (!false) {
-    //loginResult.setValue(new LoginResult(email.getValue() + " " + password.getValue() + "Succes",
-    //  false));
-    //}
-    loginResult.setValue(new LoginResult("loginErrror", false));
+    Result restult;
+    restult = userRepository.login(email.getValue(), password.getValue());
+    if (!restult.getSuccess()) {
+      loginResult.setValue(new LoginResult(restult.getErrorMessage(), null));
+    } else if (userRepository.getType() == USERTYPE.STUDENT) {
+      loginResult.setValue(null, Success.STUDENT));
+    } else if (userRepository.getType() == USERTYPE.SUPERVISOR) {
+      loginResult.setValue(null, Success.SUPERVISOR);
+    }
   }
 
   public void loginDataChanged() {

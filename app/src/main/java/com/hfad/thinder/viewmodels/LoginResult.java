@@ -8,24 +8,27 @@ public class LoginResult {
   @Nullable
   private final String errorMessage;
 
-  private final boolean success;
+  @Nullable
+  private final Success success;
 
-  public LoginResult(@Nullable String errorMessage, boolean success) {
+
+  public LoginResult(@Nullable String errorMessage, @Nullable Success success) {
     this.errorMessage = errorMessage;
     this.success = success;
   }
 
-  public LoginResult(boolean success) {
-    this.errorMessage = null;
-    this.success = success;
-  }
 
   @Nullable
   public String getErrorMessage() {
     return this.errorMessage;
   }
 
-  public boolean getSuccess() {
+  @Nullable
+  public Success getSuccess() {
     return this.success;
+  }
+
+  public boolean isSuccess() {
+    return this.success != null;
   }
 }
