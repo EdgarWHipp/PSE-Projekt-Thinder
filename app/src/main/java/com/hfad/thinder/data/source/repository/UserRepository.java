@@ -1,6 +1,7 @@
 package com.hfad.thinder.data.source.repository;
 
 import com.hfad.thinder.data.model.Degree;
+import com.hfad.thinder.data.model.Login;
 import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.model.User;
@@ -65,15 +66,15 @@ public final class UserRepository {
 
 
 
-   
+
     /**
      * handles the login -> sends the password and the mail and checks if such a user is already registrated.
      * @return the id of the user
      */
 
     public Result login(String password, String eMail) {
-        currentId=dataSource.login(password, eMail).getSecond();
-        return dataSource.login(password, eMail).getFirst();
+        setCurrentId(dataSource.login(new Login(password,eMail)).getSecond());
+        return dataSource.login(new Login(password,eMail)).getFirst();
 
     }
 
