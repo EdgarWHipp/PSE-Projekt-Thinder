@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.R;
 import com.hfad.thinder.data.source.repository.UserRepository;
+import com.hfad.thinder.data.source.result.Result;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,15 +32,15 @@ public class RegistrationViewModel extends ViewModel {
 
   // This function is called when the user presses the register button
   public void register() {
-    //Result result = userRepository.registrate(firstName.getValue(), lastName.getValue(), //Todo warte darauf, dass repository result zurück gibt
-    //universities.getValue().get(selectedItemPosition.getValue()), password.getValue(),
-    // email.getValue());
-    //if (!result.getSuccess()) {
-    // registrationResult.setValue(new RegistrationResult(R.string.token_error,
-    //    false));//Todo echten fehler aus Backend erhaltern
-    // } else {
-    registrationResult.setValue(new RegistrationResult(null, true));
-    // }
+    Result result =
+        userRepository.registrate(firstName.getValue(), lastName.getValue(), password.getValue(),
+            email.getValue());
+    if (!result.getSuccess()) {
+      registrationResult.setValue(new RegistrationResult(result.getErrorMessage(),
+          false));
+    } else {
+      registrationResult.setValue(new RegistrationResult(null, true));
+    }
 
   }
 
