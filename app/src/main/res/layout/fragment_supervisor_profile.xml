@@ -2,6 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.hfad.thinder.viewmodels.supervisor.EditProfileViewModel" />
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,10 +27,10 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/btSaveProfile"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/btSaveProfile">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -74,6 +81,8 @@
                         android:id="@+id/spChooseDegree"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:entries="@={viewmodel.academicTitles}"
+                        android:selectedItemPosition="@={viewmodel.selectedAcademicTitlePosition}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/twDegree">
@@ -86,6 +95,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:hint="@string/insert_first_name"
+                        android:text="@={viewmodel.firstName}"
                         app:layout_constraintEnd_toStartOf="@+id/etLastName"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/twFirstName" />
@@ -96,6 +106,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:hint="@string/insert_last_name"
+                        android:text="@={viewmodel.lastName}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/etFirstName"
                         app:layout_constraintTop_toBottomOf="@+id/twLastName" />
@@ -126,6 +137,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:hint="@string/insert_building"
+                        android:text="@={viewmodel.building}"
                         app:layout_constraintEnd_toStartOf="@+id/etRoom"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/twBuilding" />
@@ -136,6 +148,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:hint="@string/insert_room"
+                        android:text="@={viewmodel.room}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/etBuilding"
                         app:layout_constraintTop_toBottomOf="@+id/twRoom" />
@@ -157,6 +170,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/insert_phone_number"
                         android:inputType="phone"
+                        android:text="@={viewmodel.phoneNumber}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/twPhoneNumber" />
@@ -178,6 +192,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/insert_institute"
                         android:inputType="phone"
+                        android:text="@={viewmodel.institute}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/twInstitute" />
