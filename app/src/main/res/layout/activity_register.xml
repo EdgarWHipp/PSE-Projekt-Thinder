@@ -169,27 +169,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/twconfirmpassword" />
 
-                    <TextView
-                        android:id="@+id/etchooseuniversity"
-                        style="@style/body_2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/university"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/etconfirmpassword" />
-
-                    <Spinner
-                        android:id="@+id/spchooseuniversity"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:entries="@{viewmodel.universities}"
-                        android:selectedItemPosition="@={viewmodel.selectedItemPosition}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/etchooseuniversity">
-
-                    </Spinner>
 
                 </LinearLayout>
             </ScrollView>

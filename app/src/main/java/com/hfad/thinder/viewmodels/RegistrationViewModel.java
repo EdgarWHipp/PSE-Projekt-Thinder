@@ -16,11 +16,9 @@ public class RegistrationViewModel extends ViewModel {
 
   private MutableLiveData<RegistrationFormState> registrationFormState = new MutableLiveData<>();
   private MutableLiveData<RegistrationResult> registrationResult = new MutableLiveData<>();
-  private ArrayList<String> testUniversities;//Todo:löschen
 
   // Position of the item selected by the spinner, i.e. the entry of the university
   private MutableLiveData<Integer> selectedItemPosition;
-  private MutableLiveData<ArrayList<String>> universities;
 
   private MutableLiveData<String> email;
   private MutableLiveData<String> firstName;
@@ -131,24 +129,6 @@ public class RegistrationViewModel extends ViewModel {
 
   public void setPasswordConfirmation(MutableLiveData<String> passwordConfirmation) {
     this.passwordConfirmation = passwordConfirmation;
-  }
-
-  public MutableLiveData<ArrayList<String>> getUniversities() {
-    if (testUniversities == null) {
-      testUniversities = new ArrayList<String>();
-      testUniversities.add("KIT");
-      testUniversities.add("TUM");
-    }
-    if (universities == null) {
-      universities = new MutableLiveData<ArrayList<String>>();
-      universities.setValue(testUniversities);
-      loadUniversities();
-    }
-    return universities;
-  }
-
-  public void setUniversities(MutableLiveData<ArrayList<String>> universities) {
-    this.universities = universities;
   }
 
   //---------private methods---------------------------------------------------------------------
