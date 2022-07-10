@@ -1,14 +1,260 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.EditThesisFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="edit thesis" />
+        tools:context=".ui.EditThesisFragment">
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/fab_margin"
+            android:paddingTop="@dimen/fab_margin"
+            android:paddingRight="@dimen/fab_margin"
+            android:paddingBottom="@dimen/fab_margin">
+
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@id/btSave"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tvThesisTitle"
+                        style="@style/body_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/name_of_thesis"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                    </TextView>
+
+                    <EditText
+                        android:id="@+id/etInsertNameOfThesis"
+                        style="@style/headline_h6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/insert_name_of_thesis"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvThesisTitle">
+
+                    </EditText>
+
+                    <TextView
+                        android:id="@+id/tvTask"
+                        style="@style/body_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/task"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/etInsertNameOfThesis">
+
+                    </TextView>
+
+                    <EditText
+                        android:id="@+id/etInsertTask"
+                        style="@style/body_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_rounded"
+                        android:gravity="top"
+                        android:hint="@string/add_task"
+                        android:inputType="textMultiLine"
+                        android:minLines="@integer/multiline_textview_linenum"
+                        android:padding="@dimen/multiline_textview_padding"
+                        android:scrollbars="vertical"
+                        android:scrollHorizontally="false"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvTask">
+
+                    </EditText>
+
+                    <TextView
+                        android:id="@+id/tvMotivation"
+                        style="@style/body_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/motivation"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/etInsertTask">
+
+                    </TextView>
+
+                    <EditText
+                        android:id="@+id/etInsertMotivation"
+                        style="@style/body_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_rounded"
+                        android:gravity="top"
+                        android:hint="@string/add_motivation"
+                        android:inputType="textMultiLine"
+                        android:minLines="@integer/multiline_textview_linenum"
+                        android:padding="@dimen/multiline_textview_padding"
+                        android:scrollbars="vertical"
+                        android:scrollHorizontally="false"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvMotivation">
+
+                    </EditText>
+
+                    <TextView
+                        android:id="@+id/tvQuestions"
+                        style="@style/body_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/student_questions"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/etInsertMotivation">
+
+                    </TextView>
+
+                    <EditText
+                        android:id="@+id/etInsertQuestions"
+                        style="@style/body_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_rounded"
+                        android:gravity="top"
+                        android:hint="@string/add_questions"
+                        android:inputType="textMultiLine"
+                        android:minLines="@integer/multiline_textview_linenum"
+                        android:padding="@dimen/multiline_textview_padding"
+                        android:scrollbars="vertical"
+                        android:scrollHorizontally="false"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvQuestions">
+
+                    </EditText>
+
+                    <TextView
+                        android:id="@+id/tvSupervisingProf"
+                        style="@style/body_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/supervising_professor"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/etInsertQuestions">
+
+                    </TextView>
+
+                    <EditText
+                        android:id="@+id/etInsertSupervisingProf"
+                        style="@style/headline_h6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/insert_supervising_professor"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvSupervisingProf">
+
+                    </EditText>
+
+                    <Button
+                        android:id="@+id/btPickCoursesOfStudy"
+                        style="@style/button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/add_courses_of_study"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/etInsertSupervisingProf">
+
+                    </Button>
+
+                    <TextView
+                        android:id="@+id/tvCoursesOfStudy"
+                        style="@style/body_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_rounded"
+                        android:padding="@dimen/multiline_textview_padding"
+                        android:text="Informatik, Physik, Mathematik"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/btPickCoursesOfStudy">
+
+                    </TextView>
+
+                    <Button
+                        android:id="@+id/btAddImages"
+                        style="@style/button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/ic_image_search"
+                        android:text="@string/add_images_from_gallery"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvCoursesOfStudy">
+
+                    </Button>
+
+                    <TextView
+                        android:id="@+id/tvImagesFromGallery"
+                        style="@style/body_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_rounded"
+                        android:padding="@dimen/multiline_textview_padding"
+                        android:text="Solarpanele.png"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/btAddImages">
+
+                    </TextView>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </ScrollView>
+
+            <Button
+                android:id="@+id/btSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_save"
+                android:text="@string/save"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/btRemoveProfile">
+
+            </Button>
+
+            <Button
+                android:id="@+id/btRemoveProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_save"
+                android:text="@string/remove"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btSave"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent">
+
+            </Button>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+</layout>
