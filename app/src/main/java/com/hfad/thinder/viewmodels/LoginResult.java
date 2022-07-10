@@ -9,12 +9,12 @@ public class LoginResult {
   private final String errorMessage;
 
   @Nullable
-  private final Success success;
+  private final ResultTypes resultTypes;
 
 
-  public LoginResult(@Nullable String errorMessage, @Nullable Success success) {
+  public LoginResult(@Nullable String errorMessage, @Nullable ResultTypes resultTypes) {
     this.errorMessage = errorMessage;
-    this.success = success;
+    this.resultTypes = resultTypes;
   }
 
 
@@ -24,11 +24,11 @@ public class LoginResult {
   }
 
   @Nullable
-  public Success getSuccess() {
-    return this.success;
+  public ResultTypes getSuccess() {
+    return this.resultTypes;
   }
 
   public boolean isSuccess() {
-    return this.success != null;
+    return this.resultTypes != null;
   }
 }

@@ -2,36 +2,65 @@ package com.hfad.thinder.viewmodels;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
+import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.source.repository.UserRepository;
 
 public class VerifyTokenViewModel extends ViewModel {
 
-    private UserRepository userRepository = UserRepository.getInstance();
+  private static final UserRepository userRepository = UserRepository.getInstance();
+  private MutableLiveData<String> token;
+  private MutableLiveData<VerifyTokenResult> verifyTokenResult;
+  private MutableLiveData<VerifyTokenStates> state;
+  // Todo: Auch nach dem Verlassen der App muss, befor es weiter geht der Token verifiziert werden in(siehe login seite)
 
+  public void VerifyToken() {
+    state.setValue(VerifyTokenStates.LOADING);
 
-    private MutableLiveData<VerifyTokenStates> state;
-    // Todo: Livedata String für Token hinzufügen
-
-    public void VerifyToken() {
-        state.setValue(VerifyTokenStates.LOADING);
-        /** Todo: Implementieren
-         * Wird durch Button im Viewmodel aufgerufen
-         * Beispielcode nicht final!!
-         *
-         * Result result = userRepository.confirmPassword();
-         * String errorMessage = result.getErrorMessage();
-         * String success = result.getSuccess();
-         * result.setValue(new ConfirmPasswordResult(errorMessage, success);
-         */
+    boolean result = userRepository.verifyToken(
+        token.getValue());//Todo: hier auch ein Result zurückgeben für Fehlermeldungen
+    if (!result) {
+      if (userRepository.getType() == USERTYPE.STUDENT) {
+        verifyTokenResult.setValue(new VerifyTokenResult(null, ResultTypes.STUDENT));
+      }
+      if (userRepository.getType() == USERTYPE.SUPERVISOR) {
+        verifyTokenResult.setValue(new VerifyTokenResult(null, ResultTypes.SUPERVISOR));
+      }
+      state.setValue(VerifyTokenStates.SUCCESSFUL);
+    } else {
+      verifyTokenResult.setValue(new VerifyTokenResult("Verifizierung fehlgeschlagen",
+          null));//Todo: hier kommt error aus model
+      state.setValue(VerifyTokenStates.FAILURE);
     }
 
-    public MutableLiveData<VerifyTokenStates> getState() {
-        if (state == null) {
-            state = new MutableLiveData<>();
-            state.setValue(VerifyTokenStates.IDLE);
-        }
-        return state;
+  }
+
+  //---------------------getter and setter
+
+
+  public MutableLiveData<String> getToken() {
+    if (token == null) {
+      token = new MutableLiveData<>();
     }
+    return token;
+  }
+
+  public void setToken(MutableLiveData<String> token) {
+    this.token = token;
+  }
+
+  public MutableLiveData<VerifyTokenResult> getVerifyTokenResult() {
+    if (verifyTokenResult == null) {
+      verifyTokenResult = new MutableLiveData<>();
+    }
+    return verifyTokenResult;
+  }
+
+  public MutableLiveData<VerifyTokenStates> getState() {
+    if (state == null) {
+      state = new MutableLiveData<>();
+      state.setValue(VerifyTokenStates.IDLE);
+    }
+    return state;
+  }
 
 }

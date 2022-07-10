@@ -24,10 +24,11 @@ public class LoginViewModel extends ViewModel {
     if (!restult.getSuccess()) {
       loginResult.setValue(new LoginResult(restult.getErrorMessage(), null));
     } else if (userRepository.getType() == USERTYPE.STUDENT) {
-      loginResult.setValue(null, Success.STUDENT));
+      loginResult.setValue(null, ResultTypes.STUDENT));
     } else if (userRepository.getType() == USERTYPE.SUPERVISOR) {
-      loginResult.setValue(null, Success.SUPERVISOR);
+      loginResult.setValue(null, ResultTypes.SUPERVISOR);
     }
+    //Todo: es fehlt noch ein Unverified
   }
 
   public void loginDataChanged() {

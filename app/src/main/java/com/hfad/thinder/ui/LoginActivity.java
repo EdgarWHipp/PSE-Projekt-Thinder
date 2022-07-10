@@ -13,7 +13,7 @@ import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.ActivityLoginBinding;
 import com.hfad.thinder.viewmodels.LoginResult;
 import com.hfad.thinder.viewmodels.LoginViewModel;
-import com.hfad.thinder.viewmodels.Success;
+import com.hfad.thinder.viewmodels.ResultTypes;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -52,15 +52,17 @@ public class LoginActivity extends AppCompatActivity {
       @Override
       public void onChanged(LoginResult loginResult) {
         if (loginResult.isSuccess()) {
-          if (loginResult.getSuccess() == Success.STUDENT) {
+          if (loginResult.getSuccess() == ResultTypes.STUDENT) {
             goToStudentActivity();
           }
-          if (loginResult.getSuccess() == Success.SUPERVISOR) {
+          if (loginResult.getSuccess() == ResultTypes.SUPERVISOR) {
             goToSupervisorActivity();
           }
         }
       }
     };
+
+    viewmodel.getLoginResult().observe(this, loginSuccessfulObserver);
 
     mBinding.etLoginEMail.addTextChangedListener(afterTextChangedListener);
     mBinding.etLoginPassword.addTextChangedListener(afterTextChangedListener);
