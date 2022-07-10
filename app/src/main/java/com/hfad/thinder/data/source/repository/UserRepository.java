@@ -65,9 +65,7 @@ public final class UserRepository {
 
 
 
-    public Result studentRegistration(Set<Degree> degrees){
-        return dataSource.extendUserToStudent(degrees);
-    }
+   
     /**
      * handles the login -> sends the password and the mail and checks if such a user is already registrated.
      * @return the id of the user
