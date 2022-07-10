@@ -24,9 +24,9 @@ public class LoginViewModel extends ViewModel {
     if (!restult.getSuccess()) {
       loginResult.setValue(new LoginResult(restult.getErrorMessage(), null));
     } else if (userRepository.getType() == USERTYPE.STUDENT) {
-      loginResult.setValue(null, ResultTypes.STUDENT));
+      loginResult.setValue(new LoginResult(null, ResultTypes.STUDENT));
     } else if (userRepository.getType() == USERTYPE.SUPERVISOR) {
-      loginResult.setValue(null, ResultTypes.SUPERVISOR);
+      loginResult.setValue(new LoginResult(null, ResultTypes.SUPERVISOR));
     }
     //Todo: es fehlt noch ein Unverified
   }
