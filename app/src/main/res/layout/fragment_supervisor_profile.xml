@@ -81,7 +81,7 @@
                         android:id="@+id/spChooseDegree"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:entries="@={viewmodel.academicTitles}"
+                        android:entries="@{viewmodel.academicTitles}"
                         android:selectedItemPosition="@={viewmodel.selectedAcademicTitlePosition}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
