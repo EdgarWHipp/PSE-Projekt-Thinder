@@ -2,13 +2,15 @@ package com.hfad.thinder.viewmodels.supervisor;
 
 import androidx.lifecycle.MutableLiveData;
 import com.hfad.thinder.data.source.repository.UserRepository;
+import java.util.ArrayList;
 
 public class EditProfileViewModel {
-  private final UserRepository editProfileRepository = UserRepository.getInstance();
+  private final UserRepository userRepository = UserRepository.getInstance();
   private MutableLiveData<EditProfileFormState> formState;
   private MutableLiveData<EditProfileResult> safeResult;
   private MutableLiveData<EditProfileResult> deleteResult;
-  private MutableLiveData<String> academicTitle;
+  private MutableLiveData<ArrayList<String>> academicTitles;
+  private MutableLiveData<Integer> selectedAcademicTitlePosition;
   private MutableLiveData<String> firstName;
   private MutableLiveData<String> lastName;
   private MutableLiveData<String> building;
@@ -53,16 +55,26 @@ public class EditProfileViewModel {
     return deleteResult;
   }
 
-  public MutableLiveData<String> getAcademicTitle() {
-    if (academicTitle == null) {
-      academicTitle = new MutableLiveData<>();
-      loadAcademicDegree();
+  public MutableLiveData<ArrayList<String>> getAcademicTitles() {
+    loadAcademicTitles();
+    if (academicTitles == null) {
+      academicTitles = new MutableLiveData<>();
+
     }
-    return academicTitle;
+    return academicTitles;
   }
 
-  public void setAcademicTitle(MutableLiveData<String> academicTitle) {
-    this.academicTitle = academicTitle;
+  public MutableLiveData<Integer> getSelectedAcademicTitlePosition() {
+    loadSelectedAcademicTitlePosition();
+    if (selectedAcademicTitlePosition == null) {
+      selectedAcademicTitlePosition = new MutableLiveData<>();
+    }
+    return selectedAcademicTitlePosition;
+  }
+
+  public void setSelectedAcademicTitlePosition(
+      MutableLiveData<Integer> selectedAcademicTitlePosition) {
+    this.selectedAcademicTitlePosition = selectedAcademicTitlePosition;
   }
 
   public MutableLiveData<String> getFirstName() {
@@ -139,7 +151,11 @@ public class EditProfileViewModel {
 
   //-------------------private Methods--------------------------------------------------
 
-  private void loadAcademicDegree() {
+  private void loadAcademicTitles() {
+    //Todo: lade aus Repo
+  }
+
+  private void loadSelectedAcademicTitlePosition() {
     //Todo: lade aus Repo
   }
 
