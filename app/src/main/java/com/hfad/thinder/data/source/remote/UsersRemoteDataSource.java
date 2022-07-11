@@ -33,7 +33,7 @@ public class UsersRemoteDataSource {
     private static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
     UsersApiService userService;
-    private com.hfad.thinder.data.source.remote.okhttp.UsersApiService okHttpService;
+    private com.hfad.thinder.data.source.remote.okhttp.UsersApiService okHttpService = new com.hfad.thinder.data.source.remote.okhttp.UsersApiService();
     OkHttpClient client = new OkHttpClient();
     String url = "http://localhost:8080";
 
