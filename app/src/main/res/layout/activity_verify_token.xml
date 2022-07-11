@@ -7,9 +7,9 @@
 
         <variable
             name="viewmodel"
-            type="com.hfad.thinder.viewmodels.VerifyTokenViewModel" />
+            type="com.hfad.thinder.viewmodels.user.VerifyTokenViewModel" />
 
-        <import type="com.hfad.thinder.viewmodels.VerifyTokenStates" />
+        <import type="com.hfad.thinder.viewmodels.user.VerifyTokenStates" />
     </data>
 
     <LinearLayout

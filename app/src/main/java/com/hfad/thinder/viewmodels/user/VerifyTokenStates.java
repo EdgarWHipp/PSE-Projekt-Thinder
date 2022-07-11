@@ -1,4 +1,4 @@
-package com.hfad.thinder.viewmodels;
+package com.hfad.thinder.viewmodels.user;
 
 /**
  * The different states the ConfirmPasswordActivity can be in.

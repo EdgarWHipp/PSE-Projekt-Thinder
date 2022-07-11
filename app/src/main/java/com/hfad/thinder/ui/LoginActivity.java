@@ -11,8 +11,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.ActivityLoginBinding;
-import com.hfad.thinder.viewmodels.LoginResult;
-import com.hfad.thinder.viewmodels.LoginViewModel;
+import com.hfad.thinder.viewmodels.user.LoginResult;
+import com.hfad.thinder.viewmodels.user.LoginViewModel;
 import com.hfad.thinder.viewmodels.ResultTypes;
 
 public class LoginActivity extends AppCompatActivity {

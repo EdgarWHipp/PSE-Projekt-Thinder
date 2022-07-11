@@ -1,4 +1,4 @@
-package com.hfad.thinder.viewmodels;
+package com.hfad.thinder.viewmodels.user;
 
 
 import androidx.lifecycle.MutableLiveData;
@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
+import com.hfad.thinder.viewmodels.ResultTypes;
 
 
 //Todo: Javadoc schreiben.

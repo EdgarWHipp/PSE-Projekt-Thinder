@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.ActivityForgotPasswordBinding;
-import com.hfad.thinder.viewmodels.ForgotPasswordViewModel;
+import com.hfad.thinder.viewmodels.user.ForgotPasswordViewModel;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 

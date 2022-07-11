@@ -1,9 +1,11 @@
-package com.hfad.thinder.viewmodels;
+package com.hfad.thinder.viewmodels.user;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.hfad.thinder.data.source.repository.UserRepository;
+import com.hfad.thinder.viewmodels.user.ForgotPasswordFormState;
+import com.hfad.thinder.viewmodels.user.ForgotPasswordResult;
 
 public class ForgotPasswordViewModel extends ViewModel {
   private final UserRepository forgotPasswordRepository = UserRepository.getInstance();

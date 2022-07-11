@@ -1,6 +1,7 @@
-package com.hfad.thinder.viewmodels;
+package com.hfad.thinder.viewmodels.user;
 
 import androidx.annotation.Nullable;
+import com.hfad.thinder.viewmodels.ResultTypes;
 
 public class VerifyTokenResult {
 

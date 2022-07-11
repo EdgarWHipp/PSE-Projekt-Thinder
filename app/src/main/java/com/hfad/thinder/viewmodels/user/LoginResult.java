@@ -1,6 +1,7 @@
-package com.hfad.thinder.viewmodels;
+package com.hfad.thinder.viewmodels.user;
 
 import androidx.annotation.Nullable;
+import com.hfad.thinder.viewmodels.ResultTypes;
 
 //Enthält informationen darüber, ob der Login erfolgreich war
 public class LoginResult {

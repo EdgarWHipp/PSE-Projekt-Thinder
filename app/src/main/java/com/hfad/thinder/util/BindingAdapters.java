@@ -8,7 +8,7 @@ import androidx.databinding.BindingAdapter;
 
 import com.hfad.thinder.R;
 
-import com.hfad.thinder.viewmodels.VerifyTokenStates;
+import com.hfad.thinder.viewmodels.user.VerifyTokenStates;
 
 public class BindingAdapters {
     /**

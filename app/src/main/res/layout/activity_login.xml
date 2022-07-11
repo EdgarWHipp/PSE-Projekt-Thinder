@@ -6,7 +6,7 @@
 
         <variable
             name="viewmodel"
-            type="com.hfad.thinder.viewmodels.LoginViewModel" />
+            type="com.hfad.thinder.viewmodels.user.LoginViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

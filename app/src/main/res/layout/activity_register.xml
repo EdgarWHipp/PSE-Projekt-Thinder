@@ -6,7 +6,7 @@
 
         <variable
             name="viewmodel"
-            type="com.hfad.thinder.viewmodels.RegistrationViewModel" />
+            type="com.hfad.thinder.viewmodels.user.RegistrationViewModel" />
     </data>
 
     <LinearLayout

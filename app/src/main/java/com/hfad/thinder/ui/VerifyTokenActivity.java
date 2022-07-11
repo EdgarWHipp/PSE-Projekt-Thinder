@@ -9,8 +9,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.ActivityVerifyTokenBinding;
 import com.hfad.thinder.viewmodels.ResultTypes;
-import com.hfad.thinder.viewmodels.VerifyTokenResult;
-import com.hfad.thinder.viewmodels.VerifyTokenViewModel;
+import com.hfad.thinder.viewmodels.user.VerifyTokenResult;
+import com.hfad.thinder.viewmodels.user.VerifyTokenViewModel;
 
 public class VerifyTokenActivity extends AppCompatActivity {
 

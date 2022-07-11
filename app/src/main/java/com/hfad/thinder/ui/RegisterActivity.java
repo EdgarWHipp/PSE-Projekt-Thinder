@@ -13,9 +13,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.ActivityRegisterBinding;
-import com.hfad.thinder.viewmodels.RegistrationFormState;
-import com.hfad.thinder.viewmodels.RegistrationResult;
-import com.hfad.thinder.viewmodels.RegistrationViewModel;
+import com.hfad.thinder.viewmodels.user.RegistrationFormState;
+import com.hfad.thinder.viewmodels.user.RegistrationResult;
+import com.hfad.thinder.viewmodels.user.RegistrationViewModel;
 
 
 public class RegisterActivity extends AppCompatActivity {
