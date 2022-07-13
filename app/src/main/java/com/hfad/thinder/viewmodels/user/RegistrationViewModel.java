@@ -13,7 +13,7 @@ public class RegistrationViewModel extends ViewModel {
   private static final Pattern PASSWORD_PATTERN =
       Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$");
   private static final Pattern EMAIL_PATTERN = Pattern.compile(
-      "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\\\.[A-Za-z0-9-]+)*(\\\\.[A-Za-z]{2,})$");
+      "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$");
   private static final UserRepository userRepository = UserRepository.getInstance();
 
   private MutableLiveData<RegistrationFormState> registrationFormState = new MutableLiveData<>();
