@@ -2,7 +2,7 @@ package com.hfad.thinder.data.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Supervisor extends User{
+public class Supervisor extends User {
 
     @SerializedName("degree")
     private String academicDegree;
@@ -23,36 +23,36 @@ public class Supervisor extends User{
         this.phoneNumber = phoneNumber;
     }
 
-    public void setAcademicDegree(String academicDegree) {
-        this.academicDegree = academicDegree;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public void setInstitute(String institute) {
-        this.institute = institute;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     public String getAcademicDegree() {
         return academicDegree;
+    }
+
+    public void setAcademicDegree(String academicDegree) {
+        this.academicDegree = academicDegree;
     }
 
     public String getLocation() {
         return location;
     }
 
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public String getInstitute() {
         return institute;
     }
 
+    public void setInstitute(String institute) {
+        this.institute = institute;
+    }
+
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
 }
