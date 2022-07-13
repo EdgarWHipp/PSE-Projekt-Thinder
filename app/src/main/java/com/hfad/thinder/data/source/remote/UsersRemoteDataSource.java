@@ -1,11 +1,13 @@
 package com.hfad.thinder.data.source.remote;
 
+import com.google.gson.Gson;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Login;
 import com.hfad.thinder.data.model.LoginTuple;
 import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
+import com.hfad.thinder.data.model.ThesisTuple;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.remote.retrofit.UsersApiService;
 import com.hfad.thinder.data.source.repository.UserRepository;
@@ -26,6 +28,7 @@ public class UsersRemoteDataSource {
     private static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
     private final com.hfad.thinder.data.source.remote.okhttp.UsersApiService okHttpService = new com.hfad.thinder.data.source.remote.okhttp.UsersApiService();
+    private final Gson gson = new Gson();
     UsersApiService userService;
     OkHttpClient client = new OkHttpClient();
     String url = "http://localhost:8080";
@@ -242,19 +245,20 @@ public class UsersRemoteDataSource {
     }
 
 
-    public Thesis getUserThesis(final UUID thesisId) {
+    public ThesisTuple getUserThesis(final UUID thesisId) {
         try {
             okhttp3.Response result = okHttpService.getUserThesisResponse(thesisId);
-            if (result.isSuccessful()) {
+            if (result.isSuccessful() && result.body() != null) {
 
-                return new Result(true);
+                Thesis thesis = gson.fromJson(result.body().toString(), Thesis.class);
+
+                return new ThesisTuple(thesis, new Result(true));
 
             }
         } catch (Exception e) {
-            System.out.println(e);
-            return new Result("Error occurred in the API", false);
+            return new ThesisTuple(null, new Result("Error occurred in the API", false));
         }
-        return new Result("Did not receive status code 200", false);
+        return new ThesisTuple(null, new Result("Did not receive status code 200", false));
     }
-}
+
 }

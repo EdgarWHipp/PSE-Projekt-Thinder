@@ -2,7 +2,7 @@ package com.hfad.thinder.data.source.repository;
 
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Login;
-import com.hfad.thinder.data.model.Thesis;
+import com.hfad.thinder.data.model.ThesisTuple;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.remote.UsersRemoteDataSource;
@@ -10,8 +10,6 @@ import com.hfad.thinder.data.source.result.Result;
 
 import java.util.Set;
 import java.util.UUID;
-
-import okhttp3.Response;
 
 /**
  * Singleton instance of a StudentRepository.
@@ -25,7 +23,6 @@ public final class UserRepository {
     @SuppressWarnings("checkstyle:StaticVariableName")
     private static UserRepository INSTANCE;
     private final UsersRemoteDataSource dataSource = new UsersRemoteDataSource();
-    public Response delete
     private UUID currentId;
     private USERTYPE type;
 
@@ -121,7 +118,7 @@ public final class UserRepository {
      * @param thesisId
      * @return
      */
-    public Thesis getUserThesis(UUID thesisId) {
+    public ThesisTuple getUserThesis(UUID thesisId) {
         return dataSource.getUserThesis(thesisId);
     }
 
