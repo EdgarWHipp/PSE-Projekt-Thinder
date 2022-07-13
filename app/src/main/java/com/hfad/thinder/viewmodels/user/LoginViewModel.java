@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
-import com.hfad.thinder.viewmodels.ResultTypes;
 
 
 //Todo: Javadoc schreiben.
@@ -25,9 +24,9 @@ public class LoginViewModel extends ViewModel {
     if (!restult.getSuccess()) {
       loginResult.setValue(new LoginResult(restult.getErrorMessage(), null));
     } else if (userRepository.getType() == USERTYPE.STUDENT) {
-      loginResult.setValue(new LoginResult(null, ResultTypes.STUDENT));
+      loginResult.setValue(new LoginResult(null, RegistrationViewModel.ResultTypes.STUDENT));
     } else if (userRepository.getType() == USERTYPE.SUPERVISOR) {
-      loginResult.setValue(new LoginResult(null, ResultTypes.SUPERVISOR));
+      loginResult.setValue(new LoginResult(null, RegistrationViewModel.ResultTypes.SUPERVISOR));
     }
     //Todo: es fehlt noch ein Unverified
   }

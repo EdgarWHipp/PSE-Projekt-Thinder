@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.source.repository.UserRepository;
-import com.hfad.thinder.viewmodels.ResultTypes;
 
 public class VerifyTokenViewModel extends ViewModel {
 
@@ -21,10 +20,12 @@ public class VerifyTokenViewModel extends ViewModel {
         token.getValue());//Todo: hier auch ein Result zurückgeben für Fehlermeldungen
     if (!result) {
       if (userRepository.getType() == USERTYPE.STUDENT) {
-        verifyTokenResult.setValue(new VerifyTokenResult(null, ResultTypes.STUDENT));
+        verifyTokenResult.setValue(
+            new VerifyTokenResult(null, RegistrationViewModel.ResultTypes.STUDENT));
       }
       if (userRepository.getType() == USERTYPE.SUPERVISOR) {
-        verifyTokenResult.setValue(new VerifyTokenResult(null, ResultTypes.SUPERVISOR));
+        verifyTokenResult.setValue(
+            new VerifyTokenResult(null, RegistrationViewModel.ResultTypes.SUPERVISOR));
       }
       state.setValue(VerifyTokenStates.SUCCESSFUL);
     } else {

@@ -1,7 +1,6 @@
 package com.hfad.thinder.viewmodels.user;
 
 import androidx.annotation.Nullable;
-import com.hfad.thinder.viewmodels.ResultTypes;
 
 //Enthält informationen darüber, ob der Login erfolgreich war
 public class LoginResult {
@@ -10,10 +9,11 @@ public class LoginResult {
   private final String errorMessage;
 
   @Nullable
-  private final ResultTypes resultTypes;
+  private final RegistrationViewModel.ResultTypes resultTypes;
 
 
-  public LoginResult(@Nullable String errorMessage, @Nullable ResultTypes resultTypes) {
+  public LoginResult(@Nullable String errorMessage, @Nullable
+      RegistrationViewModel.ResultTypes resultTypes) {
     this.errorMessage = errorMessage;
     this.resultTypes = resultTypes;
   }
@@ -25,7 +25,7 @@ public class LoginResult {
   }
 
   @Nullable
-  public ResultTypes getSuccess() {
+  public RegistrationViewModel.ResultTypes getSuccess() {
     return this.resultTypes;
   }
 

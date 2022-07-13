@@ -1,7 +1,6 @@
 package com.hfad.thinder.viewmodels.user;
 
 import androidx.annotation.Nullable;
-import com.hfad.thinder.viewmodels.ResultTypes;
 
 public class VerifyTokenResult {
 
@@ -9,9 +8,10 @@ public class VerifyTokenResult {
   private String errorMessage;
 
   @Nullable
-  private ResultTypes success;
+  private RegistrationViewModel.ResultTypes success;
 
-  public VerifyTokenResult(@Nullable String errorMessage, @Nullable ResultTypes success) {
+  public VerifyTokenResult(@Nullable String errorMessage, @Nullable
+      RegistrationViewModel.ResultTypes success) {
     this.errorMessage = errorMessage;
     this.success = success;
   }
@@ -22,7 +22,7 @@ public class VerifyTokenResult {
   }
 
   @Nullable
-  public ResultTypes getSuccess() {
+  public RegistrationViewModel.ResultTypes getSuccess() {
     return this.success;
   }
 

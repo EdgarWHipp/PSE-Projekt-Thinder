@@ -6,8 +6,6 @@ import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.R;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
-import com.hfad.thinder.viewmodels.user.RegistrationFormState;
-import com.hfad.thinder.viewmodels.user.RegistrationResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -172,5 +170,11 @@ public class RegistrationViewModel extends ViewModel {
       return R.string.no_last_name_error;
     }
     return null;
+  }
+
+  public enum ResultTypes {
+    STUDENT,
+    SUPERVISOR,
+    UNVERIFIED;
   }
 }
