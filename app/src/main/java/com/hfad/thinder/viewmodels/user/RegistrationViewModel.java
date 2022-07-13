@@ -12,6 +12,8 @@ import java.util.regex.Pattern;
 public class RegistrationViewModel extends ViewModel {
   private static final Pattern PASSWORD_PATTERN =
       Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$");
+  private static final Pattern EMAIL_PATTERN = Pattern.compile(
+      "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\\\.[A-Za-z0-9-]+)*(\\\\.[A-Za-z]{2,})$");
   private static final UserRepository userRepository = UserRepository.getInstance();
 
   private MutableLiveData<RegistrationFormState> registrationFormState = new MutableLiveData<>();
@@ -152,7 +154,7 @@ public class RegistrationViewModel extends ViewModel {
     if (email.getValue() == null || email.getValue().equals("")) {
       return R.string.no_email_error;
     }
-    if (!email.getValue().contains("@")) {
+    if (!EMAIL_PATTERN.matcher(email.getValue()).matches()) {
       return R.string.invalid_email_error;
     }
     return null;
