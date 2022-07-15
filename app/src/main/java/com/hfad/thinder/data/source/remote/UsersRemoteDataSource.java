@@ -1,5 +1,7 @@
 package com.hfad.thinder.data.source.remote;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.Gson;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Login;
@@ -8,17 +10,23 @@ import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.ThesisTuple;
+import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.remote.retrofit.UsersApiService;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import retrofit2.Response;
@@ -147,49 +155,96 @@ public class UsersRemoteDataSource {
      * @return Result
      */
     public Result createNewUser(User user) {
+
+
+
+        CompletableFuture<Result> result = new CompletableFuture<Result>();
         try {
+            okHttpService.createNewUserCall(user).enqueue(new Callback() {
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                    result.completeExceptionally(e);
+                }
 
-            okhttp3.Response response = okHttpService.createNewUserResponse(user);
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull okhttp3.Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        try {
+                            JSONObject userPost = new JSONObject(response.body().toString());
+                            String id = userPost.getString("id");
+                            String typeString = userPost.getString("type");
 
-            //user ID und Typ abfragen
+
+                            if (typeString.equals("student")) {
+                                UserRepository.getInstance().setType(USERTYPE.STUDENT);
+                                UserRepository.getInstance().setCurrentUUID(UUID.fromString(id));
+                                result.complete(new Result(true));
+                            } else if (typeString.equals("supervisor")) {
+
+                                UserRepository.getInstance().setType(USERTYPE.SUPERVISOR);
+                                UserRepository.getInstance().setCurrentUUID(UUID.fromString(id));
+                                result.complete(new Result(true));
+                            } else {
+                                result.complete(new Result("error", false));
+                            }
+
+                        } catch (JSONException j) {
+                            result.complete(new Result("error", false));
+                        }
+
+                    } else {
+                        result.complete(new Result("error", false));
+                    }
+
+                }
+
+            });
 
 
-            if (response.isSuccessful()) {
+            return result.get();
 
-                UserRepository.getInstance().setCurrentUUID(null);
-                return new Result(true);
-            } else {
-                return new Result("did not receive Statuscode 200", false);
-            }
 
-        } catch (IOException e) {
-            return new Result("Error occurred in the API", false);
-        } catch (JSONException j) {
-            return new Result("Wrong format for the API", false);
+        } catch (JSONException | ExecutionException | InterruptedException e) {
+            return new Result("error",false);
         }
 
     }
-
     /**
      * Handles the error messages of the deleteUserResponse HTTP DELETE request in the UsersApiService class. Also checks if the response is successful.
      *
      * @return Result
      */
     public Result deleteUser() {
+        CompletableFuture<Result> result = new CompletableFuture<Result>();
         try {
-            okhttp3.Response response = okHttpService.deleteUserResponse();
-            if (response.isSuccessful()) {
-                //User returnVal = result.body();
-                return new Result(true);
+            okHttpService.deleteUserResponse().enqueue(new Callback() {
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                    result.completeExceptionally(e);
+                }
 
-            } else {
-                return new Result("did not receive Statuscode 200", false);
-            }
-        } catch (IOException e) {
-            System.out.println(e);
-            // TO DO - bad practise!, dont return false return some error
-            return new Result("Error occurred in the API", false);
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull okhttp3.Response response) throws IOException {
+                    if (response.isSuccessful()) {
+
+
+                        result.complete(new Result(true));
+                    } else {
+                        result.complete(new Result("error", false));
+                    }
+
+                }
+
+            });
+
+
+            return result.get();
+
+
+        } catch ( ExecutionException | InterruptedException | IOException e) {
+            return new Result("error",false);
         }
+
 
 
     }
@@ -231,7 +286,7 @@ public class UsersRemoteDataSource {
 
     public Result deleteUserThesis(final UUID thesisId) {
         try {
-            okhttp3.Response result = okHttpService.deleteUserThesisResponse(thesisId);
+            okhttp3.Response result = okHttpService.deleteUserThesisCall(thesisId);
             if (result.isSuccessful()) {
 
                 return new Result(true);

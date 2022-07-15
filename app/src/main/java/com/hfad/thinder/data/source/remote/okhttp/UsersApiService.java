@@ -142,23 +142,28 @@ public class UsersApiService {
      * @throws JSONException
      * @throws IOException
      */
-    public Response createNewUserResponse(User user) throws JSONException, IOException {
+    public Call createNewUserCall(User user) throws JSONException {
+
         JSONObject userJson = new JSONObject()
                 .put("firstName", user.getFirstName())
                 .put("lastName", user.getLastName())
                 .put("password", user.getPassword())
                 .put("mail", user.geteMail());
 
-        RequestBody body = RequestBody.create(userJson.toString(), JSON);
+
+        RequestBody body=RequestBody.create(userJson.toString(),JSON);
 
 
-        Request request = new Request.Builder()
-                .url(url + "/users/")
+        Request request= new Request.Builder()
+                .url(url+"/users/")
                 .post(body)
                 .build();
 
         Call call = client.newCall(request);
-        return call.execute();
+        return call;
+
+
+
     }
 
     /**
@@ -167,13 +172,13 @@ public class UsersApiService {
      * @return Response message of the backend which isnt yet parsed.
      * @throws IOException
      */
-    public Response deleteUserResponse() throws IOException {
-        Request request = new Request.Builder()
-                .url(url + "/users/" + UserRepository.getInstance().getCurrentUUID())
+    public Call deleteUserResponse() throws IOException {
+        Request request= new Request.Builder()
+                .url(url+"/users/"+UserRepository.getInstance().getCurrentUUID())
                 .delete()
                 .build();
         Call call = client.newCall(request);
-        return call.execute();
+        return call;
     }
 
     /**
@@ -183,7 +188,7 @@ public class UsersApiService {
      * @param thesisId
      * @return Response
      */
-    public Response deleteUserThesisResponse(final UUID thesisId) throws IOException {
+    public Response deleteUserThesisCall(final UUID thesisId) throws IOException {
 
         Request request = new Request.Builder()
                 .url(url + "/users/thesis/" + thesisId)

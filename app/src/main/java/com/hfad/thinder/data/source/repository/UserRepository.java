@@ -25,6 +25,30 @@ public final class UserRepository {
     private final UsersRemoteDataSource dataSource = new UsersRemoteDataSource();
     private UUID currentId;
     private USERTYPE type;
+    
+    public ThesisTuple getUserThesis(UUID thesisId) {
+        return dataSource.getUserThesis(thesisId);
+    }
+
+    public UUID getCurrentId() {
+        return currentId;
+    }
+
+    public USERTYPE getType() {
+        return type;
+    }
+
+    public void setType(USERTYPE type) {
+        this.type = type;
+    }
+
+    public UUID getCurrentUUID() {
+        return currentId;
+    }
+
+    public void setCurrentUUID(UUID currentId) {
+        this.currentId = currentId;
+    }
 
     private UserRepository() {
     }
@@ -118,29 +142,6 @@ public final class UserRepository {
      * @param thesisId
      * @return
      */
-    public ThesisTuple getUserThesis(UUID thesisId) {
-        return dataSource.getUserThesis(thesisId);
-    }
-
-    public UUID getCurrentId() {
-        return currentId;
-    }
-
-    public USERTYPE getType() {
-        return type;
-    }
-
-    public void setType(USERTYPE type) {
-        this.type = type;
-    }
-
-    public UUID getCurrentUUID() {
-        return currentId;
-    }
-
-    public void setCurrentUUID(UUID currentId) {
-        this.currentId = currentId;
-    }
 
 
 }
