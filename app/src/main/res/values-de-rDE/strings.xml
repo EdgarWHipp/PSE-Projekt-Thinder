@@ -78,4 +78,6 @@
     <string name="invalid_email_error">Invalide E-Mail Adresse</string>
     <string name="no_first_name_error">Vorname Muss angegeben werden</string>
     <string name="no_last_name_error">Nachname muss angegeben werden</string>
+
+
 </resources>
