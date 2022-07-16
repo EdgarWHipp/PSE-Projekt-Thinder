@@ -120,12 +120,12 @@ public final class UserRepository {
      * @param degrees
      * @return Result
      */
-    public Result extendUserToStudent(Set<Degree> degrees) {
-        return dataSource.extendUserToStudent(degrees);
+    public Result editProfilStudent(Set<Degree> degrees, String firstName, String lastName) {
+        return dataSource.extendUserToStudent(degrees,firstName,lastName);
     }
 
     /**
-     * Extends a user to a supervisor (this occurs during the edit profile screen where the user has to input aditional information)
+     * Edits the profile of a supervisor (this occurs during the edit profile screen where the user has to input additional information)
      *
      * @param degree
      * @param location
@@ -133,8 +133,8 @@ public final class UserRepository {
      * @param phoneNumber
      * @return Result
      */
-    public Result extendUserToSupervisor(String degree, String location, String institute, String phoneNumber) {
-        return dataSource.extendUserToSupervisor(degree, location, institute, phoneNumber);
+    public Result editProfilSupervisor(String degree, String location, String institute, String phoneNumber,String firstName,String lastName) {
+        return dataSource.extendUserToSupervisor(degree, location, institute, phoneNumber,firstName,lastName);
     }
 
     /**

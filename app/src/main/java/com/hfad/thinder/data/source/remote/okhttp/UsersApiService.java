@@ -75,23 +75,44 @@ public class UsersApiService {
      * @throws JSONException
      * @throws IOException
      */
-    public Response extendUserToSupervisorResponse(String degree, String location, String institute, String phoneNumber) throws JSONException, IOException {
+    public CompletableFuture<Result> editSupervisorProfileFuture(String degree, String location, String institute, String phoneNumber,String firstName, String lastName)
+            throws JSONException, IOException {
+        CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         JSONObject supervisorJson = new JSONObject()
                 .put("academicDegree", degree)
                 .put("location", location)
                 .put("institute", institute)
                 .put("phoneNumber", phoneNumber)
-                .put("theses", null);
+                .put("theses", null)
+                .put("firstName",firstName)
+                .put("lastName",lastName);
+
 
         RequestBody body = RequestBody.create(supervisorJson.toString(), JSON);
 
-        Request request = new Request.Builder()
-                .url(url + "/supervisor/" + UserRepository.getInstance().getCurrentUUID())
+        Request requestSupervisor = new Request.Builder()
+                .url(url + "/users/" + UserRepository.getInstance().getCurrentUUID())
                 .put(body)
                 .build();
 
-        Call call = client.newCall(request);
-        return call.execute();
+        Call callSupervisor = client.newCall(requestSupervisor);
+        callSupervisor.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                resultCompletableFuture.complete(new Result(e.toString(),false));
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (response.isSuccessful()){
+                    resultCompletableFuture.complete(new Result(true));
+                }else {
+                    resultCompletableFuture.complete(new Result("error",false));
+                }
+            }
+        });
+
+        return resultCompletableFuture;
     }
 
     /**
@@ -100,32 +121,52 @@ public class UsersApiService {
      * @param degrees
      * @return Response message of the backend which isnt yet parsed.
      */
-    public Response extendUserToStudentResponse(Set<Degree> degrees) throws JSONException, IOException {
+    public CompletableFuture<Result> editStudentProfileFuture(Set<Degree> degrees,String firstName,String lastName) throws JSONException, IOException {
+        CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         JSONObject studentJson = new JSONObject()
                 .put("degrees", degrees)
-                .put("thesesRatings", null);
+                .put("thesesRatings", null)
+                .put("firstName",firstName)
+                .put("lastName",lastName);
 
 
         RequestBody body = RequestBody.create(studentJson.toString(), JSON);
 
 
         Request request = new Request.Builder()
-                .url(url + "/student/" + UserRepository.getInstance().getCurrentUUID())
+                .url(url + "/users/" + UserRepository.getInstance().getCurrentUUID())
                 .put(body)
                 .build();
 
         Call call = client.newCall(request);
-        return call.execute();
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                resultCompletableFuture.complete(new Result(e.toString(),false));
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    resultCompletableFuture.complete(new Result(true));
+                }else{
+                    resultCompletableFuture.complete(new Result("not successful",false));
+                }
+            }
+        });
+        return resultCompletableFuture;
     }
 
     /**
+     * This function creates the HTTP PUT request, tracks if the call was a failure or had a response and
+     * if it was successful and returns an appropriate completable future that holds a Result.
      * @param token
-     * @return
+     * @return CompletableFuture
      * @throws JSONException
      * @throws IOException
      */
-    public Response verifyResponse(String token) throws JSONException, IOException {
-
+    public CompletableFuture<Result> verifyFuture(String token) throws JSONException, IOException {
+        CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         JSONObject tokenJson = new JSONObject()
                 .put("token", token);
         RequestBody body = RequestBody.create(tokenJson.toString(), JSON);
@@ -138,17 +179,32 @@ public class UsersApiService {
 
         Call call = client.newCall(request);
 
-        return call.execute();
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                resultCompletableFuture.complete(new Result(e.toString(),true));
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (response.isSuccessful()){
+                    resultCompletableFuture.complete(new Result(true));
+                }else{
+                    resultCompletableFuture.complete(new Result("not successful",false));
+                }
+            }
+        });
+        return resultCompletableFuture;
     }
 
     /**
      * This function creates the HTTP POST request and thus, if no error occurs, leads to the creation of a new user in the postgres database.
      *
      * @param user
-     * @return Call message of the backend which isnt yet parsed.
+     * @return CompletableFuture
      * @throws JSONException
      */
-    public CompletableFuture<Result> createNewUserCall(User user) throws JSONException {
+    public CompletableFuture<Result> createNewUserFuture(User user) throws JSONException {
 
         JSONObject userJson = new JSONObject()
                 .put("firstName", user.getFirstName())

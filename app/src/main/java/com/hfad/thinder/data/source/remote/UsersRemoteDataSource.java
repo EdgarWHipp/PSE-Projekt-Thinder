@@ -51,21 +51,23 @@ public class UsersRemoteDataSource {
      * @param degrees
      * @return Result
      */
-    public Result extendUserToStudent(Set<Degree> degrees) {
+    public Result extendUserToStudent(Set<Degree> degrees,String firstName,String lastName) {
 
         try {
-            okhttp3.Response response = okHttpService.extendUserToStudentResponse(degrees);
+            CompletableFuture<Result> result = okHttpService.editStudentProfileFuture(degrees,firstName,lastName);
+             return result.get(10000,TimeUnit.SECONDS);
 
-            if (response.isSuccessful()) {
-                return new Result(true);
-            } else {
-                return new Result("did not receive Statuscode 200", false);
-            }
 
         } catch (IOException e) {
-            return new Result("Error occurred in the API", false);
+            return new Result("error", false);
         } catch (JSONException j) {
-            return new Result("Wrong format for the API", false);
+            return new Result("error", false);
+        } catch (ExecutionException e) {
+            return new Result("error", false);
+        } catch (InterruptedException e) {
+            return new Result("error", false);
+        } catch (TimeoutException e) {
+            return new Result("error", false);
         }
     }
 
@@ -80,23 +82,23 @@ public class UsersRemoteDataSource {
      * @param phoneNumber
      * @return Result
      */
-    public Result extendUserToSupervisor(String degree, String location, String institute, String phoneNumber) {
+    public Result extendUserToSupervisor(String degree, String location, String institute, String phoneNumber,String firstName,String lastName) {
         try {
 
-            okhttp3.Response response = okHttpService
-                    .extendUserToSupervisorResponse(degree, location, institute, phoneNumber);
-
-            if (response.isSuccessful()) {
-                return new Result(true);
-            } else {
-                return new Result("did not receive Statuscode 200", false);
-            }
-
-        } catch (IOException e) {
-            return new Result("Error occurred in the API", false);
-        } catch (JSONException j) {
-            return new Result("Wrong format for the API", false);
+            CompletableFuture<Result> result = okHttpService.editSupervisorProfileFuture(degree, location, institute, phoneNumber,firstName,lastName);
+            return result.get(10000,TimeUnit.SECONDS);
+        }catch(JSONException j){
+            return new Result("error",false);
+        }catch(IOException i){
+            return new Result("error",false);
+        } catch (ExecutionException e) {
+            return new Result("error",false);
+        } catch (InterruptedException e) {
+            return new Result("error",false);
+        } catch (TimeoutException e) {
+            return new Result("error",false);
         }
+
     }
 
     /**
@@ -106,18 +108,22 @@ public class UsersRemoteDataSource {
      * @return Result
      */
     public Result isVerify(String token) {
-        try {
 
-            okhttp3.Response response = okHttpService.verifyResponse(token);
-            if (response.isSuccessful()) {
-                return new Result(true);
-            } else {
-                return new Result("did not receive Statuscode 200", false);
-            }
-
-        } catch (Exception e) {
-            return new Result("Error occurred in the API", false);
-        }
+    try {
+        CompletableFuture<Result> result = okHttpService.verifyFuture(token);
+        return result.get(10000, TimeUnit.SECONDS);
+        //only added for troubleshooting
+    }catch(JSONException j){
+        return new Result("error",false);
+    }catch(IOException i){
+        return new Result("error",false);
+    }catch(ExecutionException e){
+        return new Result("error",false);
+    }catch(InterruptedException ie){
+        return new Result("error",false);
+    }catch(TimeoutException t){
+        return new Result("error",false);
+    }
 
 
     }
@@ -160,7 +166,7 @@ public class UsersRemoteDataSource {
 
 
         try {
-            CompletableFuture<Result> result = okHttpService.createNewUserCall(user);
+            CompletableFuture<Result> result = okHttpService.createNewUserFuture(user);
             return result.get(10000, TimeUnit.SECONDS);
         }catch (JSONException e){
             return new Result("error",false);
