@@ -24,6 +24,8 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -157,56 +159,17 @@ public class UsersRemoteDataSource {
     public Result createNewUser(User user) {
 
 
-
-        CompletableFuture<Result> result = new CompletableFuture<Result>();
         try {
-            okHttpService.createNewUserCall(user).enqueue(new Callback() {
-                @Override
-                public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                    result.completeExceptionally(e);
-                }
-
-                @Override
-                public void onResponse(@NonNull Call call, @NonNull okhttp3.Response response) throws IOException {
-                    if (response.isSuccessful()) {
-                        try {
-                            JSONObject userPost = new JSONObject(response.body().toString());
-                            String id = userPost.getString("id");
-                            String typeString = userPost.getString("type");
-
-
-                            if (typeString.equals("student")) {
-                                UserRepository.getInstance().setType(USERTYPE.STUDENT);
-                                UserRepository.getInstance().setCurrentUUID(UUID.fromString(id));
-                                result.complete(new Result(true));
-                            } else if (typeString.equals("supervisor")) {
-
-                                UserRepository.getInstance().setType(USERTYPE.SUPERVISOR);
-                                UserRepository.getInstance().setCurrentUUID(UUID.fromString(id));
-                                result.complete(new Result(true));
-                            } else {
-                                result.complete(new Result("error", false));
-                            }
-
-                        } catch (JSONException j) {
-                            result.complete(new Result("error", false));
-                        }
-
-                    } else {
-                        result.complete(new Result("error", false));
-                    }
-
-                }
-
-            });
-
-
-            return result.get();
-
-
-        } catch (JSONException | ExecutionException | InterruptedException e) {
+            CompletableFuture<Result> result = okHttpService.createNewUserCall(user);
+            return result.get(10000, TimeUnit.SECONDS);
+        }catch (JSONException e){
+            return new Result("error",false);
+        } catch (ExecutionException e) {
+            return new Result("error",false);
+        } catch (InterruptedException | TimeoutException e) {
             return new Result("error",false);
         }
+
 
     }
     /**

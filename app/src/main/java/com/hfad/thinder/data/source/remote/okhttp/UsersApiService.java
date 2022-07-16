@@ -1,8 +1,12 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
+import androidx.annotation.NonNull;
+
 import com.hfad.thinder.data.model.Degree;
+import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.repository.UserRepository;
+import com.hfad.thinder.data.source.result.Result;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,8 +14,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -25,6 +31,7 @@ public class UsersApiService {
     com.hfad.thinder.data.source.remote.okhttp.UsersApiService okHttpService;
     OkHttpClient client = new OkHttpClient();
     String url = "http://localhost:8080";
+    String emulatorLocalHost = "http://10.0.2.2:8080";
 
     /**
      * This function creates the HTTP GET request that firstly makes sure the email, password tuple exists in the database and then fetches a JSON with attributes type and id.
@@ -138,11 +145,10 @@ public class UsersApiService {
      * This function creates the HTTP POST request and thus, if no error occurs, leads to the creation of a new user in the postgres database.
      *
      * @param user
-     * @return Response message of the backend which isnt yet parsed.
+     * @return Call message of the backend which isnt yet parsed.
      * @throws JSONException
-     * @throws IOException
      */
-    public Call createNewUserCall(User user) throws JSONException {
+    public CompletableFuture<Result> createNewUserCall(User user) throws JSONException {
 
         JSONObject userJson = new JSONObject()
                 .put("firstName", user.getFirstName())
@@ -151,20 +157,46 @@ public class UsersApiService {
                 .put("mail", user.geteMail());
 
 
-        RequestBody body=RequestBody.create(userJson.toString(),JSON);
+        RequestBody body = RequestBody.create(userJson.toString(), JSON);
 
 
-        Request request= new Request.Builder()
-                .url(url+"/users/")
+        Request request = new Request.Builder()
+                .url(emulatorLocalHost + "/users/")
                 .post(body)
                 .build();
-
+        CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         Call call = client.newCall(request);
-        return call;
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+                resultCompletableFuture.complete(new Result(e.toString(), false));
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+
+
+                            resultCompletableFuture.complete(new Result(true));
 
 
 
+                } else {
+
+                    resultCompletableFuture.complete(new Result("not successful", false));
+                }
+
+            }
+
+        });
+        return resultCompletableFuture;
     }
+
+
+
+
+
 
     /**
      * This function creates the HTTP DELETE request that removes a user from the database (if successful)

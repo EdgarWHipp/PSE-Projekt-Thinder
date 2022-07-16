@@ -10,6 +10,7 @@ import com.hfad.thinder.data.source.result.Result;
 
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Singleton instance of a StudentRepository.
@@ -25,7 +26,7 @@ public final class UserRepository {
     private final UsersRemoteDataSource dataSource = new UsersRemoteDataSource();
     private UUID currentId;
     private USERTYPE type;
-    
+
     public ThesisTuple getUserThesis(UUID thesisId) {
         return dataSource.getUserThesis(thesisId);
     }
@@ -97,7 +98,7 @@ public final class UserRepository {
      * @return true if the call succeeds and false otherwise.
      */
 
-    public Result registrate(String firstName, String secondName, String password, String eMail) {
+    public Result registrate(String firstName, String secondName, String password, String eMail)  {
         return dataSource.createNewUser(new User(password, eMail, firstName, secondName));
     }
 
