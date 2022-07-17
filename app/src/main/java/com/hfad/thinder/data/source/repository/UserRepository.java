@@ -74,8 +74,7 @@ public final class UserRepository {
      */
 
     public Result login(String password, String eMail) {
-        setCurrentUUID(dataSource.login(new Login(password, eMail)).getSecond());
-        return dataSource.login(new Login(password, eMail)).getFirst();
+        return dataSource.login(new Login(password, eMail));
 
     }
 

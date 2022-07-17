@@ -94,13 +94,14 @@ public class ApiCallUnitTest {
   @Test
   public void full_registration_including_posting_a_university() {
     //Result universityResult = UniversityRepository.getInstance().addUniversity("KSSIT",".*@student.kit.edu",".*@kit.edu");
-    Result resultUser = UserRepository.getInstance().registrate("edgar","hipp","password123","ux2x@student.kit.edu");
+   // Result resultUser = UserRepository.getInstance().registrate("edgar","hipp","password123","ux2x@student.kit.edu");
     //Post auf theses noch nicht implementiert -> Result thesisResult = ThesisRepository.getInstance().addThesis("thesisName","thesisBody",null,null,null,null);
-    //Result loginResult = UserRepository.getInstance().studentRegistration(null);
+    Result loginResult = UserRepository.getInstance().login("Klavierboy4!/","u22@kit.edu");
    //Assert.assertEquals(thesisResult.getSuccess() , true);
     //Assert.assertEquals(loginResult.getSuccess(),true);
    //Assert.assertEquals(universityResult.getSuccess() , true);
-   Assert.assertEquals(resultUser.getSuccess() , true);
+    System.out.print(loginResult.getErrorMessage());
+   Assert.assertEquals(loginResult.getSuccess() , true);
 
 
   }

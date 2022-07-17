@@ -1,5 +1,7 @@
 package com.hfad.thinder.data.source.remote;
 
+import android.app.VoiceInteractor;
+
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
@@ -20,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -132,26 +135,25 @@ public class UsersRemoteDataSource {
      * Handles the error messages of the usersLoginResponse HTTP GET request in the UsersApiService class. Also checks if the response is successful.
      *
      * @param login
-     * @return SHOULD BE RESULT!! -> change this
+     * @return Result
      */
-    public LoginTuple login(Login login) {
+    public Result login(Login login) {
 
 
         try {
 
-            okhttp3.Response response = okHttpService.usersLoginResponse(login.getPassword(), login.geteMail());
-            if (response.isSuccessful()) {
-
-                //parse response to get id!
-                //REMOVE LOGIN TUPLE
-                return new LoginTuple(new Result(true), null);
-            } else {
-                return new LoginTuple(new Result("did not receive Statuscode 200", false), null);
-            }
+            CompletableFuture<Result> result = okHttpService.usersLoginFuture(login.getPassword(), login.geteMail());
+           return result.get(10000,TimeUnit.SECONDS);
         } catch (IOException e) {
-            return new LoginTuple(new Result("Error occurred in the API", false), null);
-        } catch (JSONException j) {
-            return new LoginTuple(new Result("Wrong format for the API", false), null);
+            return new Result("error",false);
+        } catch (JSONException e) {
+            return new Result("error",false);
+        }catch (ExecutionException e){
+            return new Result("error",false);
+        }catch(TimeoutException e){
+            return new Result("error",false);
+        } catch (InterruptedException e) {
+            return new Result("error",false);
         }
 
     }
@@ -183,13 +185,13 @@ public class UsersRemoteDataSource {
      *
      * @return Result
      */
-    public Result deleteUser() {
-        CompletableFuture<Result> result = new CompletableFuture<Result>();
+    public CompletableFuture<Result> deleteUserFuture() {
+        CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<Result>();
         try {
             okHttpService.deleteUserResponse().enqueue(new Callback() {
                 @Override
                 public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                    result.completeExceptionally(e);
+                    resultCompletableFuture.complete(new Result(e.toString(),false));
                 }
 
                 @Override
@@ -197,9 +199,9 @@ public class UsersRemoteDataSource {
                     if (response.isSuccessful()) {
 
 
-                        result.complete(new Result(true));
+                        resultCompletableFuture.complete(new Result(true));
                     } else {
-                        result.complete(new Result("error", false));
+                        resultCompletableFuture.complete(new Result("not successful", false));
                     }
 
                 }
@@ -207,13 +209,14 @@ public class UsersRemoteDataSource {
             });
 
 
-            return result.get();
 
 
-        } catch ( ExecutionException | InterruptedException | IOException e) {
-            return new Result("error",false);
+
+        } catch (IOException e) {
+            resultCompletableFuture.complete(new Result(e.toString(), false));
         }
 
+        return resultCompletableFuture;
 
 
     }

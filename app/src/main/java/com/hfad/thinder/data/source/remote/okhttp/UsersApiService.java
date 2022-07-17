@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -30,6 +31,7 @@ public class UsersApiService {
             = MediaType.parse("application/json; charset=utf-8");
     com.hfad.thinder.data.source.remote.okhttp.UsersApiService okHttpService;
     OkHttpClient client = new OkHttpClient();
+
     String url = "http://localhost:8080";
     String emulatorLocalHost = "http://10.0.2.2:8080";
 
@@ -42,26 +44,45 @@ public class UsersApiService {
      * @throws JSONException
      * @throws IOException
      */
-    public Response usersLoginResponse(String password, String eMail) throws JSONException, IOException {
+    public CompletableFuture<Result> usersLoginFuture(String password, String eMail) throws JSONException, IOException {
+        CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         JSONObject loginJson = new JSONObject()
                 .put("password", password)
                 .put("mail", eMail);
         RequestBody body = RequestBody.create(loginJson.toString(), JSON);
+
         HttpUrl url = new HttpUrl.Builder()
                 .scheme("http")
-                .host("localhost:8080")
+                .host("10.0.2.2")
+                .port(8080)
                 .addPathSegment("users")
                 .addQueryParameter("password", password)
                 .addQueryParameter("mail", eMail)
                 .build();
-        System.out.println(url);
+        System.out.print(url);
         Request request = new Request.Builder()
                 .url(url)
                 .get()
                 .build();
 
         Call call = client.newCall(request);
-        return call.execute();
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                resultCompletableFuture.complete(new Result(e.toString(),false));
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    resultCompletableFuture.complete(new Result(response.body().toString(),true));
+                }else{
+                    resultCompletableFuture.complete(new Result(response.body().toString(),false));
+                }
+            }
+        });
+
+        return resultCompletableFuture;
     }
 
     /**
@@ -199,7 +220,7 @@ public class UsersApiService {
 
     /**
      * This function creates the HTTP POST request and thus, if no error occurs, leads to the creation of a new user in the postgres database.
-     *
+     * Also already defines the id and type of the registrated user for the UserRepository.
      * @param user
      * @return CompletableFuture
      * @throws JSONException
