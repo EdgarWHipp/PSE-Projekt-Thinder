@@ -135,14 +135,14 @@ public class UsersApiService {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if(response.isSuccessful()){
-                    resultCompletableFuture.complete(new Result(request.header("Authorization")+response.body().string()+"success",true));
+                    resultCompletableFuture.complete(new Result(true));
                 }else{
-                    resultCompletableFuture.complete(new Result(response.body().string()+"\n no success",false));
+                    resultCompletableFuture.complete(new Result("not successful",false));
                 }
             }
         });
 
-        return setUserRoleResult;
+        return resultCompletableFuture;
     }
 
     /**
