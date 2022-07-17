@@ -143,17 +143,18 @@ public class UsersRemoteDataSource {
         try {
 
             CompletableFuture<Result> result = okHttpService.usersLoginFuture(login.getPassword(), login.geteMail());
-           return result.get(10000,TimeUnit.SECONDS);
+
+           return result.get(30,TimeUnit.SECONDS);
         } catch (IOException e) {
-            return new Result("error",false);
+            return new Result(e.toString(),false);
         } catch (JSONException e) {
-            return new Result("error",false);
-        }catch (ExecutionException e){
-            return new Result("error",false);
+            return new Result(e.toString(),false);
+        } catch (ExecutionException e){
+            return new Result(e.toString(),false);
         }catch(TimeoutException e){
-            return new Result("error",false);
+            return new Result(e.toString(),false);
         } catch (InterruptedException e) {
-            return new Result("error",false);
+            return new Result(e.toString(),false);
         }
 
     }

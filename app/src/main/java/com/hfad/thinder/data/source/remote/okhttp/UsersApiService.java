@@ -2,9 +2,11 @@ package com.hfad.thinder.data.source.remote.okhttp;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.Gson;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.model.User;
+import com.hfad.thinder.data.source.remote.okhttp.basicauth.AuthInterceptor;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 
@@ -30,11 +32,68 @@ public class UsersApiService {
     private static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
     com.hfad.thinder.data.source.remote.okhttp.UsersApiService okHttpService;
-    OkHttpClient client = new OkHttpClient();
+    private static final OkHttpClient client = new OkHttpClient();
 
-    String url = "http://localhost:8080";
-    String emulatorLocalHost = "http://10.0.2.2:8080";
 
+    private static final String url = "http://localhost:8080";
+    private static final String  emulatorLocalHost = "http://10.0.2.2:8080";
+
+
+    private CompletableFuture<Result> setUserRole(String password, String eMail){
+        OkHttpClient clientAuth = new OkHttpClient.Builder()
+                .addInterceptor(new AuthInterceptor(eMail, password))
+                .build();
+        CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
+
+        HttpUrl url = new HttpUrl.Builder()
+                .scheme("http")
+                .host("10.0.2.2")
+                .port(8080)
+                .addPathSegment("users")
+                .addPathSegment("current")
+                .addPathSegment("getRole")
+                .build();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .build();
+
+        Call call = clientAuth.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                resultCompletableFuture.complete(new Result(e.toString(),false));
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    if(response.isSuccessful()){
+                        String returnValue = response.body().string();
+                        String userType =  returnValue.substring(1, returnValue.length() - 1);
+
+                        switch(userType) {
+                            case "SUPERVISOR":
+                                UserRepository.getInstance().setType(USERTYPE.SUPERVISOR);
+                                resultCompletableFuture.complete(new Result(true));
+                                break;
+                            case "STUDENT":
+                                UserRepository.getInstance().setType(USERTYPE.STUDENT);
+                                resultCompletableFuture.complete(new Result(true));
+                            default:
+                               // System.out.println(response.body().string());
+
+                                break;
+                        }
+                    }else {
+                        resultCompletableFuture.complete(new Result("not successful",false));
+                    }
+
+            }
+
+        });
+        return resultCompletableFuture;
+    }
     /**
      * This function creates the HTTP GET request that firstly makes sure the email, password tuple exists in the database and then fetches a JSON with attributes type and id.
      *
@@ -45,27 +104,28 @@ public class UsersApiService {
      * @throws IOException
      */
     public CompletableFuture<Result> usersLoginFuture(String password, String eMail) throws JSONException, IOException {
+        CompletableFuture<Result> setUserRoleResult= this.setUserRole(password,eMail);
+
+        OkHttpClient clientAuth = new OkHttpClient.Builder()
+                .addInterceptor(new AuthInterceptor(eMail, password))
+                .build();
+
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
-        JSONObject loginJson = new JSONObject()
-                .put("password", password)
-                .put("mail", eMail);
-        RequestBody body = RequestBody.create(loginJson.toString(), JSON);
 
         HttpUrl url = new HttpUrl.Builder()
                 .scheme("http")
                 .host("10.0.2.2")
                 .port(8080)
                 .addPathSegment("users")
-                .addQueryParameter("password", password)
-                .addQueryParameter("mail", eMail)
+                .addPathSegment("current")
                 .build();
-        System.out.print(url);
+
         Request request = new Request.Builder()
                 .url(url)
                 .get()
                 .build();
 
-        Call call = client.newCall(request);
+        Call call = clientAuth.newCall(request);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -75,14 +135,14 @@ public class UsersApiService {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if(response.isSuccessful()){
-                    resultCompletableFuture.complete(new Result(response.body().toString(),true));
+                    resultCompletableFuture.complete(new Result(request.header("Authorization")+response.body().string()+"success",true));
                 }else{
-                    resultCompletableFuture.complete(new Result(response.body().toString(),false));
+                    resultCompletableFuture.complete(new Result(response.body().string()+"\n no success",false));
                 }
             }
         });
 
-        return resultCompletableFuture;
+        return setUserRoleResult;
     }
 
     /**
@@ -231,7 +291,8 @@ public class UsersApiService {
                 .put("firstName", user.getFirstName())
                 .put("lastName", user.getLastName())
                 .put("password", user.getPassword())
-                .put("mail", user.geteMail());
+                .put("mail", user.geteMail())
+                .put("role","USER");
 
 
         RequestBody body = RequestBody.create(userJson.toString(), JSON);

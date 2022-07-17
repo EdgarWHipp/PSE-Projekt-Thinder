@@ -8,9 +8,14 @@ import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.remote.UsersRemoteDataSource;
 import com.hfad.thinder.data.source.result.Result;
 
+import java.io.IOException;
+import java.sql.Time;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Singleton instance of a StudentRepository.
@@ -24,8 +29,8 @@ public final class UserRepository {
     @SuppressWarnings("checkstyle:StaticVariableName")
     private static UserRepository INSTANCE;
     private final UsersRemoteDataSource dataSource = new UsersRemoteDataSource();
-    private UUID currentId;
-    private USERTYPE type;
+    private UUID currentId=null;
+    private USERTYPE type=null;
 
     public ThesisTuple getUserThesis(UUID thesisId) {
         return dataSource.getUserThesis(thesisId);
@@ -110,7 +115,17 @@ public final class UserRepository {
      */
 
     public Result delete() {
-        return dataSource.deleteUser();
+        try {
+            CompletableFuture<Result> resultCompletableFuture = dataSource.deleteUserFuture();
+            return resultCompletableFuture.get(100, TimeUnit.SECONDS);
+        }
+        catch(ExecutionException e){
+            return new Result(e.toString(),false);
+        } catch (InterruptedException e){
+            return new Result(e.toString(),false);
+        }catch (TimeoutException e){
+            return new Result(e.toString(),false);
+        }
     }
 
     /**
