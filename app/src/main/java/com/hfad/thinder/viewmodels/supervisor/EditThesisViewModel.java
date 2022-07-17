@@ -16,6 +16,10 @@ public class EditThesisViewModel {
     //Todo: implementieren
   }
 
+  public void delete() {
+    //Todo: implementieren
+  }
+
   //------------------getter and setter-----------------------------------------------------
 
   public MutableLiveData<String> getName() {
