@@ -5,75 +5,71 @@ import androidx.annotation.Nullable;
 public class EditProfileFormState {
 
   private final boolean isDataValid;
-  @Nullable
-  private final String academicDegreeErrorMessage;
-  @Nullable
-  private final String firstNameErrorMessage;
-  @Nullable
-  private final String lastNameErrorMessage;
-  @Nullable
-  private final String buildingErrorMessage;
-  @Nullable
-  private final String roomErrorMessage;
-  @Nullable
-  private final String phoneNumberErrorMessage;
-  @Nullable
-  private final String instituteErrorMessage;
 
-  public EditProfileFormState(@Nullable String academicDegreeErrorMessage,
-                              @Nullable String firstNameErrorMessage,
-                              @Nullable String lastNameErrorMessage,
-                              @Nullable String buildingErrorMessage,
-                              @Nullable String roomErrorMessage,
-                              @Nullable String phoneNumberErrorMessage,
-                              @Nullable String instituteErrorMessage,
-                              boolean isDataValid) {
-    this.academicDegreeErrorMessage = academicDegreeErrorMessage;
+  @Nullable
+  private final Integer firstNameErrorMessage;
+  @Nullable
+  private final Integer lastNameErrorMessage;
+  @Nullable
+  private final Integer buildingErrorMessage;
+  @Nullable
+  private final Integer roomErrorMessage;
+  @Nullable
+  private final Integer phoneNumberErrorMessage;
+  @Nullable
+  private final Integer instituteErrorMessage;
+
+  public EditProfileFormState(@Nullable Integer firstNameErrorMessage,
+                              @Nullable Integer lastNameErrorMessage,
+                              @Nullable Integer buildingErrorMessage,
+                              @Nullable Integer roomErrorMessage,
+                              @Nullable Integer phoneNumberErrorMessage,
+                              @Nullable Integer instituteErrorMessage
+  ) {
+
     this.firstNameErrorMessage = firstNameErrorMessage;
     this.lastNameErrorMessage = lastNameErrorMessage;
     this.buildingErrorMessage = buildingErrorMessage;
     this.roomErrorMessage = roomErrorMessage;
     this.phoneNumberErrorMessage = phoneNumberErrorMessage;
     this.instituteErrorMessage = instituteErrorMessage;
-    this.isDataValid = isDataValid;
+    this.isDataValid = firstNameErrorMessage != null &&
+        lastNameErrorMessage != null && buildingErrorMessage != null && roomErrorMessage != null &&
+        phoneNumberErrorMessage != null && instituteErrorMessage != null;
   }
 
   public boolean isDataValid() {
     return isDataValid;
   }
+  
 
   @Nullable
-  public String getAcademicDegreeErrorMessage() {
-    return academicDegreeErrorMessage;
-  }
-
-  @Nullable
-  public String getFirstNameErrorMessage() {
+  public Integer getFirstNameErrorMessage() {
     return firstNameErrorMessage;
   }
 
   @Nullable
-  public String getLastNameErrorMessage() {
+  public Integer getLastNameErrorMessage() {
     return lastNameErrorMessage;
   }
 
   @Nullable
-  public String getBuildingErrorMessage() {
+  public Integer getBuildingErrorMessage() {
     return buildingErrorMessage;
   }
 
   @Nullable
-  public String getRoomErrorMessage() {
+  public Integer getRoomErrorMessage() {
     return roomErrorMessage;
   }
 
   @Nullable
-  public String getPhoneNumberErrorMessage() {
+  public Integer getPhoneNumberErrorMessage() {
     return phoneNumberErrorMessage;
   }
 
   @Nullable
-  public String getInstituteErrorMessage() {
+  public Integer getInstituteErrorMessage() {
     return instituteErrorMessage;
   }
 }

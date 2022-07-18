@@ -1,10 +1,18 @@
 package com.hfad.thinder.viewmodels.supervisor;
 
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+import com.hfad.thinder.R;
 import com.hfad.thinder.data.source.repository.UserRepository;
+import com.hfad.thinder.data.source.result.Result;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
-public class EditProfileViewModel {
+public class EditProfileViewModel extends ViewModel {
+  private static final Pattern PHONE_NUMBER_PATTERN =
+      Pattern.compile("^(\\+\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$"
+          + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?){2}\\d{3}$"
+          + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?)(\\d{2}[ ]?){2}\\d{2}$");
   private final UserRepository userRepository = UserRepository.getInstance();
   private MutableLiveData<EditProfileFormState> formState;
   private MutableLiveData<EditProfileResult> safeResult;
@@ -20,15 +28,27 @@ public class EditProfileViewModel {
 
 
   public void safe() {
-    //Todo: implement
+    String degree = academicTitles.getValue().get(selectedAcademicTitlePosition.getValue());
+    String location = building.getValue() + " " + room.getValue();//Todo: eventuell ändern
+    String institute = getInstitute().getValue();
+    String phoneNumber = getPhoneNumber().getValue();
+    String firstName = getFirstName().getValue();
+    String lastName = getLastName().getValue();
+    Result result =
+        userRepository.editProfilSupervisor(degree, location, institute, phoneNumber, firstName,
+            lastName);
+    safeResult.setValue(new EditProfileResult(result.getErrorMessage(), result.getSuccess()));
   }
 
   public void delete() {
-    //Todo: implement
+    Result result = userRepository.delete();
+    deleteResult.setValue(new EditProfileResult(result.getErrorMessage(), result.getSuccess()));
   }
 
   public void profileDataChanged() {
-    //Todo: implement
+    formState.setValue(
+        new EditProfileFormState(checkFirstName(), checkLastName(), checkBuilding(), checkRoom(),
+            checkPhoneNumber(), checkInstitute()));
   }
 
   //------------getter and setter -------------------------
@@ -56,18 +76,17 @@ public class EditProfileViewModel {
   }
 
   public MutableLiveData<ArrayList<String>> getAcademicTitles() {
-    loadAcademicTitles();
     if (academicTitles == null) {
       academicTitles = new MutableLiveData<>();
-
+      loadAcademicTitles();
     }
     return academicTitles;
   }
 
   public MutableLiveData<Integer> getSelectedAcademicTitlePosition() {
-    loadSelectedAcademicTitlePosition();
     if (selectedAcademicTitlePosition == null) {
       selectedAcademicTitlePosition = new MutableLiveData<>();
+      loadSelectedAcademicTitlePosition();
     }
     return selectedAcademicTitlePosition;
   }
@@ -183,4 +202,48 @@ public class EditProfileViewModel {
     //Todo: lade aus Repo
   }
 
+  private Integer checkFirstName() {
+    if (firstName.getValue() == null || firstName.getValue().equals("")) {
+      return R.string.no_first_name_error;
+    }
+    return null;
+  }
+
+  private Integer checkLastName() {
+    if (lastName.getValue() == null || lastName.getValue().equals("")) {
+      return R.string.no_last_name_error;
+    }
+    return null;
+  }
+
+  private Integer checkBuilding() {
+    if (building.getValue() == null || building.getValue().equals("")) {
+      return R.string.no_building_error;
+    }
+    return null;
+  }
+
+  private Integer checkRoom() {
+    if (room.getValue() == null || room.getValue().equals("")) {
+      return R.string.no_room_error;
+    }
+    return null;
+  }
+
+  private Integer checkPhoneNumber() {
+    if (phoneNumber.getValue() == null || phoneNumber.getValue().equals("")) {
+      return R.string.no_phone_number_error;
+    }
+    if (!PHONE_NUMBER_PATTERN.matcher(phoneNumber.getValue()).matches()) {
+      return R.string.invalid_phone_number_error;
+    }
+    return null;
+  }
+
+  private Integer checkInstitute() {
+    if (institute.getValue() == null || institute.getValue().equals("")) {
+      return R.string.no_institute_error;
+    }
+    return null;
+  }
 }
