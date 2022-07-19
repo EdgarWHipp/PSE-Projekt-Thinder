@@ -143,17 +143,23 @@ public final class UserRepository {
     }
 
     /**
-     * Returns the specified thesis - the thesis has to already be liked by the user.
-     *
-     * @param
-     * @return
+     * The Backend sends the code that the user needs to reset their email.
+     * @param email
+     * @return Result
      */
     public Result sendRecoveryEmail(String email){
-        return new Result(true);
+        return dataSource.resetPassword(email);
     }
 
+    /**
+     * Sends the token that was received over the users mail to the backend
+     * and changes the password of the user in the DB.
+     * @param token
+     * @param newPassword
+     * @return Result
+     */
     public Result resetPasswordWithToken(String token, String newPassword){
-        return new Result(true);
+        return dataSource.sendNewPassword(token, newPassword);
     }
 
 }

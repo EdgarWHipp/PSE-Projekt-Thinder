@@ -46,9 +46,11 @@ public class UsersRemoteDataSource {
     UsersApiService userService;
     OkHttpClient client = new OkHttpClient();
     String url = "http://localhost:8080";
-    public UsersRemoteDataSource(){
+
+    public UsersRemoteDataSource() {
 
     }
+
     /**
      * The purpose of this function is to parse the result of the HTTP request and handle all errors that might occur. All necessary parameters are passed
      * * to the extendUserToStudentResponse class in the UsersApiService.
@@ -57,11 +59,11 @@ public class UsersRemoteDataSource {
      * @param degrees
      * @return Result
      */
-    public Result extendUserToStudent(Set<Degree> degrees,String firstName,String lastName) {
+    public Result extendUserToStudent(Set<Degree> degrees, String firstName, String lastName) {
 
         try {
-            CompletableFuture<Result> result = okHttpService.editStudentProfileFuture(degrees,firstName,lastName);
-             return result.get(10000,TimeUnit.SECONDS);
+            CompletableFuture<Result> result = okHttpService.editStudentProfileFuture(degrees, firstName, lastName);
+            return result.get(10000, TimeUnit.SECONDS);
 
 
         } catch (IOException e) {
@@ -88,21 +90,21 @@ public class UsersRemoteDataSource {
      * @param phoneNumber
      * @return Result
      */
-    public Result extendUserToSupervisor(String degree, String location, String institute, String phoneNumber,String firstName,String lastName) {
+    public Result extendUserToSupervisor(String degree, String location, String institute, String phoneNumber, String firstName, String lastName) {
         try {
 
-            CompletableFuture<Result> result = okHttpService.editSupervisorProfileFuture(degree, location, institute, phoneNumber,firstName,lastName);
-            return result.get(10000,TimeUnit.SECONDS);
-        }catch(JSONException j){
-            return new Result("error",false);
-        }catch(IOException i){
-            return new Result("error",false);
+            CompletableFuture<Result> result = okHttpService.editSupervisorProfileFuture(degree, location, institute, phoneNumber, firstName, lastName);
+            return result.get(10000, TimeUnit.SECONDS);
+        } catch (JSONException j) {
+            return new Result("error", false);
+        } catch (IOException i) {
+            return new Result("error", false);
         } catch (ExecutionException e) {
-            return new Result("error",false);
+            return new Result("error", false);
         } catch (InterruptedException e) {
-            return new Result("error",false);
+            return new Result("error", false);
         } catch (TimeoutException e) {
-            return new Result("error",false);
+            return new Result("error", false);
         }
 
     }
@@ -115,21 +117,21 @@ public class UsersRemoteDataSource {
      */
     public Result isVerify(String token) {
 
-    try {
-        CompletableFuture<Result> result = okHttpService.verifyFuture(token);
-        return result.get(10000, TimeUnit.SECONDS);
-        //only added for troubleshooting
-    }catch(JSONException j){
-        return new Result("error",false);
-    }catch(IOException i){
-        return new Result("error",false);
-    }catch(ExecutionException e){
-        return new Result("error",false);
-    }catch(InterruptedException ie){
-        return new Result("error",false);
-    }catch(TimeoutException t){
-        return new Result("error",false);
-    }
+        try {
+            CompletableFuture<Result> result = okHttpService.verifyFuture(token);
+            return result.get(10000, TimeUnit.SECONDS);
+            //only added for troubleshooting
+        } catch (JSONException j) {
+            return new Result("error", false);
+        } catch (IOException i) {
+            return new Result("error", false);
+        } catch (ExecutionException e) {
+            return new Result("error", false);
+        } catch (InterruptedException ie) {
+            return new Result("error", false);
+        } catch (TimeoutException t) {
+            return new Result("error", false);
+        }
 
 
     }
@@ -147,17 +149,17 @@ public class UsersRemoteDataSource {
 
             CompletableFuture<Result> result = okHttpService.usersLoginFuture(login.getPassword(), login.geteMail());
 
-           return result.get(30,TimeUnit.SECONDS);
+            return result.get(30, TimeUnit.SECONDS);
         } catch (IOException e) {
-            return new Result(e.toString(),false);
+            return new Result(e.toString(), false);
         } catch (JSONException e) {
-            return new Result(e.toString(),false);
-        } catch (ExecutionException e){
-            return new Result(e.toString(),false);
-        }catch(TimeoutException e){
-            return new Result(e.toString(),false);
+            return new Result(e.toString(), false);
+        } catch (ExecutionException e) {
+            return new Result(e.toString(), false);
+        } catch (TimeoutException e) {
+            return new Result(e.toString(), false);
         } catch (InterruptedException e) {
-            return new Result(e.toString(),false);
+            return new Result(e.toString(), false);
         }
 
     }
@@ -174,16 +176,17 @@ public class UsersRemoteDataSource {
         try {
             CompletableFuture<Result> result = okHttpService.createNewUserFuture(user);
             return result.get(10000, TimeUnit.SECONDS);
-        }catch (JSONException e){
-            return new Result("error",false);
+        } catch (JSONException e) {
+            return new Result("error", false);
         } catch (ExecutionException e) {
-            return new Result("error",false);
+            return new Result("error", false);
         } catch (InterruptedException | TimeoutException e) {
-            return new Result("error",false);
+            return new Result("error", false);
         }
 
 
     }
+
     /**
      * Handles the error messages of the deleteUserResponse HTTP DELETE request in the UsersApiService class. Also checks if the response is successful.
      *
@@ -194,18 +197,17 @@ public class UsersRemoteDataSource {
             CompletableFuture<Result> result = okHttpService.deleteUserFuture();
             return result.get(10000, TimeUnit.SECONDS);
         } catch (IOException e) {
-            return new Result("error",false);
+            return new Result("error", false);
         } catch (ExecutionException e) {
-            return new Result("error",false);
+            return new Result("error", false);
         } catch (InterruptedException e) {
-            return new Result("error",false);
+            return new Result("error", false);
         } catch (TimeoutException e) {
-            return new Result("error",false);
+            return new Result("error", false);
         }
 
 
     }
-
 
 
     public Result deleteUserThesis(final UUID thesisId) {
@@ -240,4 +242,44 @@ public class UsersRemoteDataSource {
         return new ThesisTuple(null, new Result("Did not receive status code 200", false));
     }
 
+    /**
+     * Handles the error messages for the resetPasswordFuture HTTP request.
+     * @param email
+     * @return Result
+     */
+    public Result resetPassword(String email){
+        try{
+            CompletableFuture<Result> result = okHttpService.resetPasswordFuture(email);
+            return result.get(10000, TimeUnit.SECONDS);
+        }
+        catch (ExecutionException e) {
+            return new Result("error", false);
+        } catch (InterruptedException e) {
+            return new Result("error", false);
+        } catch (TimeoutException e) {
+            return new Result("error", false);
+        }
+    }
+    /**
+     * Handles the error messages for the sendNewPasswordFuture HTTP request.
+     * @param token, newPassword
+     * @return Result
+     */
+    public Result sendNewPassword(String token, String newPassword) {
+        try {
+            CompletableFuture<Result> result = okHttpService.sendNewPasswordFuture(token, newPassword);
+            return result.get(10000, TimeUnit.SECONDS);
+
+
+        } catch (JSONException e) {
+            return new Result("error", false);
+        } catch (ExecutionException e) {
+            return new Result("error", false);
+        } catch (InterruptedException e) {
+            return new Result("error", false);
+        } catch (TimeoutException e) {
+            return new Result("error", false);
+        }
+
+    }
 }
