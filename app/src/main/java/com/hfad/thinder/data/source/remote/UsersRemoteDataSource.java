@@ -5,6 +5,7 @@ import android.app.VoiceInteractor;
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
+import com.hfad.thinder.R;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Login;
 import com.hfad.thinder.data.model.LoginTuple;
@@ -186,76 +187,24 @@ public class UsersRemoteDataSource {
      *
      * @return Result
      */
-    public CompletableFuture<Result> deleteUserFuture() {
-        CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<Result>();
+    public Result deleteUser() {
         try {
-            okHttpService.deleteUserResponse().enqueue(new Callback() {
-                @Override
-                public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                    resultCompletableFuture.complete(new Result(e.toString(),false));
-                }
-
-                @Override
-                public void onResponse(@NonNull Call call, @NonNull okhttp3.Response response) throws IOException {
-                    if (response.isSuccessful()) {
-
-
-                        resultCompletableFuture.complete(new Result(true));
-                    } else {
-                        resultCompletableFuture.complete(new Result("not successful", false));
-                    }
-
-                }
-
-            });
-
-
-
-
-
+            CompletableFuture<Result> result = okHttpService.deleteUserFuture();
+            return result.get(10000, TimeUnit.SECONDS);
         } catch (IOException e) {
-            resultCompletableFuture.complete(new Result(e.toString(), false));
+            return new Result("error",false);
+        } catch (ExecutionException e) {
+            return new Result("error",false);
+        } catch (InterruptedException e) {
+            return new Result("error",false);
+        } catch (TimeoutException e) {
+            return new Result("error",false);
         }
-
-        return resultCompletableFuture;
 
 
     }
 
 
-    //Wie implemtiert ich update student und supervisor richtig??
-
-    public boolean updateStudent(final int id, final Student student) {
-        try {
-            Response<Student> result = userService.changeStudent(id, student);
-            if (result.isSuccessful() && result.body() != null) {
-
-                return true;
-
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-            // TO DO - bad practise!, dont return false return some error
-            return false;
-        }
-        return false;
-    }
-
-    public boolean updateSupervisor(final int id, final Supervisor supervisor) {
-        try {
-            Response<Supervisor> result = userService.changeStudent(id, supervisor);
-            if (result.isSuccessful() && result.body() != null) {
-
-                return true;
-
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-            // TO DO - bad practise!, dont return false return some error
-            return false;
-        }
-        return false;
-    }
 
     public Result deleteUserThesis(final UUID thesisId) {
         try {

@@ -115,17 +115,7 @@ public final class UserRepository {
      */
 
     public Result delete() {
-        try {
-            CompletableFuture<Result> resultCompletableFuture = dataSource.deleteUserFuture();
-            return resultCompletableFuture.get(100, TimeUnit.SECONDS);
-        }
-        catch(ExecutionException e){
-            return new Result(e.toString(),false);
-        } catch (InterruptedException e){
-            return new Result(e.toString(),false);
-        }catch (TimeoutException e){
-            return new Result(e.toString(),false);
-        }
+        return dataSource.deleteUser();
     }
 
     /**

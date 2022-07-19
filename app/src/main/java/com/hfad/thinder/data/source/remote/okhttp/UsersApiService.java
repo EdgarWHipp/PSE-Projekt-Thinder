@@ -286,7 +286,7 @@ public class UsersApiService {
      * @throws JSONException
      */
     public CompletableFuture<Result> createNewUserFuture(User user) throws JSONException {
-
+        this.setUserRole(user.getPassword(),user.geteMail());
         JSONObject userJson = new JSONObject()
                 .put("firstName", user.getFirstName())
                 .put("lastName", user.getLastName())
@@ -342,13 +342,36 @@ public class UsersApiService {
      * @return Response message of the backend which isnt yet parsed.
      * @throws IOException
      */
-    public Call deleteUserResponse() throws IOException {
+    public CompletableFuture<Result> deleteUserFuture() throws IOException {
+        CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<Result>();
+
         Request request= new Request.Builder()
                 .url(url+"/users/"+UserRepository.getInstance().getCurrentUUID())
                 .delete()
                 .build();
         Call call = client.newCall(request);
-        return call;
+
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                resultCompletableFuture.complete(new Result(e.toString(),false));
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull okhttp3.Response response) throws IOException {
+                if (response.isSuccessful()) {
+
+
+                    resultCompletableFuture.complete(new Result(true));
+                } else {
+                    resultCompletableFuture.complete(new Result("not successful", false));
+                }
+
+            }
+
+        });
+        return resultCompletableFuture;
+
     }
 
     /**
