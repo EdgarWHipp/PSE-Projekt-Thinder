@@ -46,7 +46,9 @@ public class UsersRemoteDataSource {
     UsersApiService userService;
     OkHttpClient client = new OkHttpClient();
     String url = "http://localhost:8080";
+    public UsersRemoteDataSource(){
 
+    }
     /**
      * The purpose of this function is to parse the result of the HTTP request and handle all errors that might occur. All necessary parameters are passed
      * * to the extendUserToStudentResponse class in the UsersApiService.

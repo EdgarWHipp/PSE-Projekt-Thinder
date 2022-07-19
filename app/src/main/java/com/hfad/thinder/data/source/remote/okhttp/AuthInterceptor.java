@@ -1,4 +1,4 @@
-package com.hfad.thinder.data.source.remote.okhttp.basicauth;
+package com.hfad.thinder.data.source.remote.okhttp;
 
 import java.io.IOException;
 
@@ -7,10 +7,10 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class AuthInterceptor implements Interceptor {
+class AuthInterceptor implements Interceptor {
   private String credentials;
 
-  public AuthInterceptor(String email, String password) {
+  protected AuthInterceptor(String email, String password) {
     this.credentials = Credentials.basic(email, password);
   }
 

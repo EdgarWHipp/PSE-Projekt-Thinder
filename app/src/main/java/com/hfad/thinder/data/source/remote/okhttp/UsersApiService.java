@@ -2,11 +2,9 @@ package com.hfad.thinder.data.source.remote.okhttp;
 
 import androidx.annotation.NonNull;
 
-import com.google.gson.Gson;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.model.User;
-import com.hfad.thinder.data.source.remote.okhttp.basicauth.AuthInterceptor;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 
@@ -17,7 +15,6 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -31,14 +28,18 @@ import okhttp3.Response;
 public class UsersApiService {
     private static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
-    com.hfad.thinder.data.source.remote.okhttp.UsersApiService okHttpService;
     private static final OkHttpClient client = new OkHttpClient();
-
-
     private static final String url = "http://localhost:8080";
     private static final String  emulatorLocalHost = "http://10.0.2.2:8080";
 
-
+    /**
+     * This function creates a HTTP GET request with http basic authentication(email & password)
+     * to set the USERTYPE of the user loggin in for the UserRepository.getInstance().getType() function.
+     * Checks if the asynchronous call return fails or responds.
+     * @param password
+     * @param eMail
+     * @return CompletableFuture<Result>
+     */
     private CompletableFuture<Result> setUserRole(String password, String eMail){
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor(eMail, password))
@@ -81,7 +82,7 @@ public class UsersApiService {
                                 UserRepository.getInstance().setType(USERTYPE.STUDENT);
                                 resultCompletableFuture.complete(new Result(true));
                             default:
-                               // System.out.println(response.body().string());
+                               resultCompletableFuture.complete(new Result("type not correctly specified",false));
 
                                 break;
                         }
@@ -96,10 +97,10 @@ public class UsersApiService {
     }
     /**
      * This function creates the HTTP GET request that firstly makes sure the email, password tuple exists in the database and then fetches a JSON with attributes type and id.
-     *
+     * Checks if the asynchronous call return fails or responds.
      * @param password of user loging in
      * @param eMail    of user loging in
-     * @return Response message of the backend which isnt yet parsed.
+     * @returnCompletableFuture<Result>
      * @throws JSONException
      * @throws IOException
      */
@@ -147,12 +148,12 @@ public class UsersApiService {
 
     /**
      * This function creates the HTTP PUT request that completes the user profile by extending the profile through either the additional attributes from the supervisor.
-     *
+     *Checks if the asynchronous call return fails or responds.
      * @param degree
      * @param location
      * @param institute
      * @param phoneNumber
-     * @return Response message of the backend which isnt yet parsed.
+     * @return CompletableFuture<Result>
      * @throws JSONException
      * @throws IOException
      */
@@ -171,12 +172,18 @@ public class UsersApiService {
 
         RequestBody body = RequestBody.create(supervisorJson.toString(), JSON);
 
-        Request requestSupervisor = new Request.Builder()
-                .url(url + "/users/" + UserRepository.getInstance().getCurrentUUID())
+        HttpUrl url = new HttpUrl.Builder()
+                .scheme("http")
+                .host("10.0.2.2")
+                .port(8080)
+                .addPathSegment("users")
+                .addPathSegment(UserRepository.getInstance().getCurrentUUID().toString())
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
                 .put(body)
                 .build();
-
-        Call callSupervisor = client.newCall(requestSupervisor);
+        Call callSupervisor = client.newCall(request);
         callSupervisor.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -198,9 +205,9 @@ public class UsersApiService {
 
     /**
      * This function creates the HTTP PUT request that completes the user profile by extending the profile through either the additional attributes from the student.
-     *
+     *Checks if the asynchronous call return fails or responds.
      * @param degrees
-     * @return Response message of the backend which isnt yet parsed.
+     * @return CompletableFuture<Result>
      */
     public CompletableFuture<Result> editStudentProfileFuture(Set<Degree> degrees,String firstName,String lastName) throws JSONException, IOException {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
@@ -214,11 +221,18 @@ public class UsersApiService {
         RequestBody body = RequestBody.create(studentJson.toString(), JSON);
 
 
-        Request request = new Request.Builder()
-                .url(url + "/users/" + UserRepository.getInstance().getCurrentUUID())
-                .put(body)
+        HttpUrl url = new HttpUrl.Builder()
+                .scheme("http")
+                .host("10.0.2.2")
+                .port(8080)
+                .addPathSegment("users")
+                .addPathSegment(UserRepository.getInstance().getCurrentUUID().toString())
                 .build();
 
+        Request request = new Request.Builder()
+                .url(url)
+                .put(body)
+                .build();
         Call call = client.newCall(request);
         call.enqueue(new Callback() {
             @Override
@@ -241,6 +255,7 @@ public class UsersApiService {
     /**
      * This function creates the HTTP PUT request, tracks if the call was a failure or had a response and
      * if it was successful and returns an appropriate completable future that holds a Result.
+     * Checks if the asynchronous call return fails or responds.
      * @param token
      * @return CompletableFuture
      * @throws JSONException
@@ -281,8 +296,9 @@ public class UsersApiService {
     /**
      * This function creates the HTTP POST request and thus, if no error occurs, leads to the creation of a new user in the postgres database.
      * Also already defines the id and type of the registrated user for the UserRepository.
+     * Checks if the asynchronous call return fails or responds.
      * @param user
-     * @return CompletableFuture
+     * @return  CompletableFuture<Result>
      * @throws JSONException
      */
     public CompletableFuture<Result> createNewUserFuture(User user) throws JSONException {
@@ -338,8 +354,8 @@ public class UsersApiService {
 
     /**
      * This function creates the HTTP DELETE request that removes a user from the database (if successful)
-     *
-     * @return Response message of the backend which isnt yet parsed.
+     * Checks if the asynchronous call return fails or responds.
+     * @return CompletableFuture<Result>
      * @throws IOException
      */
     public CompletableFuture<Result> deleteUserFuture() throws IOException {
@@ -373,6 +389,95 @@ public class UsersApiService {
         return resultCompletableFuture;
 
     }
+
+    /**
+     * This function creates the HTTP GET request that makes the backend send
+     * a email to the users mail address, which they can then enter in the verify screen
+     * to ultimately reset their password.
+     * @return
+     */
+    public CompletableFuture<Result> resetPasswordFuture(String email){
+        CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
+
+
+        HttpUrl url = new HttpUrl.Builder()
+                .scheme("http")
+                .host("10.0.2.2")
+                .port(8080)
+                .addPathSegment("resetPassword")
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                resultCompletableFuture.complete(new Result(e.toString(),false));
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (response.isSuccessful()){
+                    resultCompletableFuture.complete(new Result(true));
+                }else{
+                    resultCompletableFuture.complete(new Result("not successful",false));
+                }
+
+            }
+        });
+        return resultCompletableFuture;
+    }
+
+    /**
+     *
+     * @param token
+     * @param newPassword
+     * @return CompletableFuture<Result>
+     * @throws JSONException
+     */
+    public CompletableFuture<Result> sendNewPasswordFuture(String token, String newPassword) throws JSONException {
+        CompletableFuture<Result> resultCompletableFuture= new CompletableFuture<>();
+        JSONObject resetPasswordJson = new JSONObject()
+                .put("token",token)
+                .put("password",newPassword);
+
+        RequestBody body = RequestBody.create(resetPasswordJson.toString(), JSON);
+        HttpUrl url = new HttpUrl.Builder()
+                .scheme("http")
+                .host("10.0.2.2")
+                .port(8080)
+                .addPathSegment("resetPassword")
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+        Call call = client.newCall(request);
+
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                resultCompletableFuture.complete(new Result(e.toString(),false));
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    resultCompletableFuture.complete(new Result(true));
+                }else {
+                    resultCompletableFuture.complete(new Result("not successful",false));
+                }
+            }
+        });
+        return resultCompletableFuture;
+
+    }
+
+
+
 
     /**
      * This function creates the HTTP DELETE request for a thesis that the user has unliked. Unliking it removes it

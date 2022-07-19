@@ -31,6 +31,7 @@ public final class UserRepository {
     private final UsersRemoteDataSource dataSource = new UsersRemoteDataSource();
     private UUID currentId=null;
     private USERTYPE type=null;
+    private User user=null;
 
     public ThesisTuple getUserThesis(UUID thesisId) {
         return dataSource.getUserThesis(thesisId);
@@ -144,9 +145,15 @@ public final class UserRepository {
     /**
      * Returns the specified thesis - the thesis has to already be liked by the user.
      *
-     * @param thesisId
+     * @param
      * @return
      */
+    public Result sendRecoveryEmail(String email){
+        return new Result(true);
+    }
 
+    public Result resetPasswordWithToken(String token, String newPassword){
+        return new Result(true);
+    }
 
 }
