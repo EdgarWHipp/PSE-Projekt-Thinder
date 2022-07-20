@@ -38,6 +38,7 @@ public class UsersApiService {
         String json = response.body().string();
         JSONObject obj = new JSONObject(json);
         //JSONArray arr = obj.getJSONArray();
+        System.out.println(response.body().string());
 
 
 
@@ -150,7 +151,11 @@ public class UsersApiService {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if(response.isSuccessful()){
-                    setUserValues(response);
+                    try {
+                        setUserValues(response);
+                    } catch (JSONException e) {
+                        resultCompletableFuture.complete(new Result(false));
+                    }
                     resultCompletableFuture.complete(new Result(true));
                 }else{
                     resultCompletableFuture.complete(new Result("not successful",false));
@@ -175,14 +180,19 @@ public class UsersApiService {
      */
     public CompletableFuture<Result> verifyFuture(String token) throws JSONException, IOException {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
-        JSONObject tokenJson = new JSONObject()
-                .put("token", token);
-        RequestBody body = RequestBody.create(tokenJson.toString(), JSON);
-
-
+        RequestBody body = RequestBody.create(null, new byte[]{});
+        HttpUrl url = new HttpUrl.Builder()
+                .scheme("http")
+                .host("10.0.2.2")
+                .port(8080)
+                .addPathSegment("users")
+                .addPathSegment("verify")
+                .addQueryParameter("token",token)
+                .build();
+        // empty body
         Request request = new Request.Builder()
-                .url(url + "/users/verify/")
-                .put(body)
+                .url(url)
+                .post(body)
                 .build();
 
         Call call = client.newCall(request);
@@ -190,7 +200,7 @@ public class UsersApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result(e.toString(),true));
+                resultCompletableFuture.complete(new Result(e.toString(),false));
             }
 
             @Override

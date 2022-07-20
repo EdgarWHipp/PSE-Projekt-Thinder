@@ -101,6 +101,7 @@ public void attempt_to_registrate_user_with_wrong_password_format(){
 @Test
   public void login() throws JSONException, IOException {
 
-  UserRepository.getInstance().login("Klavierboy4!","uxmnx@student.kit.edu");
+  Result result = UserRepository.getInstance().verifyToken("52555b2a-fb88-46fd-a0cd-b04b313155c2");
+  System.out.println(result.getErrorMessage());
 }
 }
