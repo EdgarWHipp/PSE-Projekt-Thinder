@@ -27,6 +27,8 @@ public class LoginViewModel extends ViewModel {
       loginResult.setValue(new LoginResult("student", RegistrationViewModel.ResultTypes.STUDENT));
     } else if (userRepository.getType() == USERTYPE.SUPERVISOR) {
       loginResult.setValue(new LoginResult("supervisor", RegistrationViewModel.ResultTypes.SUPERVISOR));
+    } else {
+      loginResult.setValue(new LoginResult("type not returned", null));
     }
     //Todo: es fehlt noch ein Unverified
   }

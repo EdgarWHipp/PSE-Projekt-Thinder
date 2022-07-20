@@ -78,6 +78,7 @@ public void create_a_university(){
 
 @Test
 public void attempt_to_registrate_user_with_wrong_password_format(){
+
   Result registrationResult = UserRepository.getInstance().registrate("max","mustermann","a","max@kit.edu");
   Assert.assertEquals(registrationResult.getSuccess(),false);
 
@@ -97,6 +98,7 @@ public void attempt_to_registrate_user_with_wrong_password_format(){
   Assert.assertEquals(registrationResult.getErrorMessage(),null);
   Assert.assertEquals(UserRepository.getInstance().getType() == USERTYPE.STUDENT,true);
   Assert.assertEquals(registrationResult.getSuccess(),true);
+
 }
 @Test
   public void login() throws JSONException, IOException {

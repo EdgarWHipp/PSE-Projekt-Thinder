@@ -3,18 +3,17 @@ package com.hfad.thinder.data.source.remote.okhttp;
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
-import com.hfad.thinder.data.model.Degree;
+import com.hfad.thinder.data.model.Student;
+import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -34,15 +33,23 @@ public class UsersApiService {
     private static final String url = "http://localhost:8080";
     private static final String  emulatorLocalHost = "http://10.0.2.2:8080";
 
-    private CompletableFuture<Result> setUserValues(Response response) throws IOException, JSONException {
-        String json = response.body().string();
-        JSONObject obj = new JSONObject(json);
-        //JSONArray arr = obj.getJSONArray();
-        System.out.println(response.body().string());
+    private void setUserValues(Response response) throws IOException, JSONException {
+
+        Gson gson = new Gson();
+        Student student=null;
+        Supervisor supervisor=null;
+        if(UserRepository.getInstance().getType() == USERTYPE.STUDENT){
+
+            student = gson.fromJson(response.body().string(), Student.class);
+
+        }else if (UserRepository.getInstance().getType() == USERTYPE.SUPERVISOR){
+            supervisor = gson.fromJson(response.body().string(), Supervisor.class);
+
+        }
 
 
 
-        return null;
+
 
 
     }
@@ -104,9 +111,7 @@ public class UsersApiService {
                     }else {
                         resultCompletableFuture.complete(new Result("not successful",false));
                     }
-
             }
-
         });
         return resultCompletableFuture;
     }
@@ -120,8 +125,7 @@ public class UsersApiService {
      * @throws IOException
      */
     public CompletableFuture<Result> usersLoginFuture(String password, String eMail) throws JSONException, IOException {
-        CompletableFuture<Result> setUserRoleResult= this.setUserRole(password,eMail);
-
+        setUserRole(password,eMail);
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor(eMail, password))
                 .build();
@@ -153,10 +157,11 @@ public class UsersApiService {
                 if(response.isSuccessful()){
                     try {
                         setUserValues(response);
+                        resultCompletableFuture.complete(new Result("wassap",true));
                     } catch (JSONException e) {
-                        resultCompletableFuture.complete(new Result(false));
+                        resultCompletableFuture.complete(new Result("user values not corretly received",false));
                     }
-                    resultCompletableFuture.complete(new Result(true));
+
                 }else{
                     resultCompletableFuture.complete(new Result("not successful",false));
                 }
@@ -180,6 +185,7 @@ public class UsersApiService {
      */
     public CompletableFuture<Result> verifyFuture(String token) throws JSONException, IOException {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
+
         RequestBody body = RequestBody.create(null, new byte[]{});
         HttpUrl url = new HttpUrl.Builder()
                 .scheme("http")
@@ -224,13 +230,14 @@ public class UsersApiService {
      * @throws JSONException
      */
     public CompletableFuture<Result> createNewUserFuture(User user) throws JSONException {
-        this.setUserRole(user.getPassword(),user.geteMail());
+        //this.setUserRole(user.getPassword(),user.geteMail());
         JSONObject userJson = new JSONObject()
                 .put("firstName", user.getFirstName())
                 .put("lastName", user.getLastName())
                 .put("password", user.getPassword())
                 .put("mail", user.geteMail())
                 .put("role","USER");
+
 
 
         RequestBody body = RequestBody.create(userJson.toString(), JSON);
@@ -258,14 +265,13 @@ public class UsersApiService {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
 
-
-                            resultCompletableFuture.complete(new Result(true));
+                    resultCompletableFuture.complete(new Result(true));
 
 
 
                 } else {
 
-                    resultCompletableFuture.complete(new Result(response.body().string(), false));
+                    resultCompletableFuture.complete(new Result("error", false));
                 }
 
             }

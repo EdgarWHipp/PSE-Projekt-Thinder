@@ -10,14 +10,8 @@ import com.hfad.thinder.data.source.remote.SupervisorRemoteDataSource;
 import com.hfad.thinder.data.source.remote.UsersRemoteDataSource;
 import com.hfad.thinder.data.source.result.Result;
 
-import java.io.IOException;
-import java.sql.Time;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 /**
  * Singleton instance of a StudentRepository.
@@ -35,13 +29,18 @@ public final class UserRepository {
     private final SupervisorRemoteDataSource supervisorRemoteDataSource = new SupervisorRemoteDataSource();
     private UUID currentId=null;
     private USERTYPE type=null;
-    private User user=null;
+    private UserResponse user=null;
+
+
+    public void setUser(UserResponse user) {
+        this.user = user;
+    }
 
     public ThesisTuple getUserThesis(UUID thesisId) {
         return usersDataSource.getUserThesis(thesisId);
     }
     // Relevant for the ViewModel
-    public User getUser() {
+    public UserResponse getUser() {
         return user;
     }
 
@@ -113,6 +112,7 @@ public final class UserRepository {
 
     public Result registrate(String firstName, String secondName, String password, String eMail)  {
         return usersDataSource.createNewUser(new User(password, eMail, firstName, secondName));
+
     }
 
     /**
