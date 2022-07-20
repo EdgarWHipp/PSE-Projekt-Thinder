@@ -2,8 +2,7 @@ package com.hfad.thinder.data.source.remote;
 
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.University;
-import com.hfad.thinder.data.source.remote.retrofit.UniversityApiService;
-import com.hfad.thinder.data.source.remote.retrofit.UsersApiService;
+import com.hfad.thinder.data.source.remote.okhttp.UniversityApiService;
 import com.hfad.thinder.data.source.result.Result;
 
 import org.json.JSONObject;
@@ -26,7 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class UniversityRemoteDataSource {
   private static final MediaType JSON
           = MediaType.parse("application/json; charset=utf-8");
-  UsersApiService userService;
+
   OkHttpClient client = new OkHttpClient();
   String url = "http://localhost:8080";
 
@@ -36,7 +35,6 @@ public class UniversityRemoteDataSource {
           .baseUrl("http:localhost:8080")
           .build();
 
-  UniversityApiService universityService = retrofit.create(UniversityApiService.class);
 
   public ArrayList<University> getUnis() {
     try {

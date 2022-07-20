@@ -9,6 +9,7 @@ import com.google.gson.JsonObject;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.model.User;
+import com.hfad.thinder.data.source.remote.okhttp.UsersApiService;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.repository.UniversityRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
@@ -19,6 +20,7 @@ import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -95,5 +97,10 @@ public void attempt_to_registrate_user_with_wrong_password_format(){
   Assert.assertEquals(registrationResult.getErrorMessage(),null);
   Assert.assertEquals(UserRepository.getInstance().getType() == USERTYPE.STUDENT,true);
   Assert.assertEquals(registrationResult.getSuccess(),true);
+}
+@Test
+  public void login() throws JSONException, IOException {
+
+  UserRepository.getInstance().login("Klavierboy4!","uxmnx@student.kit.edu");
 }
 }

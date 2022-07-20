@@ -36,12 +36,13 @@ public final class ThesisRepository {
     }
 
 
-   public Optional<List<Thesis>> getAll() {return thesisRemoteDataSource.getAllTheses();
+   public Optional<List<Thesis>> getAll() {
+        return null;
     }
 
 
     public Optional<Thesis> getById(final int id) {
-        return thesisRemoteDataSource.getThesis(id);
+        return null;
     }
 
 //Supervisor entfernen? bzw nur variablen annehmen?

@@ -5,6 +5,8 @@ import com.hfad.thinder.data.model.Login;
 import com.hfad.thinder.data.model.ThesisTuple;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.model.User;
+import com.hfad.thinder.data.source.remote.StudentRemoteDataSource;
+import com.hfad.thinder.data.source.remote.SupervisorRemoteDataSource;
 import com.hfad.thinder.data.source.remote.UsersRemoteDataSource;
 import com.hfad.thinder.data.source.result.Result;
 
@@ -28,13 +30,19 @@ public final class UserRepository {
      */
     @SuppressWarnings("checkstyle:StaticVariableName")
     private static UserRepository INSTANCE;
-    private final UsersRemoteDataSource dataSource = new UsersRemoteDataSource();
+    private final UsersRemoteDataSource usersDataSource = new UsersRemoteDataSource();
+    private final StudentRemoteDataSource studentRemoteDataSource =  new StudentRemoteDataSource();
+    private final SupervisorRemoteDataSource supervisorRemoteDataSource = new SupervisorRemoteDataSource();
     private UUID currentId=null;
     private USERTYPE type=null;
     private User user=null;
 
     public ThesisTuple getUserThesis(UUID thesisId) {
-        return dataSource.getUserThesis(thesisId);
+        return usersDataSource.getUserThesis(thesisId);
+    }
+    // Relevant for the ViewModel
+    public User getUser() {
+        return user;
     }
 
     public UUID getCurrentId() {
@@ -80,7 +88,7 @@ public final class UserRepository {
      */
 
     public Result login(String password, String eMail) {
-        return dataSource.login(new Login(password, eMail));
+        return usersDataSource.login(new Login(password, eMail));
 
     }
 
@@ -92,7 +100,7 @@ public final class UserRepository {
      */
     public boolean verifyToken(String token) {
 
-        return dataSource.isVerify(token).getSuccess();
+        return usersDataSource.isVerify(token).getSuccess();
     }
 
 
@@ -104,7 +112,7 @@ public final class UserRepository {
      */
 
     public Result registrate(String firstName, String secondName, String password, String eMail)  {
-        return dataSource.createNewUser(new User(password, eMail, firstName, secondName));
+        return usersDataSource.createNewUser(new User(password, eMail, firstName, secondName));
     }
 
     /**
@@ -116,7 +124,7 @@ public final class UserRepository {
      */
 
     public Result delete() {
-        return dataSource.deleteUser();
+        return usersDataSource.deleteUser();
     }
 
     /**
@@ -126,7 +134,7 @@ public final class UserRepository {
      * @return Result
      */
     public Result editProfilStudent(Set<Degree> degrees, String firstName, String lastName) {
-        return dataSource.extendUserToStudent(degrees,firstName,lastName);
+        return studentRemoteDataSource.extendUserToStudent(degrees,firstName,lastName);
     }
 
     /**
@@ -139,7 +147,7 @@ public final class UserRepository {
      * @return Result
      */
     public Result editProfilSupervisor(String degree, String location, String institute, String phoneNumber,String firstName,String lastName) {
-        return dataSource.extendUserToSupervisor(degree, location, institute, phoneNumber,firstName,lastName);
+        return supervisorRemoteDataSource.extendUserToSupervisor(degree, location, institute, phoneNumber,firstName,lastName);
     }
 
     /**
@@ -148,7 +156,7 @@ public final class UserRepository {
      * @return Result
      */
     public Result sendRecoveryEmail(String email){
-        return dataSource.resetPassword(email);
+        return usersDataSource.resetPassword(email);
     }
 
     /**
@@ -159,7 +167,7 @@ public final class UserRepository {
      * @return Result
      */
     public Result resetPasswordWithToken(String token, String newPassword){
-        return dataSource.sendNewPassword(token, newPassword);
+        return usersDataSource.sendNewPassword(token, newPassword);
     }
 
 }

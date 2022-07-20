@@ -1,8 +1,7 @@
 package com.hfad.thinder.data.source.remote;
 
 import com.hfad.thinder.data.model.Thesis;
-import com.hfad.thinder.data.source.remote.retrofit.ThesisApiService;
-import com.hfad.thinder.data.source.remote.retrofit.UsersApiService;
+import com.hfad.thinder.data.source.remote.okhttp.ThesesApiService;
 import com.hfad.thinder.data.source.result.Result;
 
 import org.json.JSONObject;
@@ -22,7 +21,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ThesisRemoteDataSource {
     private static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
-    UsersApiService userService;
     OkHttpClient client = new OkHttpClient();
     String url = "http://localhost:8080";
 
@@ -31,38 +29,8 @@ public class ThesisRemoteDataSource {
             .baseUrl("https://thinder-api.herokuapp.com")
             .build();
 
-    ThesisApiService thesisService = retrofit.create(ThesisApiService.class);
+    ThesesApiService thesisService = retrofit.create(ThesesApiService.class);
 
-    public Optional<List<Thesis>> getAllTheses() {
-        try {
-            Response<List<Thesis>> result = thesisService.getAllTheses();
-            if (result.isSuccessful() && result.body() != null) {
-                List<Thesis> returnVal = result.body();
-                return Optional.of(returnVal);
-
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-            // TO DO - bad practise!, dont return false return some error
-            return Optional.ofNullable(null);
-        }
-        return Optional.ofNullable(null);
-    }
-    public Optional<Thesis> getThesis(final int id) {
-        try {
-            Response<Thesis> result = thesisService.getThesis(id);
-            if (result.isSuccessful() && result.body() != null) {
-                Thesis returnVal = result.body();
-                return Optional.of(returnVal);
-
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-            // TO DO - bad practise!, dont return false return some error
-            return Optional.ofNullable(null);
-        }
-        return Optional.ofNullable(null);
-    }
 
     public Result createNewThesis(final Thesis thesis) {
         try {
@@ -96,37 +64,6 @@ public class ThesisRemoteDataSource {
             return new Result(e.toString(),false);
         }
 
-    }
-
-    public boolean changeThesis(final int id) {
-        try {
-            Response<Thesis> result = thesisService.putNewThesis(id);
-            if (result.isSuccessful() && result.body() != null) {
-
-                return true;
-
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-            // TO DO - bad practise!, dont return false return some error
-            return false;
-        }
-        return false;
-    }
-    public boolean deleteThesis(final int id) {
-        try {
-            Response<Thesis> result = thesisService.putNewThesis(id);
-            if (result.isSuccessful() && result.body() != null) {
-
-                return true;
-
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-            // TO DO - bad practise!, dont return false return some error
-            return false;
-        }
-        return false;
     }
 
 

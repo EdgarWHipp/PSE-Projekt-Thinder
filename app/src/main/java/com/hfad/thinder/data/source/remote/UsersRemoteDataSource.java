@@ -15,7 +15,7 @@ import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.ThesisTuple;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.model.User;
-import com.hfad.thinder.data.source.remote.retrofit.UsersApiService;
+import com.hfad.thinder.data.source.remote.okhttp.UsersApiService;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 
@@ -39,76 +39,9 @@ import retrofit2.Response;
 
 public class UsersRemoteDataSource {
     // Für die ganze HTTP Funktionalitäten noch neue Klassen hinzufügen!
-    private static final MediaType JSON
-            = MediaType.parse("application/json; charset=utf-8");
-    private final com.hfad.thinder.data.source.remote.okhttp.UsersApiService okHttpService = new com.hfad.thinder.data.source.remote.okhttp.UsersApiService();
-    private final Gson gson = new Gson();
-    UsersApiService userService;
-    OkHttpClient client = new OkHttpClient();
-    String url = "http://localhost:8080";
 
-    public UsersRemoteDataSource() {
-
-    }
-
-    /**
-     * The purpose of this function is to parse the result of the HTTP request and handle all errors that might occur. All necessary parameters are passed
-     * * to the extendUserToStudentResponse class in the UsersApiService.
-     * he function returns the result - the success of the HTTP request and an appropriate error message in the case of failure are included in the result.
-     *
-     * @param degrees
-     * @return Result
-     */
-    public Result extendUserToStudent(Set<Degree> degrees, String firstName, String lastName) {
-
-        try {
-            CompletableFuture<Result> result = okHttpService.editStudentProfileFuture(degrees, firstName, lastName);
-            return result.get(10000, TimeUnit.SECONDS);
-
-
-        } catch (IOException e) {
-            return new Result("error", false);
-        } catch (JSONException j) {
-            return new Result("error", false);
-        } catch (ExecutionException e) {
-            return new Result("error", false);
-        } catch (InterruptedException e) {
-            return new Result("error", false);
-        } catch (TimeoutException e) {
-            return new Result("error", false);
-        }
-    }
-
-    /**
-     * The purpose of this function is to parse the result of the HTTP request and handle all errors that might occur. All necessary parameters are passed
-     * to the extendUserToSupervisorResponse class in the UsersApiService.
-     * The function returns the result - the success of the HTTP request and an appropriate error message in the case of failure are included in the result.
-     *
-     * @param degree
-     * @param location
-     * @param institute
-     * @param phoneNumber
-     * @return Result
-     */
-    public Result extendUserToSupervisor(String degree, String location, String institute, String phoneNumber, String firstName, String lastName) {
-        try {
-
-            CompletableFuture<Result> result = okHttpService.editSupervisorProfileFuture(degree, location, institute, phoneNumber, firstName, lastName);
-            return result.get(10000, TimeUnit.SECONDS);
-        } catch (JSONException j) {
-            return new Result("error", false);
-        } catch (IOException i) {
-            return new Result("error", false);
-        } catch (ExecutionException e) {
-            return new Result("error", false);
-        } catch (InterruptedException e) {
-            return new Result("error", false);
-        } catch (TimeoutException e) {
-            return new Result("error", false);
-        }
-
-    }
-
+    private final UsersApiService okHttpService = new UsersApiService();
+    private final Gson gson= new Gson();
     /**
      * Handles the error messages of the verifyResponse HTTP request in the UsersApiService class. Also checks if the response is successful.
      *

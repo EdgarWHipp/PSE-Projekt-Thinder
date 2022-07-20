@@ -2,12 +2,14 @@ package com.hfad.thinder.data.source.remote.okhttp;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.Gson;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,6 +33,18 @@ public class UsersApiService {
     private static final OkHttpClient client = new OkHttpClient();
     private static final String url = "http://localhost:8080";
     private static final String  emulatorLocalHost = "http://10.0.2.2:8080";
+
+    private CompletableFuture<Result> setUserValues(Response response) throws IOException, JSONException {
+        String json = response.body().string();
+        JSONObject obj = new JSONObject(json);
+        //JSONArray arr = obj.getJSONArray();
+
+
+
+        return null;
+
+
+    }
 
     /**
      * This function creates a HTTP GET request with http basic authentication(email & password)
@@ -136,6 +150,7 @@ public class UsersApiService {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if(response.isSuccessful()){
+                    setUserValues(response);
                     resultCompletableFuture.complete(new Result(true));
                 }else{
                     resultCompletableFuture.complete(new Result("not successful",false));
@@ -146,111 +161,8 @@ public class UsersApiService {
         return resultCompletableFuture;
     }
 
-    /**
-     * This function creates the HTTP PUT request that completes the user profile by extending the profile through either the additional attributes from the supervisor.
-     *Checks if the asynchronous call return fails or responds.
-     * @param degree
-     * @param location
-     * @param institute
-     * @param phoneNumber
-     * @return CompletableFuture<Result>
-     * @throws JSONException
-     * @throws IOException
-     */
-    public CompletableFuture<Result> editSupervisorProfileFuture(String degree, String location, String institute, String phoneNumber,String firstName, String lastName)
-            throws JSONException, IOException {
-        CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
-        JSONObject supervisorJson = new JSONObject()
-                .put("academicDegree", degree)
-                .put("location", location)
-                .put("institute", institute)
-                .put("phoneNumber", phoneNumber)
-                .put("theses", null)
-                .put("firstName",firstName)
-                .put("lastName",lastName);
 
 
-        RequestBody body = RequestBody.create(supervisorJson.toString(), JSON);
-
-        HttpUrl url = new HttpUrl.Builder()
-                .scheme("http")
-                .host("10.0.2.2")
-                .port(8080)
-                .addPathSegment("users")
-                .addPathSegment(UserRepository.getInstance().getCurrentUUID().toString())
-                .build();
-        Request request = new Request.Builder()
-                .url(url)
-                .put(body)
-                .build();
-        Call callSupervisor = client.newCall(request);
-        callSupervisor.enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result(e.toString(),false));
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if (response.isSuccessful()){
-                    resultCompletableFuture.complete(new Result(true));
-                }else {
-                    resultCompletableFuture.complete(new Result("error",false));
-                }
-            }
-        });
-
-        return resultCompletableFuture;
-    }
-
-    /**
-     * This function creates the HTTP PUT request that completes the user profile by extending the profile through either the additional attributes from the student.
-     *Checks if the asynchronous call return fails or responds.
-     * @param degrees
-     * @return CompletableFuture<Result>
-     */
-    public CompletableFuture<Result> editStudentProfileFuture(Set<Degree> degrees,String firstName,String lastName) throws JSONException, IOException {
-        CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
-        JSONObject studentJson = new JSONObject()
-                .put("degrees", degrees)
-                .put("thesesRatings", null)
-                .put("firstName",firstName)
-                .put("lastName",lastName);
-
-
-        RequestBody body = RequestBody.create(studentJson.toString(), JSON);
-
-
-        HttpUrl url = new HttpUrl.Builder()
-                .scheme("http")
-                .host("10.0.2.2")
-                .port(8080)
-                .addPathSegment("users")
-                .addPathSegment(UserRepository.getInstance().getCurrentUUID().toString())
-                .build();
-
-        Request request = new Request.Builder()
-                .url(url)
-                .put(body)
-                .build();
-        Call call = client.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result(e.toString(),false));
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if(response.isSuccessful()){
-                    resultCompletableFuture.complete(new Result(true));
-                }else{
-                    resultCompletableFuture.complete(new Result("not successful",false));
-                }
-            }
-        });
-        return resultCompletableFuture;
-    }
 
     /**
      * This function creates the HTTP PUT request, tracks if the call was a failure or had a response and
@@ -313,9 +225,14 @@ public class UsersApiService {
 
         RequestBody body = RequestBody.create(userJson.toString(), JSON);
 
-
+        HttpUrl url = new HttpUrl.Builder()
+                .scheme("http")
+                .host("10.0.2.2")
+                .port(8080)
+                .addPathSegment("users")
+                .build();
         Request request = new Request.Builder()
-                .url(emulatorLocalHost + "/users/")
+                .url(url)
                 .post(body)
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
@@ -338,7 +255,7 @@ public class UsersApiService {
 
                 } else {
 
-                    resultCompletableFuture.complete(new Result("not successful", false));
+                    resultCompletableFuture.complete(new Result(response.body().string(), false));
                 }
 
             }
@@ -440,16 +357,15 @@ public class UsersApiService {
      */
     public CompletableFuture<Result> sendNewPasswordFuture(String token, String newPassword) throws JSONException {
         CompletableFuture<Result> resultCompletableFuture= new CompletableFuture<>();
-        JSONObject resetPasswordJson = new JSONObject()
-                .put("token",token)
-                .put("password",newPassword);
 
-        RequestBody body = RequestBody.create(resetPasswordJson.toString(), JSON);
+        RequestBody body = RequestBody.create(null);
         HttpUrl url = new HttpUrl.Builder()
                 .scheme("http")
                 .host("10.0.2.2")
                 .port(8080)
                 .addPathSegment("resetPassword")
+                .addQueryParameter("token",token)
+                .addQueryParameter("password",newPassword)
                 .build();
         Request request = new Request.Builder()
                 .url(url)
