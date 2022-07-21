@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 import okhttp3.Call;
@@ -38,7 +39,7 @@ public class SupervisorApiService {
    * @throws JSONException
    * @throws IOException
    */
-  public CompletableFuture<Result> editSupervisorProfileFuture(String degree, String location, String institute, String phoneNumber, String firstName, String lastName)
+  public CompletableFuture<Result> editSupervisorProfileFuture(UUID id, String degree, String location, String institute, String phoneNumber, String firstName, String lastName)
           throws JSONException, IOException {
     CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
     JSONObject supervisorJson = new JSONObject()
@@ -58,7 +59,6 @@ public class SupervisorApiService {
             .host("10.0.2.2")
             .port(8080)
             .addPathSegment("users")
-            .addPathSegment(UserRepository.getInstance().getCurrentUUID().toString())
             .build();
     Request request = new Request.Builder()
             .url(url)
