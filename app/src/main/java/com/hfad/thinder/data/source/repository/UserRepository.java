@@ -147,8 +147,8 @@ public final class UserRepository {
      * @param phoneNumber
      * @return Result
      */
-    public Result editProfilSupervisor(String degree, String location, String institute, String phoneNumber,String firstName,String lastName) {
-        return supervisorRemoteDataSource.extendUserToSupervisor(UserRepository.getInstance().getCurrentUUID(),degree, location, institute, phoneNumber,firstName,lastName);
+    public Result editProfilSupervisor(String degree, String officeNumber, String building, String institute, String phoneNumber,String firstName,String lastName) {
+        return supervisorRemoteDataSource.extendUserToSupervisor(UserRepository.getInstance().getCurrentUUID(),degree,officeNumber,building, institute, phoneNumber,firstName,lastName);
     }
 
     /**

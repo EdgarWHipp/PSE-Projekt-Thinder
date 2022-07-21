@@ -39,17 +39,18 @@ public class SupervisorApiService {
    * @throws JSONException
    * @throws IOException
    */
-  public CompletableFuture<Result> editSupervisorProfileFuture(UUID id, String degree, String location, String institute, String phoneNumber, String firstName, String lastName)
+  public CompletableFuture<Result> editSupervisorProfileFuture(UUID id, String degree, String officeNumber,String building, String institute, String phoneNumber, String firstName, String lastName)
           throws JSONException, IOException {
     CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
     JSONObject supervisorJson = new JSONObject()
-            .put("academicDegree", degree)
-            .put("location", location)
+            .put("academic_degree", degree)
+            .put("office_number", officeNumber)
+            .put("building",building)
             .put("institute", institute)
-            .put("phoneNumber", phoneNumber)
-            .put("theses", null)
-            .put("firstName",firstName)
-            .put("lastName",lastName);
+            .put("phone_number", phoneNumber)
+            .put("first_name",firstName)
+            .put("last_name",lastName)
+            .put("id",id);
 
 
     RequestBody body = RequestBody.create(supervisorJson.toString(), JSON);

@@ -29,13 +29,14 @@ public class EditProfileViewModel extends ViewModel {
 
   public void safe() {
     String degree = academicTitles.getValue().get(selectedAcademicTitlePosition.getValue());
-    String location = building.getValue() + " " + room.getValue();//Todo: eventuell ändern
+    String buildingString = building.getValue();
+    String officeNumber = room.getValue();
     String institute = getInstitute().getValue();
     String phoneNumber = getPhoneNumber().getValue();
     String firstName = getFirstName().getValue();
     String lastName = getLastName().getValue();
     Result result =
-        userRepository.editProfilSupervisor(degree, location, institute, phoneNumber, firstName,
+        userRepository.editProfilSupervisor(degree, officeNumber,buildingString, institute, phoneNumber, firstName,
             lastName);
     safeResult.setValue(new EditProfileResult(result.getErrorMessage(), result.getSuccess()));
   }
