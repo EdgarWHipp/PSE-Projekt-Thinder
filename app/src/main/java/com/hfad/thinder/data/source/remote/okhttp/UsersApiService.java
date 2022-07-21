@@ -34,23 +34,28 @@ public class UsersApiService {
     private static final String url = "http://localhost:8080";
     private static final String  emulatorLocalHost = "http://10.0.2.2:8080";
 
-    private Result setUserValues(Response response) throws IOException, JSONException {
+    private Result setUserValues(String body) throws IOException, JSONException {
         UserRepository repository = UserRepository.getInstance();
         Gson gson = new Gson();
-        Student student;
-        Supervisor supervisor;
-        if(repository.getType() == USERTYPE.STUDENT){
-
-            student = gson.fromJson(response.body().string(), Student.class);
-            //implemtiere ich später
-        }else if (repository.getType() == USERTYPE.SUPERVISOR){
-            supervisor = gson.fromJson(response.body().string(), Supervisor.class);
-            repository.setUser(supervisor);
-
-        } else{
-            return new Result("type not correctly specified",false);
+        User user;
+        Student student=null;
+        Supervisor supervisor = null;
+        user = gson.fromJson(body, User.class);
+        repository.setUser(user);
+        switch(repository.getType().toString()){
+            case "STUDENT":
+                student = gson.fromJson(body, Student.class);
+                repository.setUser(student);
+                break;
+            case "SUPERVISOR":
+                supervisor = gson.fromJson(body, Supervisor.class);
+                repository.setUser(supervisor);
+                break;
+            default:
+                return new Result("type not correctly specified",false);
         }
         return new Result(true);
+
 
     }
 
@@ -156,8 +161,9 @@ public class UsersApiService {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if(response.isSuccessful()){
                     try {
-                        setUserValues(response);
-                        resultCompletableFuture.complete(new Result(response.body().string(),true));
+
+                        Result valueSettingResult = setUserValues(response.body().string());
+                        resultCompletableFuture.complete(new Result(valueSettingResult.getErrorMessage(),true));
                     } catch (JSONException e) {
                         resultCompletableFuture.complete(new Result("user values not corretly received",false));
                     }

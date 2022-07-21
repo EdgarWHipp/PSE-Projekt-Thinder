@@ -10,9 +10,46 @@ import java.util.UUID;
  */
 
 public class User {
+    @SerializedName("role")
     private USERTYPE role;
+    @SerializedName("id")
     private UUID id;
+    @SerializedName("active")
     private boolean active;
+
+    public USERTYPE getRole() {
+        return role;
+    }
+
+    public void setRole(USERTYPE role) {
+        this.role = role;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public UUID getUniversityId() {
+        return universityId;
+    }
+
+    public void setUniversityId(UUID universityId) {
+        this.universityId = universityId;
+    }
+
+    @SerializedName("uni_id")
     private UUID universityId;
     @SerializedName("password")
     @Expose
