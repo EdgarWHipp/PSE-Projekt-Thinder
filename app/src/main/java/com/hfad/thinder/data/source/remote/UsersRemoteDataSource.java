@@ -15,6 +15,7 @@ import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.ThesisTuple;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.model.User;
+import com.hfad.thinder.data.model.UserCreation;
 import com.hfad.thinder.data.source.remote.okhttp.UsersApiService;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
@@ -103,18 +104,18 @@ public class UsersRemoteDataSource {
      * @param user
      * @return Result
      */
-    public Result createNewUser(User user) {
+    public Result createNewUser(UserCreation user) {
 
 
         try {
             CompletableFuture<Result> result = okHttpService.createNewUserFuture(user);
             return result.get(10000, TimeUnit.SECONDS);
         } catch (JSONException e) {
-            return new Result("error", false);
+            return new Result("json", false);
         } catch (ExecutionException e) {
-            return new Result("error", false);
+            return new Result("exec", false);
         } catch (InterruptedException | TimeoutException e) {
-            return new Result("error", false);
+            return new Result("inter", false);
         }
 
 

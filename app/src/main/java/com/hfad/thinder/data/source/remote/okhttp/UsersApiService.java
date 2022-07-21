@@ -7,6 +7,7 @@ import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.model.User;
+import com.hfad.thinder.data.model.UserCreation;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 
@@ -33,24 +34,23 @@ public class UsersApiService {
     private static final String url = "http://localhost:8080";
     private static final String  emulatorLocalHost = "http://10.0.2.2:8080";
 
-    private void setUserValues(Response response) throws IOException, JSONException {
-
+    private Result setUserValues(Response response) throws IOException, JSONException {
+        UserRepository repository = UserRepository.getInstance();
         Gson gson = new Gson();
-        Student student=null;
-        Supervisor supervisor=null;
-        if(UserRepository.getInstance().getType() == USERTYPE.STUDENT){
+        Student student;
+        Supervisor supervisor;
+        if(repository.getType() == USERTYPE.STUDENT){
 
             student = gson.fromJson(response.body().string(), Student.class);
-
-        }else if (UserRepository.getInstance().getType() == USERTYPE.SUPERVISOR){
+            //implemtiere ich später
+        }else if (repository.getType() == USERTYPE.SUPERVISOR){
             supervisor = gson.fromJson(response.body().string(), Supervisor.class);
+            repository.setUser(supervisor);
 
+        } else{
+            return new Result("type not correctly specified",false);
         }
-
-
-
-
-
+        return new Result(true);
 
     }
 
@@ -157,7 +157,7 @@ public class UsersApiService {
                 if(response.isSuccessful()){
                     try {
                         setUserValues(response);
-                        resultCompletableFuture.complete(new Result("wassap",true));
+                        resultCompletableFuture.complete(new Result(response.body().string(),true));
                     } catch (JSONException e) {
                         resultCompletableFuture.complete(new Result("user values not corretly received",false));
                     }
@@ -229,13 +229,13 @@ public class UsersApiService {
      * @return  CompletableFuture<Result>
      * @throws JSONException
      */
-    public CompletableFuture<Result> createNewUserFuture(User user) throws JSONException {
+    public CompletableFuture<Result> createNewUserFuture(UserCreation user) throws JSONException {
         //this.setUserRole(user.getPassword(),user.geteMail());
         JSONObject userJson = new JSONObject()
                 .put("firstName", user.getFirstName())
                 .put("lastName", user.getLastName())
                 .put("password", user.getPassword())
-                .put("mail", user.geteMail())
+                .put("mail", user.getEmail())
                 .put("role","USER");
 
 
@@ -271,7 +271,7 @@ public class UsersApiService {
 
                 } else {
 
-                    resultCompletableFuture.complete(new Result("error", false));
+                    resultCompletableFuture.complete(new Result("not successful", false));
                 }
 
             }

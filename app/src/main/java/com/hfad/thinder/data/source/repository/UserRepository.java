@@ -5,6 +5,7 @@ import com.hfad.thinder.data.model.Login;
 import com.hfad.thinder.data.model.ThesisTuple;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.model.User;
+import com.hfad.thinder.data.model.UserCreation;
 import com.hfad.thinder.data.source.remote.StudentRemoteDataSource;
 import com.hfad.thinder.data.source.remote.SupervisorRemoteDataSource;
 import com.hfad.thinder.data.source.remote.UsersRemoteDataSource;
@@ -29,10 +30,10 @@ public final class UserRepository {
     private final SupervisorRemoteDataSource supervisorRemoteDataSource = new SupervisorRemoteDataSource();
     private UUID currentId=null;
     private USERTYPE type=null;
-    private UserResponse user=null;
+    private User user=null;
 
 
-    public void setUser(UserResponse user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
@@ -40,7 +41,7 @@ public final class UserRepository {
         return usersDataSource.getUserThesis(thesisId);
     }
     // Relevant for the ViewModel
-    public UserResponse getUser() {
+    public User getUser() {
         return user;
     }
 
@@ -111,7 +112,7 @@ public final class UserRepository {
      */
 
     public Result registrate(String firstName, String secondName, String password, String eMail)  {
-        return usersDataSource.createNewUser(new User(password, eMail, firstName, secondName));
+        return usersDataSource.createNewUser(new UserCreation(firstName, secondName, eMail, password));
 
     }
 

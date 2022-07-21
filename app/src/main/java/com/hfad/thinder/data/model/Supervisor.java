@@ -2,6 +2,8 @@ package com.hfad.thinder.data.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.UUID;
+
 public class Supervisor extends User {
 
     @SerializedName("degree")
@@ -14,9 +16,8 @@ public class Supervisor extends User {
     private String phoneNumber;
 
 
-    public Supervisor(String password, String eMail, String userId, String firstName,
-                      String lastName, String university, String academicDegree, String location, String institute, String phoneNumber) {
-        super(password, eMail, firstName, lastName);
+    public Supervisor(USERTYPE role, UUID id, boolean active, UUID universityId, String password, String eMail, String firstName, String lastName, String academicDegree, String location, String institute, String phoneNumber) {
+        super(role, id, active, universityId, password, eMail, firstName, lastName);
         this.academicDegree = academicDegree;
         this.location = location;
         this.institute = institute;

@@ -24,11 +24,11 @@ public class LoginViewModel extends ViewModel {
     if (!restult.getSuccess()) {
       loginResult.setValue(new LoginResult(restult.getErrorMessage(), null));
     } else if (userRepository.getType() == USERTYPE.STUDENT) {
-      loginResult.setValue(new LoginResult("student", RegistrationViewModel.ResultTypes.STUDENT));
+      loginResult.setValue(new LoginResult(restult.getErrorMessage(), RegistrationViewModel.ResultTypes.STUDENT));
     } else if (userRepository.getType() == USERTYPE.SUPERVISOR) {
-      loginResult.setValue(new LoginResult("supervisor", RegistrationViewModel.ResultTypes.SUPERVISOR));
+      loginResult.setValue(new LoginResult(restult.getErrorMessage(), RegistrationViewModel.ResultTypes.SUPERVISOR));
     } else {
-      loginResult.setValue(new LoginResult("type not returned", null));
+      loginResult.setValue(new LoginResult(restult.getErrorMessage(), null));
     }
     //Todo: es fehlt noch ein Unverified
   }
