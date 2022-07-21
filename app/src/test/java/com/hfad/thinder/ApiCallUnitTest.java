@@ -54,7 +54,7 @@ public class ApiCallUnitTest {
 
      resultStudent = UserRepository.getInstance().editProfilStudent(set,"edgar wilhelm","hipp");
     }else if (UserRepository.getInstance().getType().equals(USERTYPE.SUPERVISOR)){
-       resultSupervisor = UserRepository.getInstance().editProfilSupervisor("bachelor","karlsruhe","Telematik","015234336652","edgar wilhelm","hipp");
+       //resultSupervisor = UserRepository.getInstance().editProfilSupervisor("bachelor","karlsruhe","Telematik","015234336652","edgar wilhelm","hipp");
     }else {
 
       Assert.fail();

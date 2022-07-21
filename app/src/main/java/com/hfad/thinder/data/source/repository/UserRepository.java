@@ -142,7 +142,6 @@ public final class UserRepository {
      * Edits the profile of a supervisor (this occurs during the edit profile screen where the user has to input additional information)
      *
      * @param degree
-     * @param location
      * @param institute
      * @param phoneNumber
      * @return Result

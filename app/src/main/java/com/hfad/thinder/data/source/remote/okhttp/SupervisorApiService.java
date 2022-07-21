@@ -43,13 +43,13 @@ public class SupervisorApiService {
           throws JSONException, IOException {
     CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
     JSONObject supervisorJson = new JSONObject()
-            .put("academic_degree", degree)
-            .put("office_number", officeNumber)
+            .put("academicDegree", degree)
+            .put("officeNumber", officeNumber)
             .put("building",building)
             .put("institute", institute)
-            .put("phone_number", phoneNumber)
-            .put("first_name",firstName)
-            .put("last_name",lastName)
+            .put("phoneNumber", phoneNumber)
+            .put("firstName",firstName)
+            .put("lastName",lastName)
             .put("id",id);
 
 
@@ -60,6 +60,7 @@ public class SupervisorApiService {
             .host("10.0.2.2")
             .port(8080)
             .addPathSegment("users")
+            .addPathSegment("current")
             .build();
     Request request = new Request.Builder()
             .url(url)

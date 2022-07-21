@@ -165,7 +165,7 @@ public class UsersApiService {
                         Result valueSettingResult = setUserValues(response.body().string());
                         resultCompletableFuture.complete(new Result(valueSettingResult.getErrorMessage(),true));
                     } catch (JSONException e) {
-                        resultCompletableFuture.complete(new Result("user values not corretly received",false));
+                        resultCompletableFuture.complete(new Result("user values not correctly received",false));
                     }
 
                 }else{
@@ -181,7 +181,7 @@ public class UsersApiService {
 
 
     /**
-     * This function creates the HTTP PUT request, tracks if the call was a failure or had a response and
+     * This function creates the HTTP POST request, tracks if the call was a failure or had a response and
      * if it was successful and returns an appropriate completable future that holds a Result.
      * Checks if the asynchronous call return fails or responds.
      * @param token
@@ -218,6 +218,7 @@ public class UsersApiService {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()){
+
                     resultCompletableFuture.complete(new Result(true));
                 }else{
                     resultCompletableFuture.complete(new Result("not successful",false));
@@ -271,7 +272,10 @@ public class UsersApiService {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
 
-                    resultCompletableFuture.complete(new Result(true));
+
+                        resultCompletableFuture.complete(new Result(true));
+
+
 
 
 
