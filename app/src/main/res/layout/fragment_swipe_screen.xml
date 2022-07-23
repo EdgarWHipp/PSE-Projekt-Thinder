@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/tools">
 <androidx.constraintlayout.motion.widget.MotionLayout
+    android:id="@+id/motionLayoutSwipeScreen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:showPaths="true"
-    app:layoutDescription="@xml/thinder_scene1"
+    app:showPaths="false"
+    app:layoutDescription="@xml/swipe_screen_animations"
     tools:context=".ui.SwipeScreenFragment">
 
+    <ImageView
+        android:id="@+id/ivThinder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_thinder_logo_v1"
+        android:adjustViewBounds="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/cardOne"/>
 
 
     <com.google.android.material.card.MaterialCardView
@@ -20,7 +33,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:cardBackgroundColor="@color/green_400">
+        app:cardElevation="@dimen/fab_margin">
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentCardTwo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </com.google.android.material.card.MaterialCardView>
 
 
@@ -29,29 +46,72 @@
         android:id="@+id/cardOne"
         android:layout_width="270dp"
         android:layout_height="424dp"
+        android:background="@color/white"
         app:cardCornerRadius="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:cardBackgroundColor="@color/red_500">
+        app:cardElevation="@dimen/fab_margin">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentCardOne"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="0dp"/>
+
     </com.google.android.material.card.MaterialCardView>
 
-    <TextView
-        android:id="@+id/detailButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:elevation="1dp"
-        android:gravity="center_horizontal"
-        android:text="@string/details"
-        app:layout_constraintBottom_toBottomOf="@id/cardOne"
-        app:layout_constraintEnd_toEndOf="@id/cardOne"
-        app:layout_constraintStart_toStartOf="@id/cardOne"
-        style="@style/headline_h2"
-        android:textColor="@color/white"
-        android:background="@color/transparent" />
+    <androidx.constraintlayout.utils.widget.ImageFilterButton
+        android:id="@+id/btSwipeLeft"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_swipe_left"
+        android:background="@drawable/round_button"
+        android:elevation="30dp"
+        app:overlay="false"
+        app:altSrc="@drawable/ic_arrow_left"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/btRedraw"
+        android:translationZ="45dp"/>
 
+
+    <androidx.constraintlayout.utils.widget.ImageFilterButton
+        android:id="@+id/btSwipeRight"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_swipe_right"
+        app:altSrc="@drawable/ic_arrow_right"
+        android:background="@drawable/round_button"
+        android:elevation="30dp"
+        app:overlay="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/btRedraw"
+        android:translationZ="45dp"/>
+
+    <androidx.constraintlayout.utils.widget.ImageFilterButton
+        android:id="@+id/btRedraw"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_redo"
+        android:background="@drawable/round_button"
+        android:elevation="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/btSwipeLeft"
+        app:layout_constraintRight_toLeftOf="@id/btSwipeRight" />
+
+    <View
+        android:id="@+id/vBlockTouch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
+        android:clickable="false"
+        android:translationZ="90dp" />
 
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

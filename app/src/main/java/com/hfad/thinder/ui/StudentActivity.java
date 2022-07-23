@@ -46,8 +46,10 @@ public class StudentActivity extends AppCompatActivity {
                                              @NonNull NavDestination destination, @Nullable Bundle arguments) {
                 if(destination.getId() == R.id.swipeScreenFragment) {
                     myChildToolbar.setVisibility(View.GONE);
+                    mBinding.separator.setVisibility(View.GONE);
                 } else {
                     myChildToolbar.setVisibility(View.VISIBLE);
+                    mBinding.separator.setVisibility(View.VISIBLE);
                 }
             }
         });

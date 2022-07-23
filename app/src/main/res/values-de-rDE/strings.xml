@@ -67,6 +67,9 @@
     <string name="fill_out_form">Formular ausfüllen</string>
     <string name="liked_theses">Positiv bewertete Abschlussarbeiten</string>
     <string name="details">Details</string>
+    <string name="further_information">Weitere Informationen</string>
+    <string name="supervisor_name">Betreuername</string>
+    <string name="courses_of_study">Studiengänge</string>
 
     <!-- Registration View Model Strings -->
     <string name="no_password_error">Passwortfeld darf nicht leer sein</string>

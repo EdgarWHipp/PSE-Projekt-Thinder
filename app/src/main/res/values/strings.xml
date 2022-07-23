@@ -67,6 +67,9 @@
     <string name="liked_theses">Liked theses</string>
     <string name="details">Details</string>
     <string name="hello_blank_fragment">remove</string>
+    <string name="further_information">Further Information</string>
+    <string name="supervisor_name">Supervisor name</string>
+    <string name="courses_of_study">Courses of study</string>
 
     <!-- Registration View Model Strings -->
     <string name="no_password_error">Password field must not be empty</string>

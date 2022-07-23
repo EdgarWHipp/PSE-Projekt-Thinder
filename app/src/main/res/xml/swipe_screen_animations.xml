@@ -9,8 +9,16 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginBottom="0dp" />
+            <CustomAttribute
+                app:attributeName="radius"
+                app:customDimension="24dp"/>
+            <CustomAttribute
+                app:attributeName="cardElevation"
+                app:customDimension="16dp"/>
         </Constraint>
+
 
         <Constraint android:id="@id/cardTwo">
             <Layout
@@ -19,20 +27,37 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
             <Transform
                 android:scaleX="0.9"
                 android:scaleY="0.9"/>
         </Constraint>
 
-        <Constraint android:id="@id/detailButton">
-            <Layout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                app:layout_constraintBottom_toBottomOf="@id/cardOne"
-                app:layout_constraintEnd_toEndOf="@id/cardOne"
-                app:layout_constraintStart_toStartOf="@id/cardOne"/>
+
+        <Constraint android:id="@id/btSwipeLeft">
+            <Transform
+                android:scaleX="1"
+                android:scaleY="1"/>
+            <CustomAttribute
+                app:attributeName="crossfade"
+                app:customFloatValue="0"/>
+        </Constraint>
+
+        <Constraint android:id="@id/btSwipeRight">
+            <Transform
+                android:scaleX="1"
+                android:scaleY="1" />
+            <CustomAttribute
+                app:attributeName="crossfade"
+                app:customFloatValue="0"/>
+
+        </Constraint>
+
+        <Constraint android:id="@id/btRedraw">
+            <Transform
+                android:scaleX="1"
+                android:scaleY="1"/>
+
         </Constraint>
 
     </ConstraintSet>
@@ -114,16 +139,47 @@
         <Constraint android:id="@id/cardOne">
             <Layout
                 android:layout_width="0dp"
-                android:layout_height="500dp"
+                android:layout_height="match_parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginBottom="90dp" />
+            <CustomAttribute
+                app:attributeName="radius"
+                app:customDimension="0dp"/>
+            <CustomAttribute
+                app:attributeName="cardElevation"
+                app:customDimension="0dp"/>
         </Constraint>
+
         <Constraint android:id="@id/cardTwo">
             <PropertySet android:alpha="0"/>
         </Constraint>
 
+        <Constraint android:id="@id/btSwipeLeft">
+            <CustomAttribute
+                app:attributeName="crossfade"
+                app:customFloatValue="1"/>
+        </Constraint>
+
+        <Constraint android:id="@id/btSwipeRight">
+            <CustomAttribute
+                app:attributeName="crossfade"
+                app:customFloatValue="1"/>
+
+        </Constraint>
+
+
+        <Constraint android:id="@id/btRedraw">
+            <Transform
+                android:scaleX="0"
+                android:scaleY="0"/>
+
+        </Constraint>
+
     </ConstraintSet>
+
+
 
     <Transition
         android:id="@+id/startToUnlike"
@@ -174,19 +230,28 @@
         app:duration="150"/>
 
     <Transition
-        app:constraintSetEnd="@+id/detail"
+        app:autoTransition="animateToEnd"
+        app:constraintSetStart="@id/offScreenUnlike"
+        app:constraintSetEnd="@id/start"
+        app:duration="0"/>
+
+    <Transition
+        app:autoTransition="animateToEnd"
+        app:constraintSetStart="@id/offScreenLike"
+        app:constraintSetEnd="@id/start"
+        app:duration="0"/>
+
+    <Transition
+        android:id="@+id/detailTransition"
+        app:constraintSetEnd="@id/detail"
         app:constraintSetStart="@id/start"
         app:duration="500">
-        <OnClick
-            app:clickAction="toggle"
-            app:targetId="@id/detailButton"/>
+        <OnSwipe
+            app:dragDirection="dragUp"
+            app:onTouchUp="autoComplete"
+            app:touchAnchorId="@id/cardOne"
+            app:touchAnchorSide="top"
+            app:touchRegionId="@id/cardOne"/>
     </Transition>
-
-
-
-
-
-
-
 
 </MotionScene>
