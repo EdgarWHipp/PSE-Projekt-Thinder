@@ -20,13 +20,15 @@ public class LoginViewModel extends ViewModel {
   //Ruft die Login Funktion im Repository auf und aktualisiert den Zustand der Anmeldung
   public void login() {
     Result restult;
-    restult = userRepository.login(email.getValue(), password.getValue());
+    restult = userRepository.login(password.getValue(), email.getValue());
     if (!restult.getSuccess()) {
       loginResult.setValue(new LoginResult(restult.getErrorMessage(), null));
     } else if (userRepository.getType() == USERTYPE.STUDENT) {
-      loginResult.setValue(new LoginResult(null, RegistrationViewModel.ResultTypes.STUDENT));
+      loginResult.setValue(new LoginResult(restult.getErrorMessage(), RegistrationViewModel.ResultTypes.STUDENT));
     } else if (userRepository.getType() == USERTYPE.SUPERVISOR) {
-      loginResult.setValue(new LoginResult(null, RegistrationViewModel.ResultTypes.SUPERVISOR));
+      loginResult.setValue(new LoginResult(restult.getErrorMessage(), RegistrationViewModel.ResultTypes.SUPERVISOR));
+    } else {
+      loginResult.setValue(new LoginResult(restult.getErrorMessage(), null));
     }
     //Todo: es fehlt noch ein Unverified
   }

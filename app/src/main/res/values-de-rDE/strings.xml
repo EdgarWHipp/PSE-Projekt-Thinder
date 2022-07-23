@@ -83,4 +83,11 @@
     <string name="no_last_name_error">Nachname muss angegeben werden</string>
 
 
+    <!-- Supervisor Edit Profile View Model Strings -->
+    <string name="no_building_error">Gebäude muss angegeben werden</string>
+    <string name="no_room_error">Raum im Gebäude muss angeben werden</string>
+    <string name="no_phone_number_error">Es muss eine Telefonnummer angegeben werden</string>
+    <string name="invalid_phone_number_error">Invalide Telefonnummer</string>
+    <string name="no_institute_error">Institut muss angegeben werden</string>
+    <string name="edit_profile_success_message">Profildaten wurden erfolgreich geändert</string>
 </resources>
