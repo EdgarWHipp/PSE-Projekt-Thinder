@@ -81,7 +81,7 @@ public class UsersRemoteDataSource {
 
         try {
 
-            CompletableFuture<Result> result = okHttpService.usersLoginFuture(login.getPassword(), login.geteMail());
+            CompletableFuture<Result> result = okHttpService.usersLoginFuture(login);
 
             return result.get(30, TimeUnit.SECONDS);
         } catch (IOException e) {

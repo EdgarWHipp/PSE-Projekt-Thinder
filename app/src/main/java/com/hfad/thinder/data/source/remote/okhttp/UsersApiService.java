@@ -3,6 +3,7 @@ package com.hfad.thinder.data.source.remote.okhttp;
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
+import com.hfad.thinder.data.model.Login;
 import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.USERTYPE;
@@ -123,16 +124,15 @@ public class UsersApiService {
     /**
      * This function creates the HTTP GET request that firstly makes sure the email, password tuple exists in the database and then fetches a JSON with attributes type and id.
      * Checks if the asynchronous call return fails or responds.
-     * @param password of user loging in
-     * @param eMail    of user loging in
+     * @param login
      * @returnCompletableFuture<Result>
      * @throws JSONException
      * @throws IOException
      */
-    public CompletableFuture<Result> usersLoginFuture(String password, String eMail) throws JSONException, IOException {
-        setUserRole(password,eMail);
+    public CompletableFuture<Result> usersLoginFuture(Login login) throws JSONException, IOException {
+        setUserRole(login.eMail, login.password);
         OkHttpClient clientAuth = new OkHttpClient.Builder()
-                .addInterceptor(new AuthInterceptor(eMail, password))
+                .addInterceptor(new AuthInterceptor(login.geteMail(), login.getPassword()))
                 .build();
 
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
