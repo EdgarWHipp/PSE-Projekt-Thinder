@@ -15,10 +15,10 @@ import com.hfad.thinder.R;
 
 import java.util.ArrayList;
 
-public class ThesisManagerAdapter extends RecyclerView.Adapter<ThesisManagerAdapter.ThesisManagerViewHolder> implements Filterable {
+public class ThesisCardAdapter extends RecyclerView.Adapter<ThesisCardAdapter.ThesisManagerViewHolder> implements Filterable {
 
-    private ArrayList<ThesisManagerItem> elements;
-    private ArrayList<ThesisManagerItem> elementsFull;
+    private ArrayList<ThesisCardItem> elements;
+    private ArrayList<ThesisCardItem> elementsFull;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
@@ -54,22 +54,22 @@ public class ThesisManagerAdapter extends RecyclerView.Adapter<ThesisManagerAdap
         }
     }
 
-    public ThesisManagerAdapter(ArrayList<ThesisManagerItem> elements) {
+    public ThesisCardAdapter(ArrayList<ThesisCardItem> elements) {
         this.elements = elements;
         elementsFull = new ArrayList<>(elements);
     }
 
     @NonNull
     @Override
-    public ThesisManagerAdapter.ThesisManagerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ThesisCardAdapter.ThesisManagerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_thesis_manager, parent, false);
-        ThesisManagerAdapter.ThesisManagerViewHolder coursesOfStudyViewHolder = new ThesisManagerAdapter.ThesisManagerViewHolder(v, listener);
+        ThesisCardAdapter.ThesisManagerViewHolder coursesOfStudyViewHolder = new ThesisCardAdapter.ThesisManagerViewHolder(v, listener);
         return coursesOfStudyViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ThesisManagerAdapter.ThesisManagerViewHolder holder, int position) {
-        ThesisManagerItem current = elements.get(position);
+    public void onBindViewHolder(@NonNull ThesisCardAdapter.ThesisManagerViewHolder holder, int position) {
+        ThesisCardItem current = elements.get(position);
         holder.title.setText(current.getTitle());
         holder.description.setText(current.getDescription());
         holder.image.setImageResource(current.getImage());
@@ -88,14 +88,14 @@ public class ThesisManagerAdapter extends RecyclerView.Adapter<ThesisManagerAdap
     private Filter elementsFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
-            ArrayList<ThesisManagerItem> filteredList = new ArrayList<>();
+            ArrayList<ThesisCardItem> filteredList = new ArrayList<>();
 
             if (charSequence == null || charSequence.length() == 0) {
                 filteredList.addAll(elementsFull);
             } else {
                 String filterPattern = charSequence.toString().toLowerCase().trim();
 
-                for (ThesisManagerItem item : elementsFull) {
+                for (ThesisCardItem item : elementsFull) {
                     if (item.getTitle().toLowerCase().contains(filterPattern)) {
                         filteredList.add(item);
                     }

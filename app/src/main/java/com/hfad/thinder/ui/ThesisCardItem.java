@@ -1,6 +1,6 @@
 package com.hfad.thinder.ui;
 
-public class ThesisManagerItem {
+public class ThesisCardItem {
 
     private String title;
     private String description;
@@ -19,7 +19,7 @@ public class ThesisManagerItem {
         return image;
     }
 
-    public ThesisManagerItem(String title, String description, int image) {
+    public ThesisCardItem(String title, String description, int image) {
         this.title = title;
         this.description = description;
         this.image = image;

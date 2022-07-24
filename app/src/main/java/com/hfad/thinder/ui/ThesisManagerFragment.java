@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 import android.widget.SearchView;
 
 import androidx.annotation.Nullable;
@@ -43,10 +42,10 @@ public class ThesisManagerFragment extends Fragment {
 
     private FragmentThesisManagerBinding binding;
 
-    private ArrayList<ThesisManagerItem> elements;
+    private ArrayList<ThesisCardItem> elements;
 
     private RecyclerView recyclerView;
-    private ThesisManagerAdapter adapter;
+    private ThesisCardAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
     private View view;
@@ -86,16 +85,16 @@ public class ThesisManagerFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
-        elements = new ArrayList<ThesisManagerItem>();
-        elements.add(new ThesisManagerItem(" Control and Diagnostics System Generator for Complex FPGA-Based Measurement Systems ", "Test", R.drawable.index));
-        elements.add(new ThesisManagerItem(" Commissioning and testing of pre-series triple GEM prototypes for CBM-MuCh in the mCBM experiment at the SIS18 facility of GSI ", "Test", R.drawable.index));
-        elements.add(new ThesisManagerItem(" An equation-of-state-meter for CBM using PointNet ", "Test", R.drawable.index));
-        elements.add(new ThesisManagerItem(" Performance of the MSMGRPC with the Highest Granularity of the CBM-TOF Wall in Cosmic Ray Tests ", "Test", R.drawable.index));
-        elements.add(new ThesisManagerItem(" Astrophysics with heavy-ion beams ", "Test", R.drawable.index));
-        elements.add(new ThesisManagerItem(" Development and implementation of a time-based signal generation scheme for the muon chamber simulation of the CBM experiment at FAIR ", "Test", R.drawable.index));
-        elements.add(new ThesisManagerItem(" Data-Driven Methods for Spectator Symmetry Plane Estimation in CBM Experiment at FAIR ", "Test", R.drawable.index));
-        elements.add(new ThesisManagerItem(" Data-Driven Methods for Spectator Symmetry Plane Estimation in CBM Experiment at FAIR ", "Test", R.drawable.index));
-        elements.add(new ThesisManagerItem(" Data-Driven Methods for Spectator Symmetry Plane Estimation in CBM Experiment at FAIR ", "Test", R.drawable.index));
+        elements = new ArrayList<ThesisCardItem>();
+        elements.add(new ThesisCardItem(" Control and Diagnostics System Generator for Complex FPGA-Based Measurement Systems ", "Test", R.drawable.index));
+        elements.add(new ThesisCardItem(" Commissioning and testing of pre-series triple GEM prototypes for CBM-MuCh in the mCBM experiment at the SIS18 facility of GSI ", "Test", R.drawable.index));
+        elements.add(new ThesisCardItem(" An equation-of-state-meter for CBM using PointNet ", "Test", R.drawable.index));
+        elements.add(new ThesisCardItem(" Performance of the MSMGRPC with the Highest Granularity of the CBM-TOF Wall in Cosmic Ray Tests ", "Test", R.drawable.index));
+        elements.add(new ThesisCardItem(" Astrophysics with heavy-ion beams ", "Test", R.drawable.index));
+        elements.add(new ThesisCardItem(" Development and implementation of a time-based signal generation scheme for the muon chamber simulation of the CBM experiment at FAIR ", "Test", R.drawable.index));
+        elements.add(new ThesisCardItem(" Data-Driven Methods for Spectator Symmetry Plane Estimation in CBM Experiment at FAIR ", "Test", R.drawable.index));
+        elements.add(new ThesisCardItem(" Data-Driven Methods for Spectator Symmetry Plane Estimation in CBM Experiment at FAIR ", "Test", R.drawable.index));
+        elements.add(new ThesisCardItem(" Data-Driven Methods for Spectator Symmetry Plane Estimation in CBM Experiment at FAIR ", "Test", R.drawable.index));
 
 
         buildRecyclerView(view);
@@ -104,12 +103,12 @@ public class ThesisManagerFragment extends Fragment {
     private void buildRecyclerView(View view) {
         recyclerView = binding.recyclerView;
         layoutManager = new LinearLayoutManager(view.getContext());
-        adapter = new ThesisManagerAdapter(elements);
+        adapter = new ThesisCardAdapter(elements);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new ThesisManagerAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new ThesisCardAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 // Handle click events

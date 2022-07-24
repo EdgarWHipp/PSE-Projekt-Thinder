@@ -1,14 +1,298 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.LikedThesisDetailedFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_margin="@dimen/fab_margin">
 
-</FrameLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/btRemove"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvTask"
+                    style="@style/headline_h6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/task"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/tvTaskContent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvTaskContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="In dieser Arbeit sollen automatisierte Tests mit dem HiL-System mithilfe von MATLAB/Simulink und LabView realisiert werden. Dazu soll eine Systematik zum Erstellen der Testfälle recherchiert und erarbeitet werden. Diese sollen in automatisierter Form realisiert und die Ergebnisse systematisch erfasst und aufbereitet werden:\n- Literaturrecherche zur testgetriebenen Entwicklung und zur Vollständigkeit von Tests
+    \n- Entwurf von automatisierten Tests für die Anwendung am HiL-System eines MMC mit Batteriemodulen
+    \n- Testdurchführung anhand exemplarischer Regelungsmethoden und Validierung der Tests"
+                    app:layout_constraintBottom_toTopOf="@id/tvMotivation"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvTask" />
+
+                <TextView
+                    android:id="@+id/tvMotivation"
+                    style="@style/headline_h6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/motivation"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/tvMotivationContent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvTaskContent" />
+
+                <TextView
+                    android:id="@+id/tvMotivationContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Der Reglerentwurf für Umrichter ist komplex. Neben dem bestimmungsgemäßen Betrieb in jedem Betriebspunkt muss die Sicherheit zu jedem Zeitpunkt gewährleistet sein. Auch beim Auftreten unvorhergesehener Fehlerkombinationen muss das System in einen sicheren Zustand überführt werden können. Bei der Kombination von Batteriespeichern und Umrichtern in einem System muss das System den Anforderungen beider Seiten gerecht werden. Aus diesem Grund wurde eine HiL-Umgebung entwickelt und wird stetig weiterentwickelt. Um den aktuellen Stand des Regelungsentwurfs zu validieren, sollen nun Ansätze des Test Driven Design übernommen werden."
+                    app:layout_constraintBottom_toTopOf="@id/tvCoursesOfStudy"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvMotivation" />
+
+                <TextView
+                    android:id="@+id/tvCoursesOfStudy"
+                    style="@style/body_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fab_margin"
+                    android:text="@string/courses_of_study"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/tvCoursesOfStudyContent"
+                    app:layout_constraintTop_toBottomOf="@id/tvMotivationContent" />
+
+                <TextView
+                    android:id="@+id/tvCoursesOfStudyContent"
+                    style="@style/body_1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fab_margin"
+                    android:text="M. Sc. Informatik\nB. Sc. Informatik\nM. Sc. Wirtschaftsinformatik"
+                    android:textAlignment="textEnd"
+                    app:layout_constraintLeft_toRightOf="@id/tvCoursesOfStudy"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvMotivationContent" />
+
+                <TextView
+                    android:id="@+id/tvSupervisorName"
+                    style="@style/body_1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fab_margin"
+                    android:text="@string/supervisor_name"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/tvSupervisorNameContent"
+                    app:layout_constraintTop_toBottomOf="@id/tvCoursesOfStudyContent" />
+
+                <TextView
+                    android:id="@+id/tvSupervisorNameContent"
+                    style="@style/body_1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fab_margin"
+                    android:text="M.Sc. Jessica Salzmann"
+                    app:layout_constraintLeft_toRightOf="@id/tvSupervisorName"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvCoursesOfStudyContent" />
+
+                <TextView
+                    android:id="@+id/tvSupervisorEmail"
+                    style="@style/body_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fab_margin"
+                    android:text="@string/email"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/tvSupervisorEmailContent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSupervisorNameContent" />
+
+                <TextView
+                    android:id="@+id/tvSupervisorEmailContent"
+                    style="@style/body_1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fab_margin"
+                    android:text="Jessica.Salzmann@kit.edu"
+                    android:textAlignment="textEnd"
+                    app:layout_constraintLeft_toRightOf="@id/tvSupervisorEmail"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSupervisorNameContent" />
+
+                <TextView
+                    android:id="@+id/tvSupervisorPhoneNumber"
+                    style="@style/body_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fab_margin"
+                    android:text="@string/phone_number"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/tvSupervisorPhoneNumberContent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSupervisorEmail" />
+
+                <TextView
+                    android:id="@+id/tvSupervisorPhoneNumberContent"
+                    style="@style/body_1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fab_margin"
+                    android:text="+49 1234 56789"
+                    android:textAlignment="textEnd"
+                    app:layout_constraintLeft_toRightOf="@id/tvSupervisorPhoneNumber"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSupervisorEmailContent" />
+
+                <TextView
+                    android:id="@+id/tvBuilding"
+                    style="@style/body_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fab_margin"
+                    android:text="@string/building"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/tvBuildingContent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSupervisorPhoneNumber" />
+
+                <TextView
+                    android:id="@+id/tvBuildingContent"
+                    style="@style/body_1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fab_margin"
+                    android:text="MZE, 30.48, R. 333"
+                    android:textAlignment="textEnd"
+                    app:layout_constraintLeft_toRightOf="@id/tvBuilding"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSupervisorPhoneNumberContent" />
+
+                <TextView
+                    android:id="@+id/tvSupervisingProf"
+                    style="@style/body_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fab_margin"
+                    android:text="@string/supervising_professor"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/tvSupervisingProfContent"
+                    app:layout_constraintTop_toBottomOf="@id/tvBuilding" />
+
+                <TextView
+                    android:id="@+id/tvSupervisingProfContent"
+                    style="@style/body_1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fab_margin"
+                    android:text="Prof. Dr. Max Mustermann"
+                    android:textAlignment="textEnd"
+                    app:layout_constraintLeft_toRightOf="@id/tvSupervisingProf"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvBuildingContent" />
+
+                <TextView
+                    android:id="@+id/tvInstitute"
+                    style="@style/body_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fab_margin"
+                    android:text="@string/institute"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/tvInstituteContent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSupervisingProf" />
+
+                <TextView
+                    android:id="@+id/tvInstituteContent"
+                    style="@style/body_1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fab_margin"
+                    android:text="Lichttechnisches Institut"
+                    android:textAlignment="textEnd"
+                    app:layout_constraintLeft_toRightOf="@id/tvInstitute"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSupervisingProfContent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+
+        <Button
+            android:id="@+id/btRemove"
+            style="@style/button_small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_remove"
+            android:text="@string/remove"
+            android:layout_marginEnd="@dimen/fab_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btImages"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent">
+
+        </Button>
+
+        <Button
+            android:id="@+id/btImages"
+            style="@style/button_small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_images"
+            android:text="@string/images"
+            android:layout_marginEnd="@dimen/fab_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btForm"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@id/btRemove">
+
+        </Button>
+
+        <Button
+            android:id="@+id/btForm"
+            style="@style/button_small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_form"
+            android:text="@string/form"
+            android:layout_marginEnd="@dimen/fab_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btContact"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@id/btImages">
+
+        </Button>
+
+        <Button
+            android:id="@+id/btContact"
+            style="@style/button_small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_mail"
+            android:text="@string/contact"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@id/btForm">
+
+        </Button>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

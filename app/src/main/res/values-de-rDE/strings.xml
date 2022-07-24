@@ -70,6 +70,9 @@
     <string name="further_information">Weitere Informationen</string>
     <string name="supervisor_name">Betreuername</string>
     <string name="courses_of_study">Studiengänge</string>
+    <string name="form">Formular</string>
+    <string name="contact">Kontakt</string>
+    <string name="images">Bilder</string>
 
     <!-- Registration View Model Strings -->
     <string name="no_password_error">Passwortfeld darf nicht leer sein</string>
