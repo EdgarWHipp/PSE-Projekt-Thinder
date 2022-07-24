@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/fab_margin">
+        <TextView
+            android:id="@+id/tvTask"
+            android:text="@string/task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tvTaskContent"
+            style="@style/headline_h6" />
+        <TextView
+            android:text="In dieser Arbeit sollen automatisierte Tests mit dem HiL-System mithilfe von MATLAB/Simulink und LabView realisiert werden. Dazu soll eine Systematik zum Erstellen der Testfälle recherchiert und erarbeitet werden. Diese sollen in automatisierter Form realisiert und die Ergebnisse systematisch erfasst und aufbereitet werden:\n- Literaturrecherche zur testgetriebenen Entwicklung und zur Vollständigkeit von Tests
+    \n- Entwurf von automatisierten Tests für die Anwendung am HiL-System eines MMC mit Batteriemodulen
+    \n- Testdurchführung anhand exemplarischer Regelungsmethoden und Validierung der Tests"
+            android:id="@+id/tvTaskContent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:ellipsize="end"
+            android:autoSizeTextType="uniform"
+            app:layout_constraintTop_toBottomOf="@id/tvTask"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tvMotivation"/>
+        <TextView
+            android:id="@+id/tvMotivation"
+            android:text="@string/motivation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/tvTaskContent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tvMotivationContent"
+            style="@style/headline_h6"/>
+        <TextView
+            android:text="Der Reglerentwurf für Umrichter ist komplex. Neben dem bestimmungsgemäßen Betrieb in jedem Betriebspunkt muss die Sicherheit zu jedem Zeitpunkt gewährleistet sein. Auch beim Auftreten unvorhergesehener Fehlerkombinationen muss das System in einen sicheren Zustand überführt werden können. Bei der Kombination von Batteriespeichern und Umrichtern in einem System muss das System den Anforderungen beider Seiten gerecht werden. Aus diesem Grund wurde eine HiL-Umgebung entwickelt und wird stetig weiterentwickelt. Um den aktuellen Stand des Regelungsentwurfs zu validieren, sollen nun Ansätze des Test Driven Design übernommen werden."
+            android:id="@+id/tvMotivationContent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:ellipsize="end"
+            android:autoSizeTextType="uniform"
+            app:layout_constraintTop_toBottomOf="@id/tvMotivation"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
