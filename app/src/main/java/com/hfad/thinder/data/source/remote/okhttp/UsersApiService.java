@@ -42,7 +42,7 @@ public class UsersApiService {
         Student student=null;
         Supervisor supervisor = null;
         user = gson.fromJson(body, User.class);
-        repository.setUser(user);
+
         switch(repository.getType().toString()){
             case "STUDENT":
                 student = gson.fromJson(body, Student.class);
@@ -68,7 +68,7 @@ public class UsersApiService {
      * @param eMail
      * @return CompletableFuture<Result>
      */
-    private CompletableFuture<Result> setUserRole(String password, String eMail){
+    private CompletableFuture<Result> setUserRole(String eMail, String password){
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor(eMail, password))
                 .build();
@@ -115,7 +115,7 @@ public class UsersApiService {
                                 break;
                         }
                     }else {
-                        resultCompletableFuture.complete(new Result("not successful",false));
+                        resultCompletableFuture.complete(new Result(response.message().toString(),false));
                     }
             }
         });
@@ -130,7 +130,7 @@ public class UsersApiService {
      * @throws IOException
      */
     public CompletableFuture<Result> usersLoginFuture(Login login) throws JSONException, IOException {
-        setUserRole(login.eMail, login.password);
+        CompletableFuture<Result> result=setUserRole(login.eMail, login.password);
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor(login.geteMail(), login.getPassword()))
                 .build();
@@ -237,7 +237,7 @@ public class UsersApiService {
      * @throws JSONException
      */
     public CompletableFuture<Result> createNewUserFuture(UserCreation user) throws JSONException {
-        //this.setUserRole(user.getPassword(),user.geteMail());
+
         JSONObject userJson = new JSONObject()
                 .put("firstName", user.getFirstName())
                 .put("lastName", user.getLastName())
@@ -272,7 +272,7 @@ public class UsersApiService {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
 
-
+                        //setUserRole(user.getPassword(),user.getEmail());
                         resultCompletableFuture.complete(new Result(true));
 
 

@@ -32,7 +32,6 @@ public class SupervisorApiService {
    * This function creates the HTTP PUT request that completes the user profile by extending the profile through either the additional attributes from the supervisor.
    *Checks if the asynchronous call return fails or responds.
    * @param degree
-   * @param location
    * @param institute
    * @param phoneNumber
    * @return CompletableFuture<Result>
@@ -49,8 +48,7 @@ public class SupervisorApiService {
             .put("institute", institute)
             .put("phoneNumber", phoneNumber)
             .put("firstName",firstName)
-            .put("lastName",lastName)
-            .put("id",id);
+            .put("lastName",lastName);
 
 
     RequestBody body = RequestBody.create(supervisorJson.toString(), JSON);
