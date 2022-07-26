@@ -8,8 +8,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.ActivityVerifyTokenBinding;
+import com.hfad.thinder.viewmodels.ViewModelResult;
+import com.hfad.thinder.viewmodels.ViewModelResultTypes;
 import com.hfad.thinder.viewmodels.user.RegistrationViewModel;
-import com.hfad.thinder.viewmodels.user.VerifyTokenResult;
 import com.hfad.thinder.viewmodels.user.VerifyTokenViewModel;
 
 public class VerifyTokenActivity extends AppCompatActivity {
@@ -30,15 +31,15 @@ public class VerifyTokenActivity extends AppCompatActivity {
     binding.setViewmodel(viewmodel);
     binding.setLifecycleOwner(this);
 
-    final Observer<VerifyTokenResult> verifyTokenResultObserver =
-        new Observer<VerifyTokenResult>() {
+    final Observer<ViewModelResult> verifyTokenResultObserver =
+        new Observer<ViewModelResult>() {
           @Override
-          public void onChanged(VerifyTokenResult verifyTokenResult) {
+          public void onChanged(ViewModelResult verifyTokenResult) {
             if (verifyTokenResult.isSuccess()) {
-              if (verifyTokenResult.getSuccess() == RegistrationViewModel.ResultTypes.STUDENT) {
+              if (verifyTokenResult.getSuccess() == ViewModelResultTypes.STUDENT) {
                 goToStudentProfileFragment();
               }
-              if (verifyTokenResult.getSuccess() == RegistrationViewModel.ResultTypes.SUPERVISOR) {
+              if (verifyTokenResult.getSuccess() == ViewModelResultTypes.SUPERVISOR) {
                 goToSupervisorProfileFragment();
               }
             }

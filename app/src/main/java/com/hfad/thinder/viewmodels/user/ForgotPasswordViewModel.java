@@ -4,13 +4,12 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.hfad.thinder.data.source.repository.UserRepository;
-import com.hfad.thinder.viewmodels.user.ForgotPasswordFormState;
-import com.hfad.thinder.viewmodels.user.ForgotPasswordResult;
+import com.hfad.thinder.viewmodels.ViewModelResult;
 
 public class ForgotPasswordViewModel extends ViewModel {
   private final UserRepository forgotPasswordRepository = UserRepository.getInstance();
   private MutableLiveData<ForgotPasswordFormState> formState;
-  private MutableLiveData<ForgotPasswordResult> result;
+  private MutableLiveData<ViewModelResult> result;
 
   private MutableLiveData<String> code;
   private MutableLiveData<String> newPassword;
@@ -31,7 +30,7 @@ public class ForgotPasswordViewModel extends ViewModel {
     return formState;
   }
 
-  public MutableLiveData<ForgotPasswordResult> getResult() {
+  public MutableLiveData<ViewModelResult> getResult() {
     if (result == null) {
       result = new MutableLiveData<>();
     }

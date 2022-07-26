@@ -14,8 +14,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentSupervisorProfileBinding;
+import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.viewmodels.supervisor.EditProfileFormState;
-import com.hfad.thinder.viewmodels.supervisor.EditProfileResult;
 import com.hfad.thinder.viewmodels.supervisor.EditProfileViewModel;
 
 /**
@@ -127,26 +127,26 @@ public class SupervisorProfileFragment extends Fragment {
       }
     };
 
-    final Observer<EditProfileResult> safeResultObserver = new Observer<EditProfileResult>() {
+    final Observer<ViewModelResult> safeResultObserver = new Observer<ViewModelResult>() {
       @Override
-      public void onChanged(EditProfileResult editProfileResult) {
+      public void onChanged(ViewModelResult editProfileResult) {
         Toast toast;
-        if (editProfileResult.isSuccessful()) {
+        if (editProfileResult.isSuccess()) {
           toast = Toast.makeText(getContext(),
               getResources().getString(R.string.edit_profile_success_message), Toast.LENGTH_LONG);
-        } else if (!editProfileResult.isSuccessful()) {
+        } else if (!editProfileResult.isSuccess()) {
           toast =
               Toast.makeText(getContext(), editProfileResult.getErrorMessage(), Toast.LENGTH_LONG);
         }
       }
     };
 
-    final Observer<EditProfileResult> deleteResultObserver = new Observer<EditProfileResult>() {
+    final Observer<ViewModelResult> deleteResultObserver = new Observer<ViewModelResult>() {
       @Override
-      public void onChanged(EditProfileResult editProfileResult) {
-        if (editProfileResult.isSuccessful()) {
+      public void onChanged(ViewModelResult editProfileResult) {
+        if (editProfileResult.isSuccess()) {
           goToLoginActivity();
-        } else if (!editProfileResult.isSuccessful()) {
+        } else if (!editProfileResult.isSuccess()) {
           Toast toast =
               Toast.makeText(getContext(), editProfileResult.getErrorMessage(), Toast.LENGTH_LONG);
         }

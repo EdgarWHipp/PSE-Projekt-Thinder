@@ -3,6 +3,8 @@ package com.hfad.thinder.viewmodels.student;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.hfad.thinder.data.source.repository.UserRepository;
+import com.hfad.thinder.viewmodels.ViewModelResult;
+
 import java.util.ArrayList;
 
 ;
@@ -10,8 +12,8 @@ import java.util.ArrayList;
 public class EditProfileViewModel {
   private final UserRepository editProfileRepository = UserRepository.getInstance();
   private MutableLiveData<EditProfileFormState> formState;
-  private MutableLiveData<EditProfileResult> safeResult;
-  private MutableLiveData<EditProfileResult> deleteResult;
+  private MutableLiveData<ViewModelResult> safeResult;
+  private MutableLiveData<ViewModelResult> deleteResult;
   private MutableLiveData<String> firstName;
   private MutableLiveData<String> lastName;
 
@@ -47,14 +49,14 @@ public class EditProfileViewModel {
     return formState;
   }
 
-  public MutableLiveData<EditProfileResult> getSafeResult() {
+  public MutableLiveData<ViewModelResult> getSafeResult() {
     if (safeResult == null) {
       safeResult = new MutableLiveData<>();
     }
     return safeResult;
   }
 
-  public MutableLiveData<EditProfileResult> getDeleteResult() {
+  public MutableLiveData<ViewModelResult> getDeleteResult() {
     if (deleteResult == null) {
       deleteResult = new MutableLiveData<>();
     }

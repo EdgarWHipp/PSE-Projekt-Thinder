@@ -11,7 +11,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.ActivityLoginBinding;
-import com.hfad.thinder.viewmodels.user.LoginResult;
+import com.hfad.thinder.viewmodels.ViewModelResult;
+import com.hfad.thinder.viewmodels.ViewModelResultTypes;
 import com.hfad.thinder.viewmodels.user.LoginViewModel;
 import com.hfad.thinder.viewmodels.user.RegistrationViewModel;
 
@@ -48,14 +49,14 @@ public class LoginActivity extends AppCompatActivity {
       }
     };
 
-    final Observer<LoginResult> loginSuccessfulObserver = new Observer<LoginResult>() {
+    final Observer<ViewModelResult> loginSuccessfulObserver = new Observer<ViewModelResult>() {
       @Override
-      public void onChanged(LoginResult loginResult) {
+      public void onChanged(ViewModelResult loginResult) {
         if (loginResult.isSuccess()) {
-          if (loginResult.getSuccess() == RegistrationViewModel.ResultTypes.STUDENT) {
+          if (loginResult.getSuccess() == ViewModelResultTypes.STUDENT) {
             goToStudentActivity();
           }
-          if (loginResult.getSuccess() == RegistrationViewModel.ResultTypes.SUPERVISOR) {
+          if (loginResult.getSuccess() == ViewModelResultTypes.SUPERVISOR) {
             goToSupervisorActivity();
           }
         }

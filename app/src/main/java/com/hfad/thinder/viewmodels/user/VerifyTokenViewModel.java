@@ -6,11 +6,14 @@ import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 
+import com.hfad.thinder.viewmodels.ViewModelResult;
+import com.hfad.thinder.viewmodels.ViewModelResultTypes;
+
 public class VerifyTokenViewModel extends ViewModel {
 
   private static final UserRepository userRepository = UserRepository.getInstance();
   private MutableLiveData<String> token;
-  private MutableLiveData<VerifyTokenResult> verifyTokenResult;
+  private MutableLiveData<ViewModelResult> verifyTokenResult;
   private MutableLiveData<VerifyTokenStates> state;
   // Todo: Auch nach dem Verlassen der App muss, befor es weiter geht der Token verifiziert werden in(siehe login seite)
 
@@ -22,15 +25,15 @@ public class VerifyTokenViewModel extends ViewModel {
     if (result.getSuccess()) {
       if (userRepository.getType() == USERTYPE.STUDENT) {
         verifyTokenResult.setValue(
-            new VerifyTokenResult(null, RegistrationViewModel.ResultTypes.STUDENT));
+            new ViewModelResult(null, ViewModelResultTypes.STUDENT));
       }
       if (userRepository.getType() == USERTYPE.SUPERVISOR) {
         verifyTokenResult.setValue(
-            new VerifyTokenResult(null, RegistrationViewModel.ResultTypes.SUPERVISOR));
+            new ViewModelResult(null, ViewModelResultTypes.SUPERVISOR));
       }
       state.setValue(VerifyTokenStates.SUCCESSFUL);
     } else {
-      verifyTokenResult.setValue(new VerifyTokenResult("Verifizierung fehlgeschlagen",
+      verifyTokenResult.setValue(new ViewModelResult("Verifizierung fehlgeschlagen",
           null));//Todo: hier kommt error aus model
       state.setValue(VerifyTokenStates.FAILURE);
     }
@@ -51,7 +54,7 @@ public class VerifyTokenViewModel extends ViewModel {
     this.token = token;
   }
 
-  public MutableLiveData<VerifyTokenResult> getVerifyTokenResult() {
+  public MutableLiveData<ViewModelResult> getVerifyTokenResult() {
     if (verifyTokenResult == null) {
       verifyTokenResult = new MutableLiveData<>();
     }

@@ -3,10 +3,16 @@ package com.hfad.thinder.viewmodels.user;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.hfad.thinder.data.model.User;
+import com.hfad.thinder.data.source.repository.UserRepository;
+import com.hfad.thinder.data.source.result.Result;
+
 public class PasswordResetRequestViewModel extends ViewModel {
+    private static final UserRepository userRepository = UserRepository.getInstance();
     private MutableLiveData<String> email;
 
     public void resetRequest() {
+        Result result = userRepository.sendRecoveryEmail(email.getValue());
 
     }
 //----------------getter and setter-----------------------------------
