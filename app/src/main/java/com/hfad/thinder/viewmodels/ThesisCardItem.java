@@ -1,11 +1,17 @@
-package com.hfad.thinder.ui;
+package com.hfad.thinder.viewmodels;
+
+import android.media.Image;
 
 public class ThesisCardItem {
 
+    private int id;
     private String title;
     private String description;
-    private int image;
+    private Image image;
 
+    public int getId() {
+        return id;
+    }
 
     public String getTitle() {
         return title;
@@ -15,11 +21,12 @@ public class ThesisCardItem {
         return description;
     }
 
-    public int getImage() {
+    public Image getImage() {
         return image;
     }
 
-    public ThesisCardItem(String title, String description, int image) {
+    public ThesisCardItem(int id, String title, String description, Image image) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.image = image;
