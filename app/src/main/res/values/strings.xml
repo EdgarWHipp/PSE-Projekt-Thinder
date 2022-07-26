@@ -61,6 +61,8 @@
     <string name="verify_token">Verify token</string>
     <string name="insert_token">Enter token</string>
     <string name="token">Token</string>
+    <string name="request_password_reset">Enter your mail and press the button to perform a password reset request.</string>
+    <string name="send_request">Send request</string>
     <!-- Student Strings -->
     <string name="swipe_screen">Swipe screen</string>
     <string name="fill_out_form">Fill out form</string>
