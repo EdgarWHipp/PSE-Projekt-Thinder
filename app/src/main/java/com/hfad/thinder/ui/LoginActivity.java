@@ -76,8 +76,8 @@ public class LoginActivity extends AppCompatActivity {
     startActivity(intent);
   }
 
-  public void goToForgotPasswordActivity(View view) {
-    Intent intent = new Intent(this, ForgotPasswordActivity.class);
+  public void goToRequestPasswordResetActivity(View view) {
+    Intent intent = new Intent(this, RequestPasswordResetActivity.class);
     startActivity(intent);
   }
 

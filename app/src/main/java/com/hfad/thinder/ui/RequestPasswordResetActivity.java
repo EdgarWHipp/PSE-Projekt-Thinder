@@ -6,11 +6,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.ActivityRequestPasswordResetBinding;
-import com.hfad.thinder.viewmodels.user.ForgotPasswordViewModel;
+import com.hfad.thinder.viewmodels.user.PasswordResetRequestViewModel;
 
 public class RequestPasswordResetActivity extends AppCompatActivity {
 
@@ -33,6 +35,11 @@ public class RequestPasswordResetActivity extends AppCompatActivity {
 
         // Enable the Up button
         ab.setDisplayHomeAsUpEnabled(true);
+    }
+
+    public void goToForgotPasswordActivity(View view){
+        Intent intent = new Intent(this, ForgotPasswordActivity.class);
+        startActivity(intent);
     }
 
 }
