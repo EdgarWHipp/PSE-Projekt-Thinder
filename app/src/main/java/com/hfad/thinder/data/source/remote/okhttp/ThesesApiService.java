@@ -2,7 +2,11 @@ package com.hfad.thinder.data.source.remote.okhttp;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.Gson;
+import com.hfad.thinder.data.model.Student;
+import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
+import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.data.source.result.Tuple;
@@ -129,4 +133,51 @@ public class ThesesApiService {
     });
     return resultCompletableFuture;
   }
+
+  public Tuple<CompletableFuture<Thesis>,CompletableFuture<Result>>  getSpecificThesisFuture(UUID thesisId){
+    CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
+    CompletableFuture<Thesis> resultThesis = new CompletableFuture<>();
+    OkHttpClient clientAuth = new OkHttpClient.Builder()
+            .addInterceptor(new AuthInterceptor
+                    (UserRepository.getInstance().getUser().geteMail(),
+                            UserRepository.getInstance().getUser().getPassword()))
+            .build();
+    HttpUrl url = new HttpUrl.Builder()
+            .scheme("http")
+            .host("10.0.2.2")
+            .port(8080)
+            .addPathSegment("thesis")
+            .addPathSegment(thesisId.toString()).build();
+    Request request = new Request.Builder()
+            .url(url)
+            .get()
+            .build();
+    Call call = clientAuth.newCall(request);
+    call.enqueue(new Callback() {
+      @Override
+      public void onFailure(@NonNull Call call, @NonNull IOException e) {
+        resultCompletableFuture.complete(new Result("failure",false));
+      }
+
+      @Override
+      public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+            if(response.isSuccessful()){
+              //Parse thesis object from thesis json.
+              Gson gson = new Gson();
+              Thesis thesis = gson.fromJson(response.body().string(), Thesis.class);
+              resultThesis.complete(thesis);
+              resultCompletableFuture.complete(new Result(true));
+            }else {
+              resultCompletableFuture.complete(new Result("not successful",false));
+            }
+      }
+    });
+
+
+
+
+    return new Tuple<>(resultThesis,resultCompletableFuture);
+  }
+
+
 }

@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Set;
 
 public class Thesis {
-    @SerializedName("id")
-    private int thesisId;
     @SerializedName("name")
     private String name;
     @SerializedName("supervisingProfessor")
@@ -30,20 +28,14 @@ public class Thesis {
     @SerializedName("task")
     private String task;
     @SerializedName("form")
-    private Form form;
+    private String form;
     @SerializedName("images")
     @Nullable
     private Set<Image> images;
     @SerializedName("supervisor")
     private Supervisor supervisor;
-    @SerializedName("studentRatings")
-    @Nullable
-    private Set<ThesisRating> studentRatings;
     @SerializedName("possibleDegrees")
     private Set<Degree> possibleDegrees;
-    public void setThesisId(int thesisId) {
-        this.thesisId = thesisId;
-    }
 
     public void setName(String name) {
         this.name = name;
@@ -65,7 +57,7 @@ public class Thesis {
         this.task = task;
     }
 
-    public void setForm(Form form) {
+    public void setForm(String form) {
         this.form = form;
     }
 
@@ -77,24 +69,20 @@ public class Thesis {
         this.supervisor = supervisor;
     }
 
-    public void setStudentRatings(@Nullable Set<ThesisRating> studentRatings) {
-        this.studentRatings = studentRatings;
-    }
 
     public void setPossibleDegrees(Set<Degree> possibleDegrees) {
         this.possibleDegrees = possibleDegrees;
     }
 
-    public Thesis(int thesisId, String name, String motivation, String task, Form form, @Nullable Set<Image> images, Supervisor supervisor, @Nullable Set<ThesisRating> studentRatings, Set<Degree> possibleDegrees) {
-        this.thesisId = thesisId;
+    public Thesis(String supervisingProfessor, String name, String motivation, String task, String form, @Nullable Set<Image> images, Supervisor supervisor, Set<Degree> possibleDegrees) {
         this.name = name;
         this.motivation = motivation;
         this.task = task;
         this.form = form;
         this.images = images;
         this.supervisor = supervisor;
-        this.studentRatings = studentRatings;
         this.possibleDegrees = possibleDegrees;
+        this.supervisingProfessor=supervisingProfessor;
     }
 
 
@@ -103,9 +91,7 @@ public class Thesis {
     }
 
 
-    public Set<ThesisRating> getStudentRatings() {
-        return studentRatings;
-    }
+
 
     public Set<Degree> getPossibleDegrees() {
         return possibleDegrees;
@@ -117,9 +103,7 @@ public class Thesis {
 
 
 
-    public int getThesisId() {
-        return thesisId;
-    }
+
 
     public String getName() {
         return name;
@@ -127,7 +111,7 @@ public class Thesis {
 
 
     @Nullable
-    public Form getForm() {
+    public String getForm() {
         return form;
     }
     @Nullable
