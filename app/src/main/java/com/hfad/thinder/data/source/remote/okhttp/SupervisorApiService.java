@@ -41,6 +41,12 @@ public class SupervisorApiService {
   public CompletableFuture<Result> editSupervisorProfileFuture(UUID id, String degree, String officeNumber,String building, String institute, String phoneNumber, String firstName, String lastName)
           throws JSONException, IOException {
     CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
+    OkHttpClient clientAuth = new OkHttpClient.Builder()
+            .addInterceptor(
+                    new AuthInterceptor(UserRepository.getInstance().
+                            getUser().geteMail(), UserRepository.getInstance().
+                            getUser().getPassword()))
+            .build();
     JSONObject supervisorJson = new JSONObject()
             .put("academicDegree", degree)
             .put("officeNumber", officeNumber)
@@ -64,7 +70,7 @@ public class SupervisorApiService {
             .url(url)
             .put(body)
             .build();
-    Call callSupervisor = client.newCall(request);
+    Call callSupervisor = clientAuth.newCall(request);
     callSupervisor.enqueue(new Callback() {
       @Override
       public void onFailure(@NonNull Call call, @NonNull IOException e) {

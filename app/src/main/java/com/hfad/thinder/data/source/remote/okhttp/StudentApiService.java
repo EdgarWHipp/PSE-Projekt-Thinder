@@ -36,6 +36,12 @@ public class StudentApiService {
    */
   public CompletableFuture<Result> editStudentProfileFuture(Set<Degree> degrees, String firstName, String lastName) throws JSONException, IOException {
     CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
+    OkHttpClient clientAuth = new OkHttpClient.Builder()
+            .addInterceptor(
+                    new AuthInterceptor(UserRepository.getInstance().
+                            getUser().geteMail(), UserRepository.getInstance().
+                            getUser().getPassword()))
+            .build();
     JSONObject studentJson = new JSONObject()
             .put("degrees", degrees)
             .put("thesesRatings", null)
@@ -58,7 +64,7 @@ public class StudentApiService {
             .url(url)
             .put(body)
             .build();
-    Call call = client.newCall(request);
+    Call call = clientAuth.newCall(request);
     call.enqueue(new Callback() {
       @Override
       public void onFailure(@NonNull Call call, @NonNull IOException e) {

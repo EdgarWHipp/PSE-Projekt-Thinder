@@ -425,38 +425,8 @@ public class UsersApiService {
 
 
 
-    /**
-     * This function creates the HTTP DELETE request for a thesis that the user has unliked. Unliking it removes it
-     * from the users liked theses page.
-     *
-     * @param thesisId
-     * @return Response
-     */
-    public Response deleteUserThesisCall(final UUID thesisId) throws IOException {
 
-        Request request = new Request.Builder()
-                .url(url + "/users/thesis/" + thesisId)
-                .delete()
-                .build();
-        Call call = client.newCall(request);
-        return call.execute();
 
     }
 
-    /**
-     * This function creates the HTTP GET request for a thesis that the user has already liked - it is used to make sure
-     * that the user can click on a liked thesis and receive a more detailed overview.
-     *
-     * @param thesisId
-     * @return Response
-     */
-    public Response getUserThesisResponse(final UUID thesisId) throws IOException {
-        Request request = new Request.Builder()
-                .url(url + "/users/thesis/" + thesisId)
-                .get()
-                .build();
-        Call call = client.newCall(request);
-        return call.execute();
-    }
 
-}
