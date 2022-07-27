@@ -5,19 +5,19 @@ import androidx.annotation.Nullable;
 public class ForgotPasswordFormState {
 
   @Nullable
-  private final String codeErrorMessage;
+  private final Integer codeErrorMessage;
 
   @Nullable
-  private final String newPasswordErrorMessage;
+  private final Integer newPasswordErrorMessage;
 
   @Nullable
-  private final String newPasswordConfirmationErrorMessage;
+  private final Integer newPasswordConfirmationErrorMessage;
 
   private final boolean isDataValid;
 
-  public ForgotPasswordFormState(@Nullable String codeErrorMessage,
-                                 @Nullable String newPasswordErrorMessage,
-                                 @Nullable String newPasswordConfirmationErrorMessage) {
+  public ForgotPasswordFormState(@Nullable Integer codeErrorMessage,
+                                 @Nullable Integer newPasswordErrorMessage,
+                                 @Nullable Integer newPasswordConfirmationErrorMessage) {
     this.codeErrorMessage = codeErrorMessage;
     this.newPasswordErrorMessage = newPasswordErrorMessage;
     this.newPasswordConfirmationErrorMessage = newPasswordConfirmationErrorMessage;
@@ -26,17 +26,17 @@ public class ForgotPasswordFormState {
   }
 
   @Nullable
-  public String getCodeErrorMessage() {
+  public Integer getCodeErrorMessage() {
     return codeErrorMessage;
   }
 
   @Nullable
-  public String getNewPasswordErrorMessage() {
+  public Integer getNewPasswordErrorMessage() {
     return newPasswordErrorMessage;
   }
 
   @Nullable
-  public String getNewPasswordConfirmationErrorMessage() {
+  public Integer getNewPasswordConfirmationErrorMessage() {
     return newPasswordConfirmationErrorMessage;
   }
 

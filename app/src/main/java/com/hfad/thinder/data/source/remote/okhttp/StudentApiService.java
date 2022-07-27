@@ -44,7 +44,6 @@ public class StudentApiService {
             .build();
     JSONObject studentJson = new JSONObject()
             .put("degrees", degrees)
-            .put("thesesRatings", null)
             .put("firstName",firstName)
             .put("lastName",lastName);
 
