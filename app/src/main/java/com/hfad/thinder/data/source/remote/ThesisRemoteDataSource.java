@@ -65,4 +65,20 @@ public class ThesisRemoteDataSource {
                 return new Tuple<>(null,new Result("error", false));
             }
     }
+
+    public Result editThesis (UUID thesisId,Thesis thesis) {
+        try{
+            CompletableFuture<Result> result = okHttpService.editThesisFuture(thesisId, thesis);
+            return result.get(100, TimeUnit.SECONDS);
+        } catch (ExecutionException e) {
+            return new Result("not successful", false);
+        } catch (InterruptedException e) {
+            return new Result("not successful", false);
+        } catch (TimeoutException e) {
+            return new Result("not successful", false);
+        } catch (JSONException e) {
+            return new Result("not successful", false);
+        }
+
+    }
 }

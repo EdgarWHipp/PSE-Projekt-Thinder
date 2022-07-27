@@ -65,7 +65,11 @@ public final class ThesisRepository {
         return null;
     }
 
-    public Result addThesis(String supervisingProf,String name, String motivation, String task, String form, Set<Degree> degrees , Set<Image> images) {
+    public HashMap<UUID, Thesis> getThesisMap() {
+        return thesisMap;
+    }
+
+    public Result addThesis(String supervisingProf, String name, String motivation, String task, String form, Set<Degree> degrees , Set<Image> images) {
         return thesisRemoteDataSource.createNewThesis(new Thesis(supervisingProf,name,motivation,task,form,images,(Supervisor) UserRepository.getInstance().getUser(),degrees));
     }
     //Das Viewmodel holt diese ja eigentlich direkt aus dem Model?
@@ -76,5 +80,13 @@ public final class ThesisRepository {
 
     public boolean delete(final int id) {
         return false;
+    }
+
+    public Result editThesis(final UUID thesisId){
+
+        return thesisRemoteDataSource
+                .editThesis(thesisId,ThesisRepository.getInstance().getThesisMap().get(thesisId));
+
+
     }
 }
