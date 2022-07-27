@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -86,5 +87,9 @@ public class LikedThesisDetailedFragment extends Fragment  {
         intent.setData(data);
         startActivity(intent);
 
+    }
+
+    public void goToFillOutFormFragment(View view){
+        Navigation.findNavController(view).navigate(R.id.action_likedThesisDetailedFragment_to_fillOutFormFragment);
     }
 }

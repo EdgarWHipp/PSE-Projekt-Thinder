@@ -75,6 +75,9 @@
     <string name="form">Formular</string>
     <string name="contact">Kontakt</string>
     <string name="images">Bilder</string>
+    <string name="insert_answers">Antworten eingeben</string>
+    <string name="send_form">Formular senden</string>
+
 
     <!-- Registration View Model Strings -->
     <string name="no_password_error">Passwortfeld darf nicht leer sein</string>

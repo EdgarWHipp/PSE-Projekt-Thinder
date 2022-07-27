@@ -278,6 +278,7 @@
             android:drawableTop="@drawable/ic_form"
             android:text="@string/form"
             android:layout_marginEnd="@dimen/fab_margin"
+            android:onClick="@{(v) -> fragment.goToFillOutFormFragment(v)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btContact"
             app:layout_constraintHorizontal_bias="0.5"

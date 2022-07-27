@@ -1,14 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.FillOutFormFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="horizontal">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btSendForm">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/fab_margin">
+                <TextView
+                    android:id="@+id/tvStudentQuestions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/student_questions"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    style="@style/body_1"/>
+                <TextView
+                    android:id="@+id/tvStudentQuestionsContents"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="-Gute Python-Programmierkenntnisse (unter Linux mit Git)\n-Theoretische Kenntnisse im Bereich Machine Learning / Deep Learning\n-Praktische Erfahrung mit Tensorflow oder PyTorch\n-Selbständiges Denken und Arbeiten, Motivation und Engagement\n-Fließend in Englisch oder Deutsch\n-Bonuspunkte gibt es für Erfahrungen mit RL, ROS, CARLA, ClearML und LaTeX"
+                    android:background="@drawable/bg_rounded"
+                    android:padding="2dp"
+                    app:layout_constraintTop_toBottomOf="@id/tvStudentQuestions"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+                <TextView
+                    android:id="@+id/tvStudentAnswers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fill_out_form"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvStudentQuestionsContents"
+                    style="@style/body_1"/>
+                <EditText
+                    android:id="@+id/etInsertAnswers"
+                    style="@style/body_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_rounded"
+                    android:gravity="top"
+                    android:hint="@string/insert_answers"
+                    android:inputType="textMultiLine"
+                    android:minLines="@integer/multiline_textview_linenum"
+                    android:padding="@dimen/multiline_textview_padding"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvStudentAnswers"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
-</FrameLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+        <Button
+            android:id="@+id/btSendForm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/send_form"
+            android:drawableTop="@drawable/ic_mail"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

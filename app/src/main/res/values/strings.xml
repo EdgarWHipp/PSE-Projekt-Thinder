@@ -75,6 +75,8 @@
     <string name="form">Form</string>
     <string name="contact">Contact</string>
     <string name="images">Images</string>
+    <string name="insert_answers">Enter answers</string>
+    <string name="send_form">Send form</string>
 
     <!-- Registration View Model Strings -->
     <string name="no_password_error">Password field must not be empty</string>
