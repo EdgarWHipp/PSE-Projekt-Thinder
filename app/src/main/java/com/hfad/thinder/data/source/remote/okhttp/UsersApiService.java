@@ -192,7 +192,7 @@ public class UsersApiService {
     public CompletableFuture<Result> verifyFuture(String token) throws JSONException, IOException {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 
-        RequestBody body = RequestBody.create(null, new byte[]{});
+
         HttpUrl url = new HttpUrl.Builder()
                 .scheme("http")
                 .host("10.0.2.2")
@@ -204,7 +204,7 @@ public class UsersApiService {
         // empty body
         Request request = new Request.Builder()
                 .url(url)
-                .post(body)
+                .get()
                 .build();
 
         Call call = client.newCall(request);
@@ -348,6 +348,7 @@ public class UsersApiService {
                 .host("10.0.2.2")
                 .port(8080)
                 .addPathSegment("resetPassword")
+                .addQueryParameter("mail",email)
                 .build();
         Request request = new Request.Builder()
                 .url(url)
@@ -383,16 +384,17 @@ public class UsersApiService {
      */
     public CompletableFuture<Result> sendNewPasswordFuture(String token, String newPassword) throws JSONException {
         CompletableFuture<Result> resultCompletableFuture= new CompletableFuture<>();
+        JSONObject passwordJSON = new JSONObject().put("password",newPassword);
 
-        RequestBody body = RequestBody.create(null);
+        RequestBody body = RequestBody.create(passwordJSON.toString(), JSON);
         HttpUrl url = new HttpUrl.Builder()
                 .scheme("http")
                 .host("10.0.2.2")
                 .port(8080)
                 .addPathSegment("resetPassword")
                 .addQueryParameter("token",token)
-                .addQueryParameter("password",newPassword)
                 .build();
+
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
