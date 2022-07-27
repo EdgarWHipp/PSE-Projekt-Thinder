@@ -5,12 +5,15 @@ import androidx.annotation.NonNull;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
+import com.hfad.thinder.data.source.result.Tuple;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 import okhttp3.Call;
@@ -36,9 +39,14 @@ public class StudentApiService {
    */
   public CompletableFuture<Result> editStudentProfileFuture(Set<Degree> degrees, String firstName, String lastName) throws JSONException, IOException {
     CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
+    OkHttpClient clientAuth = new OkHttpClient.Builder()
+            .addInterceptor(
+                    new AuthInterceptor(UserRepository.getInstance().
+                            getUser().geteMail(), UserRepository.getInstance().
+                            getUser().getPassword()))
+            .build();
     JSONObject studentJson = new JSONObject()
             .put("degrees", degrees)
-            .put("thesesRatings", null)
             .put("firstName",firstName)
             .put("lastName",lastName);
 
@@ -58,7 +66,7 @@ public class StudentApiService {
             .url(url)
             .put(body)
             .build();
-    Call call = client.newCall(request);
+    Call call = clientAuth.newCall(request);
     call.enqueue(new Callback() {
       @Override
       public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -75,5 +83,42 @@ public class StudentApiService {
       }
     });
     return resultCompletableFuture;
+  }
+  public Tuple<CompletableFuture<List<UUID>>,CompletableFuture<Result>> getSwipeOrder(final UUID id){
+    CompletableFuture<Result> resultCompletableFuture=new CompletableFuture<>();
+    CompletableFuture<List<UUID>> listOfIds = new CompletableFuture<>();
+    OkHttpClient clientAuth = new OkHttpClient.Builder()
+            .addInterceptor(
+                    new AuthInterceptor(UserRepository.getInstance().
+                            getUser().geteMail(), UserRepository.getInstance().
+                            getUser().getPassword()))
+            .build();
+    HttpUrl url = new HttpUrl.Builder()
+            .scheme("http")
+            .host("10.0.2.2")
+            .port(8080)
+            .addPathSegment("users")
+            .addPathSegment(UserRepository.getInstance().getCurrentUUID().toString())
+            .addPathSegment("thesis")
+            .addPathSegment("get-swipe-stack")
+            .build();
+
+    Request request = new Request.Builder()
+            .url(url)
+            .get()
+            .build();
+    Call call = clientAuth.newCall(request);
+    call.enqueue(new Callback() {
+      @Override
+      public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+      }
+
+      @Override
+      public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+
+      }
+    });
+    return null;
   }
 }
