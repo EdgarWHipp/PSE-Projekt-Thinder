@@ -22,19 +22,24 @@ public class VerifyTokenViewModel extends ViewModel {
 
     Result result = userRepository.verifyToken(
         token.getValue());//Todo: hier auch ein Result zurückgeben für Fehlermeldungen
+
     if (result.getSuccess()) {
-      if (userRepository.getType() == USERTYPE.STUDENT) {
-        verifyTokenResult.setValue(
-            new ViewModelResult(null, ViewModelResultTypes.STUDENT));
+      Result resultGetRole = userRepository.login(userRepository.getUser().getPassword(),userRepository.getUser().geteMail());
+      if(resultGetRole.getSuccess()){
+        if (userRepository.getType() == USERTYPE.STUDENT) {
+          verifyTokenResult.setValue(
+                  new ViewModelResult(null, ViewModelResultTypes.STUDENT));
+        }
+        if (userRepository.getType() == USERTYPE.SUPERVISOR) {
+          verifyTokenResult.setValue(
+                  new ViewModelResult(null, ViewModelResultTypes.SUPERVISOR));
+        }
+        state.setValue(VerifyTokenStates.SUCCESSFUL);
+      } else {
+        verifyTokenResult.setValue(new ViewModelResult("Verifizierung fehlgeschlagen",
+                null));//Todo: hier kommt error aus model
       }
-      if (userRepository.getType() == USERTYPE.SUPERVISOR) {
-        verifyTokenResult.setValue(
-            new ViewModelResult(null, ViewModelResultTypes.SUPERVISOR));
-      }
-      state.setValue(VerifyTokenStates.SUCCESSFUL);
-    } else {
-      verifyTokenResult.setValue(new ViewModelResult("Verifizierung fehlgeschlagen",
-          null));//Todo: hier kommt error aus model
+
       state.setValue(VerifyTokenStates.FAILURE);
     }
 

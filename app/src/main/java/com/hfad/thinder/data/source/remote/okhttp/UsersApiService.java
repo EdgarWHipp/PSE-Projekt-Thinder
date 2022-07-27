@@ -201,7 +201,7 @@ public class UsersApiService {
                 .addPathSegment("verify")
                 .addQueryParameter("token",token)
                 .build();
-        // empty body
+
         Request request = new Request.Builder()
                 .url(url)
                 .get()
@@ -244,7 +244,10 @@ public class UsersApiService {
                 .put("password", user.getPassword())
                 .put("mail", user.getEmail())
                 .put("role","USER");
-
+        UserRepository.
+                getInstance().setUser(new User(null,
+                        null,false,null,
+                        user.getPassword(),user.getEmail(),user.getFirstName(),user.getLastName()));
 
 
         RequestBody body = RequestBody.create(userJson.toString(), JSON);
@@ -271,7 +274,6 @@ public class UsersApiService {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-
                         //setUserRole(user.getPassword(),user.getEmail());
                         resultCompletableFuture.complete(new Result(true));
 
