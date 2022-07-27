@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Set;
 
 public class Thesis {
+    @SerializedName("id")
+    private String id;
     @SerializedName("name")
     private String name;
     @SerializedName("supervisingProfessor")
@@ -21,6 +23,14 @@ public class Thesis {
 
     public void setSupervisingProfessor(String supervisingProfessor) {
         this.supervisingProfessor = supervisingProfessor;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @SerializedName("motivation")
