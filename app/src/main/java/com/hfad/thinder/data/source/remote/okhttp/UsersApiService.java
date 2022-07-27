@@ -68,7 +68,7 @@ public class UsersApiService {
      * @param eMail
      * @return CompletableFuture<Result>
      */
-    private CompletableFuture<Result> setUserRole(String eMail, String password){
+    private CompletableFuture<Result> getUserRole(String eMail, String password){
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor(eMail, password))
                 .build();
@@ -130,7 +130,7 @@ public class UsersApiService {
      * @throws IOException
      */
     public CompletableFuture<Result> usersLoginFuture(Login login) throws JSONException, IOException {
-        CompletableFuture<Result> result=setUserRole(login.eMail, login.password);
+        CompletableFuture<Result> result=getUserRole(login.eMail, login.password);
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor(login.geteMail(), login.getPassword()))
                 .build();

@@ -18,32 +18,35 @@ public class VerifyTokenViewModel extends ViewModel {
   // Todo: Auch nach dem Verlassen der App muss, befor es weiter geht der Token verifiziert werden in(siehe login seite)
 
   public void VerifyToken() {
+
+    Result result = userRepository.verifyToken(token.getValue());
+    if (!result.getSuccess()) {
+      verifyTokenResult.setValue(new ViewModelResult("Verifizierung fehlgeschlagen",
+              null));//Todo: hier kommt error aus model
+
+    }
     state.setValue(VerifyTokenStates.LOADING);
-
-    Result result = userRepository.verifyToken(
-        token.getValue());//Todo: hier auch ein Result zurückgeben für Fehlermeldungen
-
-    if (result.getSuccess()) {
-      Result resultGetRole = userRepository.login(userRepository.getUser().getPassword(),userRepository.getUser().geteMail());
-      if(resultGetRole.getSuccess()){
-        if (userRepository.getType() == USERTYPE.STUDENT) {
-          verifyTokenResult.setValue(
-                  new ViewModelResult(null, ViewModelResultTypes.STUDENT));
-        }
-        if (userRepository.getType() == USERTYPE.SUPERVISOR) {
-          verifyTokenResult.setValue(
-                  new ViewModelResult(null, ViewModelResultTypes.SUPERVISOR));
-        }
-        state.setValue(VerifyTokenStates.SUCCESSFUL);
-      } else {
-        verifyTokenResult.setValue(new ViewModelResult("Verifizierung fehlgeschlagen",
-                null));//Todo: hier kommt error aus model
-      }
-
-      state.setValue(VerifyTokenStates.FAILURE);
+    Result loginResult = userRepository.login(userRepository.getUser().getPassword(), userRepository.getUser().geteMail());
+    if (!result.getSuccess()) {
+      verifyTokenResult.setValue(new ViewModelResult("Verifizierung fehlgeschlagen",
+              null));//Todo: hier kommt error aus model
     }
 
+    if (userRepository.getType() == USERTYPE.STUDENT) {
+      verifyTokenResult.setValue(
+              new ViewModelResult(null, ViewModelResultTypes.STUDENT));
+    } else if (userRepository.getType() == USERTYPE.SUPERVISOR) {
+      verifyTokenResult.setValue(
+              new ViewModelResult(null, ViewModelResultTypes.SUPERVISOR));
+    } else {
+      state.setValue(VerifyTokenStates.FAILURE);
+    }
   }
+
+
+
+
+
 
   //---------------------getter and setter
 
