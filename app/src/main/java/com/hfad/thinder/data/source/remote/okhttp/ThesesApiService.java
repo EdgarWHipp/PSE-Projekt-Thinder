@@ -27,6 +27,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import retrofit2.http.HTTP;
 
 public class ThesesApiService {
   private static final MediaType JSON
@@ -228,7 +229,44 @@ public class ThesesApiService {
       }
     });
     return resultCompletableFuture;
+  }
+  public CompletableFuture<Result> deleteThesisFuture(final UUID thesisId){
+    OkHttpClient clientAuth = new OkHttpClient.Builder()
+            .addInterceptor(new AuthInterceptor
+                    (UserRepository.getInstance().getUser().geteMail(),
+                            UserRepository.getInstance().getUser().getPassword()))
+            .build();
+    CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 
+    HttpUrl url = new HttpUrl.Builder()
+            .scheme("http")
+            .host("10.0.2.2")
+            .port(8080)
+            .addPathSegment("thesis")
+            .addPathSegment(thesisId.toString()).build();
 
+    Request request = new Request.Builder()
+            .url(url)
+            .delete()
+            .build();
+
+    Call call = clientAuth.newCall(request);
+    call.enqueue(new Callback() {
+      @Override
+      public void onFailure(@NonNull Call call, @NonNull IOException e) {
+        resultCompletableFuture.complete(new Result("error",false));
+      }
+
+      @Override
+      public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+        if (response.isSuccessful()) {
+          resultCompletableFuture.complete(new Result(true));
+        }else{
+          resultCompletableFuture.complete(new Result("not successful",false));
+        }
+      }
+    });
+
+    return resultCompletableFuture;
   }
 }

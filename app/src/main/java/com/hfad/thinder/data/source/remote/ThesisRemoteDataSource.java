@@ -81,4 +81,16 @@ public class ThesisRemoteDataSource {
         }
 
     }
+    public Result deleteThesis(final UUID thesisId){
+        try{
+            CompletableFuture<Result> result = okHttpService.deleteThesisFuture(thesisId);
+            return result.get(100, TimeUnit.SECONDS);
+        } catch (ExecutionException e) {
+            return new Result("not successful", false);
+        } catch (InterruptedException e) {
+            return new Result("not successful", false);
+        } catch (TimeoutException e) {
+            return new Result("not successful", false);
+        }
+    }
 }

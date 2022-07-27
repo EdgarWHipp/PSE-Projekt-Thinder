@@ -78,9 +78,7 @@ public final class ThesisRepository {
     }
 
 
-    public boolean delete(final int id) {
-        return false;
-    }
+
 
     public Result editThesis(final UUID thesisId){
 
@@ -88,5 +86,8 @@ public final class ThesisRepository {
                 .editThesis(thesisId,ThesisRepository.getInstance().getThesisMap().get(thesisId));
 
 
+    }
+    public Result deleteThesis(UUID thesisId){
+        return thesisRemoteDataSource.deleteThesis(thesisId);
     }
 }
