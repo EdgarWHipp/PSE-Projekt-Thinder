@@ -1,6 +1,7 @@
 package com.hfad.thinder.data.source.remote;
 
 import com.google.gson.Gson;
+import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.remote.okhttp.SupervisorApiService;
 import com.hfad.thinder.data.source.result.Result;
 
@@ -48,6 +49,27 @@ public class SupervisorRemoteDataSource {
       return new Result("error", false);
     } catch (TimeoutException e) {
       return new Result("error", false);
+    }
+
+  }
+  /**
+   * Handles the errors that occur during the HTTP PUT request that changes a thesis, that is specified through the id, to the given newer thesis.
+   * @param thesisId
+   * @param thesis
+   * @return Result that includes a success value and an error message
+   */
+  public Result editThesis (final UUID thesisId,final Thesis thesis) {
+    try{
+      CompletableFuture<Result> result = supervisorApiService.editThesisFuture(thesisId, thesis);
+      return result.get(100, TimeUnit.SECONDS);
+    } catch (ExecutionException e) {
+      return new Result("not successful", false);
+    } catch (InterruptedException e) {
+      return new Result("not successful", false);
+    } catch (TimeoutException e) {
+      return new Result("not successful", false);
+    } catch (JSONException e) {
+      return new Result("not successful", false);
     }
 
   }

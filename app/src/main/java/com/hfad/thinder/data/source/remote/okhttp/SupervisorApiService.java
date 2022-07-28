@@ -2,6 +2,7 @@ package com.hfad.thinder.data.source.remote.okhttp;
 
 import androidx.annotation.NonNull;
 
+import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 
@@ -87,6 +88,61 @@ public class SupervisorApiService {
       }
     });
 
+    return resultCompletableFuture;
+  }
+  /**
+   * The function that creates the actual HTTP PUT request that edits a specific thesis in the backend.
+   * @param thesisId
+   * @param thesis
+   * @return A CompletableFuture<Result> that is later evaluated in the RemoteDataSource classes
+   * @throws JSONException
+   */
+  public CompletableFuture<Result> editThesisFuture(final UUID thesisId, Thesis thesis) throws JSONException {
+    OkHttpClient clientAuth = new OkHttpClient.Builder()
+            .addInterceptor(new AuthInterceptor
+                    (UserRepository.getInstance().getUser().geteMail(),
+                            UserRepository.getInstance().getUser().getPassword()))
+            .build();
+    CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
+    JSONObject thesisJSON = new JSONObject()
+            .put("name", thesis.getName())
+            .put("motivation", thesis.getMotivation())
+            .put("task", thesis.getTask())
+            .put("questionForm", thesis.getForm())
+            .put("images", thesis.getImages())
+            .put("possibleDegrees", thesis.getPossibleDegrees())
+            .put("supervisor", UserRepository.getInstance().getUser())
+            .put("supervisingProfessor", thesis.getSupervisingProfessor());
+
+    HttpUrl url = new HttpUrl.Builder()
+            .scheme("http")
+            .host("10.0.2.2")
+            .port(8080)
+            .addPathSegment("thesis")
+            .addPathSegment(thesisId.toString()).build();
+
+    RequestBody body = RequestBody.create(thesisJSON.toString(), JSON);
+    Request request = new Request.Builder()
+            .url(url)
+            .put(body)
+            .build();
+    Call call = clientAuth.newCall(request);
+    call.enqueue(new Callback() {
+      @Override
+      public void onFailure(@NonNull Call call, @NonNull IOException e) {
+        resultCompletableFuture.complete(new Result("error",false));
+      }
+
+      @Override
+      public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+        if (response.isSuccessful()){
+          resultCompletableFuture.complete(new Result(true));
+        }else {
+          resultCompletableFuture.complete(new Result("not successful",false));
+        }
+
+      }
+    });
     return resultCompletableFuture;
   }
 }

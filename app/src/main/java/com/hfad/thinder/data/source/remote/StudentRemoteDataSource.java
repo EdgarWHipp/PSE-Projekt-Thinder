@@ -2,13 +2,17 @@ package com.hfad.thinder.data.source.remote;
 
 import com.google.gson.Gson;
 import com.hfad.thinder.data.model.Degree;
+import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.remote.okhttp.StudentApiService;
 import com.hfad.thinder.data.source.result.Result;
+import com.hfad.thinder.data.source.result.Tuple;
 
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -47,6 +51,20 @@ public class StudentRemoteDataSource {
       return new Result("error", false);
     } catch (TimeoutException e) {
       return new Result("error", false);
+    }
+  }
+  public Tuple<List<Thesis>,Result> getLikedTheses(final UUID id){
+    try {
+      Tuple<CompletableFuture<List<Thesis>>,CompletableFuture<Result>> result = okHttpService.getLikedThesesFuture(id);
+      return new Tuple<>(result.x.get(10000,TimeUnit.SECONDS),result.y.get(10000, TimeUnit.SECONDS));
+
+
+    } catch (ExecutionException e) {
+      return new Tuple<>(null,new Result("error", false));
+    } catch (InterruptedException e) {
+      return new Tuple<>(null,new Result("error", false));
+    } catch (TimeoutException e) {
+      return new Tuple<>(null,new Result("error", false));
     }
   }
 }

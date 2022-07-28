@@ -74,27 +74,7 @@ public class ThesisRemoteDataSource {
             }
     }
 
-    /**
-     * Handles the errors that occur during the HTTP PUT request that changes a thesis, that is specified through the id, to the given newer thesis.
-     * @param thesisId
-     * @param thesis
-     * @return Result that includes a success value and an error message
-     */
-    public Result editThesis (final UUID thesisId,final Thesis thesis) {
-        try{
-            CompletableFuture<Result> result = okHttpService.editThesisFuture(thesisId, thesis);
-            return result.get(100, TimeUnit.SECONDS);
-        } catch (ExecutionException e) {
-            return new Result("not successful", false);
-        } catch (InterruptedException e) {
-            return new Result("not successful", false);
-        } catch (TimeoutException e) {
-            return new Result("not successful", false);
-        } catch (JSONException e) {
-            return new Result("not successful", false);
-        }
 
-    }
 
     /**
      * Handles the errors that occur during the HTTP DELETE request that deletes the thesis (specified through the id)
