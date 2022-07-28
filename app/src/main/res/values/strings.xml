@@ -63,6 +63,11 @@
     <string name="token">Token</string>
     <string name="request_password_reset">Enter your mail and press the button to perform a password reset request.</string>
     <string name="send_request">Send request</string>
+    <string name="statistics">Statistics</string>
+    <string name="like_dislike_ratio">Like/dislike-ratio</string>
+    <string name="likes">Likes</string>
+    <string name="dislikes">Dislikes</string>
+
     <!-- Student Strings -->
     <string name="swipe_screen">Swipe screen</string>
     <string name="fill_out_form">Fill out form</string>
@@ -75,6 +80,8 @@
     <string name="form">Form</string>
     <string name="contact">Contact</string>
     <string name="images">Images</string>
+    <string name="insert_answers">Enter answers</string>
+    <string name="send_form">Send form</string>
 
     <!-- Registration View Model Strings -->
     <string name="no_password_error">Password field must not be empty</string>

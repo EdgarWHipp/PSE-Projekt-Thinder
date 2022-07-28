@@ -13,6 +13,8 @@ import android.widget.SearchView;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
@@ -21,6 +23,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentThesisManagerBinding;
+import com.hfad.thinder.viewmodels.ThesisCardItem;
+import com.hfad.thinder.viewmodels.supervisor.ThesisManagerViewModel;
 
 import java.util.ArrayList;
 
@@ -49,6 +53,8 @@ public class ThesisManagerFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
 
     private View view;
+
+    private ThesisManagerViewModel viewModel;
 
     public ThesisManagerFragment() {
         // Required empty public constructor
@@ -85,19 +91,16 @@ public class ThesisManagerFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
-        elements = new ArrayList<ThesisCardItem>();
-        elements.add(new ThesisCardItem(" Control and Diagnostics System Generator for Complex FPGA-Based Measurement Systems ", "Test", R.drawable.index));
-        elements.add(new ThesisCardItem(" Commissioning and testing of pre-series triple GEM prototypes for CBM-MuCh in the mCBM experiment at the SIS18 facility of GSI ", "Test", R.drawable.index));
-        elements.add(new ThesisCardItem(" An equation-of-state-meter for CBM using PointNet ", "Test", R.drawable.index));
-        elements.add(new ThesisCardItem(" Performance of the MSMGRPC with the Highest Granularity of the CBM-TOF Wall in Cosmic Ray Tests ", "Test", R.drawable.index));
-        elements.add(new ThesisCardItem(" Astrophysics with heavy-ion beams ", "Test", R.drawable.index));
-        elements.add(new ThesisCardItem(" Development and implementation of a time-based signal generation scheme for the muon chamber simulation of the CBM experiment at FAIR ", "Test", R.drawable.index));
-        elements.add(new ThesisCardItem(" Data-Driven Methods for Spectator Symmetry Plane Estimation in CBM Experiment at FAIR ", "Test", R.drawable.index));
-        elements.add(new ThesisCardItem(" Data-Driven Methods for Spectator Symmetry Plane Estimation in CBM Experiment at FAIR ", "Test", R.drawable.index));
-        elements.add(new ThesisCardItem(" Data-Driven Methods for Spectator Symmetry Plane Estimation in CBM Experiment at FAIR ", "Test", R.drawable.index));
+        viewModel = new ViewModelProvider(this).get(ThesisManagerViewModel.class);
+        final androidx.lifecycle.Observer<ArrayList<ThesisCardItem>> thesisCardItemObserver = new Observer<ArrayList<ThesisCardItem>>() {
+            @Override
+            public void onChanged(ArrayList<ThesisCardItem> thesisCardItems) {
+                elements = viewModel.getThesisCardItems().getValue();
+                buildRecyclerView(view);
+            }
+        };
 
-
-        buildRecyclerView(view);
+        viewModel.getThesisCardItems().observe(getViewLifecycleOwner(), thesisCardItemObserver);
     }
 
     private void buildRecyclerView(View view) {

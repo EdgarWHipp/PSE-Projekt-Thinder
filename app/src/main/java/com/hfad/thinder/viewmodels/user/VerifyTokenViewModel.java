@@ -6,36 +6,47 @@ import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 
+import com.hfad.thinder.viewmodels.ViewModelResult;
+import com.hfad.thinder.viewmodels.ViewModelResultTypes;
+
 public class VerifyTokenViewModel extends ViewModel {
 
   private static final UserRepository userRepository = UserRepository.getInstance();
   private MutableLiveData<String> token;
-  private MutableLiveData<VerifyTokenResult> verifyTokenResult;
+  private MutableLiveData<ViewModelResult> verifyTokenResult;
   private MutableLiveData<VerifyTokenStates> state;
   // Todo: Auch nach dem Verlassen der App muss, befor es weiter geht der Token verifiziert werden in(siehe login seite)
 
   public void VerifyToken() {
-    state.setValue(VerifyTokenStates.LOADING);
 
-    Result result = userRepository.verifyToken(
-        token.getValue());//Todo: hier auch ein Result zurückgeben für Fehlermeldungen
-    if (result.getSuccess()) {
-      if (userRepository.getType() == USERTYPE.STUDENT) {
-        verifyTokenResult.setValue(
-            new VerifyTokenResult(null, RegistrationViewModel.ResultTypes.STUDENT));
-      }
-      if (userRepository.getType() == USERTYPE.SUPERVISOR) {
-        verifyTokenResult.setValue(
-            new VerifyTokenResult(null, RegistrationViewModel.ResultTypes.SUPERVISOR));
-      }
-      state.setValue(VerifyTokenStates.SUCCESSFUL);
-    } else {
-      verifyTokenResult.setValue(new VerifyTokenResult("Verifizierung fehlgeschlagen",
-          null));//Todo: hier kommt error aus model
-      state.setValue(VerifyTokenStates.FAILURE);
+    Result result = userRepository.verifyToken(token.getValue());
+    if (!result.getSuccess()) {
+      verifyTokenResult.setValue(new ViewModelResult("Verifizierung fehlgeschlagen",
+              null));//Todo: hier kommt error aus model
+
+    }
+    state.setValue(VerifyTokenStates.LOADING);
+    Result loginResult = userRepository.login(userRepository.getUser().getPassword(), userRepository.getUser().geteMail());
+    if (!result.getSuccess()) {
+      verifyTokenResult.setValue(new ViewModelResult("Verifizierung fehlgeschlagen",
+              null));//Todo: hier kommt error aus model
     }
 
+    if (userRepository.getType() == USERTYPE.STUDENT) {
+      verifyTokenResult.setValue(
+              new ViewModelResult(null, ViewModelResultTypes.STUDENT));
+    } else if (userRepository.getType() == USERTYPE.SUPERVISOR) {
+      verifyTokenResult.setValue(
+              new ViewModelResult(null, ViewModelResultTypes.SUPERVISOR));
+    } else {
+      state.setValue(VerifyTokenStates.FAILURE);
+    }
   }
+
+
+
+
+
 
   //---------------------getter and setter
 
@@ -51,7 +62,7 @@ public class VerifyTokenViewModel extends ViewModel {
     this.token = token;
   }
 
-  public MutableLiveData<VerifyTokenResult> getVerifyTokenResult() {
+  public MutableLiveData<ViewModelResult> getVerifyTokenResult() {
     if (verifyTokenResult == null) {
       verifyTokenResult = new MutableLiveData<>();
     }
@@ -67,3 +78,4 @@ public class VerifyTokenViewModel extends ViewModel {
   }
 
 }
+

@@ -1,13 +1,17 @@
 package com.hfad.thinder.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.hfad.thinder.R;
+import com.hfad.thinder.databinding.FragmentEditThesisBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +28,8 @@ public class EditThesisFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private FragmentEditThesisBinding binding;
 
     public EditThesisFragment() {
         // Required empty public constructor
@@ -60,6 +66,13 @@ public class EditThesisFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_thesis, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_edit_thesis, container, false);
+        binding.setFragment(this);
+        return binding.getRoot();
+    }
+
+    public void goToStatistics(View view){
+        Log.i("tag", "goToStatistics: ");
+        Navigation.findNavController(view).navigate(R.id.action_editThesisFragment_to_thesisStatisticsFragment);
     }
 }

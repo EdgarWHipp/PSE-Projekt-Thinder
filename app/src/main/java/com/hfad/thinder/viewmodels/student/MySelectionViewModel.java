@@ -19,6 +19,7 @@ public class MySelectionViewModel {
 
   public MutableLiveData<ArrayList<Thesis>> getSelectedThesises() {
     if (selectedThesises == null) {
+      ArrayList<Thesis> elements = new ArrayList<>();
       selectedThesises = new MutableLiveData<>();
       loadSelectedThesises();
     }

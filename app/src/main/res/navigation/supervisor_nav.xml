@@ -35,10 +35,18 @@
         android:id="@+id/editThesisFragment"
         android:name="com.hfad.thinder.ui.EditThesisFragment"
         android:label="@string/edit_thesis"
-        tools:layout="@layout/fragment_edit_thesis" />
+        tools:layout="@layout/fragment_edit_thesis" >
+        <action
+            android:id="@+id/action_editThesisFragment_to_thesisStatisticsFragment"
+            app:destination="@id/thesisStatisticsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/coursesOfStudyFragment"
         android:name="com.hfad.thinder.ui.CoursesOfStudyFragment"
         android:label="@string/choose_courses_of_study"
         tools:layout="@layout/fragment_courses_of_study" />
+    <fragment
+        android:id="@+id/thesisStatisticsFragment"
+        android:name="com.hfad.thinder.ui.ThesisStatisticsFragment"
+        android:label="@string/statistics" />
 </navigation>

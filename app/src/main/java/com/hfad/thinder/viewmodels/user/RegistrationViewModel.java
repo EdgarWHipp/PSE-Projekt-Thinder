@@ -6,6 +6,9 @@ import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.R;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
+import com.hfad.thinder.viewmodels.ViewModelResult;
+import com.hfad.thinder.viewmodels.ViewModelResultTypes;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,7 +20,7 @@ public class RegistrationViewModel extends ViewModel {
   private static final UserRepository userRepository = UserRepository.getInstance();
 
   private MutableLiveData<RegistrationFormState> registrationFormState = new MutableLiveData<>();
-  private MutableLiveData<RegistrationResult> registrationResult = new MutableLiveData<>();
+  private MutableLiveData<ViewModelResult> registrationResult = new MutableLiveData<>();
 
   private MutableLiveData<String> email;
   private MutableLiveData<String> firstName;
@@ -32,10 +35,10 @@ public class RegistrationViewModel extends ViewModel {
         userRepository.registrate(firstName.getValue(), lastName.getValue(), password.getValue(),
             email.getValue());
     if (!result.getSuccess()) {
-      registrationResult.setValue(new RegistrationResult(result.getErrorMessage(),
-          false));
+      registrationResult.setValue(new ViewModelResult(result.getErrorMessage(),
+          ViewModelResultTypes.ERROR));
     } else {
-      registrationResult.setValue(new RegistrationResult(null, true));
+      registrationResult.setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
     }
 
   }
@@ -57,7 +60,7 @@ public class RegistrationViewModel extends ViewModel {
     return this.registrationFormState;
   }
 
-  public MutableLiveData<RegistrationResult> getRegistrationResult() {
+  public MutableLiveData<ViewModelResult> getRegistrationResult() {
     if (registrationResult == null) {
       registrationResult = new MutableLiveData<>();
     }
@@ -174,9 +177,4 @@ public class RegistrationViewModel extends ViewModel {
     return null;
   }
 
-  public enum ResultTypes {
-    STUDENT,
-    SUPERVISOR,
-    UNVERIFIED;
-  }
 }

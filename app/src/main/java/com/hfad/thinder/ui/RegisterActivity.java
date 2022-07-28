@@ -13,8 +13,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.ActivityRegisterBinding;
+import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.viewmodels.user.RegistrationFormState;
-import com.hfad.thinder.viewmodels.user.RegistrationResult;
 import com.hfad.thinder.viewmodels.user.RegistrationViewModel;
 
 
@@ -89,10 +89,10 @@ public class RegisterActivity extends AppCompatActivity {
       }
     };
 
-    final Observer<RegistrationResult> registrationSuccessfulObserver =
-        new Observer<RegistrationResult>() {
+    final Observer<ViewModelResult> registrationSuccessfulObserver =
+        new Observer<ViewModelResult>() {
           @Override
-          public void onChanged(@Nullable final RegistrationResult registrationResult) {
+          public void onChanged(@Nullable final ViewModelResult registrationResult) {
             if (registrationResult.isSuccess()) {
               goToVerifyTokenActivity();
             }

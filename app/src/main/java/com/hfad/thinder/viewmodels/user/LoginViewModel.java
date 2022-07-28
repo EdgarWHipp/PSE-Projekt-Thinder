@@ -6,12 +6,14 @@ import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
+import com.hfad.thinder.viewmodels.ViewModelResult;
+import com.hfad.thinder.viewmodels.ViewModelResultTypes;
 
 
 //Todo: Javadoc schreiben.
 public class LoginViewModel extends ViewModel {
 
-  private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
+  private MutableLiveData<ViewModelResult> loginResult = new MutableLiveData<>();
   private UserRepository userRepository = UserRepository.getInstance();
   private MutableLiveData<Boolean> isDataValid = new MutableLiveData<>();
   private MutableLiveData<String> email;
@@ -22,13 +24,13 @@ public class LoginViewModel extends ViewModel {
     Result restult;
     restult = userRepository.login(password.getValue(), email.getValue());
     if (!restult.getSuccess()) {
-      loginResult.setValue(new LoginResult(restult.getErrorMessage(), null));
+      loginResult.setValue(new ViewModelResult(restult.getErrorMessage(), null));
     } else if (userRepository.getType() == USERTYPE.STUDENT) {
-      loginResult.setValue(new LoginResult(restult.getErrorMessage(), RegistrationViewModel.ResultTypes.STUDENT));
+      loginResult.setValue(new ViewModelResult(restult.getErrorMessage(), ViewModelResultTypes.STUDENT));
     } else if (userRepository.getType() == USERTYPE.SUPERVISOR) {
-      loginResult.setValue(new LoginResult(restult.getErrorMessage(), RegistrationViewModel.ResultTypes.SUPERVISOR));
+      loginResult.setValue(new ViewModelResult(restult.getErrorMessage(), ViewModelResultTypes.SUPERVISOR));
     } else {
-      loginResult.setValue(new LoginResult(restult.getErrorMessage(), null));
+      loginResult.setValue(new ViewModelResult(restult.getErrorMessage(), null));
     }
     //Todo: es fehlt noch ein Unverified
   }
@@ -50,7 +52,7 @@ public class LoginViewModel extends ViewModel {
     return isDataValid;
   }
 
-  public MutableLiveData<LoginResult> getLoginResult() {
+  public MutableLiveData<ViewModelResult> getLoginResult() {
     if (loginResult == null) {
       loginResult = new MutableLiveData<>();
     }

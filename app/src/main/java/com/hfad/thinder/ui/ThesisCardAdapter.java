@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hfad.thinder.R;
+import com.hfad.thinder.viewmodels.ThesisCardItem;
 
 import java.util.ArrayList;
 
@@ -72,7 +73,8 @@ public class ThesisCardAdapter extends RecyclerView.Adapter<ThesisCardAdapter.Th
         ThesisCardItem current = elements.get(position);
         holder.title.setText(current.getTitle());
         holder.description.setText(current.getDescription());
-        holder.image.setImageResource(current.getImage());
+        //holder.image.setImageResource(current.getImage());
+        //Todo: zeile wieder gültig machen
     }
 
     @Override

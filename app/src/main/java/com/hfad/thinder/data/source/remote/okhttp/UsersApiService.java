@@ -27,13 +27,12 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import retrofit2.http.HTTP;
 
 public class UsersApiService {
     private static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
     private static final OkHttpClient client = new OkHttpClient();
-    private static final String url = "http://localhost:8080";
-    private static final String  emulatorLocalHost = "http://10.0.2.2:8080";
 
     private Result setUserValues(String body) throws IOException, JSONException {
         UserRepository repository = UserRepository.getInstance();
@@ -68,7 +67,7 @@ public class UsersApiService {
      * @param eMail
      * @return CompletableFuture<Result>
      */
-    private CompletableFuture<Result> setUserRole(String eMail, String password){
+    private CompletableFuture<Result> getUserRole(String eMail, String password){
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor(eMail, password))
                 .build();
@@ -130,7 +129,7 @@ public class UsersApiService {
      * @throws IOException
      */
     public CompletableFuture<Result> usersLoginFuture(Login login) throws JSONException, IOException {
-        CompletableFuture<Result> result=setUserRole(login.eMail, login.password);
+        CompletableFuture<Result> result=getUserRole(login.eMail, login.password);
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor(login.geteMail(), login.getPassword()))
                 .build();
@@ -192,7 +191,7 @@ public class UsersApiService {
     public CompletableFuture<Result> verifyFuture(String token) throws JSONException, IOException {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 
-        RequestBody body = RequestBody.create(null, new byte[]{});
+
         HttpUrl url = new HttpUrl.Builder()
                 .scheme("http")
                 .host("10.0.2.2")
@@ -201,10 +200,10 @@ public class UsersApiService {
                 .addPathSegment("verify")
                 .addQueryParameter("token",token)
                 .build();
-        // empty body
+
         Request request = new Request.Builder()
                 .url(url)
-                .post(body)
+                .get()
                 .build();
 
         Call call = client.newCall(request);
@@ -244,7 +243,10 @@ public class UsersApiService {
                 .put("password", user.getPassword())
                 .put("mail", user.getEmail())
                 .put("role","USER");
-
+        UserRepository.
+                getInstance().setUser(new User(null,
+                        null,false,null,
+                        user.getPassword(),user.getEmail(),user.getFirstName(),user.getLastName()));
 
 
         RequestBody body = RequestBody.create(userJson.toString(), JSON);
@@ -271,7 +273,6 @@ public class UsersApiService {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-
                         //setUserRole(user.getPassword(),user.getEmail());
                         resultCompletableFuture.complete(new Result(true));
 
@@ -298,14 +299,20 @@ public class UsersApiService {
     /**
      * This function creates the HTTP DELETE request that removes a user from the database (if successful)
      * Checks if the asynchronous call return fails or responds.
-     * @return CompletableFuture<Result>
+     * @return CompletableFuture<Result> that is alter evaluated inside the UsersRemoteDataSource class
      * @throws IOException
      */
     public CompletableFuture<Result> deleteUserFuture() throws IOException {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<Result>();
 
+        HttpUrl url = new HttpUrl.Builder()
+                .scheme("http")
+                .host("10.0.2.2")
+                .port(8080)
+                .addPathSegment("users")
+                .addPathSegment(UserRepository.getInstance().getCurrentUUID().toString()).build();
         Request request= new Request.Builder()
-                .url(url+"/users/"+UserRepository.getInstance().getCurrentUUID())
+                .url(url)
                 .delete()
                 .build();
         Call call = client.newCall(request);
@@ -337,7 +344,7 @@ public class UsersApiService {
      * This function creates the HTTP GET request that makes the backend send
      * a email to the users mail address, which they can then enter in the verify screen
      * to ultimately reset their password.
-     * @return
+     * @return CompletableFuture<Result> that is later evaluated in the UsersRemoteDataSource class
      */
     public CompletableFuture<Result> resetPasswordFuture(String email){
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
@@ -348,6 +355,7 @@ public class UsersApiService {
                 .host("10.0.2.2")
                 .port(8080)
                 .addPathSegment("resetPassword")
+                .addQueryParameter("mail",email)
                 .build();
         Request request = new Request.Builder()
                 .url(url)
@@ -383,16 +391,17 @@ public class UsersApiService {
      */
     public CompletableFuture<Result> sendNewPasswordFuture(String token, String newPassword) throws JSONException {
         CompletableFuture<Result> resultCompletableFuture= new CompletableFuture<>();
+        JSONObject passwordJSON = new JSONObject().put("password",newPassword);
 
-        RequestBody body = RequestBody.create(null);
+        RequestBody body = RequestBody.create(passwordJSON.toString(), JSON);
         HttpUrl url = new HttpUrl.Builder()
                 .scheme("http")
                 .host("10.0.2.2")
                 .port(8080)
                 .addPathSegment("resetPassword")
                 .addQueryParameter("token",token)
-                .addQueryParameter("password",newPassword)
                 .build();
+
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
@@ -421,38 +430,8 @@ public class UsersApiService {
 
 
 
-    /**
-     * This function creates the HTTP DELETE request for a thesis that the user has unliked. Unliking it removes it
-     * from the users liked theses page.
-     *
-     * @param thesisId
-     * @return Response
-     */
-    public Response deleteUserThesisCall(final UUID thesisId) throws IOException {
 
-        Request request = new Request.Builder()
-                .url(url + "/users/thesis/" + thesisId)
-                .delete()
-                .build();
-        Call call = client.newCall(request);
-        return call.execute();
 
     }
 
-    /**
-     * This function creates the HTTP GET request for a thesis that the user has already liked - it is used to make sure
-     * that the user can click on a liked thesis and receive a more detailed overview.
-     *
-     * @param thesisId
-     * @return Response
-     */
-    public Response getUserThesisResponse(final UUID thesisId) throws IOException {
-        Request request = new Request.Builder()
-                .url(url + "/users/thesis/" + thesisId)
-                .get()
-                .build();
-        Call call = client.newCall(request);
-        return call.execute();
-    }
 
-}

@@ -19,6 +19,7 @@ import android.widget.SearchView;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentLikedThesesBinding;
+import com.hfad.thinder.viewmodels.ThesisCardItem;
 
 import java.util.ArrayList;
 
@@ -83,7 +84,7 @@ public class LikedThesesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
         elements = new ArrayList<ThesisCardItem>();
-        elements.add(new ThesisCardItem(" Control and Diagnostics System Generator for Complex FPGA-Based Measurement Systems ", "Test", R.drawable.index));
+       /* elements.add(new ThesisCardItem(" Control and Diagnostics System Generator for Complex FPGA-Based Measurement Systems ", "Test", R.drawable.index));
         elements.add(new ThesisCardItem(" Commissioning and testing of pre-series triple GEM prototypes for CBM-MuCh in the mCBM experiment at the SIS18 facility of GSI ", "Test", R.drawable.index));
         elements.add(new ThesisCardItem(" An equation-of-state-meter for CBM using PointNet ", "Test", R.drawable.index));
         elements.add(new ThesisCardItem(" Performance of the MSMGRPC with the Highest Granularity of the CBM-TOF Wall in Cosmic Ray Tests ", "Test", R.drawable.index));
@@ -91,8 +92,8 @@ public class LikedThesesFragment extends Fragment {
         elements.add(new ThesisCardItem(" Development and implementation of a time-based signal generation scheme for the muon chamber simulation of the CBM experiment at FAIR ", "Test", R.drawable.index));
         elements.add(new ThesisCardItem(" Data-Driven Methods for Spectator Symmetry Plane Estimation in CBM Experiment at FAIR ", "Test", R.drawable.index));
         elements.add(new ThesisCardItem(" Data-Driven Methods for Spectator Symmetry Plane Estimation in CBM Experiment at FAIR ", "Test", R.drawable.index));
-        elements.add(new ThesisCardItem(" Data-Driven Methods for Spectator Symmetry Plane Estimation in CBM Experiment at FAIR ", "Test", R.drawable.index));
-
+        elements.add(new ThesisCardItem(5," Data-Driven Methods for Spectator Symmetry Plane Estimation in CBM Experiment at FAIR ", "Test", R.drawable.index));
+        */
 
         buildRecyclerView(view);
     }

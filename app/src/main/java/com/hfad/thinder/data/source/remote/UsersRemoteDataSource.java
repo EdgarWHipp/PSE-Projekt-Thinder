@@ -19,6 +19,7 @@ import com.hfad.thinder.data.model.UserCreation;
 import com.hfad.thinder.data.source.remote.okhttp.UsersApiService;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
+import com.hfad.thinder.data.source.result.Tuple;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,11 +39,11 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import retrofit2.Response;
 
+/**
+ * This Class handles all errors that the HTTP requests on the /users/ endpoint creates in addition to all necessary functions needed to verify a user/ a change in password.
+ */
 public class UsersRemoteDataSource {
-    // Für die ganze HTTP Funktionalitäten noch neue Klassen hinzufügen!
-
     private final UsersApiService okHttpService = new UsersApiService();
-    private final Gson gson= new Gson();
     /**
      * Handles the error messages of the verifyResponse HTTP request in the UsersApiService class. Also checks if the response is successful.
      *
@@ -141,37 +142,8 @@ public class UsersRemoteDataSource {
     }
 
 
-    public Result deleteUserThesis(final UUID thesisId) {
-        try {
-            okhttp3.Response result = okHttpService.deleteUserThesisCall(thesisId);
-            if (result.isSuccessful()) {
-
-                return new Result(true);
-
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-            return new Result("Error occurred in the API", false);
-        }
-        return new Result("Did not receive status code 200", false);
-    }
 
 
-    public ThesisTuple getUserThesis(final UUID thesisId) {
-        try {
-            okhttp3.Response result = okHttpService.getUserThesisResponse(thesisId);
-            if (result.isSuccessful() && result.body() != null) {
-
-                Thesis thesis = gson.fromJson(result.body().toString(), Thesis.class);
-
-                return new ThesisTuple(thesis, new Result(true));
-
-            }
-        } catch (Exception e) {
-            return new ThesisTuple(null, new Result("Error occurred in the API", false));
-        }
-        return new ThesisTuple(null, new Result("Did not receive status code 200", false));
-    }
 
     /**
      * Handles the error messages for the resetPasswordFuture HTTP request.
@@ -213,4 +185,6 @@ public class UsersRemoteDataSource {
         }
 
     }
+
+
 }

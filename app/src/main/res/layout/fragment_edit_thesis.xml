@@ -2,6 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="fragment"
+            type="com.hfad.thinder.ui.EditThesisFragment" />
+    </data>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -237,7 +242,21 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/btRemoveProfile">
+                app:layout_constraintStart_toEndOf="@id/btStatistics">
+
+            </Button>
+
+            <Button
+                android:id="@+id/btStatistics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_pie_chart"
+                android:text="@string/statistics"
+                android:onClick="@{(v) -> fragment.goToStatistics(v)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btRemoveProfile"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@id/btSave">
 
             </Button>
 
@@ -248,7 +267,7 @@
                 android:drawableTop="@drawable/ic_remove"
                 android:text="@string/remove"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/btSave"
+                app:layout_constraintEnd_toStartOf="@id/btStatistics"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent">
 

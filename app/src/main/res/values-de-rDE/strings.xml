@@ -64,6 +64,11 @@
     <string name="token">Token</string>
     <string name="request_password_reset">Geben Sie ihre E-Mail ein und drücken Sie auf den Knopf, um eine Anfrage zum Zurücksetzen Ihres Passwortes zu stellen.</string>
     <string name="send_request">Anfrage stellen</string>
+    <string name="statistics">Statistik</string>
+    <string name="like_dislike_ratio">Like/Dislike-Verhältnis</string>
+    <string name="likes">Likes</string>
+    <string name="dislikes">Dislikes</string>
+
     <!-- student strings -->
     <string name="swipe_screen">Swipe Seite</string>
     <string name="fill_out_form">Formular ausfüllen</string>
@@ -75,6 +80,9 @@
     <string name="form">Formular</string>
     <string name="contact">Kontakt</string>
     <string name="images">Bilder</string>
+    <string name="insert_answers">Antworten eingeben</string>
+    <string name="send_form">Formular senden</string>
+
 
     <!-- Registration View Model Strings -->
     <string name="no_password_error">Passwortfeld darf nicht leer sein</string>
