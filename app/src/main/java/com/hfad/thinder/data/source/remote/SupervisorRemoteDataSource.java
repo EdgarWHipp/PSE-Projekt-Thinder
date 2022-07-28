@@ -16,6 +16,9 @@ import java.util.concurrent.TimeoutException;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 
+/**
+ * This class handles all the errors that occur during HTTP requests that are call on supervisors.
+ */
 public class SupervisorRemoteDataSource {
   private final SupervisorApiService supervisorApiService = new SupervisorApiService();
 

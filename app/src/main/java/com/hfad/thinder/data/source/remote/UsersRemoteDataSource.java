@@ -39,11 +39,11 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import retrofit2.Response;
 
+/**
+ * This Class handles all errors that the HTTP requests on the /users/ endpoint creates in addition to all necessary functions needed to verify a user/ a change in password.
+ */
 public class UsersRemoteDataSource {
-    // Für die ganze HTTP Funktionalitäten noch neue Klassen hinzufügen!
-
     private final UsersApiService okHttpService = new UsersApiService();
-    private final Gson gson= new Gson();
     /**
      * Handles the error messages of the verifyResponse HTTP request in the UsersApiService class. Also checks if the response is successful.
      *

@@ -86,6 +86,12 @@ public class ThesesApiService {
     return resultCompletableFutureTuple;
   }
 
+  /**
+   * This function creates the actual HTTP POST request to the backend that leads to a created thesis object inside the database.
+   * @param thesis
+   * @return A CompletableFuture<Result> that is later evaluated in the RemoteDataSource classes
+   * @throws JSONException
+   */
   public CompletableFuture<Result> createNewThesisFuture(Thesis thesis) throws JSONException {
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(new AuthInterceptor
@@ -136,6 +142,11 @@ public class ThesesApiService {
     return resultCompletableFuture;
   }
 
+  /**
+   * This function creates the actual HTTP GET request that returns a specific thesis from the backend.
+   * @param thesisId
+   * @return A Tuple of <CompletableFuture<Thesis>,CompletableFuture<Result>
+   */
   public Tuple<CompletableFuture<Thesis>,CompletableFuture<Result>>  getSpecificThesisFuture(UUID thesisId){
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(new AuthInterceptor
@@ -182,6 +193,13 @@ public class ThesesApiService {
     return new Tuple<>(resultThesis,resultCompletableFuture);
   }
 
+  /**
+   * The function that creates the actual HTTP PUT request that edits a specific thesis in the backend.
+   * @param thesisId
+   * @param thesis
+   * @return A CompletableFuture<Result> that is later evaluated in the RemoteDataSource classes
+   * @throws JSONException
+   */
   public CompletableFuture<Result> editThesisFuture(final UUID thesisId, Thesis thesis) throws JSONException {
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(new AuthInterceptor

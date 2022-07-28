@@ -17,6 +17,9 @@ import java.util.concurrent.TimeoutException;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 
+/**
+ * This class handles all the errors that occur during HTTP requests that are call on students.
+ */
 public class StudentRemoteDataSource {
   private final StudentApiService okHttpService = new StudentApiService();
   /**

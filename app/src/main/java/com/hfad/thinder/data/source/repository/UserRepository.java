@@ -2,14 +2,18 @@ package com.hfad.thinder.data.source.repository;
 
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Login;
+import com.hfad.thinder.data.model.Thesis;
+import com.hfad.thinder.data.model.ThesisRating;
 import com.hfad.thinder.data.model.ThesisTuple;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.model.UserCreation;
 import com.hfad.thinder.data.source.remote.StudentRemoteDataSource;
 import com.hfad.thinder.data.source.remote.SupervisorRemoteDataSource;
+import com.hfad.thinder.data.source.remote.ThesisRemoteDataSource;
 import com.hfad.thinder.data.source.remote.UsersRemoteDataSource;
 import com.hfad.thinder.data.source.result.Result;
+import com.hfad.thinder.data.source.result.Tuple;
 
 import java.util.Set;
 import java.util.UUID;
@@ -28,6 +32,7 @@ public final class UserRepository {
     private final UsersRemoteDataSource usersDataSource = new UsersRemoteDataSource();
     private final StudentRemoteDataSource studentRemoteDataSource =  new StudentRemoteDataSource();
     private final SupervisorRemoteDataSource supervisorRemoteDataSource = new SupervisorRemoteDataSource();
+    private final ThesisRemoteDataSource thesisRemoteDataSource = new ThesisRemoteDataSource();
     private UUID currentId=null;
     private USERTYPE type=null;
     private User user=null;
@@ -37,8 +42,9 @@ public final class UserRepository {
         this.user = user;
     }
 
-    public ThesisTuple getUserThesis(UUID thesisId) {
-        return usersDataSource.getUserThesis(thesisId);
+    public Tuple<Thesis,Result> getUserThesis(UUID thesisId) {
+        return thesisRemoteDataSource.getNewThesis(thesisId);
+
     }
     // Relevant for the ViewModel
     public User getUser() {

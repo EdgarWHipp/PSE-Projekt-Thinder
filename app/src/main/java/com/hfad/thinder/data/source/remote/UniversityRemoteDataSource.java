@@ -22,61 +22,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Only an admin would have access the this remoteDataSource to check the validity of
+ * added universities and to change previously instantiated regexes of student/supervisor emails.
+ */
 public class UniversityRemoteDataSource {
-  private static final MediaType JSON
-          = MediaType.parse("application/json; charset=utf-8");
 
-  OkHttpClient client = new OkHttpClient();
-  String url = "http://localhost:8080";
-
-
-  Retrofit retrofit = new Retrofit.Builder()
-          .addConverterFactory(GsonConverterFactory.create())
-          .baseUrl("http:localhost:8080")
-          .build();
-
-
-  public ArrayList<University> getUnis() {
-    try {
-      Request request= new Request.Builder()
-              .url(url+"/university/")
-              .get()
-              .build();
-// return an array list of the universities
-    } catch (Exception e) {
-      return null;
-    }
-    return null;
-  }
-
-
-  public Result createUniversity(University university){
-
-    try {
-      JSONObject uniJson = new JSONObject()
-              .put("name",university.getName())
-              .put("studentMailRegex",university.getStudentMailRegex())
-              .put("supervisorMailRegex",university.getSupervisorMailRegex());
-
-
-      RequestBody body=RequestBody.create(uniJson.toString(),JSON);
-
-
-      Request request= new Request.Builder()
-              .url(url+"/university/")
-              .post(body)
-              .build();
-
-      Call call = client.newCall(request);
-      okhttp3.Response response = call.execute();
-      if (response.isSuccessful()){
-        return new Result(true);
-      }else{
-        return new Result("did not receive Statuscode 200",false);
-      }
-
-    } catch (Exception e) {
-      return new Result(e.toString(),false);
-    }
-  }
 }

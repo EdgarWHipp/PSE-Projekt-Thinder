@@ -27,13 +27,12 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import retrofit2.http.HTTP;
 
 public class UsersApiService {
     private static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
     private static final OkHttpClient client = new OkHttpClient();
-    private static final String url = "http://localhost:8080";
-    private static final String  emulatorLocalHost = "http://10.0.2.2:8080";
 
     private Result setUserValues(String body) throws IOException, JSONException {
         UserRepository repository = UserRepository.getInstance();
@@ -300,14 +299,20 @@ public class UsersApiService {
     /**
      * This function creates the HTTP DELETE request that removes a user from the database (if successful)
      * Checks if the asynchronous call return fails or responds.
-     * @return CompletableFuture<Result>
+     * @return CompletableFuture<Result> that is alter evaluated inside the UsersRemoteDataSource class
      * @throws IOException
      */
     public CompletableFuture<Result> deleteUserFuture() throws IOException {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<Result>();
 
+        HttpUrl url = new HttpUrl.Builder()
+                .scheme("http")
+                .host("10.0.2.2")
+                .port(8080)
+                .addPathSegment("users")
+                .addPathSegment(UserRepository.getInstance().getCurrentUUID().toString()).build();
         Request request= new Request.Builder()
-                .url(url+"/users/"+UserRepository.getInstance().getCurrentUUID())
+                .url(url)
                 .delete()
                 .build();
         Call call = client.newCall(request);
@@ -339,7 +344,7 @@ public class UsersApiService {
      * This function creates the HTTP GET request that makes the backend send
      * a email to the users mail address, which they can then enter in the verify screen
      * to ultimately reset their password.
-     * @return
+     * @return CompletableFuture<Result> that is later evaluated in the UsersRemoteDataSource class
      */
     public CompletableFuture<Result> resetPasswordFuture(String email){
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();

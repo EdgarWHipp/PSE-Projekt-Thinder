@@ -30,9 +30,20 @@ public final class ThesisRepository {
         this.currentlySelectedThesis = currentlySelectedThesis;
     }
 
+    /**
+     * This function is used by the viewmodel to return a previously selected thesis for the detailed thesis screen.
+     * @return Thesis
+     */
     public Thesis getCurrentlySelectedThesis() {
         return currentlySelectedThesis;
     }
+
+    /**
+     * This function sets the Thesis for the getCurrentlySelectedThesis by taking the id that the viewmodel provides
+     * and setting the currentlySelectedThesis value.
+     * @param thesisId
+     * @return
+     */
     public Result setThesis(final UUID thesisId){
             if (thesisMap.containsKey(thesisId)){
                 setCurrentlySelectedThesis(thesisMap.get(thesisId));
@@ -69,6 +80,17 @@ public final class ThesisRepository {
         return thesisMap;
     }
 
+    /**
+     * Adds a new thesis to the global list of all thesis that the students can
+     * @param supervisingProf
+     * @param name
+     * @param motivation
+     * @param task
+     * @param form
+     * @param degrees
+     * @param images
+     * @return Result class including success value and error message
+     */
     public Result addThesis(String supervisingProf, String name, String motivation, String task, String form, Set<Degree> degrees , Set<Image> images) {
         return thesisRemoteDataSource.createNewThesis(new Thesis(supervisingProf,name,motivation,task,form,images,(Supervisor) UserRepository.getInstance().getUser(),degrees));
     }
@@ -78,8 +100,11 @@ public final class ThesisRepository {
     }
 
 
-
-
+    /**
+     * Edit an existing thesis.
+     * @param thesisId
+     * @return
+     */
     public Result editThesis(final UUID thesisId){
 
         return thesisRemoteDataSource
@@ -87,6 +112,12 @@ public final class ThesisRepository {
 
 
     }
+
+    /**
+     * Delete an existing thesis.
+     * @param thesisId
+     * @return
+     */
     public Result deleteThesis(UUID thesisId){
         return thesisRemoteDataSource.deleteThesis(thesisId);
     }

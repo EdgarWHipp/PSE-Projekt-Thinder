@@ -3,7 +3,10 @@ package com.hfad.thinder.data.source.remote.okhttp;
 import java.util.List;
 
 public class DegreeApiService {
-
+  /**
+   * Returns a hard coded list of academic titles that may be of use.
+   * @return
+   */
   public List<String> getAcademicTitles(){
     List<String> list = null;
     list.add("Dr.");
