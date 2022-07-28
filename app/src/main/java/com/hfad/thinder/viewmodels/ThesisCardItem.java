@@ -4,11 +4,7 @@ import android.media.Image;
 
 public class ThesisCardItem {
 
-<<<<<<< HEAD:app/src/main/java/com/hfad/thinder/ui/ThesisCardItem.java
-
-=======
     private int id;
->>>>>>> refs/remotes/origin/main:app/src/main/java/com/hfad/thinder/viewmodels/ThesisCardItem.java
     private String title;
     private String description;
     private Image image;
