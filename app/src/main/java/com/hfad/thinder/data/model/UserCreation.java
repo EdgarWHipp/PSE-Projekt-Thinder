@@ -29,7 +29,7 @@ public class UserCreation {
     this.lastName = lastName;
   }
 
-  public String getEmail() {
+  public String getMail() {
     return email;
   }
 

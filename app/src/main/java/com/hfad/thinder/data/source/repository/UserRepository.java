@@ -63,7 +63,7 @@ public final class UserRepository {
      */
 
     public Result login(String password, String mail) {
-        return usersDataSource.login(new Login(password, mail));
+        return usersDataSource.login(new Login(mail, password));
     }
 
     /**

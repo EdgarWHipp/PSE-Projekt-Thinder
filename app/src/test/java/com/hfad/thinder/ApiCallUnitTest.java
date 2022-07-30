@@ -1,22 +1,14 @@
 package com.hfad.thinder;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.when;
-import static io.restassured.filter.log.RequestLoggingFilter.with;
 
-import com.google.gson.JsonObject;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.USERTYPE;
-import com.hfad.thinder.data.model.User;
-import com.hfad.thinder.data.source.remote.okhttp.UsersApiService;
-import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.repository.UniversityRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -25,10 +17,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import io.restassured.RestAssured;
-import io.restassured.response.Response;
-import io.restassured.response.ResponseBody;
-import io.restassured.specification.RequestSpecification;
-import okhttp3.HttpUrl;
 
 public class ApiCallUnitTest {
 
@@ -41,7 +29,7 @@ public class ApiCallUnitTest {
   @Test
   public void full_registration_including_posting_a_university() throws InterruptedException {
     Result universityResult = UniversityRepository.getInstance().addUniversity("KIT",".*@student.kit.edu",".*@kit.edu");
-    Result resultUser = UserRepository.getInstance().registrate("edgar","hippp","Klavierboy4!/","uxmnx@student.kit.edu");
+    Result resultUser = UserRepository.getInstance().register("edgar","hippp","Klavierboy4!/","uxmnx@student.kit.edu");
     System.out.print(resultUser.getErrorMessage());
     System.out.println(UserRepository.getInstance().getType());
    // Result loginResult = UserRepository.getInstance().login("Klavierboy4!/","uxmnx@student.kit.edu");
@@ -52,7 +40,7 @@ public class ApiCallUnitTest {
     set.add(new Degree("informatik","bachelor"));
     if (UserRepository.getInstance().getType().equals(USERTYPE.STUDENT)){
 
-     resultStudent = UserRepository.getInstance().editProfilStudent(set,"edgar wilhelm","hipp");
+     resultStudent = UserRepository.getInstance().editProfileStudent(set,"edgar wilhelm","hipp");
     }else if (UserRepository.getInstance().getType().equals(USERTYPE.SUPERVISOR)){
        //resultSupervisor = UserRepository.getInstance().editProfilSupervisor("bachelor","karlsruhe","Telematik","015234336652","edgar wilhelm","hipp");
     }else {
@@ -79,13 +67,13 @@ public void create_a_university(){
 @Test
 public void attempt_to_registrate_user_with_wrong_password_format(){
 
-  Result registrationResult = UserRepository.getInstance().registrate("max","mustermann","a","max@kit.edu");
+  Result registrationResult = UserRepository.getInstance().register("max","mustermann","a","max@kit.edu");
   Assert.assertEquals(registrationResult.getSuccess(),false);
 
 }
 @Test
   public void attempt_to_registrate_user_with_correct_password_format_and_supervisor_mail() throws InterruptedException {
-  Result registrationResult = UserRepository.getInstance().registrate("max","mustermann","Password123!","max1@kit.edu");
+  Result registrationResult = UserRepository.getInstance().register("max","mustermann","Password123!","max1@kit.edu");
   Thread.sleep(1000);
   System.out.print(registrationResult.getErrorMessage());
   Assert.assertEquals(registrationResult.getErrorMessage(),null);
@@ -94,7 +82,7 @@ public void attempt_to_registrate_user_with_wrong_password_format(){
 }
 @Test
   public void attempt_to_registrate_user_with_correct_password_format_and_student_mail(){
-  Result registrationResult = UserRepository.getInstance().registrate("max","mustermann","Password123!","max@student.kit.edu");
+  Result registrationResult = UserRepository.getInstance().register("max","mustermann","Password123!","max@student.kit.edu");
   Assert.assertEquals(registrationResult.getErrorMessage(),null);
   Assert.assertEquals(UserRepository.getInstance().getType() == USERTYPE.STUDENT,true);
   Assert.assertEquals(registrationResult.getSuccess(),true);
@@ -103,7 +91,7 @@ public void attempt_to_registrate_user_with_wrong_password_format(){
 @Test
   public void login() throws JSONException, IOException {
 
-  Result result = UserRepository.getInstance().verifyToken("52555b2a-fb88-46fd-a0cd-b04b313155c2");
+  Result result = UserRepository.getInstance().verifyUser("52555b2a-fb88-46fd-a0cd-b04b313155c2");
   System.out.println(result.getErrorMessage());
 }
 }

@@ -104,7 +104,7 @@ public class UsersApiService {
      * @throws JSONException
      * @throws IOException
      */
-    public CompletableFuture<Result> usersLoginFuture(Login login) throws JSONException, IOException {
+    public CompletableFuture<Result> getUserDetails(Login login) throws JSONException, IOException {
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor(login.getMail(), login.getPassword()))
                 .build();
@@ -162,7 +162,7 @@ public class UsersApiService {
      * @throws JSONException
      * @throws IOException
      */
-    public CompletableFuture<Result> verifyFuture(String token) throws JSONException, IOException {
+    public CompletableFuture<Result> verifyUser(String token) throws JSONException, IOException {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 
 
@@ -209,18 +209,17 @@ public class UsersApiService {
      * @return  CompletableFuture<Result>
      * @throws JSONException
      */
-    public CompletableFuture<Result> createNewUserFuture(UserCreation user) throws JSONException {
+    public CompletableFuture<Result> postNewUser(UserCreation user) throws JSONException {
 
         JSONObject userJson = new JSONObject()
                 .put("firstName", user.getFirstName())
                 .put("lastName", user.getLastName())
                 .put("password", user.getPassword())
-                .put("mail", user.getEmail())
+                .put("mail", user.getMail())
                 .put("role","USER");
-        UserRepository.
-                getInstance().setUser(new User(null,
-                        null,false,null,
-                        user.getPassword(),user.getEmail(),user.getFirstName(),user.getLastName()));
+        UserRepository.getInstance()
+                .setUser(new User(null,null,false,null,
+                        user.getPassword(),user.getMail(),user.getFirstName(),user.getLastName()));
 
 
         RequestBody body = RequestBody.create(userJson.toString(), JSON);
@@ -260,18 +259,13 @@ public class UsersApiService {
         return resultCompletableFuture;
     }
 
-
-
-
-
-
     /**
      * This function creates the HTTP DELETE request that removes a user from the database (if successful)
      * Checks if the asynchronous call return fails or responds.
      * @return CompletableFuture<Result> that is alter evaluated inside the UsersRemoteDataSource class
      * @throws IOException
      */
-    public CompletableFuture<Result> deleteUserFuture() throws IOException {
+    public CompletableFuture<Result> deleteUser() throws IOException {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<Result>();
 
         HttpUrl url = new HttpUrl.Builder()
@@ -315,7 +309,7 @@ public class UsersApiService {
      * to ultimately reset their password.
      * @return CompletableFuture<Result> that is later evaluated in the UsersRemoteDataSource class
      */
-    public CompletableFuture<Result> resetPasswordFuture(String email){
+    public CompletableFuture<Result> resetPassword(String email){
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 
 
@@ -358,7 +352,7 @@ public class UsersApiService {
      * @return CompletableFuture<Result>
      * @throws JSONException
      */
-    public CompletableFuture<Result> sendNewPasswordFuture(String token, String newPassword) throws JSONException {
+    public CompletableFuture<Result> postNewPassword(String token, String newPassword) throws JSONException {
         CompletableFuture<Result> resultCompletableFuture= new CompletableFuture<>();
         JSONObject passwordJSON = new JSONObject().put("password",newPassword);
 

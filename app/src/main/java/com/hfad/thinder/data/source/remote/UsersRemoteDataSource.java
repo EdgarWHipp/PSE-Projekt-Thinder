@@ -29,7 +29,7 @@ public class UsersRemoteDataSource {
     public Result verify(String token) {
 
         try {
-            CompletableFuture<Result> result = usersApiService.verifyFuture(token);
+            CompletableFuture<Result> result = usersApiService.verifyUser(token);
             return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
             //only added for troubleshooting
         } catch (JSONException j) {
@@ -58,7 +58,7 @@ public class UsersRemoteDataSource {
             CompletableFuture<Result> resultRole = usersApiService.getUserRole(login);
             resultRole.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
 
-            CompletableFuture<Result> resultFuture = usersApiService.usersLoginFuture(login);
+            CompletableFuture<Result> resultFuture = usersApiService.getUserDetails(login);
             return resultFuture.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
         } catch (IOException | JSONException | ExecutionException // TODO error messages
                 | TimeoutException | InterruptedException e) {
@@ -74,7 +74,7 @@ public class UsersRemoteDataSource {
      */
     public Result createNewUser(UserCreation user) {
         try {
-            CompletableFuture<Result> result = usersApiService.createNewUserFuture(user);
+            CompletableFuture<Result> result = usersApiService.postNewUser(user);
             return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
         } catch (JSONException e) {
             return new Result("json", false);
@@ -92,7 +92,7 @@ public class UsersRemoteDataSource {
      */
     public Result deleteUser() {
         try {
-            CompletableFuture<Result> result = usersApiService.deleteUserFuture();
+            CompletableFuture<Result> result = usersApiService.deleteUser();
             return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
         } catch (IOException e) {
             return new Result("error", false);
@@ -112,7 +112,7 @@ public class UsersRemoteDataSource {
      */
     public Result resetPassword(String email){
         try{
-            CompletableFuture<Result> result = usersApiService.resetPasswordFuture(email);
+            CompletableFuture<Result> result = usersApiService.resetPassword(email);
             return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
         }
         catch (ExecutionException e) {
@@ -131,7 +131,7 @@ public class UsersRemoteDataSource {
      */
     public Result sendNewPassword(String token, String newPassword) {
         try {
-            CompletableFuture<Result> result = usersApiService.sendNewPasswordFuture(token, newPassword);
+            CompletableFuture<Result> result = usersApiService.postNewPassword(token, newPassword);
             return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
         } catch (JSONException e) {
             return new Result("error", false);

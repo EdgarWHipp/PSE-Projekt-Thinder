@@ -16,6 +16,32 @@ public class User {
     private UUID id;
     @SerializedName("active")
     private boolean active;
+    @SerializedName("uni_id")
+    private UUID universityId;
+    @SerializedName("password")
+    @Expose
+    private final String password;
+    @SerializedName("mail")
+    @Expose
+    private final String mail;
+    @SerializedName("firstName")
+    @Expose
+    private String firstName;
+    @SerializedName("lastName")
+    @Expose
+    private String lastName;
+
+    public User(USERTYPE role, UUID id, boolean active, UUID universityId, String password,
+                String mail, String firstName, String lastName) {
+        this.role = role;
+        this.id = id;
+        this.active = active;
+        this.universityId = universityId;
+        this.password = password;
+        this.mail = mail;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 
     public USERTYPE getRole() {
         return role;
@@ -49,32 +75,6 @@ public class User {
         this.universityId = universityId;
     }
 
-    @SerializedName("uni_id")
-    private UUID universityId;
-    @SerializedName("password")
-    @Expose
-    private final String password;
-    @SerializedName("eMail")
-    @Expose
-    private final String eMail;
-    @SerializedName("firstName")
-    @Expose
-    private String firstName;
-    @SerializedName("lastName")
-    @Expose
-    private String lastName;
-
-    public User(USERTYPE role, UUID id, boolean active, UUID universityId, String password, String eMail, String firstName, String lastName) {
-        this.role = role;
-        this.id = id;
-        this.active = active;
-        this.universityId = universityId;
-        this.password = password;
-        this.eMail = eMail;
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -88,7 +88,7 @@ public class User {
     }
 
     public String getMail() {
-        return eMail;
+        return mail;
     }
 
     public String getFirstName() {

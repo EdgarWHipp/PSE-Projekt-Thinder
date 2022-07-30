@@ -46,6 +46,9 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui:2.4.2'
     implementation 'androidx.cardview:cardview:1.0.0'
 
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+
     // library to display various charts
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
@@ -67,5 +70,7 @@ dependencies {
 
 
 
+    testImplementation 'com.squareup.okhttp3:mockwebserver:4.10.0'
+    implementation'com.squareup.okhttp3:mockwebserver:4.10.0'
 
 }
