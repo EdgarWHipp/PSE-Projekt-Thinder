@@ -1,60 +1,36 @@
 package com.hfad.thinder.data.source.remote;
 
-import android.app.VoiceInteractor;
-
-import androidx.annotation.NonNull;
-
-import com.google.gson.Gson;
-import com.hfad.thinder.R;
-import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Login;
-import com.hfad.thinder.data.model.LoginTuple;
-import com.hfad.thinder.data.model.Student;
-import com.hfad.thinder.data.model.Supervisor;
-import com.hfad.thinder.data.model.Thesis;
-import com.hfad.thinder.data.model.ThesisTuple;
-import com.hfad.thinder.data.model.USERTYPE;
-import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.model.UserCreation;
 import com.hfad.thinder.data.source.remote.okhttp.UsersApiService;
-import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
-import com.hfad.thinder.data.source.result.Tuple;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.SocketTimeoutException;
-import java.util.Set;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import retrofit2.Response;
-
 /**
  * This Class handles all errors that the HTTP requests on the /users/ endpoint creates in addition to all necessary functions needed to verify a user/ a change in password.
  */
 public class UsersRemoteDataSource {
-    private final UsersApiService okHttpService = new UsersApiService();
+    private final UsersApiService usersApiService = new UsersApiService();
+    private final static int TIMEOUT_SECONDS = 5;
+
     /**
      * Handles the error messages of the verifyResponse HTTP request in the UsersApiService class. Also checks if the response is successful.
      *
      * @param token
      * @return Result
      */
-    public Result isVerify(String token) {
+    public Result verify(String token) {
 
         try {
-            CompletableFuture<Result> result = okHttpService.verifyFuture(token);
-            return result.get(10000, TimeUnit.SECONDS);
+            CompletableFuture<Result> result = usersApiService.verifyFuture(token);
+            return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
             //only added for troubleshooting
         } catch (JSONException j) {
             return new Result("error", false);
@@ -78,20 +54,14 @@ public class UsersRemoteDataSource {
      * @return Result
      */
     public Result login(Login login) {
-
-
         try {
-            CompletableFuture<Result> result = okHttpService.usersLoginFuture(login);
-            return result.get(30, TimeUnit.SECONDS);
-        } catch (IOException e) {
-            return new Result(e.toString(), false);
-        } catch (JSONException e) {
-            return new Result(e.toString(), false);
-        } catch (ExecutionException e) {
-            return new Result(e.toString(), false);
-        } catch (TimeoutException e) {
-            return new Result(e.toString(), false);
-        } catch (InterruptedException e) {
+            CompletableFuture<Result> resultRole = usersApiService.getUserRole(login);
+            resultRole.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
+
+            CompletableFuture<Result> resultFuture = usersApiService.usersLoginFuture(login);
+            return resultFuture.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
+        } catch (IOException | JSONException | ExecutionException // TODO error messages
+                | TimeoutException | InterruptedException e) {
             return new Result(e.toString(), false);
         }
     }
@@ -103,11 +73,9 @@ public class UsersRemoteDataSource {
      * @return Result
      */
     public Result createNewUser(UserCreation user) {
-
-
         try {
-            CompletableFuture<Result> result = okHttpService.createNewUserFuture(user);
-            return result.get(10000, TimeUnit.SECONDS);
+            CompletableFuture<Result> result = usersApiService.createNewUserFuture(user);
+            return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
         } catch (JSONException e) {
             return new Result("json", false);
         } catch (ExecutionException e) {
@@ -115,8 +83,6 @@ public class UsersRemoteDataSource {
         } catch (InterruptedException | TimeoutException e) {
             return new Result("inter", false);
         }
-
-
     }
 
     /**
@@ -126,8 +92,8 @@ public class UsersRemoteDataSource {
      */
     public Result deleteUser() {
         try {
-            CompletableFuture<Result> result = okHttpService.deleteUserFuture();
-            return result.get(10000, TimeUnit.SECONDS);
+            CompletableFuture<Result> result = usersApiService.deleteUserFuture();
+            return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
         } catch (IOException e) {
             return new Result("error", false);
         } catch (ExecutionException e) {
@@ -137,13 +103,7 @@ public class UsersRemoteDataSource {
         } catch (TimeoutException e) {
             return new Result("error", false);
         }
-
-
     }
-
-
-
-
 
     /**
      * Handles the error messages for the resetPasswordFuture HTTP request.
@@ -152,8 +112,8 @@ public class UsersRemoteDataSource {
      */
     public Result resetPassword(String email){
         try{
-            CompletableFuture<Result> result = okHttpService.resetPasswordFuture(email);
-            return result.get(10000, TimeUnit.SECONDS);
+            CompletableFuture<Result> result = usersApiService.resetPasswordFuture(email);
+            return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
         }
         catch (ExecutionException e) {
             return new Result("error", false);
@@ -163,6 +123,7 @@ public class UsersRemoteDataSource {
             return new Result("error", false);
         }
     }
+
     /**
      * Handles the error messages for the sendNewPasswordFuture HTTP request.
      * @param token, newPassword
@@ -170,10 +131,8 @@ public class UsersRemoteDataSource {
      */
     public Result sendNewPassword(String token, String newPassword) {
         try {
-            CompletableFuture<Result> result = okHttpService.sendNewPasswordFuture(token, newPassword);
-            return result.get(10000, TimeUnit.SECONDS);
-
-
+            CompletableFuture<Result> result = usersApiService.sendNewPasswordFuture(token, newPassword);
+            return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
         } catch (JSONException e) {
             return new Result("error", false);
         } catch (ExecutionException e) {
@@ -183,8 +142,9 @@ public class UsersRemoteDataSource {
         } catch (TimeoutException e) {
             return new Result("error", false);
         }
-
     }
 
-
+    public UsersApiService getUsersApiService() {
+        return usersApiService;
+    }
 }

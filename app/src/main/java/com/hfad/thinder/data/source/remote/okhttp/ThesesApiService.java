@@ -3,10 +3,7 @@ package com.hfad.thinder.data.source.remote.okhttp;
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
-import com.hfad.thinder.data.model.Student;
-import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
-import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.data.source.result.Tuple;
@@ -27,7 +24,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import retrofit2.http.HTTP;
 
 public class ThesesApiService {
   private static final MediaType JSON
@@ -40,7 +36,7 @@ public class ThesesApiService {
   public Tuple<CompletableFuture<List<Thesis>>, CompletableFuture<Result>> getAllPositivRatedThesesFuture(UUID id) {
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(new AuthInterceptor
-                    (UserRepository.getInstance().getUser().geteMail(),
+                    (UserRepository.getInstance().getUser().getMail(),
                             UserRepository.getInstance().getUser().getPassword()))
             .build();
     CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
@@ -95,7 +91,7 @@ public class ThesesApiService {
   public CompletableFuture<Result> createNewThesisFuture(Thesis thesis) throws JSONException {
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(new AuthInterceptor
-                    (UserRepository.getInstance().getUser().geteMail(),
+                    (UserRepository.getInstance().getUser().getMail(),
                             UserRepository.getInstance().getUser().getPassword()))
             .build();
     CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
@@ -150,7 +146,7 @@ public class ThesesApiService {
   public Tuple<CompletableFuture<Thesis>,CompletableFuture<Result>>  getSpecificThesisFuture(UUID thesisId){
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(new AuthInterceptor
-                    (UserRepository.getInstance().getUser().geteMail(),
+                    (UserRepository.getInstance().getUser().getMail(),
                             UserRepository.getInstance().getUser().getPassword()))
             .build();
     CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
@@ -197,7 +193,7 @@ public class ThesesApiService {
   public CompletableFuture<Result> deleteThesisFuture(final UUID thesisId){
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(new AuthInterceptor
-                    (UserRepository.getInstance().getUser().geteMail(),
+                    (UserRepository.getInstance().getUser().getMail(),
                             UserRepository.getInstance().getUser().getPassword()))
             .build();
     CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();

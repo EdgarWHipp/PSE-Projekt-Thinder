@@ -16,7 +16,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 import okhttp3.Call;
@@ -27,56 +26,33 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import retrofit2.http.HTTP;
 
 public class UsersApiService {
-    private static final MediaType JSON
-            = MediaType.parse("application/json; charset=utf-8");
-    private static final OkHttpClient client = new OkHttpClient();
+    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private static final OkHttpClient CLIENT = new OkHttpClient();
 
-    private Result setUserValues(String body) throws IOException, JSONException {
-        UserRepository repository = UserRepository.getInstance();
-        Gson gson = new Gson();
-        User user;
-        Student student=null;
-        Supervisor supervisor = null;
-        user = gson.fromJson(body, User.class);
-
-        switch(repository.getType().toString()){
-            case "STUDENT":
-                student = gson.fromJson(body, Student.class);
-                repository.setUser(student);
-                break;
-            case "SUPERVISOR":
-                supervisor = gson.fromJson(body, Supervisor.class);
-                repository.setUser(supervisor);
-                break;
-            default:
-                return new Result("type not correctly specified",false);
-        }
-        return new Result(true);
-
-
-    }
+    private String scheme = "http";
+    private String host = "10.0.2.2";
+    private int port = 8080;
 
     /**
      * This function creates a HTTP GET request with http basic authentication(email & password)
      * to set the USERTYPE of the user loggin in for the UserRepository.getInstance().getType() function.
      * Checks if the asynchronous call return fails or responds.
-     * @param password
-     * @param eMail
+     *
+     * @param login
      * @return CompletableFuture<Result>
      */
-    private CompletableFuture<Result> getUserRole(String eMail, String password){
+    public CompletableFuture<Result> getUserRole(Login login){
         OkHttpClient clientAuth = new OkHttpClient.Builder()
-                .addInterceptor(new AuthInterceptor(eMail, password))
+                .addInterceptor(new AuthInterceptor(login.mail, login.getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 
         HttpUrl url = new HttpUrl.Builder()
-                .scheme("http")
-                .host("10.0.2.2")
-                .port(8080)
+                .scheme(scheme)
+                .host(host)
+                .port(port)
                 .addPathSegment("users")
                 .addPathSegment("current")
                 .addPathSegment("getRole")
@@ -108,9 +84,9 @@ public class UsersApiService {
                             case "STUDENT":
                                 UserRepository.getInstance().setType(USERTYPE.STUDENT);
                                 resultCompletableFuture.complete(new Result(true));
+                                break;
                             default:
-                               resultCompletableFuture.complete(new Result("type not correctly specified",false));
-
+                                resultCompletableFuture.complete(new Result("type not correctly specified",false));
                                 break;
                         }
                     }else {
@@ -129,17 +105,16 @@ public class UsersApiService {
      * @throws IOException
      */
     public CompletableFuture<Result> usersLoginFuture(Login login) throws JSONException, IOException {
-        CompletableFuture<Result> result=getUserRole(login.eMail, login.password);
         OkHttpClient clientAuth = new OkHttpClient.Builder()
-                .addInterceptor(new AuthInterceptor(login.geteMail(), login.getPassword()))
+                .addInterceptor(new AuthInterceptor(login.getMail(), login.getPassword()))
                 .build();
 
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 
         HttpUrl url = new HttpUrl.Builder()
-                .scheme("http")
-                .host("10.0.2.2")
-                .port(8080)
+                .scheme(scheme)
+                .host(host)
+                .port(port)
                 .addPathSegment("users")
                 .addPathSegment("current")
                 .build();
@@ -160,7 +135,6 @@ public class UsersApiService {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if(response.isSuccessful()){
                     try {
-
                         Result valueSettingResult = setUserValues(response.body().string());
                         resultCompletableFuture.complete(new Result(valueSettingResult.getErrorMessage(),true));
                     } catch (JSONException e) {
@@ -193,9 +167,9 @@ public class UsersApiService {
 
 
         HttpUrl url = new HttpUrl.Builder()
-                .scheme("http")
-                .host("10.0.2.2")
-                .port(8080)
+                .scheme(scheme)
+                .host(host)
+                .port(port)
                 .addPathSegment("users")
                 .addPathSegment("verify")
                 .addQueryParameter("token",token)
@@ -206,7 +180,7 @@ public class UsersApiService {
                 .get()
                 .build();
 
-        Call call = client.newCall(request);
+        Call call = CLIENT.newCall(request);
 
         call.enqueue(new Callback() {
             @Override
@@ -252,9 +226,9 @@ public class UsersApiService {
         RequestBody body = RequestBody.create(userJson.toString(), JSON);
 
         HttpUrl url = new HttpUrl.Builder()
-                .scheme("http")
-                .host("10.0.2.2")
-                .port(8080)
+                .scheme(scheme)
+                .host(host)
+                .port(port)
                 .addPathSegment("users")
                 .build();
         Request request = new Request.Builder()
@@ -262,7 +236,7 @@ public class UsersApiService {
                 .post(body)
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
-        Call call = client.newCall(request);
+        Call call = CLIENT.newCall(request);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -275,11 +249,6 @@ public class UsersApiService {
                 if (response.isSuccessful()) {
                         //setUserRole(user.getPassword(),user.getEmail());
                         resultCompletableFuture.complete(new Result(true));
-
-
-
-
-
                 } else {
 
                     resultCompletableFuture.complete(new Result("not successful", false));
@@ -306,16 +275,16 @@ public class UsersApiService {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<Result>();
 
         HttpUrl url = new HttpUrl.Builder()
-                .scheme("http")
-                .host("10.0.2.2")
-                .port(8080)
+                .scheme(scheme)
+                .host(host)
+                .port(port)
                 .addPathSegment("users")
                 .addPathSegment(UserRepository.getInstance().getCurrentUUID().toString()).build();
         Request request= new Request.Builder()
                 .url(url)
                 .delete()
                 .build();
-        Call call = client.newCall(request);
+        Call call = CLIENT.newCall(request);
 
         call.enqueue(new Callback() {
             @Override
@@ -351,9 +320,9 @@ public class UsersApiService {
 
 
         HttpUrl url = new HttpUrl.Builder()
-                .scheme("http")
-                .host("10.0.2.2")
-                .port(8080)
+                .scheme(scheme)
+                .host(host)
+                .port(port)
                 .addPathSegment("resetPassword")
                 .addQueryParameter("mail",email)
                 .build();
@@ -362,7 +331,7 @@ public class UsersApiService {
                 .get()
                 .build();
 
-        Call call = client.newCall(request);
+        Call call = CLIENT.newCall(request);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -395,9 +364,9 @@ public class UsersApiService {
 
         RequestBody body = RequestBody.create(passwordJSON.toString(), JSON);
         HttpUrl url = new HttpUrl.Builder()
-                .scheme("http")
-                .host("10.0.2.2")
-                .port(8080)
+                .scheme(scheme)
+                .host(host)
+                .port(port)
                 .addPathSegment("resetPassword")
                 .addQueryParameter("token",token)
                 .build();
@@ -406,7 +375,7 @@ public class UsersApiService {
                 .url(url)
                 .post(body)
                 .build();
-        Call call = client.newCall(request);
+        Call call = CLIENT.newCall(request);
 
         call.enqueue(new Callback() {
             @Override
@@ -424,14 +393,41 @@ public class UsersApiService {
             }
         });
         return resultCompletableFuture;
+    }
 
+    private Result setUserValues(String body) throws JSONException {
+        Gson gson = new Gson();
+        UserRepository userRepository = UserRepository.getInstance();
+
+        switch(userRepository.getType().toString()){
+            case "STUDENT":
+                Student student;
+                student = gson.fromJson(body, Student.class);
+                userRepository.setUser(student);
+                break;
+            case "SUPERVISOR":
+                Supervisor supervisor;
+                supervisor = gson.fromJson(body, Supervisor.class);
+                userRepository.setUser(supervisor);
+                break;
+            default:
+                return new Result("User Role not specified.",false);
+        }
+        return new Result(true);
     }
 
 
-
-
-
-
+    public void setScheme(String scheme) {
+        this.scheme = scheme;
     }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+}
 
 

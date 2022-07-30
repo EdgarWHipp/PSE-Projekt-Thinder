@@ -1,6 +1,18 @@
 package com.hfad.thinder.data.model;
 
 public class UserCreation {
+  private String firstName;
+  private String lastName;
+  private String email;
+  private String password;
+
+  public UserCreation(String firstName, String lastName, String email, String password) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.password = password;
+  }
+
   public String getFirstName() {
     return firstName;
   }
@@ -11,13 +23,6 @@ public class UserCreation {
 
   public String getLastName() {
     return lastName;
-  }
-
-  public UserCreation(String firstName, String lastName, String email, String password) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.email = email;
-    this.password = password;
   }
 
   public void setLastName(String lastName) {
@@ -40,8 +45,5 @@ public class UserCreation {
     this.password = password;
   }
 
-  private String firstName;
-  private String lastName;
-  private String email;
-  private String password;
+
 }

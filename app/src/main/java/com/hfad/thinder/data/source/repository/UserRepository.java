@@ -3,8 +3,6 @@ package com.hfad.thinder.data.source.repository;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Login;
 import com.hfad.thinder.data.model.Thesis;
-import com.hfad.thinder.data.model.ThesisRating;
-import com.hfad.thinder.data.model.ThesisTuple;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.model.UserCreation;
@@ -33,43 +31,9 @@ public final class UserRepository {
     private final StudentRemoteDataSource studentRemoteDataSource =  new StudentRemoteDataSource();
     private final SupervisorRemoteDataSource supervisorRemoteDataSource = new SupervisorRemoteDataSource();
     private final ThesisRemoteDataSource thesisRemoteDataSource = new ThesisRemoteDataSource();
-    private UUID currentId=null;
-    private USERTYPE type=null;
-    private User user=null;
-
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Tuple<Thesis,Result> getUserThesis(UUID thesisId) {
-        return thesisRemoteDataSource.getNewThesis(thesisId);
-
-    }
-    // Relevant for the ViewModel
-    public User getUser() {
-        return user;
-    }
-
-    public UUID getCurrentId() {
-        return currentId;
-    }
-
-    public USERTYPE getType() {
-        return type;
-    }
-
-    public void setType(USERTYPE type) {
-        this.type = type;
-    }
-
-    public UUID getCurrentUUID() {
-        return currentId;
-    }
-
-    public void setCurrentUUID(UUID currentId) {
-        this.currentId = currentId;
-    }
+    private UUID currentId = null;
+    private USERTYPE type = null;
+    private User user = null;
 
     private UserRepository() {
     }
@@ -87,15 +51,19 @@ public final class UserRepository {
         return INSTANCE;
     }
 
+    public Tuple<Thesis,Result> getUserThesis(UUID thesisId) {
+        return thesisRemoteDataSource.getNewThesis(thesisId);
+
+    }
+
     /**
      * handles the login -> sends the password and the mail and checks if such a user is already registrated.
      *
      * @return the id of the user
      */
 
-    public Result login(String password, String eMail) {
-        return usersDataSource.login(new Login(password, eMail));
-
+    public Result login(String password, String mail) {
+        return usersDataSource.login(new Login(password, mail));
     }
 
     /**
@@ -104,21 +72,23 @@ public final class UserRepository {
      * @param token
      * @return The result class with error message null and success value true or, when the call is unsuccessful, a full error message and a success value of false.
      */
-    public Result verifyToken(String token) {
+    public Result verifyUser(String token) {
 
-        return usersDataSource.isVerify(token);
+        return usersDataSource.verify(token);
     }
 
 
     /**
      * Adds the given user to the private local users list.
      *
-     * @param firstName,secondName,university,password,eMail
-     * @return true if the call succeeds and false otherwise.
+     * @param firstName
+     * @param secondName
+     * @param password
+     * @param mail
+     * @return
      */
-
-    public Result registrate(String firstName, String secondName, String password, String eMail)  {
-        return usersDataSource.createNewUser(new UserCreation(firstName, secondName, eMail, password));
+    public Result register(String firstName, String secondName, String password, String mail)  {
+        return usersDataSource.createNewUser(new UserCreation(firstName, secondName, mail, password));
 
     }
 
@@ -140,7 +110,7 @@ public final class UserRepository {
      * @param degrees
      * @return Result
      */
-    public Result editProfilStudent(Set<Degree> degrees, String firstName, String lastName) {
+    public Result editProfileStudent(Set<Degree> degrees, String firstName, String lastName) {
         return studentRemoteDataSource.extendUserToStudent(degrees,firstName,lastName);
     }
 
@@ -176,4 +146,31 @@ public final class UserRepository {
         return usersDataSource.sendNewPassword(token, newPassword);
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public UUID getCurrentUUID() {
+        return currentId;
+    }
+
+    public void setCurrentUUID(UUID currentId) {
+        this.currentId = currentId;
+    }
+
+    public USERTYPE getType() {
+        return type;
+    }
+
+    public void setType(USERTYPE type) {
+        this.type = type;
+    }
+
+    public UsersRemoteDataSource getDatasource() {
+        return usersDataSource;
+    }
 }

@@ -2,7 +2,7 @@ package com.hfad.thinder.data.model;
 
 public class Login {
   public String password;
-  public String eMail;
+  public String mail;
 
   public String getPassword() {
     return password;
@@ -12,16 +12,16 @@ public class Login {
     this.password = password;
   }
 
-  public String geteMail() {
-    return eMail;
+  public String getMail() {
+    return mail;
   }
 
-  public void seteMail(String eMail) {
-    this.eMail = eMail;
+  public void setMail(String mail) {
+    this.mail = mail;
   }
 
-  public Login(String password, String eMail) {
+  public Login(String password, String mail) {
     this.password = password;
-    this.eMail = eMail;
+    this.mail = mail;
   }
 }

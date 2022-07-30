@@ -45,7 +45,7 @@ public class SupervisorApiService {
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(
                     new AuthInterceptor(UserRepository.getInstance().
-                            getUser().geteMail(), UserRepository.getInstance().
+                            getUser().getMail(), UserRepository.getInstance().
                             getUser().getPassword()))
             .build();
     JSONObject supervisorJson = new JSONObject()
@@ -100,7 +100,7 @@ public class SupervisorApiService {
   public CompletableFuture<Result> editThesisFuture(final UUID thesisId, Thesis thesis) throws JSONException {
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(new AuthInterceptor
-                    (UserRepository.getInstance().getUser().geteMail(),
+                    (UserRepository.getInstance().getUser().getMail(),
                             UserRepository.getInstance().getUser().getPassword()))
             .build();
     CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();

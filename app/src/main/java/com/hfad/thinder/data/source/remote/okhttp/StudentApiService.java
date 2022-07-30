@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.hfad.thinder.R;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.repository.UserRepository;
@@ -15,7 +14,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -47,7 +45,7 @@ public class StudentApiService {
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(
                     new AuthInterceptor(UserRepository.getInstance().
-                            getUser().geteMail(), UserRepository.getInstance().
+                            getUser().getMail(), UserRepository.getInstance().
                             getUser().getPassword()))
             .build();
     JSONObject studentJson = new JSONObject()
@@ -95,7 +93,7 @@ public class StudentApiService {
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(
                     new AuthInterceptor(UserRepository.getInstance().
-                            getUser().geteMail(), UserRepository.getInstance().
+                            getUser().getMail(), UserRepository.getInstance().
                             getUser().getPassword()))
             .build();
     HttpUrl url = new HttpUrl.Builder()
@@ -140,7 +138,7 @@ public class StudentApiService {
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(
                     new AuthInterceptor(UserRepository.getInstance().
-                            getUser().geteMail(), UserRepository.getInstance().
+                            getUser().getMail(), UserRepository.getInstance().
                             getUser().getPassword()))
             .build();
     JSONObject booleanJSON = new JSONObject().put("rating",rating);
@@ -190,7 +188,7 @@ public class StudentApiService {
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(
                     new AuthInterceptor(UserRepository.getInstance().
-                            getUser().geteMail(), UserRepository.getInstance().
+                            getUser().getMail(), UserRepository.getInstance().
                             getUser().getPassword()))
                             .build();
 

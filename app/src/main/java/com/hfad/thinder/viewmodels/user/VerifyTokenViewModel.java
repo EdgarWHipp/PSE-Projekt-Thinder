@@ -19,14 +19,14 @@ public class VerifyTokenViewModel extends ViewModel {
 
   public void VerifyToken() {
 
-    Result result = userRepository.verifyToken(token.getValue());
+    Result result = userRepository.verifyUser(token.getValue());
     if (!result.getSuccess()) {
       verifyTokenResult.setValue(new ViewModelResult("Verifizierung fehlgeschlagen",
               null));//Todo: hier kommt error aus model
 
     }
     state.setValue(VerifyTokenStates.LOADING);
-    Result loginResult = userRepository.login(userRepository.getUser().getPassword(), userRepository.getUser().geteMail());
+    Result loginResult = userRepository.login(userRepository.getUser().getPassword(), userRepository.getUser().getMail());
     if (!result.getSuccess()) {
       verifyTokenResult.setValue(new ViewModelResult("Verifizierung fehlgeschlagen",
               null));//Todo: hier kommt error aus model

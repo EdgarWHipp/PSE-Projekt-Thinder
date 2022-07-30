@@ -87,11 +87,9 @@ public class User {
         return password;
     }
 
-    public String geteMail() {
+    public String getMail() {
         return eMail;
     }
-
-
 
     public String getFirstName() {
         return firstName;

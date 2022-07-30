@@ -32,7 +32,7 @@ public class RegistrationViewModel extends ViewModel {
   // This function is called when the user presses the register button
   public void register() {
     Result result =
-        userRepository.registrate(firstName.getValue(), lastName.getValue(), password.getValue(),
+        userRepository.register(firstName.getValue(), lastName.getValue(), password.getValue(),
             email.getValue());
     if (!result.getSuccess()) {
       registrationResult.setValue(new ViewModelResult(result.getErrorMessage(),
