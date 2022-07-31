@@ -4,12 +4,12 @@ import android.media.Image;
 
 public class ThesisCardItem {
 
-    private int id;
+    private String id;
     private String title;
     private String description;
     private Image image;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -25,7 +25,7 @@ public class ThesisCardItem {
         return image;
     }
 
-    public ThesisCardItem(int id, String title, String description, Image image) {
+    public ThesisCardItem(String id, String title, String description, Image image) {
         this.id = id;
         this.title = title;
         this.description = description;

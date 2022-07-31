@@ -33,7 +33,7 @@ public class ThesisManagerViewModel extends ViewModel {
     ArrayList<ThesisCardItem> newThesisList = new ArrayList<>();
     if (thesisList != null) {
       for (com.hfad.thinder.data.model.Thesis thesis : thesisList) {
-        newThesisList.add(new ThesisCardItem(thesis.getId(), thesis.getName(), thesis.getBody(), thesis.getImages().iterator().next()));
+        newThesisList.add(new ThesisCardItem(thesis.getId(), thesis.getName(), thesis.getTask(), thesis.getImages().iterator().next()));
       }
     }
     thesisCardItems.setValue(newThesisList);
