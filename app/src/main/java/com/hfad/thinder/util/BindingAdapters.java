@@ -1,5 +1,6 @@
 package com.hfad.thinder.util;
 
+import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -72,5 +73,10 @@ public class BindingAdapters {
         text = R.string.verification_successful;
     }
     textView.setText(text);
+  }
+
+  @BindingAdapter("imageBitmap")
+  public static void loadImage(ImageView iv, Bitmap bitmap) {
+    iv.setImageBitmap(bitmap);
   }
 }
