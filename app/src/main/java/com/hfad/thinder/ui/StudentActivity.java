@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -18,11 +20,15 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.ActivityStudentBinding;
+import com.hfad.thinder.viewmodels.student.StudentViewModel;
+import com.hfad.thinder.viewmodels.supervisor.SupervisorViewModel;
 
 public class StudentActivity extends AppCompatActivity {
 
     private ActivityStudentBinding mBinding;
     private Toolbar myChildToolbar;
+
+    private StudentViewModel viewmodel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +59,26 @@ public class StudentActivity extends AppCompatActivity {
                 }
             }
         });
+
+        viewmodel = new ViewModelProvider(this).get(StudentViewModel.class);
+
+        final Observer<Boolean> profileCreatedObserver = new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean profileCreated) {
+
+                if(profileCreated){
+                    bottomNavigationView.getMenu().findItem(R.id.likedThesesFragment).setEnabled(true);
+                    bottomNavigationView.getMenu().findItem(R.id.swipeScreenFragment).setEnabled(true);
+                    bottomNavigationView.setSelectedItemId(R.id.likedThesesFragment);
+                }else {
+                    bottomNavigationView.getMenu().findItem(R.id.likedThesesFragment).setEnabled(false);
+                    bottomNavigationView.getMenu().findItem(R.id.swipeScreenFragment).setEnabled(false);
+                }
+
+            }
+        };
+
+        viewmodel.getProfileComplete().observe(this, profileCreatedObserver);
     }
 
 

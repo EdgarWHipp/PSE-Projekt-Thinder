@@ -23,7 +23,7 @@ public class ThesisManagerViewModel extends ViewModel {
   public MutableLiveData<ArrayList<ThesisCardItem>> getThesisCardItems() {
     if (thesisCardItems == null) {
       thesisCardItems = new MutableLiveData<>();
-      loadThesisManagerItems();
+      //loadThesisManagerItems();
     }
     return thesisCardItems;
   }
