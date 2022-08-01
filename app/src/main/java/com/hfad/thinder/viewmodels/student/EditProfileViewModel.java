@@ -2,40 +2,54 @@ package com.hfad.thinder.viewmodels.student;
 
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+import com.hfad.thinder.R;
+import com.hfad.thinder.data.model.Degree;
+import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.repository.UserRepository;
+import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.viewmodels.ViewModelResult;
-
-import java.util.ArrayList;
+import com.hfad.thinder.viewmodels.ViewModelResultTypes;
+import java.util.HashSet;
+import java.util.Set;
 
 ;
 
-public class EditProfileViewModel {
-  private final UserRepository editProfileRepository = UserRepository.getInstance();
+public class EditProfileViewModel extends ViewModel {
+  private final UserRepository userRepository = UserRepository.getInstance();
+  private User user;
+  private Set<Degree> degrees;//Todo: eventuell updaten
   private MutableLiveData<EditProfileFormState> formState;
   private MutableLiveData<ViewModelResult> safeResult;
   private MutableLiveData<ViewModelResult> deleteResult;
   private MutableLiveData<String> firstName;
   private MutableLiveData<String> lastName;
-
-  private MutableLiveData<ArrayList<String>> diplomas;
-  private MutableLiveData<Integer> selectedDiplomaPosition1;
-  private MutableLiveData<Integer> selectedDiplomaPosition2;
-
-  private MutableLiveData<ArrayList<String>> degrees;
-  private MutableLiveData<Integer> selectedDegreePosition1;
-  private MutableLiveData<Integer> selectedDegreePosition2;
+  private MutableLiveData<String> coursesOfStudy;
 
 
   public void safe() {
-    //Todo: implement
+    Result result =
+        userRepository.editProfileStudent(degrees, firstName.getValue(), lastName.getValue());
+    if (result.getSuccess()) {
+      safeResult.setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
+    } else {
+      safeResult.setValue(
+          new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
+    }
   }
 
   public void delete() {
-    //Todo: implement
+    Result result = userRepository.delete();
+    if (result.getSuccess()) {
+      safeResult.setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
+    } else {
+      safeResult.setValue(new ViewModelResult(null, ViewModelResultTypes.ERROR));
+    }
   }
 
   public void profileDataChanged() {
-    //Todo: implement
+    formState.setValue(
+        new EditProfileFormState(checkFirstName(), checkLastName(), checkCoursesOfStudy()));
   }
 
 
@@ -87,83 +101,62 @@ public class EditProfileViewModel {
     this.lastName = lastName;
   }
 
-  public MutableLiveData<ArrayList<String>> getDiplomas() {
-    if (diplomas == null) {
-      diplomas = new MutableLiveData<>();
-      loadDiplomas();
+  public MutableLiveData<String> getCoursesOfStudy() {
+    if (coursesOfStudy == null) {
+      loadCoursesOfStudy();
     }
-    return diplomas;
-  }
 
-  public MutableLiveData<Integer> getSelectedDiplomaPosition1() {
-    if (selectedDiplomaPosition1 == null) {
-      selectedDiplomaPosition1 = new MutableLiveData<>();
-    }
-    return selectedDiplomaPosition1;
-  }
-
-  public void setSelectedDiplomaPosition1(MutableLiveData<Integer> selectedDiplomaPosition1) {
-    this.selectedDiplomaPosition1 = selectedDiplomaPosition1;
-  }
-
-  public MutableLiveData<Integer> getSelectedDiplomaPosition2() {
-    if (selectedDiplomaPosition2 == null) {
-      selectedDiplomaPosition2 = new MutableLiveData<>();
-    }
-    return selectedDiplomaPosition2;
-  }
-
-  public void setSelectedDiplomaPosition2(MutableLiveData<Integer> selectedDiplomaPosition2) {
-    this.selectedDiplomaPosition2 = selectedDiplomaPosition2;
-  }
-
-  public MutableLiveData<ArrayList<String>> getDegrees() {
-    if (degrees == null) {
-      degrees = new MutableLiveData<>();
-      loadDegrees();
-    }
-    return degrees;
-  }
-
-  public MutableLiveData<Integer> getSelectedDegreePosition1() {
-    if (selectedDegreePosition1 == null) {
-      selectedDegreePosition1 = new MutableLiveData<>();
-    }
-    return selectedDegreePosition1;
-  }
-
-  public void setSelectedDegreePosition1(MutableLiveData<Integer> selectedDegreePosition1) {
-    this.selectedDegreePosition1 = selectedDegreePosition1;
-  }
-
-  public MutableLiveData<Integer> getSelectedDegreePosition2() {
-    if (selectedDegreePosition2 == null) {
-      selectedDegreePosition2 = new MutableLiveData<>();
-    }
-    return selectedDegreePosition2;
-  }
-
-  public void setSelectedDegreePosition2(MutableLiveData<Integer> selectedDegreePosition2) {
-    this.selectedDegreePosition2 = selectedDegreePosition2;
+    return coursesOfStudy;
   }
 
 
   //-------------------private methods-------------------------
-  private void loadDegrees() {
-    //Todo: lade Studiengänge aus dem Repository
-  }
 
-  private void loadDiplomas() {
-    //Todo: lade Abschlüsse aus dem Repository
+
+  private void loadCoursesOfStudy() {
+    if (user == null) {
+      user = userRepository.getUser();
+    }
+    if (degrees == null) {
+      degrees = new HashSet<>(); //Todo: hole seine Degrees aus Model
+    }
+    coursesOfStudy =
+        new MutableLiveData<>("Informatik, Mathematik");//Todo: CoursesOfStudy vom Model
   }
 
   private void loadFirstName() {
-    //Todo: lade Ersten Namen aus dem Repository
+    if (user == null) {
+      user = userRepository.getUser();
+    }
+    firstName = new MutableLiveData<>(user.getFirstName());
   }
 
   private void loadLastName() {
-    //Todo: lade Nachnamen aud dem Repository
+    if (user == null) {
+      user = userRepository.getUser();
+    }
+    lastName = new MutableLiveData<>(user.getLastName());
   }
 
+  private Integer checkLastName() {
+    if (lastName.getValue() == null || lastName.getValue().equals("")) {
+      return R.string.no_first_name_error;
+    }
+    return null;
+  }
+
+  private Integer checkFirstName() {
+    if (lastName.getValue() == null || lastName.getValue().equals("")) {
+      return R.string.no_last_name_error;
+    }
+    return null;
+  }
+
+  private Integer checkCoursesOfStudy() {
+    if (coursesOfStudy.getValue() == null || coursesOfStudy.getValue().equals("")) {
+      return R.string.no_courses_of_study_error_message;
+    }
+    return null;
+  }
 
 }
