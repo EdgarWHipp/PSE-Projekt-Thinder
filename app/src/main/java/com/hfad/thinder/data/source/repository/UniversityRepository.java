@@ -11,27 +11,5 @@ import java.util.Set;
 
 public final class UniversityRepository {
   private static UniversityRepository INSTANCE;
-  private UniversityRemoteDataSource universityRemoteDataSource =new UniversityRemoteDataSource();
 
-  private UniversityRepository() {
-
-  }
-
-  /**
-   * @return current instance of UniversityRepository singleton class.
-   */
-  public static UniversityRepository getInstance() {
-    if (INSTANCE == null) {
-      INSTANCE = new UniversityRepository();
-    }
-    return INSTANCE;
-  }
-
-  public Result addUniversity(String name, String studentMailRegex, String supervisorMailRegex){
-     return universityRemoteDataSource.createUniversity(new University(name,studentMailRegex,supervisorMailRegex));
-
-  }
-  public ArrayList<University> getAllUniversities(){
-    return universityRemoteDataSource.getUnis();
-  }
 }

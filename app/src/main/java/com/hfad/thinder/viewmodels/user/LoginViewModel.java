@@ -1,6 +1,8 @@
 package com.hfad.thinder.viewmodels.user;
 
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.data.model.USERTYPE;
@@ -21,18 +23,27 @@ public class LoginViewModel extends ViewModel {
 
   //Ruft die Login Funktion im Repository auf und aktualisiert den Zustand der Anmeldung
   public void login() {
+
     Result restult;
     restult = userRepository.login(password.getValue(), email.getValue());
+    if(restult.getSuccess()){
+      loginResult.setValue(new ViewModelResult(restult.getErrorMessage(), ViewModelResultTypes.SUCCESSFUL));
+    }
+
     if (!restult.getSuccess()) {
       loginResult.setValue(new ViewModelResult(restult.getErrorMessage(), null));
     } else if (userRepository.getType() == USERTYPE.STUDENT) {
       loginResult.setValue(new ViewModelResult(restult.getErrorMessage(), ViewModelResultTypes.STUDENT));
-    } else if (userRepository.getType() == USERTYPE.SUPERVISOR) {
+    } else if (userRepository.getType() ==USERTYPE.SUPERVISOR) {
+
       loginResult.setValue(new ViewModelResult(restult.getErrorMessage(), ViewModelResultTypes.SUPERVISOR));
     } else {
-      loginResult.setValue(new ViewModelResult(restult.getErrorMessage(), null));
+
+      loginResult.setValue(new ViewModelResult(restult.getErrorMessage(), ViewModelResultTypes.ERROR));
     }
     //Todo: es fehlt noch ein Unverified
+
+
   }
 
   public void loginDataChanged() {

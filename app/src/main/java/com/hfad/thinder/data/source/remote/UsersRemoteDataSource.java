@@ -1,8 +1,11 @@
 package com.hfad.thinder.data.source.remote;
 
+import android.util.Log;
+
 import com.hfad.thinder.data.model.Login;
 import com.hfad.thinder.data.model.UserCreation;
 import com.hfad.thinder.data.source.remote.okhttp.UsersApiService;
+import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 
 import org.json.JSONException;
@@ -18,7 +21,7 @@ import java.util.concurrent.TimeoutException;
  */
 public class UsersRemoteDataSource {
     private final UsersApiService usersApiService = new UsersApiService();
-    private final static int TIMEOUT_SECONDS = 5;
+    private final static int TIMEOUT_SECONDS = 10000;
 
     /**
      * Handles the error messages of the verifyResponse HTTP request in the UsersApiService class. Also checks if the response is successful.
@@ -44,6 +47,23 @@ public class UsersRemoteDataSource {
             return new Result("error", false);
         }
 
+
+    }
+
+    public Result getUserRole(){
+        try{
+            Log.e("",UserRepository.getInstance().getUser().getMail() + " " + UserRepository.getInstance().getUser().getPassword());
+        CompletableFuture<Result> resultCompletableFuture =
+                usersApiService.getUserRole(new Login(UserRepository.getInstance().getUser().getMail(),UserRepository.getInstance().getUser().getPassword()));
+        return resultCompletableFuture.get(TIMEOUT_SECONDS,TimeUnit.SECONDS);
+
+        } catch (ExecutionException e) {
+            return new Result("error", false);
+        } catch (InterruptedException ie) {
+            return new Result("error", false);
+        } catch (TimeoutException t) {
+            return new Result("error", false);
+        }
 
     }
 

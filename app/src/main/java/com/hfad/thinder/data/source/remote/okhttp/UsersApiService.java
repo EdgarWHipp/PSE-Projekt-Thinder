@@ -1,5 +1,7 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
@@ -17,6 +19,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -44,8 +49,9 @@ public class UsersApiService {
      * @return CompletableFuture<Result>
      */
     public CompletableFuture<Result> getUserRole(Login login){
+        Log.e("", login.getMail()+login.getPassword());
         OkHttpClient clientAuth = new OkHttpClient.Builder()
-                .addInterceptor(new AuthInterceptor(login.mail, login.getPassword()))
+                .addInterceptor(new AuthInterceptor(login.getMail(), login.getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 
@@ -79,7 +85,9 @@ public class UsersApiService {
                         switch(userType) {
                             case "SUPERVISOR":
                                 UserRepository.getInstance().setType(USERTYPE.SUPERVISOR);
+                                Log.e("","WORKED");
                                 resultCompletableFuture.complete(new Result(true));
+                                Log.e("","resutl is true)");
                                 break;
                             case "STUDENT":
                                 UserRepository.getInstance().setType(USERTYPE.STUDENT);
@@ -90,7 +98,7 @@ public class UsersApiService {
                                 break;
                         }
                     }else {
-                        resultCompletableFuture.complete(new Result(response.message().toString(),false));
+                        resultCompletableFuture.complete(new Result("not successful",false));
                     }
             }
         });
@@ -162,8 +170,9 @@ public class UsersApiService {
      * @throws JSONException
      * @throws IOException
      */
-    public CompletableFuture<Result> verifyUser(String token) throws JSONException, IOException {
+    public CompletableFuture<Result> verifyUser(String token) throws JSONException, IOException, ExecutionException, InterruptedException, TimeoutException {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
+        CompletableFuture<Result> getUserRoleResult= getUserRole(new Login(UserRepository.getInstance().getUser().getMail(),UserRepository.getInstance().getUser().getPassword()));
 
 
         HttpUrl url = new HttpUrl.Builder()
@@ -198,7 +207,7 @@ public class UsersApiService {
                 }
             }
         });
-        return resultCompletableFuture;
+        return getUserRoleResult;
     }
 
     /**

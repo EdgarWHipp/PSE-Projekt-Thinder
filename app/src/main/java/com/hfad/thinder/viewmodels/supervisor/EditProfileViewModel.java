@@ -1,5 +1,7 @@
 package com.hfad.thinder.viewmodels.supervisor;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -42,6 +44,7 @@ public class EditProfileViewModel extends ViewModel {
         Result result =
                 userRepository.editProfilSupervisor(degree, officeNumber, buildingString, institute, phoneNumber, firstName,
                         lastName);
+        Log.e("",result.getErrorMessage());
         if (result.getSuccess()) {
             safeResult.setValue(new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.SUCCESSFUL));
         } else {

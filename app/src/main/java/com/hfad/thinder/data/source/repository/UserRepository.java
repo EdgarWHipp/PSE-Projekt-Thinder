@@ -76,7 +76,9 @@ public final class UserRepository {
 
         return usersDataSource.verify(token);
     }
-
+    public Result getUserRole(){
+        return usersDataSource.getUserRole();
+    }
 
     /**
      * Adds the given user to the private local users list.
@@ -123,7 +125,7 @@ public final class UserRepository {
      * @return Result
      */
     public Result editProfilSupervisor(String degree, String officeNumber, String building, String institute, String phoneNumber,String firstName,String lastName) {
-        return supervisorRemoteDataSource.extendUserToSupervisor(UserRepository.getInstance().getCurrentUUID(),degree,officeNumber,building, institute, phoneNumber,firstName,lastName);
+        return supervisorRemoteDataSource.extendUserToSupervisor(degree,officeNumber,building, institute, phoneNumber,firstName,lastName);
     }
 
     /**

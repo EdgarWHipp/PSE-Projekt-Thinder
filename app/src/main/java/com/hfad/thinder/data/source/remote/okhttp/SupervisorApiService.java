@@ -1,7 +1,10 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
+import com.hfad.thinder.data.model.Login;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
@@ -39,8 +42,12 @@ public class SupervisorApiService {
    * @throws JSONException
    * @throws IOException
    */
-  public CompletableFuture<Result> editSupervisorProfileFuture(UUID id, String degree, String officeNumber,String building, String institute, String phoneNumber, String firstName, String lastName)
+  public CompletableFuture<Result> editSupervisorProfileFuture(String degree, String officeNumber,String building, String institute, String phoneNumber, String firstName, String lastName)
           throws JSONException, IOException {
+    Log.i("", UserRepository.getInstance().
+            getUser().getMail());
+    Log.i("", UserRepository.getInstance().
+            getUser().getPassword());
     CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(
@@ -48,6 +55,7 @@ public class SupervisorApiService {
                             getUser().getMail(), UserRepository.getInstance().
                             getUser().getPassword()))
             .build();
+
     JSONObject supervisorJson = new JSONObject()
             .put("academicDegree", degree)
             .put("officeNumber", officeNumber)
@@ -81,7 +89,7 @@ public class SupervisorApiService {
       @Override
       public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
         if (response.isSuccessful()){
-          resultCompletableFuture.complete(new Result(true));
+          resultCompletableFuture.complete(new Result("success",true));
         }else {
           resultCompletableFuture.complete(new Result("error",false));
         }

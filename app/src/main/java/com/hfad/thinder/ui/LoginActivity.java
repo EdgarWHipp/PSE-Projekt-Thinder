@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -52,14 +53,16 @@ public class LoginActivity extends AppCompatActivity {
     final Observer<ViewModelResult> loginSuccessfulObserver = new Observer<ViewModelResult>() {
       @Override
       public void onChanged(ViewModelResult loginResult) {
-        if (loginResult.isSuccess()) {
+
+
           if (loginResult.getSuccess() == ViewModelResultTypes.STUDENT) {
             goToStudentActivity();
           }
           if (loginResult.getSuccess() == ViewModelResultTypes.SUPERVISOR) {
+
             goToSupervisorActivity();
           }
-        }
+
       }
     };
 

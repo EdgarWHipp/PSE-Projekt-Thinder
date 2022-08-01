@@ -34,10 +34,10 @@ public class SupervisorRemoteDataSource {
    * @param phoneNumber
    * @return Result
    */
-  public Result extendUserToSupervisor(UUID id, String degree, String officeNumber, String building, String institute, String phoneNumber, String firstName, String lastName) {
+  public Result extendUserToSupervisor( String degree, String officeNumber, String building, String institute, String phoneNumber, String firstName, String lastName) {
     try {
 
-      CompletableFuture<Result> result = supervisorApiService.editSupervisorProfileFuture(id,degree, officeNumber,building, institute, phoneNumber, firstName, lastName);
+      CompletableFuture<Result> result = supervisorApiService.editSupervisorProfileFuture(degree, officeNumber,building, institute, phoneNumber, firstName, lastName);
       return result.get(10000, TimeUnit.SECONDS);
     } catch (JSONException j) {
       return new Result("error", false);

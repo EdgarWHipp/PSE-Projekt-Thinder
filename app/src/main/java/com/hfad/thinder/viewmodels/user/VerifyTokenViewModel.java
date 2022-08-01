@@ -1,5 +1,7 @@
 package com.hfad.thinder.viewmodels.user;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.data.model.USERTYPE;
@@ -11,33 +13,36 @@ import com.hfad.thinder.viewmodels.ViewModelResultTypes;
 
 public class VerifyTokenViewModel extends ViewModel {
 
-  private static final UserRepository userRepository = UserRepository.getInstance();
+  private UserRepository userRepository = UserRepository.getInstance();
   private MutableLiveData<String> token;
   private MutableLiveData<ViewModelResult> verifyTokenResult;
   private MutableLiveData<VerifyTokenStates> state;
   // Todo: Auch nach dem Verlassen der App muss, befor es weiter geht der Token verifiziert werden in(siehe login seite)
 
   public void VerifyToken() {
-
     Result result = userRepository.verifyUser(token.getValue());
     if (!result.getSuccess()) {
       verifyTokenResult.setValue(new ViewModelResult("Verifizierung fehlgeschlagen",
               null));//Todo: hier kommt error aus model
 
     }
-    state.setValue(VerifyTokenStates.LOADING);
-    Result loginResult = userRepository.login(userRepository.getUser().getPassword(), userRepository.getUser().getMail());
-    if (!result.getSuccess()) {
+    Result roleResult = userRepository.login(userRepository.getUser().getPassword(),userRepository.getUser().getMail());
+    if (!roleResult.getSuccess()) {
       verifyTokenResult.setValue(new ViewModelResult("Verifizierung fehlgeschlagen",
               null));//Todo: hier kommt error aus model
     }
+    Log.e("",new Boolean(roleResult.getSuccess()).toString());
+    Log.e("",userRepository.getType().toString());
 
-    if (userRepository.getType() == USERTYPE.STUDENT) {
+    Log.w("",userRepository.getType().toString());
+
+
+    if (userRepository.getType().toString() == USERTYPE.STUDENT.toString()) {
       verifyTokenResult.setValue(
-              new ViewModelResult(null, ViewModelResultTypes.STUDENT));
-    } else if (userRepository.getType() == USERTYPE.SUPERVISOR) {
+              new ViewModelResult("STUDENT", ViewModelResultTypes.STUDENT));
+    } else if (userRepository.getType().toString() == USERTYPE.SUPERVISOR.toString()) {
       verifyTokenResult.setValue(
-              new ViewModelResult(null, ViewModelResultTypes.SUPERVISOR));
+              new ViewModelResult("SUPERVISOR", ViewModelResultTypes.SUPERVISOR));
     } else {
       state.setValue(VerifyTokenStates.FAILURE);
     }

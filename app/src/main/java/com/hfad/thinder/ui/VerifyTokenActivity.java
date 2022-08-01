@@ -10,7 +10,6 @@ import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.ActivityVerifyTokenBinding;
 import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.viewmodels.ViewModelResultTypes;
-import com.hfad.thinder.viewmodels.user.RegistrationViewModel;
 import com.hfad.thinder.viewmodels.user.VerifyTokenViewModel;
 
 public class VerifyTokenActivity extends AppCompatActivity {
@@ -35,27 +34,27 @@ public class VerifyTokenActivity extends AppCompatActivity {
         new Observer<ViewModelResult>() {
           @Override
           public void onChanged(ViewModelResult verifyTokenResult) {
-            if (verifyTokenResult.isSuccess()) {
+
               if (verifyTokenResult.getSuccess() == ViewModelResultTypes.STUDENT) {
-                goToStudentProfileFragment();
+                  goToStudentActivity();
               }
               if (verifyTokenResult.getSuccess() == ViewModelResultTypes.SUPERVISOR) {
-                goToSupervisorProfileFragment();
+                goToSupervisorActivity();
               }
             }
-          }
+
         };
     viewmodel.getVerifyTokenResult().observe(this, verifyTokenResultObserver);
   }
 
 
-  private void goToStudentProfileFragment() {
-    Intent intent = new Intent(this, StudentProfileFragment.class);
+  private void goToStudentActivity() {
+    Intent intent = new Intent(this, StudentActivity.class);
     startActivity(intent);
   }
 
-  private void goToSupervisorProfileFragment() {
-    Intent intent = new Intent(this, SupervisorProfileFragment.class);
+  private void goToSupervisorActivity() {
+    Intent intent = new Intent(this, SupervisorActivity.class);
     startActivity(intent);
   }
 }
