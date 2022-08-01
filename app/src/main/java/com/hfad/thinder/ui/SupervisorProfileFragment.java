@@ -1,13 +1,17 @@
 package com.hfad.thinder.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -77,6 +81,7 @@ public class SupervisorProfileFragment extends Fragment {
         false);
 
     viewmodel = new ViewModelProvider(this).get(EditProfileViewModel.class);
+    binding.setFragment(this);
     binding.setViewmodel(viewmodel);
     binding.setLifecycleOwner(this);
 
@@ -170,6 +175,30 @@ public class SupervisorProfileFragment extends Fragment {
   private void goToLoginActivity() {
     Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
     getActivity().startActivity(intent);
+  }
+
+  public void deleteProfile(View view){
+    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+    builder.setCancelable(true);
+    builder.setTitle(getContext().getResources().getString(R.string.account_remove));
+    builder.setMessage(getContext().getResources().getString(R.string.account_remove_text));
+    builder.setPositiveButton(getContext().getResources().getString(R.string.remove),
+            new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialog, int which) {
+                viewmodel.delete();
+                goToLoginActivity();
+              }
+            });
+    builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+      }
+    });
+
+    AlertDialog dialog = builder.create();
+    dialog.show();
+
   }
 
 }

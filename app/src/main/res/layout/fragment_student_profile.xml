@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="fragment"
+            type="com.hfad.thinder.ui.StudentProfileFragment" />
+    </data>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -87,6 +93,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/add_courses_of_study"
+                        android:onClick="@{(v) -> fragment.goToCoursesOfStudyFragment(v)}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/etLastName">
@@ -117,6 +124,7 @@
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/ic_remove"
                 android:text="@string/remove"
+                android:onClick="@{(v) -> fragment.removeProfile(v)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btSaveProfile"
                 app:layout_constraintHorizontal_bias="0.5"

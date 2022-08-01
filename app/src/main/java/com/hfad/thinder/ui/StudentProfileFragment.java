@@ -1,7 +1,10 @@
 package com.hfad.thinder.ui;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -19,7 +22,7 @@ import com.hfad.thinder.databinding.FragmentStudentProfileBinding;
  * Use the {@link StudentProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class StudentProfileFragment extends Fragment implements View.OnClickListener {
+public class StudentProfileFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -70,14 +73,41 @@ public class StudentProfileFragment extends Fragment implements View.OnClickList
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_student_profile, container, false);
 
         View view = binding.getRoot();
-        Button coursesOfStudyButton = binding.btAddCoursesOfStudy;
-        coursesOfStudyButton.setOnClickListener(this);
+        binding.setFragment(this);
 
         return view;
     }
 
-    @Override
-    public void onClick(View view){
+    public void removeProfile(View view){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setCancelable(true);
+        builder.setTitle(getContext().getResources().getString(R.string.account_remove));
+        builder.setMessage(getContext().getResources().getString(R.string.account_remove_text));
+        builder.setPositiveButton(getContext().getResources().getString(R.string.remove),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        goToLoginActivity();
+                    }
+                });
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void goToCoursesOfStudyFragment(View view){
         Navigation.findNavController(view).navigate(R.id.action_studentProfileFragment_to_coursesOfStudyFragment2);
     }
+
+    private void goToLoginActivity() {
+        Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
+        getActivity().startActivity(intent);
+    }
+
+
 }

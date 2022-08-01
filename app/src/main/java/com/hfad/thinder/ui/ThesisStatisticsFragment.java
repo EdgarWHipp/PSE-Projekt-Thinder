@@ -83,7 +83,7 @@ public class ThesisStatisticsFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
-        setPieChart(30, 100);
+        setPieChart(10, 3);
     }
 
     private void setPieChart(int likes, int dislikes){

@@ -73,7 +73,6 @@
     <string name="fill_out_form">Fill out form</string>
     <string name="liked_theses">Liked theses</string>
     <string name="details">Details</string>
-    <string name="hello_blank_fragment">remove</string>
     <string name="further_information">Further Information</string>
     <string name="supervisor_name">Supervisor name</string>
     <string name="courses_of_study">Courses of study</string>
@@ -82,6 +81,8 @@
     <string name="images">Images</string>
     <string name="insert_answers">Enter answers</string>
     <string name="send_form">Send form</string>
+    <string name="account_remove_text">Are you sure you want to delete your account?</string>
+    <string name="account_remove">Delete account</string>
 
     <!-- Registration View Model Strings -->
     <string name="no_password_error">Password field must not be empty</string>

@@ -82,6 +82,8 @@
     <string name="images">Bilder</string>
     <string name="insert_answers">Antworten eingeben</string>
     <string name="send_form">Formular senden</string>
+    <string name="account_remove_text">Sind Sie sich sicher, dass Sie ihr Konto löschen wollen?</string>
+    <string name="account_remove">Konto löschen</string>
 
 
     <!-- Registration View Model Strings -->
