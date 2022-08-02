@@ -230,10 +230,20 @@ public class UsersApiServiceTest extends TestCase {
     @Test
     public void testEditSupervisorProfileFutureAfterLogin() throws JSONException, IOException, ExecutionException, InterruptedException {
         MockResponse response = new MockResponse().setResponseCode(200);
-        response.setBody(UserJson.getStudentJson().toString());
         server.enqueue(response);
+
+        String url = server.url("/users").toString();
+
+        UserCreation user = new UserCreation("tom", "mu", "x@y.de","asdf");
+        CompletableFuture<Result> result = usersApiService.createNewUserFuture(user);
+        RecordedRequest request = server.takeRequest();
+        assertTrue(result.get().getSuccess());
+
+        MockResponse responseLogin = new MockResponse().setResponseCode(200);
+        response.setBody(UserJson.getStudentJson().toString());
+        server.enqueue(responseLogin);
         UserRepository userRepository = UserRepository.getInstance();
-        userRepository.setType(USERTYPE.STUDENT);
+        userRepository.setType(USERTYPE.SUPERVISOR);
 
         CompletableFuture<Result> result = usersApiService.getUserDetails(login);
         RecordedRequest request = server.takeRequest();
@@ -305,7 +315,7 @@ public class UsersApiServiceTest extends TestCase {
         CompletableFuture<Result> resultDelete = usersApiService.deleteUserFuture();
         assertEquals(resultDelete.get().getSuccess(),true);
     }
-
+    @Test
     public void uploadThesisTest() throws JSONException, InterruptedException, IOException, ExecutionException {
 
         MockResponse response = new MockResponse().setResponseCode(200);
