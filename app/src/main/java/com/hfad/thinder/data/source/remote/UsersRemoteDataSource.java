@@ -94,7 +94,7 @@ public class UsersRemoteDataSource {
      */
     public Result createNewUser(UserCreation user) {
         try {
-            CompletableFuture<Result> result = usersApiService.postNewUser(user);
+            CompletableFuture<Result> result = usersApiService.createNewUserFuture(user);
             return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
         } catch (JSONException e) {
             return new Result("json", false);
@@ -112,7 +112,7 @@ public class UsersRemoteDataSource {
      */
     public Result deleteUser() {
         try {
-            CompletableFuture<Result> result = usersApiService.deleteUser();
+            CompletableFuture<Result> result = usersApiService.deleteUserFuture();
             return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
         } catch (IOException e) {
             return new Result("error", false);

@@ -1,5 +1,7 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
@@ -34,6 +36,9 @@ public class StudentApiService {
   private static final OkHttpClient client = new OkHttpClient();
   private static final String url = "http://localhost:8080";
   private static final String  emulatorLocalHost = "http://10.0.2.2:8080";
+  private String scheme = "http";
+  private String host = "10.0.2.2";
+  private int port = 8080;
   /**
    * This function creates the HTTP PUT request that completes the user profile by extending the profile through either the additional attributes from the student.
    *Checks if the asynchronous call return fails or responds.
@@ -53,18 +58,18 @@ public class StudentApiService {
             .put("firstName",firstName)
             .put("lastName",lastName);
 
-
+    Log.e("","atleast im in the function");
     RequestBody body = RequestBody.create(studentJson.toString(), JSON);
 
 
     HttpUrl url = new HttpUrl.Builder()
-            .scheme("http")
-            .host("10.0.2.2")
-            .port(8080)
+            .scheme(scheme)
+            .host(host)
+            .port(port)
             .addPathSegment("users")
-            .addPathSegment(UserRepository.getInstance().getCurrentUUID().toString())
+            .addPathSegment("current")
             .build();
-
+    Log.e("","atleast im in the function");
     Request request = new Request.Builder()
             .url(url)
             .put(body)
