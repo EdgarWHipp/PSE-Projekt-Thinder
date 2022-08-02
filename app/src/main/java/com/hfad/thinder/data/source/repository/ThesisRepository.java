@@ -1,8 +1,8 @@
 package com.hfad.thinder.data.source.repository;
 
-import android.media.Image;
 
 import com.hfad.thinder.data.model.Degree;
+import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.remote.SupervisorRemoteDataSource;

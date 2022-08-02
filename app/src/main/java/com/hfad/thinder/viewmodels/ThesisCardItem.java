@@ -1,6 +1,7 @@
 package com.hfad.thinder.viewmodels;
 
-import android.media.Image;
+
+import com.hfad.thinder.data.model.Image;
 
 public class ThesisCardItem {
 
