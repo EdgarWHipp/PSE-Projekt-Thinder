@@ -2,6 +2,8 @@ package com.hfad.thinder.data.source.remote.okhttp;
 
 
 
+import android.util.Log;
+
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Login;
 import com.hfad.thinder.data.model.Student;
@@ -21,9 +23,12 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -32,6 +37,7 @@ import okhttp3.mockwebserver.RecordedRequest;
 public class UsersApiServiceTest extends TestCase {
     private MockWebServer server;
     private UsersApiService usersApiService;
+    private StudentApiService studentApiService;
     private Login login;
 
     @Before
@@ -40,7 +46,7 @@ public class UsersApiServiceTest extends TestCase {
         login = new Login("mail@gmail.com", "password");
 
         usersApiService =  new UsersApiService();
-
+        studentApiService = new StudentApiService();
         usersApiService.setHost(server.getHostName());
         usersApiService.setPort(server.getPort());
     }
@@ -161,9 +167,9 @@ public class UsersApiServiceTest extends TestCase {
         String url = server.url("/users").toString();
 
         UserCreation user = new UserCreation("tom", "mu", "x@y.de","asdf");
-/*        CompletableFuture<Result> result = new UsersApiService(url).createNewUserFuture(user);
-
-        assertTrue(result.get().getSuccess());*/
+        CompletableFuture<Result> result = usersApiService.createNewUserFuture(user);
+        RecordedRequest request = server.takeRequest();
+        assertTrue(result.get().getSuccess());
     }
 
     @Ignore
@@ -175,12 +181,131 @@ public class UsersApiServiceTest extends TestCase {
         String url = server.url("/users").toString();
 
         UserCreation user = new UserCreation("tom", "mu", "x@y.de","asdf");
-/*        CompletableFuture<Result> result = new UsersApiService(url).createNewUserFuture(user);
+        CompletableFuture<Result> result = usersApiService.createNewUserFuture(user);
+        RecordedRequest request = server.takeRequest();
+        assertFalse(result.get().getSuccess());
+    }
+    @Test
+    public void testEditStudentProfileFutureAfterLogin() throws JSONException, IOException, ExecutionException, InterruptedException {
+        MockResponse response = new MockResponse().setResponseCode(200);
+        response.setBody(UserJson.getStudentJson().toString());
+        server.enqueue(response);
+        UserRepository userRepository = UserRepository.getInstance();
+        userRepository.setType(USERTYPE.STUDENT);
 
-        assertFalse(result.get().getSuccess());*/
+        CompletableFuture<Result> result = usersApiService.getUserDetails(login);
+        RecordedRequest request = server.takeRequest();
+        String authToken = request.getHeader("Authorization");
+
+        // Correct auth header set in request
+        assertEquals("Basic bWFpbEBnbWFpbC5jb206cGFzc3dvcmQ=", authToken);
+        assertTrue(result.get().getSuccess());
+
+
+        MockResponse responseEditProfile = new MockResponse().setResponseCode(200);
+        server.enqueue(responseEditProfile);
+
+        Degree degree =new Degree("Informatik","Bsc");
+        Set<Degree> degrees= new HashSet<>();
+        degrees.add(degree);
+
+        CompletableFuture<Result> resultEditProfile = studentApiService
+                .editStudentProfileFuture(degrees,"max","muster");
+
+       server.takeRequest();
+       request.getHeader("Authorization");
+
+
+        assertEquals("Basic bWFpbEBnbWFpbC5jb206cGFzc3dvcmQ=", authToken);
+        assertEquals(resultEditProfile.get().getSuccess(),true);
+
+
+    }
+    @Test
+    public void testEditSupervisorProfileFutureAfterLogin() throws JSONException, IOException, ExecutionException, InterruptedException {
+        MockResponse response = new MockResponse().setResponseCode(200);
+        response.setBody(UserJson.getStudentJson().toString());
+        server.enqueue(response);
+        UserRepository userRepository = UserRepository.getInstance();
+        userRepository.setType(USERTYPE.STUDENT);
+
+        CompletableFuture<Result> result = usersApiService.getUserDetails(login);
+        RecordedRequest request = server.takeRequest();
+        String authToken = request.getHeader("Authorization");
+
+        // Correct auth header set in request
+        assertEquals("Basic bWFpbEBnbWFpbC5jb206cGFzc3dvcmQ=", authToken);
+        assertTrue(result.get().getSuccess());
+
+
+        MockResponse responseEditProfile = new MockResponse().setResponseCode(200);
+        server.enqueue(responseEditProfile);
+
+        Degree degree =new Degree("Informatik","Bsc");
+        Set<Degree> degrees= new HashSet<>();
+        degrees.add(degree);
+
+        CompletableFuture<Result> resultEditProfile = studentApiService
+                .editStudentProfileFuture(degrees,"max","muster");
+
+        server.takeRequest();
+        request.getHeader("Authorization");
+
+
+        assertEquals("Basic bWFpbEBnbWFpbC5jb206cGFzc3dvcmQ=", authToken);
+        assertEquals(resultEditProfile.get().getSuccess(),true);
+
+
+    }
+    @Test
+    public void testDeleteUserFutureAfterlogin() throws IOException, JSONException, ExecutionException, InterruptedException, TimeoutException {
+        MockResponse response = new MockResponse().setResponseCode(200);
+        response.setBody(UserJson.getSupervisorJson().toString());
+        server.enqueue(response);
+
+        UserRepository userRepository = UserRepository.getInstance();
+        userRepository.setType(USERTYPE.SUPERVISOR);
+
+        CompletableFuture<Result> result = usersApiService.getUserDetails(login);
+
+        RecordedRequest request = server.takeRequest();
+        String authToken = request.getHeader("Authorization");
+
+        // Correct auth header set in request
+        assertEquals("Basic bWFpbEBnbWFpbC5jb206cGFzc3dvcmQ=", authToken);
+        assertTrue(result.get().getSuccess());
+
+        Supervisor supervisor = (Supervisor) userRepository.getUser();
+
+        // User data
+        assertEquals(USERTYPE.SUPERVISOR, supervisor.getRole());
+        assertTrue(supervisor.isActive());
+        assertEquals(UserJson.id, supervisor.getId().toString());
+        assertEquals(UserJson.firstName, supervisor.getFirstName());
+        assertEquals(UserJson.lastName, supervisor.getLastName());
+        assertEquals(UserJson.password, supervisor.getPassword());
+        assertEquals(UserJson.mail, supervisor.getMail());
+        assertEquals(UserJson.uni_id, supervisor.getUniversityId().toString());
+
+        // Supervisor data
+        assertEquals(UserJson.academicDegree, supervisor.getAcademicDegree());
+        assertEquals(UserJson.location, supervisor.getLocation());
+        assertEquals(UserJson.institute, supervisor.getInstitute());
+        assertEquals(UserJson.phoneNumber, supervisor.getPhoneNumber());
+
+        MockResponse responseDelete = new MockResponse().setResponseCode(200);
+        response.setBody(""); //void returned from backend
+        server.enqueue(response);
+        CompletableFuture<Result> resultDelete = usersApiService.deleteUserFuture();
+        assertEquals(resultDelete.get().getSuccess(),true);
     }
 
-    public void testDeleteUserFuture() {
+    public void uploadThesisTest(){
+
+        MockResponse responseUpload = new MockResponse().setResponseCode(200);
+    }
+    public void swipeThesisWrite(){
+
     }
 
     public void testResetPasswordFuture() {

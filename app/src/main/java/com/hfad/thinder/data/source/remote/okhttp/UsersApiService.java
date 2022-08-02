@@ -218,7 +218,7 @@ public class UsersApiService {
      * @return  CompletableFuture<Result>
      * @throws JSONException
      */
-    public CompletableFuture<Result> postNewUser(UserCreation user) throws JSONException {
+    public CompletableFuture<Result> createNewUserFuture(UserCreation user) throws JSONException {
 
         JSONObject userJson = new JSONObject()
                 .put("firstName", user.getFirstName())
@@ -274,20 +274,25 @@ public class UsersApiService {
      * @return CompletableFuture<Result> that is alter evaluated inside the UsersRemoteDataSource class
      * @throws IOException
      */
-    public CompletableFuture<Result> deleteUser() throws IOException {
+    public CompletableFuture<Result> deleteUserFuture() throws IOException {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<Result>();
+        OkHttpClient clientAuth = new OkHttpClient.Builder()
+                .addInterceptor(new AuthInterceptor(
+                        UserRepository.getInstance().getUser().getMail(),
+                        UserRepository.getInstance().getUser().getPassword()))
+                .build();
 
         HttpUrl url = new HttpUrl.Builder()
                 .scheme(scheme)
                 .host(host)
                 .port(port)
                 .addPathSegment("users")
-                .addPathSegment(UserRepository.getInstance().getCurrentUUID().toString()).build();
+                .addPathSegment("current").build();
         Request request= new Request.Builder()
                 .url(url)
                 .delete()
                 .build();
-        Call call = CLIENT.newCall(request);
+        Call call = clientAuth.newCall(request);
 
         call.enqueue(new Callback() {
             @Override
@@ -401,11 +406,12 @@ public class UsersApiService {
     private Result setUserValues(String body) throws JSONException {
         Gson gson = new Gson();
         UserRepository userRepository = UserRepository.getInstance();
-
+        Log.e("","INSIDE SET USER VALUES");
         switch(userRepository.getType().toString()){
             case "STUDENT":
                 Student student;
                 student = gson.fromJson(body, Student.class);
+
                 userRepository.setUser(student);
                 break;
             case "SUPERVISOR":
