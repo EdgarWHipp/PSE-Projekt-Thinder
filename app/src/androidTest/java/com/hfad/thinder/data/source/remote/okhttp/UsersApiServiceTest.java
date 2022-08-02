@@ -167,9 +167,9 @@ public class UsersApiServiceTest extends TestCase {
         String url = server.url("/users").toString();
 
         UserCreation user = new UserCreation("tom", "mu", "x@y.de","asdf");
-/*        CompletableFuture<Result> result = new UsersApiService(url).createNewUserFuture(user);
-
-        assertTrue(result.get().getSuccess());*/
+        CompletableFuture<Result> result = usersApiService.createNewUserFuture(user);
+        RecordedRequest request = server.takeRequest();
+        assertTrue(result.get().getSuccess());
     }
 
     @Ignore
@@ -181,9 +181,9 @@ public class UsersApiServiceTest extends TestCase {
         String url = server.url("/users").toString();
 
         UserCreation user = new UserCreation("tom", "mu", "x@y.de","asdf");
-/*        CompletableFuture<Result> result = new UsersApiService(url).createNewUserFuture(user);
-
-        assertFalse(result.get().getSuccess());*/
+        CompletableFuture<Result> result = usersApiService.createNewUserFuture(user);
+        RecordedRequest request = server.takeRequest();
+        assertFalse(result.get().getSuccess());
     }
     @Test
     public void testEditStudentProfileFutureAfterLogin() throws JSONException, IOException, ExecutionException, InterruptedException {
@@ -302,6 +302,7 @@ public class UsersApiServiceTest extends TestCase {
 
     public void uploadThesisTest(){
 
+        MockResponse responseUpload = new MockResponse().setResponseCode(200);
     }
     public void swipeThesisWrite(){
 
