@@ -245,9 +245,9 @@ public class UsersApiServiceTest extends TestCase {
         UserRepository userRepository = UserRepository.getInstance();
         userRepository.setType(USERTYPE.SUPERVISOR);
 
-        CompletableFuture<Result> result = usersApiService.getUserDetails(login);
-        RecordedRequest request = server.takeRequest();
-        String authToken = request.getHeader("Authorization");
+        CompletableFuture<Result> resultLogin = usersApiService.getUserDetails(login);
+        RecordedRequest requestGetUserDetails = server.takeRequest();
+        String authToken = requestGetUserDetails.getHeader("Authorization");
 
         // Correct auth header set in request
         assertEquals("Basic bWFpbEBnbWFpbC5jb206cGFzc3dvcmQ=", authToken);
@@ -273,6 +273,7 @@ public class UsersApiServiceTest extends TestCase {
 
 
     }
+
     @Test
     public void testDeleteUserFutureAfterlogin() throws IOException, JSONException, ExecutionException, InterruptedException, TimeoutException {
         MockResponse response = new MockResponse().setResponseCode(200);
