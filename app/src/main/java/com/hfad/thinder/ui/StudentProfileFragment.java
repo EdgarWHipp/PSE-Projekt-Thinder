@@ -108,6 +108,4 @@ public class StudentProfileFragment extends Fragment {
         Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
         getActivity().startActivity(intent);
     }
-
-
 }
