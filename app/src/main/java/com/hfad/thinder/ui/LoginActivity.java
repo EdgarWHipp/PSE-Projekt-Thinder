@@ -94,4 +94,9 @@ public class LoginActivity extends AppCompatActivity {
     Intent intent = new Intent(this, SupervisorActivity.class);
     startActivity(intent);
   }
+
+  @Override
+  public void onBackPressed(){
+    moveTaskToBack(true);
+  }
 }

@@ -81,6 +81,11 @@ public class StudentActivity extends AppCompatActivity {
         viewmodel.getProfileComplete().observe(this, profileCreatedObserver);
     }
 
+    @Override
+    public void onBackPressed(){
+        moveTaskToBack(true);
+    }
+
 
 
 

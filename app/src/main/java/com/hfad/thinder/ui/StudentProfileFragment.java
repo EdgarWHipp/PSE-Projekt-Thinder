@@ -87,6 +87,7 @@ public class StudentProfileFragment extends Fragment {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        //todo: abfragen, ob löschen erfoglreich war
                         goToLoginActivity();
                     }
                 });
