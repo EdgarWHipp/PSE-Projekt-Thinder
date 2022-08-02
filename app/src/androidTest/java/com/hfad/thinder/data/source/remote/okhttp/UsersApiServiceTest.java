@@ -2,12 +2,16 @@ package com.hfad.thinder.data.source.remote.okhttp;
 
 
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.hfad.thinder.data.model.Degree;
+import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Login;
 import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Supervisor;
+import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.model.UserCreation;
 import com.hfad.thinder.data.source.repository.UserRepository;
@@ -38,6 +42,7 @@ public class UsersApiServiceTest extends TestCase {
     private MockWebServer server;
     private UsersApiService usersApiService;
     private StudentApiService studentApiService;
+    private ThesesApiService thesisApiService;
     private Login login;
 
     @Before
@@ -47,6 +52,7 @@ public class UsersApiServiceTest extends TestCase {
 
         usersApiService =  new UsersApiService();
         studentApiService = new StudentApiService();
+        thesisApiService = new ThesesApiService();
         usersApiService.setHost(server.getHostName());
         usersApiService.setPort(server.getPort());
     }
@@ -300,9 +306,34 @@ public class UsersApiServiceTest extends TestCase {
         assertEquals(resultDelete.get().getSuccess(),true);
     }
 
-    public void uploadThesisTest(){
+    public void uploadThesisTest() throws JSONException, InterruptedException, IOException, ExecutionException {
 
+        MockResponse response = new MockResponse().setResponseCode(200);
+        response.setBody(UserJson.getSupervisorJson().toString());
+        server.enqueue(response);
+        UserRepository userRepository = UserRepository.getInstance();
+        userRepository.setType(USERTYPE.SUPERVISOR);
+
+        CompletableFuture<Result> result = usersApiService.getUserDetails(login);
+        RecordedRequest request = server.takeRequest();
+        String authToken = request.getHeader("Authorization");
+        Supervisor supervisor = (Supervisor) UserRepository.getInstance().getUser();
+        // Correct auth header set in request
+        assertEquals("Basic bWFpbEBnbWFpbC5jb206cGFzc3dvcmQ=", authToken);
+        assertTrue(result.get().getSuccess());
+        Set<Image> images = null;
+        images.add(null);
+        Set<Degree> degrees = null;
+        degrees.add(new Degree("Informatik","bsc"));
+        Thesis thesis = new Thesis("Dr. Prof. Tamim",
+                "testThesis","aaaa","aaa","Frage?",images,
+                supervisor,degrees);
         MockResponse responseUpload = new MockResponse().setResponseCode(200);
+        server.enqueue(responseUpload);
+        CompletableFuture<Result> resultThesisUpload = thesisApiService.createNewThesisFuture(thesis);
+        server.takeRequest();
+        assertTrue(resultThesisUpload.get().getSuccess());
+
     }
     public void swipeThesisWrite(){
 

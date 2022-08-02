@@ -1,6 +1,5 @@
 package com.hfad.thinder.data.model;
 
-import android.media.Image;
 
 import androidx.annotation.Nullable;
 
