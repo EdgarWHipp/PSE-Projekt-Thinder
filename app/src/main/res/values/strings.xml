@@ -83,6 +83,7 @@
     <string name="send_form">Send form</string>
     <string name="account_remove_text">Are you sure you want to delete your account?</string>
     <string name="account_remove">Delete account</string>
+    <string name="save_successful">Data was saved successfully.</string>
 
     <!-- Registration View Model Strings -->
     <string name="no_password_error">Password field must not be empty</string>

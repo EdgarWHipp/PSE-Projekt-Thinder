@@ -18,7 +18,7 @@ import java.util.Set;
 public class EditProfileViewModel extends ViewModel {
   private final UserRepository userRepository = UserRepository.getInstance();
   private User user;
-  private Set<Degree> degrees;//Todo: eventuell updaten
+  private Set<Degree> degrees;//Todo: updaten nachdem aus dem Courses of Study zurück.
   private MutableLiveData<EditProfileFormState> formState;
   private MutableLiveData<ViewModelResult> safeResult;
   private MutableLiveData<ViewModelResult> deleteResult;
@@ -27,7 +27,7 @@ public class EditProfileViewModel extends ViewModel {
   private MutableLiveData<String> coursesOfStudy;
 
 
-  public void safe() {
+  public void save() {
     Result result =
         userRepository.editProfileStudent(degrees, firstName.getValue(), lastName.getValue());
     if (result.getSuccess()) {
@@ -105,7 +105,7 @@ public class EditProfileViewModel extends ViewModel {
     if (coursesOfStudy == null) {
       loadCoursesOfStudy();
     }
-
+    
     return coursesOfStudy;
   }
 
@@ -117,11 +117,18 @@ public class EditProfileViewModel extends ViewModel {
     if (user == null) {
       user = userRepository.getUser();
     }
-    if (degrees == null) {
-      degrees = new HashSet<>(); //Todo: hole seine Degrees aus Model
+
+    degrees = new HashSet<>();
+    degrees.add(new Degree("Informatik", "Bachelor"));
+    degrees.add(new Degree("Mathematik", "Bachelor"));//Todo: hole seine Degrees aus Model
+
+    String degreesAsString = "";
+    for (Degree degree : degrees) {
+      degreesAsString = degreesAsString + degree.getName() + " ";
     }
-    coursesOfStudy =
-        new MutableLiveData<>("Informatik, Mathematik");//Todo: CoursesOfStudy vom Model
+    coursesOfStudy = new MutableLiveData<>();
+    coursesOfStudy.setValue(degreesAsString);
+
   }
 
   private void loadFirstName() {

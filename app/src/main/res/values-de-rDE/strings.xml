@@ -84,6 +84,7 @@
     <string name="send_form">Formular senden</string>
     <string name="account_remove_text">Sind Sie sich sicher, dass Sie ihr Konto löschen wollen?</string>
     <string name="account_remove">Konto löschen</string>
+    <string name="save_successful">Daten wurden erfolgreich gespeichert.</string>
 
 
     <!-- Registration View Model Strings -->
