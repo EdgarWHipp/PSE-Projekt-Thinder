@@ -1,31 +1,35 @@
 package com.hfad.thinder.ui;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.constraintlayout.utils.widget.ImageFilterButton;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.card.MaterialCardView;
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentSwipeScreenBinding;
+import com.hfad.thinder.viewmodels.student.SwipeScreenViewModel;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link SwipeScreenFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SwipeScreenFragment extends Fragment implements View.OnClickListener {
+public class SwipeScreenFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,6 +41,7 @@ public class SwipeScreenFragment extends Fragment implements View.OnClickListene
     private String mParam2;
 
     private FragmentSwipeScreenBinding binding;
+    private SwipeScreenViewModel viewmodel;
 
     private ImageFilterButton like;
     private ImageFilterButton dislike;
@@ -44,13 +49,9 @@ public class SwipeScreenFragment extends Fragment implements View.OnClickListene
 
     private MaterialCardView cardTwo;
 
-    private int currentDeckPosition;
-    private ArrayList<SwipeScreenCard> cardDeck;
-
     private MotionLayout motionLayout;
 
-    private ArrayList<DetailViewStates> detailViewOrder;
-    private int currentDetailViewPosition;
+
 
     // used to prevent user from starting another animation while one is already ongoing
     private View blockTouch;
@@ -89,6 +90,7 @@ public class SwipeScreenFragment extends Fragment implements View.OnClickListene
     @Override
     public void onDestroy(){
         super.onDestroy();
+        viewmodel.pushRatings();
         //todo: let viewmodel send data to backend
     }
 
@@ -96,39 +98,23 @@ public class SwipeScreenFragment extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_swipe_screen, container, false);
-
-        ArrayList<Integer> images = new ArrayList<>();
-        images.add(R.drawable.index);
-        images.add(R.drawable.ic_thinder_logo_v1);
-        cardDeck = new ArrayList<>();
-        cardDeck.add(new SwipeScreenCard(images,"Deep Reinforcement Learning for Autonomous Driving"));
-        cardDeck.add(new SwipeScreenCard(images,"Thinking Fast and Slow with Model-Based Reinforcement Learning"));
-        cardDeck.add(new SwipeScreenCard(images,"Deep Reinforcement Learning for the Control of Robotic Manipulation"));
-        cardDeck.add(new SwipeScreenCard(images,"Efficient Uncertainty Aware Latent Model-Based Optimization"));
-        cardDeck.add(new SwipeScreenCard(images,"Machine Learning & Transfer Learning im Bereich der Arbeitsmaschinen"));
-        cardDeck.add(new SwipeScreenCard(images,"There are no more cards"));
-        cardDeck.add(new SwipeScreenCard(images,"There are no more cards"));
+        binding.setFragment(this);
+        viewmodel = new ViewModelProvider(requireActivity()).get(SwipeScreenViewModel.class);
+        Bitmap image2 = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.index);
+        ArrayList<Bitmap> images2 = new ArrayList<>();
+        images2.add(image2);
+        viewmodel.setImages(images2);
+        binding.setLifecycleOwner(this);
 
         View view = binding.getRoot();
         like = binding.btSwipeRight;
         dislike = binding.btSwipeLeft;
         redraw = binding.btRedraw;
-        like.setOnClickListener(this);
-        dislike.setOnClickListener(this);
-        redraw.setOnClickListener(this);
 
 
         blockTouch = binding.vBlockTouch;
-
         cardTwo = binding.cardTwo;
-
-        detailViewOrder = new ArrayList<>();
-
-
-        populateCards();
-
         motionLayout = binding.motionLayoutSwipeScreen;
-        currentDeckPosition = 0;
         motionLayout.setTransitionListener(new MotionLayout.TransitionListener(){
 
             @Override
@@ -153,19 +139,13 @@ public class SwipeScreenFragment extends Fragment implements View.OnClickListene
                 switch(currentId){
                     case R.id.offScreenLike:
                         if(motionLayout.getEndState() == R.id.start){
-                            Toast toast = Toast.makeText(view.getContext(), "liked", Toast.LENGTH_SHORT);
-                            toast.show();
-                            cardLiked();
-                            Log.i("tag", motionLayout.toString());
+                            viewmodel.like();
                         }
 
                         break;
                     case R.id.offScreenUnlike:
                         if(motionLayout.getEndState() == R.id.start){
-                            Toast toast1 = Toast.makeText(view.getContext(), "disliked", Toast.LENGTH_SHORT);
-                            toast1.show();
-                            cardDisliked();
-                            Log.i("tag", motionLayout.toString());
+                            viewmodel.dislike();
                         }
                         break;
                 }
@@ -177,194 +157,107 @@ public class SwipeScreenFragment extends Fragment implements View.OnClickListene
             }
         });
 
+        final Observer<Integer> currentDeckPositionObserver = new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                populateCards();
+            }
+        };
+        viewmodel.getCurrentDeckPosition().observe(getViewLifecycleOwner(), currentDeckPositionObserver);
         return view;
     }
 
-    @Override
-    public void onClick(View view) {
-        switch(view.getId()){
-            case R.id.btSwipeLeft:
-                if(motionLayout.getCurrentState() != R.id.detail){
-                    motionLayout.transitionToState(R.id.unlike);
-                }else{
-                    if(currentDetailViewPosition > 0){
-                        currentDetailViewPosition--;
-                        switch(detailViewOrder.get(currentDetailViewPosition)){
-                            case TOP:
-                                Bundle bundleCardOne = new Bundle();
-                                bundleCardOne.putString("title", cardDeck.get(currentDeckPosition).getTitle());
-                                bundleCardOne.putInt("image", cardDeck.get(currentDeckPosition).getImages().get(0));
-                                getChildFragmentManager().beginTransaction()
-                                        .setCustomAnimations(
-                                                R.anim.slide_in_right,
-                                                R.anim.slide_out_right
-                                        )
-                                        .setReorderingAllowed(true)
-                                        .replace(R.id.fragmentCardOne, SwipeScreenTopFragment.class, bundleCardOne)
-                                        .addToBackStack(null)
-                                        .commit();
-                                break;
-                            case IMAGE:
-                                Bundle image = new Bundle();
-                                image.putInt("image", cardDeck.get(currentDeckPosition).getImages().get(currentDetailViewPosition-1));
-                                getChildFragmentManager().beginTransaction()
-                                        .setCustomAnimations(
-                                                R.anim.slide_in_right,
-                                                R.anim.slide_out_right
-                                        )
-                                        .setReorderingAllowed(true)
-                                        .replace(R.id.fragmentCardOne, SwipeScreenImageFragment.class, image)
-                                        .addToBackStack(null)
-                                        .commit();
-                                break;
-                            case TEXT:
-                                getChildFragmentManager().beginTransaction()
-                                        .setCustomAnimations(
-                                                R.anim.slide_in_right,
-                                                R.anim.slide_out_right
-                                        )
-                                        .setReorderingAllowed(true)
-                                        .replace(R.id.fragmentCardOne, SwipeScreenTextFragment.class, null)
-                                        .addToBackStack(null)
-                                        .commit();
-                                break;
-                            case INFO:
-                                getChildFragmentManager().beginTransaction()
-                                        .setCustomAnimations(
-                                                R.anim.slide_in_right,
-                                                R.anim.slide_out_right
-                                        )
-                                        .setReorderingAllowed(true)
-                                        .replace(R.id.fragmentCardOne, SwipeScreenInfoFragment.class, null)
-                                        .addToBackStack(null)
-                                        .commit();
-                                break;
-                        }
-                    }
-                }
-
-                break;
-            case R.id.btSwipeRight:
-                if(motionLayout.getCurrentState()!= R.id.detail){
-                    motionLayout.transitionToState(R.id.like);
-                }else{
-                    if(currentDetailViewPosition < detailViewOrder.size() - 1){
-
-                        currentDetailViewPosition++;
-                        switch(detailViewOrder.get(currentDetailViewPosition)){
-
-                            case TOP:
-                                Bundle bundleCardOne = new Bundle();
-                                bundleCardOne.putString("title", cardDeck.get(currentDetailViewPosition).getTitle());
-                                bundleCardOne.putInt("image", cardDeck.get(currentDeckPosition).getImages().get(0));
-                                getChildFragmentManager().beginTransaction()
-                                        .setCustomAnimations(
-                                                R.anim.slide_in_left,
-                                                R.anim.slide_out_left
-                                        )
-                                        .setReorderingAllowed(true)
-                                        .replace(R.id.fragmentCardOne, SwipeScreenTopFragment.class, bundleCardOne)
-                                        .addToBackStack(null)
-                                        .commit();
-                                break;
-                            case IMAGE:
-                                Bundle image = new Bundle();
-                                image.putInt("image", cardDeck.get(currentDeckPosition).getImages().get(currentDetailViewPosition-1));
-                                getChildFragmentManager().beginTransaction()
-                                        .setCustomAnimations(
-                                                R.anim.slide_in_left,
-                                                R.anim.slide_out_left
-                                        )
-                                        .setReorderingAllowed(true)
-                                        .replace(R.id.fragmentCardOne, SwipeScreenImageFragment.class, image)
-                                        .addToBackStack(null)
-                                        .commit();
-                                break;
-                            case TEXT:
-                                getChildFragmentManager().beginTransaction()
-                                        .setCustomAnimations(
-                                                R.anim.slide_in_left,
-                                                R.anim.slide_out_left
-                                        )
-                                        .setReorderingAllowed(true)
-                                        .replace(R.id.fragmentCardOne, SwipeScreenTextFragment.class, null)
-                                        .addToBackStack(null)
-                                        .commit();
-                                break;
-                            case INFO:
-                                getChildFragmentManager().beginTransaction()
-                                        .setCustomAnimations(
-                                                R.anim.slide_in_left,
-                                                R.anim.slide_out_left
-                                        )
-                                        .setReorderingAllowed(true)
-                                        .replace(R.id.fragmentCardOne, SwipeScreenInfoFragment.class, null)
-                                        .addToBackStack(null)
-                                        .commit();
-                                break;
-                        }
-                    }
-                }
-
-                break;
-            case R.id.btRedraw:
-                redraw();
-                break;
+    public void rightClick(View view){
+        if(motionLayout.getCurrentState()!= R.id.detail){
+            // implicitly calls viewmodel.like()
+            motionLayout.transitionToState(R.id.like);
+        }else{
+            if(viewmodel.incrementCurrentDetailViewPosition())
+                populateDetailView(viewmodel.getCurrentDetailViewState(), R.anim.slide_in_left, R.anim.slide_out_left);
         }
+    }
+
+
+
+    public void leftClick(View view){
+        if(motionLayout.getCurrentState() != R.id.detail){
+            motionLayout.transitionToState(R.id.unlike);
+        }else{
+            if(viewmodel.decrementCurrentDetailViewPosition())
+                populateDetailView(viewmodel.getCurrentDetailViewState(), R.anim.slide_in_right, R.anim.slide_out_right);
+        }
+    }
+
+    public void redrawCard(View view){
+        viewmodel.redraw();
     }
 
     private void populateCards(){
-        Log.i("tag", new StringBuilder().append("image:").append(String.valueOf(cardDeck.get(currentDeckPosition).getImages().get(0))).toString());
-        setDetailedViewOrder();
-        Bundle bundleCardOne = new Bundle();
-        bundleCardOne.putString("title", cardDeck.get(currentDeckPosition).getTitle());
-        bundleCardOne.putInt("image", cardDeck.get(currentDeckPosition).getImages().get(0));
+        Bundle cardOneBundle = new Bundle();
+        cardOneBundle.putBoolean("isCardOne", true);
+        Bundle cardTwoBundle = new Bundle();
+        cardTwoBundle.putBoolean("isCardOne", false);
         getChildFragmentManager().beginTransaction()
                 .setReorderingAllowed(true)
-                .add(R.id.fragmentCardOne, SwipeScreenTopFragment.class, bundleCardOne)
+                .add(R.id.fragmentCardOne, SwipeScreenTopFragment.class, cardOneBundle)
                 .commit();
-        Bundle bundleCardTwo = new Bundle();
-        bundleCardTwo.putString("title", cardDeck.get(currentDeckPosition+1).getTitle());
-        bundleCardTwo.putInt("image", cardDeck.get(currentDeckPosition+1).getImages().get(0));
         getChildFragmentManager().beginTransaction()
                 .setReorderingAllowed(true)
-                .add(R.id.fragmentCardTwo, SwipeScreenTopFragment.class, bundleCardTwo)
+                .add(R.id.fragmentCardTwo, SwipeScreenTopFragment.class, cardTwoBundle)
                 .commit();
     }
 
-    private void setDetailedViewOrder() {
-        currentDetailViewPosition = 0;
-        detailViewOrder.clear();
-        detailViewOrder.add(DetailViewStates.TOP);
-        for(int i = 0; i < cardDeck.get(currentDeckPosition).getImages().size(); ++i){
-            detailViewOrder.add(DetailViewStates.IMAGE);
+    private void populateDetailView(DetailViewStates currentDetailViewState, int inAnimationId, int outAnimationId) {
+        switch (currentDetailViewState) {
+
+            case TOP:
+                getChildFragmentManager().beginTransaction()
+                        .setCustomAnimations(
+                                inAnimationId,
+                                outAnimationId
+                        )
+                        .setReorderingAllowed(true)
+                        .replace(R.id.fragmentCardOne, SwipeScreenTopFragment.class, null)
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case IMAGE:
+                getChildFragmentManager().beginTransaction()
+                        .setCustomAnimations(
+                                inAnimationId,
+                                outAnimationId
+                        )
+                        .setReorderingAllowed(true)
+                        .replace(R.id.fragmentCardOne, SwipeScreenImageFragment.class, null)
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case TEXT:
+                getChildFragmentManager().beginTransaction()
+                        .setCustomAnimations(
+                                inAnimationId,
+                                outAnimationId
+                        )
+                        .setReorderingAllowed(true)
+                        .replace(R.id.fragmentCardOne, SwipeScreenTextFragment.class, null)
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case INFO:
+                getChildFragmentManager().beginTransaction()
+                        .setCustomAnimations(
+                                inAnimationId,
+                                outAnimationId
+                        )
+                        .setReorderingAllowed(true)
+                        .replace(R.id.fragmentCardOne, SwipeScreenInfoFragment.class, null)
+                        .addToBackStack(null)
+                        .commit();
+                break;
         }
-        detailViewOrder.add(DetailViewStates.TEXT);
-        detailViewOrder.add(DetailViewStates.INFO);
     }
 
-    private void cardLiked(){
-        if(currentDeckPosition < cardDeck.size() - 2){
-            currentDeckPosition++;
-            populateCards();
-        }
-    }
-
-    private void cardDisliked(){
-        if(currentDeckPosition < cardDeck.size() - 2){
-            currentDeckPosition++;
-            populateCards();
-        }
-    }
-
-    private void redraw(){
-        if(currentDeckPosition > 0){
-            currentDeckPosition--;
-            populateCards();
-        }
-    }
-
-    private enum DetailViewStates {
+    public enum DetailViewStates {
         TOP,
         IMAGE,
         TEXT,

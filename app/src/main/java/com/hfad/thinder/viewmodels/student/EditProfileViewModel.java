@@ -30,9 +30,9 @@ public class EditProfileViewModel extends ViewModel {
     Result result =
         userRepository.editProfileStudent(degrees, firstName.getValue(), lastName.getValue());
     if (result.getSuccess()) {
-      safeResult.setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
+      getSafeResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
     } else {
-      safeResult.setValue(
+      getSafeResult().setValue(
           new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
     }
   }
@@ -40,15 +40,15 @@ public class EditProfileViewModel extends ViewModel {
   public void delete() {
     Result result = userRepository.delete();
     if (result.getSuccess()) {
-      deleteResult.setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
+      getDeleteResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
     } else {
-      deleteResult.setValue(
+      getDeleteResult().setValue(
           new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
     }
   }
 
   public void profileDataChanged() {
-    formState.setValue(
+    getFormState().setValue(
         new EditProfileFormState(checkFirstName(), checkLastName(), checkCoursesOfStudy()));
   }
 
@@ -128,7 +128,6 @@ public class EditProfileViewModel extends ViewModel {
     }
     coursesOfStudy = new MutableLiveData<>();
     coursesOfStudy.setValue(degreesAsString);
-
   }
 
   private void loadFirstName() {

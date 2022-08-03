@@ -3,6 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="fragment"
+            type="com.hfad.thinder.ui.SwipeScreenFragment" />
+    </data>
 <androidx.constraintlayout.motion.widget.MotionLayout
     android:id="@+id/motionLayoutSwipeScreen"
     android:layout_width="match_parent"
@@ -70,6 +75,7 @@
         android:src="@drawable/ic_swipe_left"
         android:background="@drawable/round_button"
         android:elevation="30dp"
+        android:onClick="@{(v) -> fragment.leftClick(v)}"
         app:overlay="false"
         app:altSrc="@drawable/ic_arrow_left"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -87,6 +93,7 @@
         app:altSrc="@drawable/ic_arrow_right"
         android:background="@drawable/round_button"
         android:elevation="30dp"
+        android:onClick="@{(v) -> fragment.rightClick(v)}"
         app:overlay="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -101,6 +108,7 @@
         android:src="@drawable/ic_redo"
         android:background="@drawable/round_button"
         android:elevation="30dp"
+        android:onClick="@{(v) -> fragment.redrawCard(v)}"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/btSwipeLeft"
         app:layout_constraintRight_toLeftOf="@id/btSwipeRight" />

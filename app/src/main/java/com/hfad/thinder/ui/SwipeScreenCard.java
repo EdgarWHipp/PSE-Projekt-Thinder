@@ -1,10 +1,13 @@
 package com.hfad.thinder.ui;
 
+import android.graphics.Bitmap;
+
 import java.util.ArrayList;
 
 public class SwipeScreenCard {
 
-    private ArrayList<Integer> images;
+    private ArrayList<Bitmap> images;
+    private String UUID;
     private String title;
     private String task;
     private String motivation;
@@ -16,10 +19,12 @@ public class SwipeScreenCard {
     private String roomNumber;
     private String phoneNumber;
     private String institute;
-    private Rating rating;
+    private String email;
+    private Integer id;
 
-    public SwipeScreenCard(ArrayList<Integer> images, String title, String task, String motivation, String professor, ArrayList<String> coursesOfStudy, String supervisorFirstName, String supervisorLastName, String building, String roomNumber, String phoneNumber, String institute) {
+    public SwipeScreenCard(ArrayList<Bitmap> images, String UUID, String title, String task, String motivation, String professor, ArrayList<String> coursesOfStudy, String supervisorFirstName, String supervisorLastName, String building, String roomNumber, String phoneNumber, String institute, String email) {
         this.images = images;
+        this.UUID = UUID;
         this.title = title;
         this.task = task;
         this.motivation = motivation;
@@ -31,20 +36,10 @@ public class SwipeScreenCard {
         this.roomNumber = roomNumber;
         this.phoneNumber = phoneNumber;
         this.institute = institute;
-        this.rating = Rating.UNRATED;
+        this.email = email;
     }
 
-    // Todo: remove
-    public SwipeScreenCard(String title) {
-        this.title = title;
-    }
-
-    public SwipeScreenCard(ArrayList<Integer> images, String title) {
-        this.images = images;
-        this.title = title;
-    }
-
-    public ArrayList<Integer> getImages() {
+    public ArrayList<Bitmap> getImages() {
         return images;
     }
 
@@ -92,18 +87,11 @@ public class SwipeScreenCard {
         return institute;
     }
 
-    public Rating getRating() {
-        return rating;
+    public String getUUID() {
+        return UUID;
     }
-
-    public void setRating(Rating rating) {
-        this.rating = rating;
-    }
-
-    public enum Rating {
-        UNRATED,
-        LIKED,
-        DISLIKED
+    public String getEmail() {
+        return email;
     }
 }
 

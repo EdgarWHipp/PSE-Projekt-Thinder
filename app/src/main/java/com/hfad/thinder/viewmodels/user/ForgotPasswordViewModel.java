@@ -40,7 +40,7 @@ public class ForgotPasswordViewModel extends ViewModel {
 
 
     public void passwordForgotDataChanged() {
-        formState.setValue(new ForgotPasswordFormState(codeConfirmationIsValid(), passwordFormIsValid(), passwordConfirmationFormIsValid()));
+        getFormState().setValue(new ForgotPasswordFormState(codeConfirmationIsValid(), passwordFormIsValid(), passwordConfirmationFormIsValid()));
     }
 
     public MutableLiveData<ForgotPasswordFormState> getFormState() {

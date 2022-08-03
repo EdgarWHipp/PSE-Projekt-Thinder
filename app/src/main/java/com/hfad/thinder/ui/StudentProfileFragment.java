@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentStudentProfileBinding;
@@ -79,8 +80,10 @@ public class StudentProfileFragment extends Fragment {
         DataBindingUtil.inflate(inflater, R.layout.fragment_student_profile, container, false);
 
     view = binding.getRoot();
+    viewModel = new ViewModelProvider(this).get(EditProfileViewModel.class);
     binding.setFragment(this);
-
+    binding.setViewmodel(viewModel);
+    binding.setLifecycleOwner(this);
     final Observer<ViewModelResult> deleteResultObserver = new Observer<ViewModelResult>() {
       @Override
       public void onChanged(ViewModelResult viewModelResult) {

@@ -46,7 +46,7 @@ public class RegistrationViewModel extends ViewModel {
   //Ändert den Zustand der Validität der Email und des Passworts
   // Wird in der afterTextChange Methode aufgerufen
   public void registrationDataChanged() {
-    registrationFormState.setValue(
+    getRegistrationFormState().setValue(
         new RegistrationFormState(emailFormatIsValid(), firstNameFormatIsValid(),
             lastNameFormatIsValid(), passwordFormIsValid(), passwordConfirmationFormIsValid()));
   }

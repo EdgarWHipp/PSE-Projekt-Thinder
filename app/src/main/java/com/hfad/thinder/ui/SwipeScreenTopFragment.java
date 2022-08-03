@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentSwipeScreenTopBinding;
+import com.hfad.thinder.viewmodels.student.SwipeScreenViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,8 +35,10 @@ public class SwipeScreenTopFragment extends Fragment {
 
     private FragmentSwipeScreenTopBinding binding;
     private View view;
+    private SwipeScreenViewModel viewModel;
 
     private TextView title;
+    private TextView task;
     private ImageView image;
 
     public SwipeScreenTopFragment() {
@@ -74,16 +78,33 @@ public class SwipeScreenTopFragment extends Fragment {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_swipe_screen_top, container, false);
         view = binding.getRoot();
+        viewModel = new ViewModelProvider(requireActivity()).get(SwipeScreenViewModel.class);
 
         title = binding.tvTitleCardOne;
         image = binding.ivCardOne;
+        task = binding.TaskContentCardOne;
 
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
-        title.setText(requireArguments().getString("title"));
-        image.setImageResource(requireArguments().getInt("image", R.drawable.ic_thinder_logo_v1));
+        Bundle bundle = this.getArguments();
+        if(bundle!=null){
+            boolean isCardOne = bundle.getBoolean("isCardOne");
+            if(isCardOne){
+                title.setText(viewModel.getCurrentCard().getTitle());
+                image.setImageBitmap(viewModel.getCurrentCard().getImages().get(0));
+                task.setText(viewModel.getCurrentCard().getTask());
+            }else{
+                title.setText(viewModel.getNextCard().getTitle());
+                image.setImageBitmap(viewModel.getNextCard().getImages().get(0));
+                task.setText(viewModel.getNextCard().getTask());
+            }
+        }else{
+            title.setText(viewModel.getCurrentCard().getTitle());
+            image.setImageBitmap(viewModel.getCurrentCard().getImages().get(0));
+            task.setText(viewModel.getCurrentCard().getTask());
+        }
     }
 }

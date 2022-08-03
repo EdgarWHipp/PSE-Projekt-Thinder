@@ -2,13 +2,20 @@ package com.hfad.thinder.ui;
 
 import android.os.Bundle;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.hfad.thinder.R;
+import com.hfad.thinder.databinding.FragmentSwipeScreenTextBinding;
+import com.hfad.thinder.viewmodels.student.SwipeScreenViewModel;
+
+import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +32,12 @@ public class SwipeScreenTextFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    FragmentSwipeScreenTextBinding binding;
+    SwipeScreenViewModel viewModel;
+
+    TextView task;
+    TextView motivation;
 
     public SwipeScreenTextFragment() {
         // Required empty public constructor
@@ -60,7 +73,20 @@ public class SwipeScreenTextFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_swipe_screen_text, container, false);
+        viewModel = new ViewModelProvider(requireActivity()).get(SwipeScreenViewModel.class);
+
+        task = binding.tvTaskContent;
+        motivation = binding.tvMotivationContent;
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_swipe_screen_text, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState){
+        SwipeScreenCard currentCard = viewModel.getCurrentCard();
+        task.setText(currentCard.getTask());
+        motivation.setText(currentCard.getMotivation());
     }
 }

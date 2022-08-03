@@ -2,11 +2,10 @@ package com.hfad.thinder.ui;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
-import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import android.widget.ImageView;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentSwipeScreenImageBinding;
+import com.hfad.thinder.viewmodels.student.SwipeScreenViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,6 +33,7 @@ public class SwipeScreenImageFragment extends Fragment {
 
     private FragmentSwipeScreenImageBinding binding;
     private View view;
+    private SwipeScreenViewModel viewModel;
 
     private ImageView imageView;
 
@@ -71,6 +72,7 @@ public class SwipeScreenImageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_swipe_screen_image, container, false);
+        viewModel = new ViewModelProvider(requireActivity()).get(SwipeScreenViewModel.class);
         view = binding.getRoot();
 
         imageView = binding.ivImage;
@@ -79,7 +81,7 @@ public class SwipeScreenImageFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
-        imageView.setImageResource(requireArguments().getInt("image"));
+    public void onViewCreated(View view, Bundle savedInstanceState){
+        imageView.setImageBitmap(viewModel.getCurrentDetailViewImage());
     }
 }

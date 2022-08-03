@@ -65,7 +65,7 @@ public class EditProfileViewModel extends ViewModel {
   }
 
   public void profileDataChanged() {
-    formState.setValue(
+    getFormState().setValue(
         new EditProfileFormState(checkFirstName(), checkLastName(), checkBuilding(), checkRoom(),
             checkPhoneNumber(), checkInstitute()));
   }
