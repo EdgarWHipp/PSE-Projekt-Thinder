@@ -83,6 +83,7 @@
     <string name="send_form">Send form</string>
     <string name="account_remove_text">Are you sure you want to delete your account?</string>
     <string name="account_remove">Delete account</string>
+    <string name="save_successful">Data was saved successfully.</string>
 
     <!-- Registration View Model Strings -->
     <string name="no_password_error">Password field must not be empty</string>
@@ -95,11 +96,12 @@
     <string name="no_first_name_error">First name field must not be empty</string>
     <string name="no_last_name_error">Last name field must not be empty</string>
 
-    <!-- Supervisor Edit Profile View Model Strings -->
+    <!-- Edit Profile View Model Strings -->
     <string name="no_building_error">Building field must not be empty</string>
     <string name="no_room_error">Room field must not be empty</string>
     <string name="no_phone_number_error">Phone number field must not be empty</string>
     <string name="invalid_phone_number_error">Invalid phone number</string>
     <string name="no_institute_error">Institute field must not be empty</string>
     <string name="edit_profile_success_message">Profile data was updated successfully</string>
+    <string name="no_courses_of_study_error_message">At least one course of study must be selected</string>
 </resources>

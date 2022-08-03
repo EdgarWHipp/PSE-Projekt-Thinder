@@ -4,25 +4,39 @@ import androidx.annotation.Nullable;
 
 public class EditProfileFormState {
   @Nullable
-  private final String firstNameErrorMessage;
+  private final Integer firstNameErrorMessage;
 
   @Nullable
-  private final String lastNameErrorMessage;
+  private final Integer lastNameErrorMessage;
+
+  @Nullable
+  private final Integer coursesOfStudyErrorMessage;
 
   private final boolean isValid;
 
-  public EditProfileFormState(String firstNameErrorMessage, @Nullable String lastNameErrorMessage) {
+  public EditProfileFormState(@Nullable Integer firstNameErrorMessage,
+                              @Nullable Integer lastNameErrorMessage,
+                              @Nullable Integer coursesOfStudyErrorMessage) {
     this.firstNameErrorMessage = firstNameErrorMessage;
     this.lastNameErrorMessage = lastNameErrorMessage;
-    this.isValid = (firstNameErrorMessage == null && lastNameErrorMessage == null);
+    this.coursesOfStudyErrorMessage = coursesOfStudyErrorMessage;
+    this.isValid = (firstNameErrorMessage == null && lastNameErrorMessage == null &&
+        coursesOfStudyErrorMessage == null);
   }
 
-  public String getFirstNameErrorMessage() {
+  @Nullable
+  public Integer getFirstNameErrorMessage() {
     return this.firstNameErrorMessage;
   }
 
-  public String getLastNameErrorMessage() {
+  @Nullable
+  public Integer getLastNameErrorMessage() {
     return this.lastNameErrorMessage;
+  }
+
+  @Nullable
+  public Integer getCoursesOfStudyErrorMessage() {
+    return coursesOfStudyErrorMessage;
   }
 
   public boolean isDataValid() {
