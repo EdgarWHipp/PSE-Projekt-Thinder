@@ -31,7 +31,34 @@ public class ThesesApiService {
   private static final OkHttpClient client = new OkHttpClient();
   private static final String url = "http://localhost:8080";
   private static final String emulatorLocalHost = "http://10.0.2.2:8080";
+  private String scheme = "http";
 
+  public String getScheme() {
+    return scheme;
+  }
+
+  public void setScheme(String scheme) {
+    this.scheme = scheme;
+  }
+
+  public String getHost() {
+    return host;
+  }
+
+  public void setHost(String host) {
+    this.host = host;
+  }
+
+  public int getPort() {
+    return port;
+  }
+
+  public void setPort(int port) {
+    this.port = port;
+  }
+
+  private String host = "10.0.2.2";
+  private int port = 8080;
 
   public Tuple<CompletableFuture<List<Thesis>>, CompletableFuture<Result>> getAllPositivRatedThesesFuture(UUID id) {
     OkHttpClient clientAuth = new OkHttpClient.Builder()
@@ -43,9 +70,9 @@ public class ThesesApiService {
     CompletableFuture<List<Thesis>> thesisListFuture = new CompletableFuture<>();
 
     HttpUrl url = new HttpUrl.Builder()
-            .scheme("http")
-            .host("10.0.2.2")
-            .port(8080)
+            .scheme(scheme)
+            .host(host)
+            .port(port)
             .addPathSegment("users")
             .addPathSegment(id.toString())
             .addPathSegment("rated-theses")
@@ -109,9 +136,9 @@ public class ThesesApiService {
     RequestBody body = RequestBody.create(thesisJSON.toString(), JSON);
 
     HttpUrl url = new HttpUrl.Builder()
-            .scheme("http")
-            .host("10.0.2.2")
-            .port(8080)
+            .scheme(scheme)
+            .host(host)
+            .port(port)
             .addPathSegment("thesis")
             .build();
     Request request = new Request.Builder()
@@ -153,9 +180,9 @@ public class ThesesApiService {
     CompletableFuture<Thesis> resultThesis = new CompletableFuture<>();
 
     HttpUrl url = new HttpUrl.Builder()
-            .scheme("http")
-            .host("10.0.2.2")
-            .port(8080)
+            .scheme(scheme)
+            .host(host)
+            .port(port)
             .addPathSegment("thesis")
             .addPathSegment(thesisId.toString()).build();
     Request request = new Request.Builder()
@@ -199,9 +226,9 @@ public class ThesesApiService {
     CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 
     HttpUrl url = new HttpUrl.Builder()
-            .scheme("http")
-            .host("10.0.2.2")
-            .port(8080)
+            .scheme(scheme)
+            .host(host)
+            .port(port)
             .addPathSegment("thesis")
             .addPathSegment(thesisId.toString()).build();
 
@@ -229,4 +256,5 @@ public class ThesesApiService {
 
     return resultCompletableFuture;
   }
+
 }

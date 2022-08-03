@@ -31,6 +31,33 @@ public class SupervisorApiService {
   private static final OkHttpClient client = new OkHttpClient();
   private static final String url = "http://localhost:8080";
   private static final String  emulatorLocalHost = "http://10.0.2.2:8080";
+  private String host="http";
+  private String scheme ="10.0.2.2";
+  private int port =8080;
+
+  public String getHost() {
+    return host;
+  }
+
+  public void setHost(String host) {
+    this.host = host;
+  }
+
+  public String getScheme() {
+    return scheme;
+  }
+
+  public void setScheme(String scheme) {
+    this.scheme = scheme;
+  }
+
+  public int getPort() {
+    return port;
+  }
+
+  public void setPort(int port) {
+    this.port = port;
+  }
 
   /**
    * This function creates the HTTP PUT request that completes the user profile by extending the profile through either the additional attributes from the supervisor.
@@ -69,9 +96,9 @@ public class SupervisorApiService {
     RequestBody body = RequestBody.create(supervisorJson.toString(), JSON);
 
     HttpUrl url = new HttpUrl.Builder()
-            .scheme("http")
-            .host("10.0.2.2")
-            .port(8080)
+            .scheme(scheme)
+            .host(host)
+            .port(port)
             .addPathSegment("users")
             .addPathSegment("current")
             .build();
@@ -123,9 +150,9 @@ public class SupervisorApiService {
             .put("supervisingProfessor", thesis.getSupervisingProfessor());
 
     HttpUrl url = new HttpUrl.Builder()
-            .scheme("http")
-            .host("10.0.2.2")
-            .port(8080)
+            .scheme(scheme)
+            .host(host)
+            .port(port)
             .addPathSegment("thesis")
             .addPathSegment(thesisId.toString()).build();
 

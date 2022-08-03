@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.remote.okhttp.StudentApiService;
+import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.data.source.result.Tuple;
 
@@ -67,4 +68,22 @@ public class StudentRemoteDataSource {
       return new Tuple<>(null,new Result("error", false));
     }
   }
+  public Result rateThesis(final UUID thesisId,final boolean rating ){
+    try {
+      CompletableFuture<Result> result =
+              okHttpService.rateThesisFuture(UserRepository.getInstance().getUser().getId(),thesisId,rating);
+      return result.get(10000, TimeUnit.SECONDS);
+
+
+    } catch (JSONException j) {
+      return new Result("error", false);
+    } catch (ExecutionException e) {
+      return new Result("error", false);
+    } catch (InterruptedException e) {
+      return new Result("error", false);
+    } catch (TimeoutException e) {
+      return new Result("error", false);
+    }
+  }
+
 }

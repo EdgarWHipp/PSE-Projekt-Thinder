@@ -6,6 +6,7 @@ import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Login;
 import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.USERTYPE;
+import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 
@@ -80,16 +81,65 @@ public class StudentApiServiceTest {
 
         // TODO assertEquals("{...}", body); <-- AUSSCHLAGGEBEND!! BODY MUSS KORREKT SEIN
     }
+    @Test
+    public void rateThesisFuture() throws JSONException, InterruptedException, ExecutionException {
+        //Set current loged in user
+        Degree degreeInformatik = new Degree("Informatik","Bsc");
+        Set<Degree> degreesOld = new HashSet<>();
+        degreesOld.add(degreeInformatik);
+
+        Student student = new Student(USERTYPE.STUDENT,
+                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                true, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                "password", "mail@gmail.com", "Olf", "Molf", degreesOld);
+        // Actual Thesis Rating call
+        UserRepository.getInstance().setUser(student);
+        MockResponse response = new MockResponse().setResponseCode(200);
+        server.enqueue(response);
+        CompletableFuture<Result> result = studentApiService.rateThesisFuture(
+                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),true);
+        RecordedRequest request = server.takeRequest();
+        String authToken = request.getHeader("Authorization");
+        String body = request.getBody().toString();
+
+        assertTrue(result.get().getSuccess());
+        assertEquals("Basic bWFpbEBnbWFpbC5jb206cGFzc3dvcmQ=", authToken);
+    }
+    @Test
+    public void rateThesisFutureFail() throws JSONException, InterruptedException, ExecutionException {
+        //Set current loged in user
+        Degree degreeInformatik = new Degree("Informatik","Bsc");
+        Set<Degree> degreesOld = new HashSet<>();
+        degreesOld.add(degreeInformatik);
+
+        Student student = new Student(USERTYPE.STUDENT,
+                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                true, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                "password", "mail@gmail.com", "Olf", "Molf", degreesOld);
+        // Actual Thesis Rating call
+        UserRepository.getInstance().setUser(student);
+        MockResponse response = new MockResponse().setResponseCode(500);
+        server.enqueue(response);
+        CompletableFuture<Result> result = studentApiService.rateThesisFuture(
+                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),true);
+        RecordedRequest request = server.takeRequest();
+        String authToken = request.getHeader("Authorization");
+        String body = request.getBody().toString();
+
+        assertFalse(result.get().getSuccess());
+        assertEquals("Basic bWFpbEBnbWFpbC5jb206cGFzc3dvcmQ=", authToken);
+    }
 
     @Test
     public void getSwipeOrder() {
     }
 
-    @Test
-    public void rateThesisFuture() {
-    }
+
 
     @Test
     public void getLikedThesesFuture() {
+
     }
 }

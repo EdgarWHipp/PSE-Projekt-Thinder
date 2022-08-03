@@ -5,6 +5,7 @@ import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
+import com.hfad.thinder.data.source.remote.StudentRemoteDataSource;
 import com.hfad.thinder.data.source.remote.SupervisorRemoteDataSource;
 import com.hfad.thinder.data.source.remote.ThesisRemoteDataSource;
 import com.hfad.thinder.data.source.result.Result;
@@ -25,6 +26,7 @@ public final class ThesisRepository {
     private static ThesisRepository INSTANCE;
     private ThesisRemoteDataSource thesisRemoteDataSource =new ThesisRemoteDataSource();
     private SupervisorRemoteDataSource supervisorRemoteDataSource = new SupervisorRemoteDataSource();
+    private StudentRemoteDataSource studentRemoteDataSource = new StudentRemoteDataSource();
     private Thesis currentlySelectedThesis;
     private HashMap<UUID,Thesis> thesisMap = new HashMap<>();
 
@@ -123,4 +125,6 @@ public final class ThesisRepository {
     public Result deleteThesis(UUID thesisId){
         return thesisRemoteDataSource.deleteThesis(thesisId);
     }
+
+
 }
