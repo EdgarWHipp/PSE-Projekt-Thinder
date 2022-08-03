@@ -19,4 +19,7 @@ public class Student extends User {
         return degree;
     }
 
+    public void setDegree(Set<Degree> degree) {
+        this.degree = degree;
+    }
 }

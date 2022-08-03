@@ -1,5 +1,6 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
+import android.content.pm.ShortcutManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -7,7 +8,10 @@ import androidx.annotation.NonNull;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hfad.thinder.data.model.Degree;
+import com.hfad.thinder.data.model.Student;
+import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
+import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.data.source.result.Tuple;
@@ -16,6 +20,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -85,6 +91,11 @@ public class StudentApiService {
       @Override
       public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
         if(response.isSuccessful()){
+          Student current = (Student) UserRepository.getInstance().getUser();
+          current.setFirstName(firstName);
+          current.setLastName(lastName);
+          current.setDegree(degrees);
+          UserRepository.getInstance().setUser(current);
           resultCompletableFuture.complete(new Result(true));
         }else{
           resultCompletableFuture.complete(new Result("not successful",false));
@@ -103,9 +114,9 @@ public class StudentApiService {
                             getUser().getPassword()))
             .build();
     HttpUrl url = new HttpUrl.Builder()
-            .scheme("http")
-            .host("10.0.2.2")
-            .port(8080)
+            .scheme(scheme)
+            .host(host)
+            .port(port)
             .addPathSegment("users")
             .addPathSegment(UserRepository.getInstance().getCurrentUUID().toString())
             .addPathSegment("thesis")
@@ -131,56 +142,7 @@ public class StudentApiService {
     return null;
   }
 
-  /**
-   * This function creates the actual HTTP POST request that enables a student to like or dislike a thesis.
-   * If the thesis is liked it can be found inside their liked-theses screen.
-   * @param userId
-   * @param thesisId
-   * @param rating
-   * @return CompletableFuture<Result> The result is later fetched in the StudentRemoteDataSource class.
-   * @throws JSONException
-   */
-  public CompletableFuture<Result> rateThesisFuture(final UUID userId, final UUID thesisId,final boolean rating) throws JSONException {
-    OkHttpClient clientAuth = new OkHttpClient.Builder()
-            .addInterceptor(
-                    new AuthInterceptor(UserRepository.getInstance().
-                            getUser().getMail(), UserRepository.getInstance().
-                            getUser().getPassword()))
-            .build();
-    JSONObject booleanJSON = new JSONObject().put("rating",rating);
-    RequestBody body = RequestBody.create(booleanJSON.toString(), JSON);
-    CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
-    HttpUrl url = new HttpUrl.Builder()
-            .scheme("http")
-            .host("10.0.2.2")
-            .port(8080)
-            .addPathSegment("users")
-            .addPathSegment(userId.toString())
-            .addPathSegment("rated-thesis")
-            .addPathSegment(thesisId.toString()).build();
-    Request request = new Request.Builder()
-            .url(url)
-            .post(body)
-            .build();
 
-    Call call = clientAuth.newCall(request);
-    call.enqueue(new Callback() {
-      @Override
-      public void onFailure(@NonNull Call call, @NonNull IOException e) {
-        resultCompletableFuture.complete(new Result("not successful",false));
-      }
-
-      @Override
-      public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-        if(response.isSuccessful()){
-          resultCompletableFuture.complete(new Result(true));
-        }else {
-          resultCompletableFuture.complete(new Result("not successful",false));
-        }
-      }
-    });
-    return resultCompletableFuture;
-  }
 
   /**
    * Performs the actual HTTP GET Request that
@@ -200,9 +162,9 @@ public class StudentApiService {
 
 
     HttpUrl url = new HttpUrl.Builder()
-            .scheme("http")
-            .host("10.0.2.2")
-            .port(8080)
+            .scheme(scheme)
+            .host(host)
+            .port(port)
             .addPathSegment(id.toString())
             .addPathSegment("rated-thesis").build();
     Request request = new Request.Builder()
@@ -242,5 +204,51 @@ public class StudentApiService {
 
   public void setPort(int port) {
     this.port = port;
+  }
+  /**
+   * This function creates the actual HTTP POST request that enables a student to like or dislike a thesis.
+   * If the thesis is liked it can be found inside their liked-theses screen.
+   * @return CompletableFuture<Result> The result is later fetched in the StudentRemoteDataSource class.
+   * @throws JSONException
+   */
+  public CompletableFuture<Result> rateThesisFuture(final Collection<Tuple<UUID,Boolean>> ratings) throws JSONException {
+    OkHttpClient clientAuth = new OkHttpClient.Builder()
+            .addInterceptor(
+                    new AuthInterceptor(UserRepository.getInstance().
+                            getUser().getMail(), UserRepository.getInstance().
+                            getUser().getPassword()))
+            .build();
+
+    String json = new Gson().toJson(ratings );
+    RequestBody body = RequestBody.create(json,JSON);
+    CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
+    HttpUrl url = new HttpUrl.Builder()
+            .scheme(scheme)
+            .host(host)
+            .port(port)
+            .addPathSegment("students")
+            .addPathSegment("rated-theses").build();
+    Request request = new Request.Builder()
+            .url(url)
+            .post(body)
+            .build();
+
+    Call call = clientAuth.newCall(request);
+    call.enqueue(new Callback() {
+      @Override
+      public void onFailure(@NonNull Call call, @NonNull IOException e) {
+        resultCompletableFuture.complete(new Result("not successful",false));
+      }
+
+      @Override
+      public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+        if(response.isSuccessful()){
+          resultCompletableFuture.complete(new Result(true));
+        }else {
+          resultCompletableFuture.complete(new Result("not successful",false));
+        }
+      }
+    });
+    return resultCompletableFuture;
   }
 }
