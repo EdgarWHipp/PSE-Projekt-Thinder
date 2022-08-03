@@ -42,7 +42,7 @@ public class ThesesApiServiceTest {
             new UUID(32,32),true,
             new UUID(32,32),
             "Test123","test@kit.edu","max","mustermann","Msc Informatik",
-            "10.20","Telematik","0123123123");
+            "10.20","2","Telematik","0123123123");
 
     thesisApiService =  new ThesesApiService();
     thesisApiService.setHost(server.getHostName());

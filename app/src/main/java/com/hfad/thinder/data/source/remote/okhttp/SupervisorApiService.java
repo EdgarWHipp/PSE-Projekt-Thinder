@@ -5,6 +5,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.hfad.thinder.data.model.Login;
+import com.hfad.thinder.data.model.Student;
+import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
@@ -116,6 +118,15 @@ public class SupervisorApiService {
       @Override
       public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
         if (response.isSuccessful()){
+          Supervisor current = (Supervisor) UserRepository.getInstance().getUser();
+          current.setFirstName(firstName);
+          current.setLastName(lastName);
+          current.setInstitute(institute);
+          current.setAcademicDegree(degree);
+          current.setBuilding(building);
+          current.setOfficeNumber(officeNumber);
+          current.setPhoneNumber(phoneNumber);
+          UserRepository.getInstance().setUser(current);
           resultCompletableFuture.complete(new Result("success",true));
         }else {
           resultCompletableFuture.complete(new Result("error",false));

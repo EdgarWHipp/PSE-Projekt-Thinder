@@ -8,18 +8,37 @@ public class Supervisor extends User {
 
     @SerializedName("degree")
     private String academicDegree;
-    @SerializedName("location")
-    private String location;
+    @SerializedName("building")
+    private String building;
+    @SerializedName("officeNumber")
+    private String OfficeNumber;
     @SerializedName("institute")
     private String institute;
     @SerializedName("phoneNumber")
     private String phoneNumber;
 
+    public String getBuilding() {
+        return building;
+    }
 
-    public Supervisor(USERTYPE role, UUID id, boolean active, UUID universityId, String password, String eMail, String firstName, String lastName, String academicDegree, String location, String institute, String phoneNumber) {
-        super(role, id, active, universityId, password, eMail, firstName, lastName);
+    public void setBuilding(String building) {
+        this.building = building;
+    }
+
+    public String getOfficeNumber() {
+        return OfficeNumber;
+    }
+
+    public void setOfficeNumber(String officeNumber) {
+        OfficeNumber = officeNumber;
+    }
+
+
+    public Supervisor(USERTYPE role, UUID id, boolean active, UUID universityId, String password, String mail, String firstName, String lastName, String academicDegree, String building, String officeNumber, String institute, String phoneNumber) {
+        super(role, id, active, universityId, password, mail, firstName, lastName);
         this.academicDegree = academicDegree;
-        this.location = location;
+        this.building = building;
+        OfficeNumber = officeNumber;
         this.institute = institute;
         this.phoneNumber = phoneNumber;
     }
@@ -32,13 +51,7 @@ public class Supervisor extends User {
         this.academicDegree = academicDegree;
     }
 
-    public String getLocation() {
-        return location;
-    }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
 
     public String getInstitute() {
         return institute;
