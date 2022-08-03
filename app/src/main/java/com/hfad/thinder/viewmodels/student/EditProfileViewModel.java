@@ -42,7 +42,8 @@ public class EditProfileViewModel extends ViewModel {
     if (result.getSuccess()) {
       deleteResult.setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
     } else {
-      deleteResult.setValue(new ViewModelResult(null, ViewModelResultTypes.ERROR));
+      deleteResult.setValue(
+          new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
     }
   }
 
