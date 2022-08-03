@@ -11,11 +11,13 @@ import com.hfad.thinder.data.source.remote.ThesisRemoteDataSource;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.data.source.result.Tuple;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.Stack;
 import java.util.UUID;
 
 /**
@@ -29,6 +31,7 @@ public final class ThesisRepository {
     private StudentRemoteDataSource studentRemoteDataSource = new StudentRemoteDataSource();
     private Thesis currentlySelectedThesis;
     private HashMap<UUID,Thesis> thesisMap = new HashMap<>();
+    private ArrayList<Thesis> theses = new ArrayList<>();
 
     public void setCurrentlySelectedThesis(Thesis currentlySelectedThesis) {
         this.currentlySelectedThesis = currentlySelectedThesis;
@@ -42,7 +45,11 @@ public final class ThesisRepository {
         return currentlySelectedThesis;
     }
 
-    /**
+  public void setTheses(ArrayList<Thesis> theses) {
+    this.theses = theses;
+  }
+
+  /**
      * This function sets the Thesis for the getCurrentlySelectedThesis by taking the id that the viewmodel provides
      * and setting the currentlySelectedThesis value.
      * @param thesisId
@@ -56,9 +63,7 @@ public final class ThesisRepository {
                 return new Result("not successful",false);
             }
     }
-    private ThesisRepository() {
-
-    }
+    private ThesisRepository() {}
 
     /**
      * @return current instance of ThesisRepository singleton class.
@@ -80,21 +85,34 @@ public final class ThesisRepository {
         return null;
     }
 
-    public HashMap<UUID, Thesis> getThesisMap() {
+    public HashMap<UUID, Thesis> getLikedThesisMap() {
         return thesisMap;
     }
 
-    /**
-     * Adds a new thesis to the global list of all thesis that the students can
-     * @param supervisingProf
-     * @param name
-     * @param motivation
-     * @param task
-     * @param form
-     * @param degrees
-     * @param images
-     * @return Result class including success value and error message
-     */
+    public ArrayList<Thesis> getAllSwipeableTheses(){return theses;}
+
+  /**
+   * get all viable theses for the currently active student.
+   */
+    public void fetchAllThesesForStudent(){
+      setTheses(thesisRemoteDataSource.getAllThesisForAStudent());
+    }
+
+
+    public Result updateBackendRatings(Stack<Tuple<UUID,Boolean>> ratings){
+      return null;
+    }
+  /**
+   * Adds a new thesis to the global list of all thesis that the students can
+   * @param supervisingProf
+   * @param name
+   * @param motivation
+   * @param task
+   * @param form
+   * @param degrees
+   * @param images
+   * @return Result class including success value and error message
+   */
     public Result addThesis(String supervisingProf, String name, String motivation, String task, String form, Set<Degree> degrees , Set<Image> images) {
         return thesisRemoteDataSource.createNewThesis(new Thesis(supervisingProf,name,motivation,task,form,images,(Supervisor) UserRepository.getInstance().getUser(),degrees));
     }
@@ -109,10 +127,10 @@ public final class ThesisRepository {
      * @param thesisId
      * @return
      */
-    public Result editThesis(final UUID thesisId){
+    public Result editThesis(final UUID thesisId,final Thesis thesis){
 
         return supervisorRemoteDataSource
-                .editThesis(thesisId,ThesisRepository.getInstance().getThesisMap().get(thesisId));
+                .editThesis(thesisId,thesis);
 
 
     }

@@ -11,6 +11,7 @@ import com.hfad.thinder.data.source.result.Tuple;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -68,10 +69,10 @@ public class StudentRemoteDataSource {
       return new Tuple<>(null,new Result("error", false));
     }
   }
-  public Result rateThesis(final UUID thesisId,final boolean rating ){
+  public Result rateThesis(final Collection<Tuple<UUID,Boolean>> ratings){
     try {
       CompletableFuture<Result> result =
-              okHttpService.rateThesisFuture(UserRepository.getInstance().getUser().getId(),thesisId,rating);
+              okHttpService.rateThesisFuture(ratings);
       return result.get(10000, TimeUnit.SECONDS);
 
 

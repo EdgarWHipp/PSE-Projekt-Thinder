@@ -15,6 +15,19 @@ public class Thesis {
     private String name;
     @SerializedName("supervisingProfessor")
     private String supervisingProfessor;
+    @SerializedName("motivation")
+    private String motivation;
+    @SerializedName("task")
+    private String task;
+    @SerializedName("form")
+    private String form;
+    @SerializedName("images")
+    @Nullable
+    private Set<Image> images;
+    @SerializedName("supervisor")
+    private Supervisor supervisor;
+    @SerializedName("possibleDegrees")
+    private Set<Degree> possibleDegrees;
 
     public String getSupervisingProfessor() {
         return supervisingProfessor;
@@ -32,19 +45,7 @@ public class Thesis {
         this.id = id;
     }
 
-    @SerializedName("motivation")
-    private String motivation;
-    @SerializedName("task")
-    private String task;
-    @SerializedName("form")
-    private String form;
-    @SerializedName("images")
-    @Nullable
-    private Set<Image> images;
-    @SerializedName("supervisor")
-    private Supervisor supervisor;
-    @SerializedName("possibleDegrees")
-    private Set<Degree> possibleDegrees;
+
 
     public void setName(String name) {
         this.name = name;

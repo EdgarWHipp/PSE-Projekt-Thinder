@@ -9,6 +9,7 @@ import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
+import com.hfad.thinder.data.source.result.Tuple;
 
 import org.json.JSONException;
 import org.junit.After;
@@ -16,6 +17,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -96,9 +99,10 @@ public class StudentApiServiceTest {
         UserRepository.getInstance().setUser(student);
         MockResponse response = new MockResponse().setResponseCode(200);
         server.enqueue(response);
+        Collection<Tuple<UUID,Boolean>> ratings =  new ArrayList<>();
+        ratings.add(new Tuple<>(new UUID(32,32),true));
         CompletableFuture<Result> result = studentApiService.rateThesisFuture(
-                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
-                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),true);
+                ratings);
         RecordedRequest request = server.takeRequest();
         String authToken = request.getHeader("Authorization");
         String body = request.getBody().toString();
@@ -121,9 +125,9 @@ public class StudentApiServiceTest {
         UserRepository.getInstance().setUser(student);
         MockResponse response = new MockResponse().setResponseCode(500);
         server.enqueue(response);
-        CompletableFuture<Result> result = studentApiService.rateThesisFuture(
-                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
-                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),true);
+        Collection<Tuple<UUID,Boolean>> ratings = new ArrayList<>();
+        ratings.add(new Tuple<>(new UUID(32,32),true));
+        CompletableFuture<Result> result = studentApiService.rateThesisFuture(ratings);
         RecordedRequest request = server.takeRequest();
         String authToken = request.getHeader("Authorization");
         String body = request.getBody().toString();

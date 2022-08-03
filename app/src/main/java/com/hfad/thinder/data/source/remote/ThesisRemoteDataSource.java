@@ -10,6 +10,7 @@ import com.hfad.thinder.data.source.result.Tuple;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -92,6 +93,22 @@ public class ThesisRemoteDataSource {
             return new Result("not successful", false);
         } catch (TimeoutException e) {
             return new Result("not successful", false);
+        }
+    }
+
+    public ArrayList<Thesis> getAllThesisForAStudent(){
+        try{
+            Tuple<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>> result = okHttpService.getAllThesesForTheStudentFuture();
+            if(result.y.get().getSuccess()){
+                return result.x.get();
+            }else {
+                return null;
+            }
+
+        } catch (ExecutionException e) {
+            return null;
+        } catch (InterruptedException e) {
+            return null;
         }
     }
 

@@ -17,6 +17,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -198,29 +200,26 @@ public class StudentApiService {
   /**
    * This function creates the actual HTTP POST request that enables a student to like or dislike a thesis.
    * If the thesis is liked it can be found inside their liked-theses screen.
-   * @param userId
-   * @param thesisId
    * @return CompletableFuture<Result> The result is later fetched in the StudentRemoteDataSource class.
    * @throws JSONException
    */
-  public CompletableFuture<Result> rateThesisFuture(final UUID userId, final UUID thesisId,final boolean rating) throws JSONException {
+  public CompletableFuture<Result> rateThesisFuture(final Collection<Tuple<UUID,Boolean>> ratings) throws JSONException {
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(
                     new AuthInterceptor(UserRepository.getInstance().
                             getUser().getMail(), UserRepository.getInstance().
                             getUser().getPassword()))
             .build();
-    JSONObject ratings = new JSONObject().put("rating",rating);
-    RequestBody body = RequestBody.create(ratings.toString(),JSON);
+
+    String json = new Gson().toJson(ratings );
+    RequestBody body = RequestBody.create(json,JSON);
     CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
     HttpUrl url = new HttpUrl.Builder()
             .scheme(scheme)
             .host(host)
             .port(port)
-            .addPathSegment("users")
-            .addPathSegment(userId.toString())
-            .addPathSegment("rated-thesis")
-            .addPathSegment(thesisId.toString()).build();
+            .addPathSegment("students")
+            .addPathSegment("rated-theses").build();
     Request request = new Request.Builder()
             .url(url)
             .post(body)

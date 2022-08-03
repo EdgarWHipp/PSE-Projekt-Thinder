@@ -97,6 +97,45 @@ public class ThesesApiServiceTest {
     assertFalse(resultThesisUpload.get().getSuccess());
 
   }
+  @Test
+  public void getAllLikedTheses(){
+
+  }
+  @Test
+  public void getAllLikedThesesFail(){
+
+  }
+  //Important
+  @Test
+  public void getThesesStack(){
+
+  }
+  @Test
+  public void getThesesStackFail(){
+
+  }
+  @Test
+  public void deleteThesis() throws InterruptedException, ExecutionException {
+    //Set the user
+    UserRepository.getInstance().setUser(supervisor);
+    //actual deleteThesis mock test
+    MockResponse response = new MockResponse().setResponseCode(200);
+    server.enqueue(response);
+    CompletableFuture<Result> resultCompletableFuture = thesisApiService.deleteThesisFuture(new UUID(32,32));
+    server.takeRequest();
+    assertTrue(resultCompletableFuture.get().getSuccess());
+  }
+  @Test
+  public void deleteThesisFail() throws InterruptedException, ExecutionException {
+//Set the user
+    UserRepository.getInstance().setUser(supervisor);
+    //actual deleteThesis mock test
+    MockResponse response = new MockResponse().setResponseCode(500);
+    server.enqueue(response);
+    CompletableFuture<Result> resultCompletableFuture = thesisApiService.deleteThesisFuture(new UUID(32,32));
+    server.takeRequest();
+    assertFalse(resultCompletableFuture.get().getSuccess());
+  }
 
 
 
