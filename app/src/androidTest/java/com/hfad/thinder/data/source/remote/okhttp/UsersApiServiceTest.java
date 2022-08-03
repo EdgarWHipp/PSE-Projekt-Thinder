@@ -152,7 +152,8 @@ public class UsersApiServiceTest extends TestCase {
 
         // Supervisor data
         assertEquals(UserJson.academicDegree, supervisor.getAcademicDegree());
-        assertEquals(UserJson.location, supervisor.getLocation());
+        assertEquals(UserJson.building, supervisor.getBuilding());
+        assertEquals(UserJson.officeNumber, supervisor.getOfficeNumber());
         assertEquals(UserJson.institute, supervisor.getInstitute());
         assertEquals(UserJson.phoneNumber, supervisor.getPhoneNumber());
     }
@@ -222,7 +223,8 @@ public class UsersApiServiceTest extends TestCase {
 
         // Supervisor data
         assertEquals(UserJson.academicDegree, supervisor.getAcademicDegree());
-        assertEquals(UserJson.location, supervisor.getLocation());
+        assertEquals(UserJson.officeNumber, supervisor.getOfficeNumber());
+        assertEquals(UserJson.building, supervisor.getBuilding());
         assertEquals(UserJson.institute, supervisor.getInstitute());
         assertEquals(UserJson.phoneNumber, supervisor.getPhoneNumber());
 
@@ -266,7 +268,8 @@ public class UsersApiServiceTest extends TestCase {
 
         // Supervisor
         private static String academicDegree = "M. Sc.";
-        private static String location = "Building 50.34 Room 102";
+        private static String officeNumber = "Room 102";
+        private static String building = "Building 50.34";
         private static String institute = "Telematik";
         private static String phoneNumber = "0173 1234567";
 
@@ -291,7 +294,8 @@ public class UsersApiServiceTest extends TestCase {
             return getUserJson()
                     .put("role", roleSupervisor)
                     .put("degree", academicDegree)
-                    .put("location", location)
+                    .put("officeNumber", officeNumber)
+                    .put("building",building)
                     .put("institute", institute)
                     .put("phoneNumber", phoneNumber);
         }
