@@ -87,6 +87,12 @@ public class SwipeScreenFragment extends Fragment implements View.OnClickListene
     }
 
     @Override
+    public void onDestroy(){
+        super.onDestroy();
+        //todo: let viewmodel send data to backend
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_swipe_screen, container, false);
@@ -122,13 +128,7 @@ public class SwipeScreenFragment extends Fragment implements View.OnClickListene
         populateCards();
 
         motionLayout = binding.motionLayoutSwipeScreen;
-
-
-
         currentDeckPosition = 0;
-
-
-
         motionLayout.setTransitionListener(new MotionLayout.TransitionListener(){
 
             @Override
