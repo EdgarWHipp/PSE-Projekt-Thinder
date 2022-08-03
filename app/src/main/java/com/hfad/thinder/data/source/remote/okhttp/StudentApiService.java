@@ -8,7 +8,10 @@ import androidx.annotation.NonNull;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hfad.thinder.data.model.Degree;
+import com.hfad.thinder.data.model.Student;
+import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
+import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.data.source.result.Tuple;
@@ -88,6 +91,11 @@ public class StudentApiService {
       @Override
       public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
         if(response.isSuccessful()){
+          Student current = (Student) UserRepository.getInstance().getUser();
+          current.setFirstName(firstName);
+          current.setLastName(lastName);
+          current.setDegree(degrees);
+          UserRepository.getInstance().setUser(current);
           resultCompletableFuture.complete(new Result(true));
         }else{
           resultCompletableFuture.complete(new Result("not successful",false));
