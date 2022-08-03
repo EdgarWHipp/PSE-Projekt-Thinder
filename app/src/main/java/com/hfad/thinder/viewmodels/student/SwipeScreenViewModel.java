@@ -1,11 +1,11 @@
 package com.hfad.thinder.viewmodels.student;
 
 import androidx.lifecycle.MutableLiveData;
-import com.hfad.thinder.data.model.Thesis;
+import com.hfad.thinder.viewmodels.ThesisCardItem;
 import java.util.ArrayList;
 
 public class SwipeScreenViewModel {
-  private MutableLiveData<ArrayList<Thesis>> thesises;
+  private MutableLiveData<ArrayList<ThesisCardItem>> theses;
 
   public void like() {
     //Todo: implement
@@ -26,12 +26,12 @@ public class SwipeScreenViewModel {
   //--------------getter and setter---------------------------------
 
 
-  public MutableLiveData<ArrayList<Thesis>> getThesises() {
-    if (thesises == null || thesises.getValue().size() <= 5) {
-      thesises = new MutableLiveData<>();
+  public MutableLiveData<ArrayList<ThesisCardItem>> getTheses() {
+    if (theses == null || theses.getValue().size() <= 5) {
+      theses = new MutableLiveData<>();
       loadThesises();
     }
-    return thesises;
+    return theses;
   }
 
   //----------------private methods-----------------------------------

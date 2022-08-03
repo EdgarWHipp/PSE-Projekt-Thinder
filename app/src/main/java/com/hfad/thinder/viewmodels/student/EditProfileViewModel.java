@@ -13,7 +13,6 @@ import com.hfad.thinder.viewmodels.ViewModelResultTypes;
 import java.util.HashSet;
 import java.util.Set;
 
-;
 
 public class EditProfileViewModel extends ViewModel {
   private final UserRepository userRepository = UserRepository.getInstance();
@@ -41,9 +40,9 @@ public class EditProfileViewModel extends ViewModel {
   public void delete() {
     Result result = userRepository.delete();
     if (result.getSuccess()) {
-      safeResult.setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
+      deleteResult.setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
     } else {
-      safeResult.setValue(new ViewModelResult(null, ViewModelResultTypes.ERROR));
+      deleteResult.setValue(new ViewModelResult(null, ViewModelResultTypes.ERROR));
     }
   }
 
@@ -105,7 +104,7 @@ public class EditProfileViewModel extends ViewModel {
     if (coursesOfStudy == null) {
       loadCoursesOfStudy();
     }
-    
+
     return coursesOfStudy;
   }
 
