@@ -6,6 +6,7 @@ import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.data.source.result.Tuple;
 
 import java.util.Collection;
+import java.util.Stack;
 import java.util.UUID;
 
 public class StudentRepository {
@@ -34,7 +35,7 @@ public class StudentRepository {
    * @param ratings
    * @return Result
    */
-  public Result rateThesis(final Collection<Tuple<UUID,Boolean>> ratings){
+  public Result rateThesis(final Stack<Tuple<UUID,Boolean>> ratings){
     return studentRemoteDataSource.rateThesis(ratings);
   }
 }

@@ -317,4 +317,8 @@ public class ThesesApiService {
         });
     return new Tuple<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>>(resultThesisFuture,resultCompletableFuture);
   }
+
+  public CompletableFuture<Result> removeALikedThesisFromAStudent(final UUID thesisId){
+return null;
+  }
 }

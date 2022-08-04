@@ -99,6 +99,7 @@ public final class UserRepository {
      * @param token
      * @return The result class with error message null and success value true or, when the call is unsuccessful, a full error message and a success value of false.
      */
+
     public Result verifyUser(String token) {
 
         return usersDataSource.verify(token);
