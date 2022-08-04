@@ -2,6 +2,8 @@ package com.hfad.thinder.data.source.remote.okhttp;
 
 import static org.junit.Assert.*;
 
+import android.util.Log;
+
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Login;
 import com.hfad.thinder.data.model.Student;
@@ -12,6 +14,7 @@ import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.data.source.result.Tuple;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,6 +28,8 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
@@ -33,6 +38,8 @@ public class StudentApiServiceTest {
     private MockWebServer server;
     private StudentApiService studentApiService;
     private Login login;
+    private static final MediaType JSON
+            = MediaType.parse("application/json; charset=utf-8");
 
     @Before
     public void setUp() throws Exception {
@@ -78,11 +85,19 @@ public class StudentApiServiceTest {
         RecordedRequest request = server.takeRequest();
         String authToken = request.getHeader("Authorization");
         String body = request.getBody().toString();
-
+        System.out.println("This is the returned body:" + body);
         assertTrue(result.get().getSuccess());
         assertEquals("Basic bWFpbEBnbWFpbC5jb206cGFzc3dvcmQ=", authToken);
-
-        // TODO assertEquals("{...}", body); <-- AUSSCHLAGGEBEND!! BODY MUSS KORREKT SEIN
+        assertEquals(UserRepository.getInstance().getUser().getFirstName(),"Tom");
+        assertEquals(((Student)UserRepository.getInstance().getUser()).getDegree(),degreesNew);
+        assertEquals(UserRepository.getInstance().getUser().getLastName(),"Müller");
+        assertEquals(UserRepository.getInstance().getUser().getFirstName(),"Tom");
+        JSONObject sentBodyJson = new JSONObject()
+                .put("degrees",degreesNew)
+                .put("firstName","Tom")
+                .put("lastName","Müller");
+        String requestBodybody = RequestBody.create(sentBodyJson.toString(), JSON).toString();
+      //  assertEquals(requestBodybody,body); noch nicht ganz geschafft
     }
     @Test
     public void rateThesisFuture() throws JSONException, InterruptedException, ExecutionException {

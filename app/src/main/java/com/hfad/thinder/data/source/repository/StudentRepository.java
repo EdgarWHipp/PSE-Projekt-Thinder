@@ -11,6 +11,7 @@ import java.util.UUID;
 public class StudentRepository {
 
   private static StudentRepository INSTANCE;
+  private StudentRemoteDataSource studentRemoteDataSource =new StudentRemoteDataSource();
 
   private StudentRepository() {
 
@@ -26,7 +27,13 @@ public class StudentRepository {
     return INSTANCE;
   }
 
-  private StudentRemoteDataSource studentRemoteDataSource =new StudentRemoteDataSource();
+
+
+  /**
+   * Updates the ratings in the backend - this function is called when the student closes the swipe screen.
+   * @param ratings
+   * @return Result
+   */
   public Result rateThesis(final Collection<Tuple<UUID,Boolean>> ratings){
     return studentRemoteDataSource.rateThesis(ratings);
   }

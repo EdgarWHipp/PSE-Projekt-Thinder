@@ -75,33 +75,28 @@ public final class ThesisRepository {
         return INSTANCE;
     }
 
-
-   public Optional<List<Thesis>> getAll() {
-        return null;
-    }
-
-
-    public Optional<Thesis> getById(final int id) {
-        return null;
-    }
-
+  /**
+   * Returns a hashmap of all theses that the currently active student has liked.
+   * @return HashMap<UUID, Thesis>
+   */
     public HashMap<UUID, Thesis> getLikedThesisMap() {
         return thesisMap;
     }
 
-    public ArrayList<Thesis> getAllSwipeableTheses(){return theses;}
+  /**
+   * Simply returns all theses that the student should be able to select from.
+   * Taken directly from the thesisRepository.
+   * @return ArrayList<Thesis>
+   */
+  public ArrayList<Thesis> getAllSwipeableTheses(){return theses;}
 
   /**
-   * get all viable theses for the currently active student.
+   * get all viable theses for the currently active student and save them inside the ThesisRepository.
    */
-    public void fetchAllThesesForStudent(){
+    public void fetchAllSwipeableThesis(){
       setTheses(thesisRemoteDataSource.getAllThesisForAStudent());
     }
 
-
-    public Result updateBackendRatings(Stack<Tuple<UUID,Boolean>> ratings){
-      return null;
-    }
   /**
    * Adds a new thesis to the global list of all thesis that the students can
    * @param supervisingProf
@@ -117,6 +112,7 @@ public final class ThesisRepository {
         return thesisRemoteDataSource.createNewThesis(new Thesis(supervisingProf,name,motivation,task,form,images,(Supervisor) UserRepository.getInstance().getUser(),degrees));
     }
     //Das Viewmodel holt diese ja eigentlich direkt aus dem Model?
+    // Nutzlos
     public Tuple<Thesis,Result> getThesis(final UUID id){
         return thesisRemoteDataSource.getNewThesis(id);
     }

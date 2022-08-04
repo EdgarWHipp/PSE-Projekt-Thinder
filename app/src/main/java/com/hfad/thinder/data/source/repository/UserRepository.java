@@ -38,6 +38,33 @@ public final class UserRepository {
     private UserRepository() {
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public UUID getCurrentUUID() {
+        return currentId;
+    }
+
+    public void setCurrentUUID(UUID currentId) {
+        this.currentId = currentId;
+    }
+
+    public USERTYPE getType() {
+        return type;
+    }
+
+    public void setType(USERTYPE type) {
+        this.type = type;
+    }
+
+    public UsersRemoteDataSource getDatasource() {
+        return usersDataSource;
+    }
     /**
      * Get an instance of the user repository.
      *
@@ -148,31 +175,4 @@ public final class UserRepository {
         return usersDataSource.sendNewPassword(token, newPassword);
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public UUID getCurrentUUID() {
-        return currentId;
-    }
-
-    public void setCurrentUUID(UUID currentId) {
-        this.currentId = currentId;
-    }
-
-    public USERTYPE getType() {
-        return type;
-    }
-
-    public void setType(USERTYPE type) {
-        this.type = type;
-    }
-
-    public UsersRemoteDataSource getDatasource() {
-        return usersDataSource;
-    }
 }
