@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.hfad.thinder.data.model.Degree;
+import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
@@ -162,7 +163,7 @@ public class LikedThesisDetailedViewModel extends ViewModel {
     possibleDegrees.add(new Degree("Bachelor", "Informatik"));
     possibleDegrees.add(new Degree("Bachelor", "Mathematik"));
 
-    Thesis thesis = new Thesis("Prof. Hartmann", "Florian", "motivation", "task", "form", null, supervisor, possibleDegrees);
+    Thesis thesis = new Thesis("Prof. Hartmann", "Florian", "motivation", "task", new Form("questions"), null, supervisor, possibleDegrees);
 
     return thesis;
   }
