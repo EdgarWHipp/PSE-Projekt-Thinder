@@ -221,7 +221,7 @@ public class StudentApiService {
                             getUser().getPassword()))
             .build();
 
-    String json = new Gson().toJson(ratings );
+    String json = new Gson().toJson(ratings);
     RequestBody body = RequestBody.create(json,JSON);
     CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
     HttpUrl url = new HttpUrl.Builder()

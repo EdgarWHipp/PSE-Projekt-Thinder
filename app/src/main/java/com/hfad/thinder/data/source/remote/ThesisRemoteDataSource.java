@@ -96,6 +96,10 @@ public class ThesisRemoteDataSource {
         }
     }
 
+    /**
+     * This function handles all the exceptions that the getAllThesesForTheStudentFuture function throws.
+     * @return ArrayList<Thesis>
+     */
     public ArrayList<Thesis> getAllThesisForAStudent(){
         try{
             Tuple<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>> result = okHttpService.getAllThesesForTheStudentFuture();
@@ -110,6 +114,25 @@ public class ThesisRemoteDataSource {
         } catch (InterruptedException e) {
             return null;
         }
+    }
+
+    /**
+     * This function handles all the exceptions that the removeALikedThesisFromAStudentFuture function throws.
+     * @param thesisId
+     * @return Result
+     */
+    public Result removeLikedThesisFromStudent(UUID thesisId){
+        try{
+            CompletableFuture<Result> result = okHttpService.removeALikedThesisFromAStudentFuture(thesisId);
+            return result.get(100, TimeUnit.SECONDS);
+        } catch (ExecutionException e) {
+            return new Result("not successful", false);
+        } catch (InterruptedException e) {
+            return new Result("not successful", false);
+        } catch (TimeoutException e) {
+            return new Result("not successful", false);
+        }
+
     }
 
 }

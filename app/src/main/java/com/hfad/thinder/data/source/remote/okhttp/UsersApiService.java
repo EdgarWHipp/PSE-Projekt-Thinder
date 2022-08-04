@@ -172,7 +172,7 @@ public class UsersApiService {
      */
     public CompletableFuture<Result> verifyUser(String token) throws JSONException, IOException, ExecutionException, InterruptedException, TimeoutException {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
-        CompletableFuture<Result> getUserRoleResult= getUserRole(new Login(UserRepository.getInstance().getUser().getMail(),UserRepository.getInstance().getUser().getPassword()));
+
 
 
         HttpUrl url = new HttpUrl.Builder()
@@ -183,7 +183,7 @@ public class UsersApiService {
                 .addPathSegment("verify")
                 .addQueryParameter("token",token)
                 .build();
-
+        Log.e("",url.toString());
         Request request = new Request.Builder()
                 .url(url)
                 .get()
@@ -207,7 +207,7 @@ public class UsersApiService {
                 }
             }
         });
-        return getUserRoleResult;
+        return resultCompletableFuture;
     }
 
     /**
