@@ -20,7 +20,7 @@ public class Thesis {
     @SerializedName("task")
     private String task;
     @SerializedName("form")
-    private String form;
+    private Form form;
     @SerializedName("images")
     @Nullable
     private Set<Image> images;
@@ -67,7 +67,7 @@ public class Thesis {
         this.task = task;
     }
 
-    public void setForm(String form) {
+    public void setForm(Form form) {
         this.form = form;
     }
 
@@ -84,7 +84,7 @@ public class Thesis {
         this.possibleDegrees = possibleDegrees;
     }
 
-    public Thesis(String supervisingProfessor, String name, String motivation, String task, String form, @Nullable Set<Image> images, Supervisor supervisor, Set<Degree> possibleDegrees) {
+    public Thesis(String supervisingProfessor, String name, String motivation, String task, Form form, @Nullable Set<Image> images, Supervisor supervisor, Set<Degree> possibleDegrees) {
         this.name = name;
         this.motivation = motivation;
         this.task = task;
@@ -121,7 +121,7 @@ public class Thesis {
 
 
     @Nullable
-    public String getForm() {
+    public Form getForm() {
         return form;
     }
     @Nullable

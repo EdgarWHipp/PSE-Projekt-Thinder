@@ -33,6 +33,11 @@ public final class ThesisRepository {
     private HashMap<UUID,Thesis> thesisMap = new HashMap<>();
     private ArrayList<Thesis> theses = new ArrayList<>();
 
+  /**
+   * Sets the thesis that the viewmodel identified through the id.
+   * This function is used by the viewmodel to gain information about the currently opened thesis.
+   * @param currentlySelectedThesis
+   */
     public void setCurrentlySelectedThesis(Thesis currentlySelectedThesis) {
         this.currentlySelectedThesis = currentlySelectedThesis;
     }
@@ -138,6 +143,15 @@ public final class ThesisRepository {
      */
     public Result deleteThesis(UUID thesisId){
         return thesisRemoteDataSource.deleteThesis(thesisId);
+    }
+
+  /**
+   * Removes an already liked thesis from a student profile.
+   * @param thesisId
+   * @return Result
+   */
+    public Result removeLikedThesisFromStudent(UUID thesisId){
+      return thesisRemoteDataSource.removeLikedThesisFromStudent(thesisId);
     }
 
 

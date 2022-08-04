@@ -65,6 +65,11 @@ public class ThesesApiService {
   private String host = "10.0.2.2";
   private int port = 8080;
 
+  /**
+   * Get all already liked thesis for the student.
+   * @param id
+   * @return
+   */
   public Tuple<CompletableFuture<List<Thesis>>, CompletableFuture<Result>> getAllPositivRatedThesesFuture(UUID id) {
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(new AuthInterceptor
@@ -221,7 +226,11 @@ public class ThesesApiService {
     return new Tuple<>(resultThesis,resultCompletableFuture);
   }
 
-
+  /**
+   * This function creates the actual HTTP DELETE request that deletes a specific thesis.
+   * @param thesisId
+   * @return CompletableFuture<Result>
+   */
   public CompletableFuture<Result> deleteThesisFuture(final UUID thesisId){
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(new AuthInterceptor
@@ -264,7 +273,7 @@ public class ThesesApiService {
 
   /**
    * Returns all theses that a student swipes.
-   * @return
+   * @return Tuple<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>>
    */
   public Tuple<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>> getAllThesesForTheStudentFuture(){
     OkHttpClient clientAuth = new OkHttpClient.Builder()
@@ -318,7 +327,51 @@ public class ThesesApiService {
     return new Tuple<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>>(resultThesisFuture,resultCompletableFuture);
   }
 
-  public CompletableFuture<Result> removeALikedThesisFromAStudent(final UUID thesisId){
-return null;
+  /**
+   * This function creates the actual HTTP POST request that removes an already liked thesis from the list of liked theses from the student.
+   * @param thesisId
+   * @return CompletableFuture<Result>
+   */
+
+  public CompletableFuture<Result> removeALikedThesisFromAStudentFuture(final UUID thesisId){
+    OkHttpClient clientAuth = new OkHttpClient.Builder()
+            .addInterceptor(new AuthInterceptor
+                    (UserRepository.getInstance().getUser().getMail(),
+                            UserRepository.getInstance().getUser().getPassword()))
+            .build();
+    CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
+    RequestBody body = RequestBody.create(null, new byte[]{});
+    HttpUrl url = new HttpUrl.Builder()
+            .scheme(scheme)
+            .host(host)
+            .port(port)
+            .addPathSegment("students")
+            .addPathSegment("rated-theses")
+            .addPathSegment(thesisId.toString())
+            .addPathSegment("remove")
+            .build();
+    Request request = new Request.Builder()
+            .url(url)
+            .post(body)
+            .build();
+
+    Call call = clientAuth.newCall(request);
+    call.enqueue(new Callback() {
+      @Override
+      public void onFailure(@NonNull Call call, @NonNull IOException e) {
+        resultCompletableFuture.complete(new Result("error",false));
+      }
+
+      @Override
+      public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+        if(response.isSuccessful()) {
+          resultCompletableFuture.complete(new Result(true));
+        }else{
+          resultCompletableFuture.complete(new Result("error", false));
+        }
+
+      }
+    });
+    return resultCompletableFuture;
   }
 }
