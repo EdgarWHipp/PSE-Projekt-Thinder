@@ -81,6 +81,10 @@ public class StudentActivity extends AppCompatActivity {
         viewmodel.getProfileComplete().observe(this, profileCreatedObserver);
     }
 
+    public void setActionBarTitle(String title){
+        myChildToolbar.setTitle(title);
+    }
+
     @Override
     public void onBackPressed(){
         moveTaskToBack(true);

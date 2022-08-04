@@ -2,7 +2,7 @@ package com.hfad.thinder.viewmodels.student;
 
 import androidx.lifecycle.MutableLiveData;
 
-public class MySelectionFormViewModel {
+public class LikedThesisFormViewModel {
   private MutableLiveData<String> questions;
   private MutableLiveData<String> answers;
 

@@ -1,11 +1,14 @@
 package com.hfad.thinder.ui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
@@ -15,7 +18,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.hfad.thinder.R;
+import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.databinding.FragmentLikedThesisDetailedBinding;
+import com.hfad.thinder.viewmodels.student.LikedThesisDetailedViewModel;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,11 +41,10 @@ public class LikedThesisDetailedFragment extends Fragment  {
     private String mParam2;
 
     private FragmentLikedThesisDetailedBinding binding;
+    private LikedThesisDetailedViewModel viewModel;
 
-    private Button btDelete;
-    private Button btImages;
-    private Button btForm;
-    private Button btMail;
+    String thesisUUID;
+
 
     public LikedThesisDetailedFragment() {
         // Required empty public constructor
@@ -75,21 +81,31 @@ public class LikedThesisDetailedFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_liked_thesis_detailed, container, false);
+        viewModel = new ViewModelProvider(requireActivity()).get(LikedThesisDetailedViewModel.class);
+        thesisUUID = requireArguments().getString("thesisUUID");
+        String thesisTitle = requireArguments().getString("thesisTitle");
+        ((StudentActivity) getActivity()).setActionBarTitle(thesisTitle);
+        Bitmap image2 = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.index);
+        ArrayList<Bitmap> images = new ArrayList<>();
+        images.add(image2);
+        viewModel.setThesisId(thesisUUID, images);
         // Inflate the layout for this fragment
         binding.setFragment(this);
+        binding.setViewModel(viewModel);
         return binding.getRoot();
     }
 
     public void startEmailClient(View view){
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        String receiver = "test@kit.edu";
+        String receiver = viewModel.getMail().getValue();
         Uri data = Uri.parse("mailto:" + receiver);
         intent.setData(data);
         startActivity(intent);
-
     }
 
     public void goToFillOutFormFragment(View view){
-        Navigation.findNavController(view).navigate(R.id.action_likedThesisDetailedFragment_to_fillOutFormFragment);
+        Bundle bundle = new Bundle();
+        bundle.putString("thesisUUID", thesisUUID);
+        Navigation.findNavController(view).navigate(R.id.action_likedThesisDetailedFragment_to_fillOutFormFragment, bundle);
     }
 }

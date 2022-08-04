@@ -4,8 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="viewmodel"
-            type="com.hfad.thinder.viewmodels.student.ImageGalleryViewModel" />
+            name="viewModel"
+            type="com.hfad.thinder.viewmodels.student.LikedThesisDetailedViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,7 +14,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivImage"
             android:src="@drawable/index"
-            imageBitmap="@{viewmodel.currentImage}"
+            imageBitmap="@{viewModel.currentImage}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_arrow_left"
-            android:onClick="@{() -> viewmodel.previousImage()}"
+            android:onClick="@{() -> viewModel.previousImage()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginStart="@dimen/fab_margin"
@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_arrow_right"
-            android:onClick="@{() -> viewmodel.nextImage()}"
+            android:onClick="@{() -> viewModel.nextImage()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginEnd="@dimen/fab_margin"

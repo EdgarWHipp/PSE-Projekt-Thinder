@@ -72,9 +72,8 @@ public class ThesisCardAdapter extends RecyclerView.Adapter<ThesisCardAdapter.Th
     public void onBindViewHolder(@NonNull ThesisCardAdapter.ThesisManagerViewHolder holder, int position) {
         ThesisCardItem current = elements.get(position);
         holder.title.setText(current.getTitle());
-        holder.description.setText(current.getDescription());
-        //holder.image.setImageResource(current.getImage());
-        //Todo: zeile wieder gültig machen
+        holder.description.setText(current.getTask());
+        holder.image.setImageBitmap(current.getImage());
     }
 
     @Override
