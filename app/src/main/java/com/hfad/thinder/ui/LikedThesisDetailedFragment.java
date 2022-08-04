@@ -85,9 +85,11 @@ public class LikedThesisDetailedFragment extends Fragment  {
         thesisUUID = requireArguments().getString("thesisUUID");
         String thesisTitle = requireArguments().getString("thesisTitle");
         ((StudentActivity) getActivity()).setActionBarTitle(thesisTitle);
+        Bitmap image = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.default_image);
         Bitmap image2 = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.index);
         ArrayList<Bitmap> images = new ArrayList<>();
         images.add(image2);
+        images.add(image);
         viewModel.setThesisId(thesisUUID, images);
         // Inflate the layout for this fragment
         binding.setFragment(this);
@@ -107,5 +109,9 @@ public class LikedThesisDetailedFragment extends Fragment  {
         Bundle bundle = new Bundle();
         bundle.putString("thesisUUID", thesisUUID);
         Navigation.findNavController(view).navigate(R.id.action_likedThesisDetailedFragment_to_fillOutFormFragment, bundle);
+    }
+
+    public void goToImageGalleryFragment(View view){
+        Navigation.findNavController(view).navigate(R.id.action_likedThesisDetailedFragment_to_imageGalleryFragment);
     }
 }

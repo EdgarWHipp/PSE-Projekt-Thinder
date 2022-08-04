@@ -41,10 +41,17 @@
         <action
             android:id="@+id/action_likedThesisDetailedFragment_to_fillOutFormFragment"
             app:destination="@id/fillOutFormFragment" />
+        <action
+            android:id="@+id/action_likedThesisDetailedFragment_to_imageGalleryFragment"
+            app:destination="@id/imageGalleryFragment" />
     </fragment>
     <fragment
         android:id="@+id/coursesOfStudyFragment2"
         android:name="com.hfad.thinder.ui.CoursesOfStudyFragment"
         android:label="@string/choose_courses_of_study"
         tools:layout="@layout/fragment_courses_of_study" />
+    <fragment
+        android:id="@+id/imageGalleryFragment"
+        android:name="com.hfad.thinder.ui.ImageGalleryFragment"
+        android:label="ImageGalleryFragment" />
 </navigation>

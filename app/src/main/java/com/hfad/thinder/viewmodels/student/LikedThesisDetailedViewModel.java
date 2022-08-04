@@ -55,12 +55,12 @@ public class LikedThesisDetailedViewModel extends ViewModel {
 
   public void nextImage(){
     if(iterator.hasNext())
-      currentImage.setValue(iterator.next());
+      getCurrentImage().setValue(iterator.next());
   }
 
   public void previousImage(){
     if(iterator.hasPrevious())
-      currentImage.setValue(iterator.previous());
+      getCurrentImage().setValue(iterator.previous());
   }
   //todo: remove images
   public void setThesisId(String thesisId, ArrayList<Bitmap> images) {
@@ -137,8 +137,9 @@ public class LikedThesisDetailedViewModel extends ViewModel {
   //-----------------------private methods--------------------------------
 
   private void loadThesis() {
-    UUID uuid = UUID.fromString(thesisId);
-    Thesis thesis = thesisRepository.getThesis(uuid).x;
+    //UUID uuid = UUID.fromString(thesisId);
+    //Thesis thesis = thesisRepository.getThesis(uuid).x; //todo uncomment
+    Thesis thesis = generateThesis();//Todo löschen
     Supervisor supervisor = thesis.getSupervisor();
     //images = convertImages(thesis.getImages()); //todo: uncomment
     iterator = images.listIterator();

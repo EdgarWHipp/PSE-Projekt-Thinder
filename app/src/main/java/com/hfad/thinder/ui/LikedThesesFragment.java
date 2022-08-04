@@ -1,5 +1,7 @@
 package com.hfad.thinder.ui;
 
+import static android.content.ContentValues.TAG;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -88,9 +91,11 @@ public class LikedThesesFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
+        buildRecyclerView(new ArrayList<ThesisCardItem>(), view);
         final Observer<ArrayList<ThesisCardItem>> likedThesesObserver = new Observer<ArrayList<ThesisCardItem>>() {
             @Override
             public void onChanged(ArrayList<ThesisCardItem> thesisCardItems) {
+                Log.i(TAG, "onChanged: loadItems");
                 buildRecyclerView(viewModel.getLikedTheses().getValue(), view);
             }
         };

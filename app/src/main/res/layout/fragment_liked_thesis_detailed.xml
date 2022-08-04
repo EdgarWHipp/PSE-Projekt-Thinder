@@ -264,6 +264,7 @@
             android:drawableTop="@drawable/ic_images"
             android:text="@string/images"
             android:layout_marginEnd="@dimen/fab_margin"
+            android:onClick="@{(v) -> fragment.goToImageGalleryFragment(v)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btForm"
             app:layout_constraintHorizontal_bias="0.5"

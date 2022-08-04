@@ -29,6 +29,10 @@ public class LikedThesesViewModel extends ViewModel {
       //Todo löschen
       image = Bitmap.createBitmap(100, 50, Bitmap.Config.ARGB_8888);
       ThesisCardItem thesisCardItem = new ThesisCardItem("", "title", "task", image);
+      ArrayList<ThesisCardItem> items = new ArrayList<>();
+      items.add(thesisCardItem);
+      likedTheses.setValue(items);
+
       //loadLikedTheses();
     }
     return likedTheses;

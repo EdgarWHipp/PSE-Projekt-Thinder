@@ -42,8 +42,8 @@ public class FillOutFormViewModel extends ViewModel {
     }
 
     private void loadQuestions() {
-        UUID uuid = UUID.fromString(thesisId);
-        questions.setValue("Questions");//Todo hardgecodeten Teil löschen
+        //UUID uuid = UUID.fromString(thesisId); //Todo kommentierung aufheben
+        getQuestions().setValue("Questions");//Todo hardgecodeten Teil löschen
         //questions.setValue(thesisRepository.getThesis(uuid).x.getForm());//Todo hier ändern sich noch Dinge im Model
     }
 }
