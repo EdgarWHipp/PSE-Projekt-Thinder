@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import android.util.Log;
+
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Login;
@@ -26,6 +28,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+import okhttp3.Request;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
@@ -122,7 +125,8 @@ public class ThesesApiServiceTest {
     MockResponse response = new MockResponse().setResponseCode(200);
     server.enqueue(response);
     CompletableFuture<Result> resultCompletableFuture = thesisApiService.deleteThesisFuture(new UUID(32,32));
-    server.takeRequest();
+    RecordedRequest request= server.takeRequest();
+    Log.e("",request.getBody().toString());
     assertTrue(resultCompletableFuture.get().getSuccess());
   }
   @Test

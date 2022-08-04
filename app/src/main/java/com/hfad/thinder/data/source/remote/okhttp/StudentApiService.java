@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.hfad.thinder.R;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Supervisor;
@@ -35,6 +36,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class StudentApiService {
   private static final MediaType JSON
@@ -251,4 +253,46 @@ public class StudentApiService {
     });
     return resultCompletableFuture;
   }
+
+  public CompletableFuture<Result> removeThesisFromLikedTheses(final UUID thesisId){
+    OkHttpClient clientAuth = new OkHttpClient.Builder()
+            .addInterceptor(
+                    new AuthInterceptor(UserRepository.getInstance().
+                            getUser().getMail(), UserRepository.getInstance().
+                            getUser().getPassword()))
+            .build();
+    CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
+
+    HttpUrl url = new HttpUrl.Builder()
+            .host(host)
+            .scheme(scheme)
+            .port(port)
+            .addPathSegment("students")
+            .addPathSegment("rated-theses")
+            .addPathSegment(thesisId.toString())
+            .addPathSegment("remove").build();
+    RequestBody body = RequestBody.create(null, new byte[]{});
+    Request request =  new Request.Builder()
+            .url(url)
+            .post(body)
+            .build();
+    Call call = clientAuth.newCall(request);
+    call.enqueue(new Callback() {
+      @Override
+      public void onFailure(@NonNull Call call, @NonNull IOException e) {
+         resultCompletableFuture.complete(new Result("error",false));
+      }
+
+      @Override
+      public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+        if(response.isSuccessful()){
+          resultCompletableFuture.complete(new Result(true));
+        }else{
+          resultCompletableFuture.complete(new Result("error",false));
+        }
+      }
+    });
+  return  resultCompletableFuture;
+  }
+
 }

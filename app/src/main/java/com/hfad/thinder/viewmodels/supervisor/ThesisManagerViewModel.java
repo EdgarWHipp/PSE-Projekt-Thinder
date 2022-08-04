@@ -29,7 +29,11 @@ public class ThesisManagerViewModel extends ViewModel {
   }
 
   private void loadThesisManagerItems() {
-    List<com.hfad.thinder.data.model.Thesis> thesisList = thesisRepository.getAll().orElse(null);
+    thesisRepository.fetchAllSwipeableThesis();
+    List<com.hfad.thinder.data.model.Thesis> thesisList = thesisRepository.getAllSwipeableTheses();
+    if(thesisList==null){
+      //TODO
+    }
     ArrayList<ThesisCardItem> newThesisList = new ArrayList<>();
     if (thesisList != null) {
       for (com.hfad.thinder.data.model.Thesis thesis : thesisList) {
