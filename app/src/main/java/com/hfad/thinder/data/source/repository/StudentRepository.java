@@ -35,7 +35,7 @@ public class StudentRepository {
    * @param ratings
    * @return Result
    */
-  public Result rateThesis(final Stack<Tuple<UUID,Boolean>> ratings){
+  public Result rateThesis(final Collection<Tuple<UUID,Boolean>> ratings){
     return studentRemoteDataSource.rateThesis(ratings);
   }
 }
