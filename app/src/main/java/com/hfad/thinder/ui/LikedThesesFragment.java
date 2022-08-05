@@ -95,8 +95,7 @@ public class LikedThesesFragment extends Fragment {
         final Observer<ArrayList<ThesisCardItem>> likedThesesObserver = new Observer<ArrayList<ThesisCardItem>>() {
             @Override
             public void onChanged(ArrayList<ThesisCardItem> thesisCardItems) {
-                Log.i(TAG, "onChanged: loadItems");
-                buildRecyclerView(viewModel.getLikedTheses().getValue(), view);
+                adapter.setElements(viewModel.getLikedTheses().getValue());
             }
         };
         viewModel.getLikedTheses().observe(getViewLifecycleOwner(), likedThesesObserver);

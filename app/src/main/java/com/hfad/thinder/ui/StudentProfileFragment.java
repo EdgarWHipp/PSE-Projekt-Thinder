@@ -128,6 +128,7 @@ public class StudentProfileFragment extends Fragment {
       }
     };
 
+
     viewModel.getDeleteResult().observe(getViewLifecycleOwner(), deleteResultObserver);
     viewModel.getSafeResult().observe(getViewLifecycleOwner(), safeResultObserver);
     binding.etFirstName.addTextChangedListener(afterTextChangedListener);
@@ -160,7 +161,7 @@ public class StudentProfileFragment extends Fragment {
 
   public void goToCoursesOfStudyFragment(View view) {
     Navigation.findNavController(view)
-        .navigate(R.id.action_studentProfileFragment_to_coursesOfStudyFragment2);
+        .navigate(R.id.action_studentProfileFragment_to_coursesOfStudyStudentFragment);
   }
 
   private void goToLoginActivity() {

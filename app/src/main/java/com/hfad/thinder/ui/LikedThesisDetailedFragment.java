@@ -1,13 +1,16 @@
 package com.hfad.thinder.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
@@ -16,10 +19,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.databinding.FragmentLikedThesisDetailedBinding;
+import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.viewmodels.student.LikedThesisDetailedViewModel;
 
 import java.util.ArrayList;
@@ -94,6 +99,20 @@ public class LikedThesisDetailedFragment extends Fragment  {
         // Inflate the layout for this fragment
         binding.setFragment(this);
         binding.setViewModel(viewModel);
+
+        final Observer<ViewModelResult> deleteResultObserver = new Observer<ViewModelResult>() {
+            @Override
+            public void onChanged(ViewModelResult viewModelResult) {
+                if (viewModelResult.isSuccess()) {
+                    Toast.makeText(getContext(), getText(R.string.delete_successful), Toast.LENGTH_LONG);
+                } else if (!viewModelResult.isSuccess()) {
+                    Toast.makeText(getContext(), viewModelResult.getErrorMessage(), Toast.LENGTH_LONG);
+                }
+            }
+        };
+
+        viewModel.getDeleteResult().observe(getViewLifecycleOwner(), deleteResultObserver);
+
         return binding.getRoot();
     }
 
@@ -113,5 +132,27 @@ public class LikedThesisDetailedFragment extends Fragment  {
 
     public void goToImageGalleryFragment(View view){
         Navigation.findNavController(view).navigate(R.id.action_likedThesisDetailedFragment_to_imageGalleryFragment);
+    }
+
+    public void deleteThesis(View view){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setCancelable(true);
+        builder.setTitle(getContext().getResources().getString(R.string.remove_thesis));
+        builder.setMessage(getContext().getResources().getString(R.string.remove_thesis_text));
+        builder.setPositiveButton(getContext().getResources().getString(R.string.remove),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        viewModel.delete();
+                    }
+                });
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

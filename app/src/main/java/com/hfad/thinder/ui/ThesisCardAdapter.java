@@ -22,6 +22,7 @@ public class ThesisCardAdapter extends RecyclerView.Adapter<ThesisCardAdapter.Th
     private ArrayList<ThesisCardItem> elementsFull;
     private OnItemClickListener listener;
 
+
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
@@ -115,5 +116,10 @@ public class ThesisCardAdapter extends RecyclerView.Adapter<ThesisCardAdapter.Th
             notifyDataSetChanged();
         }
     };
+
+    public void setElements(ArrayList<ThesisCardItem> elements){
+        this.elements = elements;
+        notifyDataSetChanged();
+    }
 
 }

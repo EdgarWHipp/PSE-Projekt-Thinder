@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
 
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hfad.thinder.R;
+import com.hfad.thinder.viewmodels.CoursesOfStudyPicker;
 
 import java.util.ArrayList;
 
@@ -18,6 +20,8 @@ public class CoursesOfStudyAdapter extends RecyclerView.Adapter<CoursesOfStudyAd
 
     private ArrayList<CourseOfStudyItem> elements;
     private ArrayList<CourseOfStudyItem> elementsFull;
+    private CoursesOfStudyPicker viewModel;
+
 
     public static class CoursesOfStudyViewHolder extends RecyclerView.ViewHolder {
         public CheckBox mCheckBox;
@@ -26,10 +30,12 @@ public class CoursesOfStudyAdapter extends RecyclerView.Adapter<CoursesOfStudyAd
             super(itemView);
             mCheckBox = itemView.findViewById(R.id.cbCoursesOfStudy);
         }
+
     }
 
-    public CoursesOfStudyAdapter(ArrayList<CourseOfStudyItem> elements) {
-        this.elements = elements;
+    public CoursesOfStudyAdapter(CoursesOfStudyPicker viewModel) {
+        this.viewModel = viewModel;
+        this.elements = viewModel.getElements();
         elementsFull = new ArrayList<>(elements);
     }
 
@@ -43,9 +49,16 @@ public class CoursesOfStudyAdapter extends RecyclerView.Adapter<CoursesOfStudyAd
 
     @Override
     public void onBindViewHolder(@NonNull CoursesOfStudyViewHolder holder, int position) {
+        int currentPosition = position;
         CourseOfStudyItem current = elements.get(position);
         holder.mCheckBox.setText(current.getCourseOfStudy());
         holder.mCheckBox.setChecked(current.isPicked());
+        holder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                viewModel.makeCourseOfStudySelection(currentPosition, b);
+            }
+        });
     }
 
     @Override
@@ -87,4 +100,8 @@ public class CoursesOfStudyAdapter extends RecyclerView.Adapter<CoursesOfStudyAd
             notifyDataSetChanged();
         }
     };
+
+    public void setElements(ArrayList<CourseOfStudyItem> elements){
+        this.elements = elements;
+    }
 }

@@ -239,6 +239,7 @@
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/ic_save"
                 android:text="@string/save"
+                android:onClick="@{(v) -> fragment.saveThesis(v)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -254,18 +255,19 @@
                 android:text="@string/statistics"
                 android:onClick="@{(v) -> fragment.goToStatistics(v)}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/btRemoveProfile"
+                app:layout_constraintEnd_toStartOf="@id/btRemoveThesis"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@id/btSave">
 
             </Button>
 
             <Button
-                android:id="@+id/btRemoveProfile"
+                android:id="@+id/btRemoveThesis"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/ic_remove"
                 android:text="@string/remove"
+                android:onClick="@{(v) -> fragment.deleteThesis(v)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/btStatistics"
                 app:layout_constraintHorizontal_bias="0.5"

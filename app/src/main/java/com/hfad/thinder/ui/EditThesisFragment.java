@@ -1,17 +1,21 @@
 package com.hfad.thinder.ui;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentEditThesisBinding;
+import com.hfad.thinder.viewmodels.supervisor.EditThesisViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,6 +34,7 @@ public class EditThesisFragment extends Fragment {
     private String mParam2;
 
     private FragmentEditThesisBinding binding;
+    private EditThesisViewModel viewModel;
 
     public EditThesisFragment() {
         // Required empty public constructor
@@ -68,11 +73,38 @@ public class EditThesisFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_edit_thesis, container, false);
         binding.setFragment(this);
+        viewModel = new ViewModelProvider(requireActivity()).get(EditThesisViewModel.class);
         return binding.getRoot();
     }
 
     public void goToStatistics(View view){
         Log.i("tag", "goToStatistics: ");
         Navigation.findNavController(view).navigate(R.id.action_editThesisFragment_to_thesisStatisticsFragment);
+    }
+
+    public void deleteThesis(View view){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setCancelable(true);
+        builder.setTitle(getContext().getResources().getString(R.string.remove_thesis));
+        builder.setMessage(getContext().getResources().getString(R.string.remove_thesis_text));
+        builder.setPositiveButton(getContext().getResources().getString(R.string.remove),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        viewModel.delete();
+                    }
+                });
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void saveThesis(View view){
+        viewModel.save();
     }
 }

@@ -11,8 +11,8 @@
         android:label="@string/edit_profile"
         tools:layout="@layout/fragment_student_profile" >
         <action
-            android:id="@+id/action_studentProfileFragment_to_coursesOfStudyFragment2"
-            app:destination="@id/coursesOfStudyFragment2" />
+            android:id="@+id/action_studentProfileFragment_to_coursesOfStudyStudentFragment"
+            app:destination="@id/coursesOfStudyStudentFragment" />
     </fragment>
     <fragment
         android:id="@+id/fillOutFormFragment"
@@ -46,12 +46,11 @@
             app:destination="@id/imageGalleryFragment" />
     </fragment>
     <fragment
-        android:id="@+id/coursesOfStudyFragment2"
-        android:name="com.hfad.thinder.ui.CoursesOfStudyFragment"
-        android:label="@string/choose_courses_of_study"
-        tools:layout="@layout/fragment_courses_of_study" />
-    <fragment
         android:id="@+id/imageGalleryFragment"
         android:name="com.hfad.thinder.ui.ImageGalleryFragment"
         android:label="ImageGalleryFragment" />
+    <fragment
+        android:id="@+id/coursesOfStudyStudentFragment"
+        android:name="com.hfad.thinder.ui.CoursesOfStudyStudentFragment"
+        android:label="CoursesOfStudyStudentFragment" />
 </navigation>

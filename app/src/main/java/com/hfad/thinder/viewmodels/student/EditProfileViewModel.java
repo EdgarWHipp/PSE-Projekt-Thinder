@@ -8,22 +8,29 @@ import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
+import com.hfad.thinder.ui.CourseOfStudyItem;
+import com.hfad.thinder.viewmodels.CoursesOfStudyPicker;
 import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.viewmodels.ViewModelResultTypes;
+
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 
-public class EditProfileViewModel extends ViewModel {
+public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPicker {
   private final UserRepository userRepository = UserRepository.getInstance();
   private User user;
   private Set<Degree> degrees;//Todo: updaten nachdem aus dem Courses of Study zurück.
+  // list of all courses of study from the backend combined with the user selection
+  private MutableLiveData<ArrayList<CourseOfStudyItem>> coursesOfStudyList;
   private MutableLiveData<EditProfileFormState> formState;
   private MutableLiveData<ViewModelResult> safeResult;
   private MutableLiveData<ViewModelResult> deleteResult;
   private MutableLiveData<String> firstName;
   private MutableLiveData<String> lastName;
-  private MutableLiveData<String> coursesOfStudy;
+  // from user selectedCoursesOfStudy
+  private MutableLiveData<String> selectedCoursesOfStudy;
 
 
   public void save() {
@@ -52,6 +59,14 @@ public class EditProfileViewModel extends ViewModel {
         new EditProfileFormState(checkFirstName(), checkLastName(), checkCoursesOfStudy()));
   }
 
+  public void makeCourseOfStudySelection(int position, boolean selection){
+    getCoursesOfStudyList().getValue().get(position).setPicked(selection);
+  }
+
+  @Override
+  public ArrayList<CourseOfStudyItem> getElements() {
+    return getCoursesOfStudyList().getValue();
+  }
 
   //----------------getter and setter-----------------------------------------
 
@@ -101,14 +116,24 @@ public class EditProfileViewModel extends ViewModel {
     this.lastName = lastName;
   }
 
-  public MutableLiveData<String> getCoursesOfStudy() {
-    if (coursesOfStudy == null) {
+  public MutableLiveData<String> getSelectedCoursesOfStudy() {
+    if (selectedCoursesOfStudy == null) {
       loadCoursesOfStudy();
     }
 
-    return coursesOfStudy;
+    return selectedCoursesOfStudy;
   }
 
+  public MutableLiveData<ArrayList<CourseOfStudyItem>> getCoursesOfStudyList() {
+    if(coursesOfStudyList == null){
+      coursesOfStudyList = new MutableLiveData<>();
+    }
+    return coursesOfStudyList;
+  }
+
+  public void setCoursesOfStudyList(MutableLiveData<ArrayList<CourseOfStudyItem>> coursesOfStudyList) {
+    this.coursesOfStudyList = coursesOfStudyList;
+  }
 
   //-------------------private methods-------------------------
 
@@ -126,8 +151,8 @@ public class EditProfileViewModel extends ViewModel {
     for (Degree degree : degrees) {
       degreesAsString = degreesAsString + degree.getName() + " ";
     }
-    coursesOfStudy = new MutableLiveData<>();
-    coursesOfStudy.setValue(degreesAsString);
+    selectedCoursesOfStudy = new MutableLiveData<>();
+    selectedCoursesOfStudy.setValue(degreesAsString);
   }
 
   private void loadFirstName() {
@@ -159,7 +184,7 @@ public class EditProfileViewModel extends ViewModel {
   }
 
   private Integer checkCoursesOfStudy() {
-    if (coursesOfStudy.getValue() == null || coursesOfStudy.getValue().equals("")) {
+    if (selectedCoursesOfStudy.getValue() == null || selectedCoursesOfStudy.getValue().equals("")) {
       return R.string.no_courses_of_study_error_message;
     }
     return null;

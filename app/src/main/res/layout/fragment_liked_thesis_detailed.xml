@@ -249,6 +249,7 @@
             android:drawableTop="@drawable/ic_remove"
             android:text="@string/remove"
             android:layout_marginEnd="@dimen/fab_margin"
+            android:onClick="@{(v) -> fragment.deleteThesis(v)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btImages"
             app:layout_constraintHorizontal_bias="0.5"

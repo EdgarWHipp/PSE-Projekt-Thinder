@@ -2,9 +2,14 @@ package com.hfad.thinder.viewmodels.supervisor;
 
 import android.media.Image;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+
+import com.hfad.thinder.ui.CourseOfStudyItem;
+import com.hfad.thinder.viewmodels.CoursesOfStudyPicker;
+
 import java.util.ArrayList;
 
-public class EditThesisViewModel {
+public class EditThesisViewModel extends ViewModel implements CoursesOfStudyPicker {
   private MutableLiveData<String> name;
   private MutableLiveData<String> taskDescription;
   private MutableLiveData<String> motivationDescription;
@@ -12,12 +17,27 @@ public class EditThesisViewModel {
   private MutableLiveData<ArrayList<String>> fieldsOfStudy;
   private MutableLiveData<ArrayList<Image>> images;
 
-  public void safe() {
+  public void save() {
     //Todo: implementieren
   }
 
   public void delete() {
     //Todo: implementieren
+  }
+
+  @Override
+  public void makeCourseOfStudySelection(int position, boolean selection) {
+
+  }
+
+  @Override
+  public ArrayList<CourseOfStudyItem> getElements() {
+    return null;
+  }
+
+  @Override
+  public MutableLiveData<ArrayList<CourseOfStudyItem>> getCoursesOfStudyList() {
+    return null;
   }
 
   //------------------getter and setter-----------------------------------------------------
@@ -123,5 +143,4 @@ public class EditThesisViewModel {
   private void loadImages() {
     //Todo: implement
   }
-
 }

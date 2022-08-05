@@ -85,6 +85,8 @@
     <string name="account_remove_text">Sind Sie sich sicher, dass Sie ihr Konto löschen wollen?</string>
     <string name="account_remove">Konto löschen</string>
     <string name="save_successful">Daten wurden erfolgreich gespeichert.</string>
+    <string name="remove_thesis">Abschlussarbeit löschen</string>
+    <string name="remove_thesis_text">Sind Sie sich sicher, dass Sie diese Abschlussarbeit löschen möchten?</string>
 
 
     <!-- Registration View Model Strings -->
@@ -107,4 +109,5 @@
     <string name="no_institute_error">Institut muss angegeben werden</string>
     <string name="edit_profile_success_message">Profildaten wurden erfolgreich geändert</string>
     <string name="no_courses_of_study_error_message">Es muss mindestes ein Studienfach angegeben werden</string>
+    <string name="delete_successful">Data was deleted successfully</string>
 </resources>

@@ -13,6 +13,9 @@ import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
+import com.hfad.thinder.data.source.result.Result;
+import com.hfad.thinder.viewmodels.ViewModelResult;
+import com.hfad.thinder.viewmodels.ViewModelResultTypes;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -39,9 +42,15 @@ public class LikedThesisDetailedViewModel extends ViewModel {
   private String thesisId;
 
   private MutableLiveData<Bitmap> currentImage;
+  private MutableLiveData<ViewModelResult> deleteResult;
 
   public void delete() {
-    //Todo: implement
+    Result result = thesisRepository.removeLikedThesisFromStudent(UUID.fromString(thesisId));
+    if (result.getSuccess()) {
+      getDeleteResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
+    } else {
+      getDeleteResult().setValue(new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
+    }
   }
 
   //todo: fill images arraylist with images from thesisId
@@ -132,6 +141,13 @@ public class LikedThesisDetailedViewModel extends ViewModel {
       mail = new MutableLiveData<>();
     }
     return mail;
+  }
+
+  public MutableLiveData<ViewModelResult> getDeleteResult() {
+    if (deleteResult == null) {
+      deleteResult = new MutableLiveData<>();
+    }
+    return deleteResult;
   }
 
   //-----------------------private methods--------------------------------

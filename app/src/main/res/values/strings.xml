@@ -84,6 +84,8 @@
     <string name="account_remove_text">Are you sure you want to delete your account?</string>
     <string name="account_remove">Delete account</string>
     <string name="save_successful">Data was saved successfully.</string>
+    <string name="remove_thesis">Delete Thesis</string>
+    <string name="remove_thesis_text">Are you sure you want to delete this thesis?</string>
 
     <!-- Registration View Model Strings -->
     <string name="no_password_error">Password field must not be empty</string>
@@ -104,4 +106,5 @@
     <string name="no_institute_error">Institute field must not be empty</string>
     <string name="edit_profile_success_message">Profile data was updated successfully</string>
     <string name="no_courses_of_study_error_message">At least one course of study must be selected</string>
+    <string name="delete_successful">Data was deleted successfully</string>
 </resources>

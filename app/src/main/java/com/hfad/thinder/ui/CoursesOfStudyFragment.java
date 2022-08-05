@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +22,8 @@ import android.widget.SearchView;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentCoursesOfStudyBinding;
+import com.hfad.thinder.viewmodels.CoursesOfStudyPicker;
+import com.hfad.thinder.viewmodels.student.EditProfileViewModel;
 
 import java.util.ArrayList;
 
@@ -45,6 +49,7 @@ public class CoursesOfStudyFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
 
     private FragmentCoursesOfStudyBinding binding;
+    protected CoursesOfStudyPicker viewModel;
 
     private View view;
 
@@ -93,11 +98,18 @@ public class CoursesOfStudyFragment extends Fragment {
 
         mRecyclerView = view.findViewById(R.id.rvCoursesOfStudy);
         mLayoutManager = new LinearLayoutManager(view.getContext());
-        mAdapter = new CoursesOfStudyAdapter(elements);
+        mAdapter = new CoursesOfStudyAdapter(viewModel);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
+        final Observer<ArrayList<CourseOfStudyItem>> coursesOfStudyItemsObserver = new Observer<ArrayList<CourseOfStudyItem>>() {
+            @Override
+            public void onChanged(ArrayList<CourseOfStudyItem> courseOfStudyItems) {
+                mAdapter.setElements(viewModel.getCoursesOfStudyList().getValue());
+            }
+        };
+        viewModel.getCoursesOfStudyList().observe(getViewLifecycleOwner(), coursesOfStudyItemsObserver);
     }
 
     @Override
@@ -105,6 +117,7 @@ public class CoursesOfStudyFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_courses_of_study, container, false);
         binding.setFragment(this);
+        //viewModel = new ViewModelProvider(requireActivity()).get(EditProfileViewModel.class);
         // Inflate the layout for this fragment
         view = binding.getRoot();
         return view;
@@ -135,7 +148,6 @@ public class CoursesOfStudyFragment extends Fragment {
     }
 
     public void save(View view){
-        //todo: call save in viewmodel
         Navigation.findNavController(view).popBackStack();
     }
 }
