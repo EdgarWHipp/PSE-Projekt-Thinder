@@ -131,7 +131,7 @@ public class LikedThesisDetailedFragment extends Fragment  {
     }
 
     public void goToImageGalleryFragment(View view){
-        Navigation.findNavController(view).navigate(R.id.action_likedThesisDetailedFragment_to_imageGalleryFragment);
+        Navigation.findNavController(view).navigate(R.id.action_likedThesisDetailedFragment_to_imageGalleryFragmentStudent);
     }
 
     public void deleteThesis(View view){

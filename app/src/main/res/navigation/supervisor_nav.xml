@@ -31,8 +31,8 @@
             android:id="@+id/action_newThesisFragment_to_coursesOfStudyFragment"
             app:destination="@id/coursesOfStudyFragment" />
         <action
-            android:id="@+id/action_newThesisFragment_to_imageGalleryFragment2"
-            app:destination="@id/imageGalleryFragment2" />
+            android:id="@+id/action_newThesisFragment_to_imageGalleryFragmentSupervisor"
+            app:destination="@id/imageGalleryFragmentSupervisor" />
     </fragment>
     <fragment
         android:id="@+id/editThesisFragment"
@@ -53,7 +53,7 @@
         android:name="com.hfad.thinder.ui.ThesisStatisticsFragment"
         android:label="@string/statistics" />
     <fragment
-        android:id="@+id/imageGalleryFragment2"
-        android:name="com.hfad.thinder.ui.ImageGalleryFragment"
-        android:label="ImageGalleryFragment" />
+        android:id="@+id/imageGalleryFragmentSupervisor"
+        android:name="com.hfad.thinder.ui.ImageGalleryFragmentSupervisor"
+        android:label="ImageGalleryFragmentSupervisor" />
 </navigation>

@@ -42,15 +42,15 @@
             android:id="@+id/action_likedThesisDetailedFragment_to_fillOutFormFragment"
             app:destination="@id/fillOutFormFragment" />
         <action
-            android:id="@+id/action_likedThesisDetailedFragment_to_imageGalleryFragment"
-            app:destination="@id/imageGalleryFragment" />
+            android:id="@+id/action_likedThesisDetailedFragment_to_imageGalleryFragmentStudent"
+            app:destination="@id/imageGalleryFragmentStudent" />
     </fragment>
-    <fragment
-        android:id="@+id/imageGalleryFragment"
-        android:name="com.hfad.thinder.ui.ImageGalleryFragment"
-        android:label="ImageGalleryFragment" />
     <fragment
         android:id="@+id/coursesOfStudyStudentFragment"
         android:name="com.hfad.thinder.ui.CoursesOfStudyStudentFragment"
         android:label="CoursesOfStudyStudentFragment" />
+    <fragment
+        android:id="@+id/imageGalleryFragmentStudent"
+        android:name="com.hfad.thinder.ui.ImageGalleryFragmentStudent"
+        android:label="ImageGalleryFragmentStudent" />
 </navigation>

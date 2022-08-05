@@ -114,7 +114,7 @@ public class NewThesisFragment extends Fragment{
     }
 
     public void goToImageGalleryFragment(View view){
-        Navigation.findNavController(view).navigate(R.id.action_newThesisFragment_to_imageGalleryFragment2);
+        Navigation.findNavController(view).navigate(R.id.action_newThesisFragment_to_imageGalleryFragmentSupervisor);
     }
 
 

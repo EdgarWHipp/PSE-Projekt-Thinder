@@ -1,10 +1,13 @@
 package com.hfad.thinder.viewmodels.supervisor;
 
+import static android.content.ContentValues.TAG;
+
 import android.graphics.Bitmap;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Image;
@@ -191,6 +194,7 @@ public class EditThesisViewModel extends ViewModel implements CoursesOfStudyPick
   public void setImages(
       MutableLiveData<ArrayList<Bitmap>> images) {
     iterator = images.getValue().listIterator();
+    Log.i(TAG, "setImages: " + images.getValue().size());
     getCurrentImage().setValue(iterator.next());
     this.images = images;
   }
