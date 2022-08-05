@@ -4,6 +4,10 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.R;
+import com.hfad.thinder.data.model.Degree;
+import com.hfad.thinder.data.model.Supervisor;
+import com.hfad.thinder.data.model.User;
+import com.hfad.thinder.data.source.repository.DegreeRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.viewmodels.ViewModelResult;
@@ -13,10 +17,10 @@ import java.util.regex.Pattern;
 
 public class EditProfileViewModel extends ViewModel {
   private static final Pattern PHONE_NUMBER_PATTERN =
-      Pattern.compile("^(\\+\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$"
-          + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?){2}\\d{3}$"
-          + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?)(\\d{2}[ ]?){2}\\d{2}$");
-  private final UserRepository userRepository = UserRepository.getInstance();
+      Pattern.compile("^\\+?(?:[0-9]⋅?){6,14}[0-9]$");
+  private Supervisor supervisor;
+  private static final UserRepository userRepository = UserRepository.getInstance();
+  private static final DegreeRepository degreeRepository = DegreeRepository.getInstance();
   private MutableLiveData<EditProfileFormState> formState;
   private MutableLiveData<ViewModelResult> safeResult;
   private MutableLiveData<ViewModelResult> deleteResult;
@@ -190,27 +194,50 @@ public class EditProfileViewModel extends ViewModel {
   //-------------------private Methods--------------------------------------------------
 
   private void loadAcademicTitles() {
-    //Todo: lade aus Repo
+    academicTitles.setValue(degreeRepository.getAcademicTitles());
   }
 
   private void loadSelectedAcademicTitlePosition() {
-    //Todo: lade aus Repo
+    if (supervisor == null) {
+      supervisor = (Supervisor) userRepository.getUser();
+    } if (supervisor != null) {
+      String currentTile = supervisor.getAcademicDegree();
+      Integer currentPosition = getAcademicTitles().getValue().indexOf(currentTile);
+      selectedAcademicTitlePosition.setValue(currentPosition);
+    }
+
   }
 
   private void loadFirstName() {
-    //Todo: lade aus Repo
+    if (supervisor == null) {
+      supervisor = (Supervisor) userRepository.getUser();
+    } if (supervisor != null) {
+      firstName.setValue(supervisor.getFirstName());
+    }
   }
 
   private void loadLastName() {
-    //Todo: lade aus Repo
+    if (supervisor == null) {
+      supervisor = (Supervisor) userRepository.getUser();
+    } if (supervisor != null) {
+      lastName.setValue(supervisor.getLastName());
+    }
   }
 
   private void loadBuilding() {
-    //Todo: lade aus Repo
+    if (supervisor == null) {
+      supervisor = (Supervisor) userRepository.getUser();
+    } if (supervisor != null) {
+      building.setValue(supervisor.getBuilding());
+    }
   }
 
   private void loadPhoneNumber() {
-    //Todo: lade aus Repo
+    if (supervisor == null) {
+      supervisor = (Supervisor) userRepository.getUser();
+    } if (supervisor != null) {
+      phoneNumber.setValue(supervisor.getPhoneNumber());
+    }
   }
 
   private void loadRoom() {
@@ -218,7 +245,11 @@ public class EditProfileViewModel extends ViewModel {
   }
 
   private void loadInstitute() {
-    //Todo: lade aus Repo
+    if (supervisor == null) {
+      supervisor = (Supervisor) userRepository.getUser();
+    } if (supervisor != null) {
+      institute.setValue(supervisor.getInstitute());
+    }
   }
 
   private Integer checkFirstName() {
@@ -242,7 +273,7 @@ public class EditProfileViewModel extends ViewModel {
     return null;
   }
 
-  private Integer checkRoom() {
+ private Integer checkRoom() {
     if (room.getValue() == null || room.getValue().equals("")) {
       return R.string.no_room_error;
     }

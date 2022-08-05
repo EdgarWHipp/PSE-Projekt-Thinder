@@ -155,5 +155,9 @@ public final class ThesisRepository {
       return thesisRemoteDataSource.removeLikedThesisFromStudent(thesisId);
     }
 
+    public Tuple<Integer, Integer> getThesisStatistics(UUID thesisId){
+        return new Tuple<>(10, 20);
+    }
+
 
 }

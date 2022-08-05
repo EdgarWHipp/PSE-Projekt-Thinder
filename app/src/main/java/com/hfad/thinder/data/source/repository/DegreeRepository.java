@@ -20,8 +20,8 @@ public class DegreeRepository {
         return INSTANCE;
     }
 
-    public final static List<String> getAcademicTitles(){
-        List<String> list = null;
+    public  ArrayList<String> getAcademicTitles(){
+        ArrayList<String> list = new ArrayList<>();
         list.add("M. Sc.");
         list.add("B. Sc.");
         list.add("Dr.");

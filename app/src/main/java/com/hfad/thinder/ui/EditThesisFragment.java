@@ -22,7 +22,7 @@ import com.hfad.thinder.viewmodels.supervisor.EditThesisViewModel;
  * Use the {@link EditThesisFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EditThesisFragment extends Fragment {
+public class EditThesisFragment extends NewThesisFragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,7 +34,6 @@ public class EditThesisFragment extends Fragment {
     private String mParam2;
 
     private FragmentEditThesisBinding binding;
-    private EditThesisViewModel viewModel;
 
     public EditThesisFragment() {
         // Required empty public constructor
@@ -59,26 +58,17 @@ public class EditThesisFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_edit_thesis, container, false);
         binding.setFragment(this);
         viewModel = new ViewModelProvider(requireActivity()).get(EditThesisViewModel.class);
+        viewModel.setThesisId(requireArguments().getString("thesisUUID"));
         return binding.getRoot();
     }
 
     public void goToStatistics(View view){
-        Log.i("tag", "goToStatistics: ");
         Navigation.findNavController(view).navigate(R.id.action_editThesisFragment_to_thesisStatisticsFragment);
     }
 
@@ -105,6 +95,27 @@ public class EditThesisFragment extends Fragment {
     }
 
     public void saveThesis(View view){
-        viewModel.save();
+        viewModel.editThesis();
+    }
+
+    @Override
+    public void openImagePicker(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setCancelable(true);
+        builder.setTitle(getContext().getResources().getString(R.string.open_image_picker));
+        builder.setMessage(getContext().getResources().getString(R.string.open_image_picker_text));
+        builder.setPositiveButton(getContext().getResources().getString(R.string.open),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        EditThesisFragment.super.makeImageSelection();
+                    }
+                });
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
     }
 }

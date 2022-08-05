@@ -67,6 +67,10 @@
     <string name="like_dislike_ratio">Like/dislike-ratio</string>
     <string name="likes">Likes</string>
     <string name="dislikes">Dislikes</string>
+    <string name="show_image_selection">Show image selection</string>
+    <string name="open_image_picker">Open image picker</string>
+    <string name="open_image_picker_text">Making a new selection will override the previous one</string>
+    <string name="open">Open</string>
 
     <!-- Student Strings -->
     <string name="swipe_screen">Swipe screen</string>

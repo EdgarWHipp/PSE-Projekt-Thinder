@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentImageGalleryBinding;
+import com.hfad.thinder.viewmodels.ImageGalleryPicker;
 import com.hfad.thinder.viewmodels.student.ImageGalleryViewModel;
 import com.hfad.thinder.viewmodels.student.LikedThesisDetailedViewModel;
 import com.hfad.thinder.viewmodels.user.ForgotPasswordViewModel;
@@ -33,7 +34,7 @@ public class ImageGalleryFragment extends Fragment {
     private String mParam2;
 
     private FragmentImageGalleryBinding binding;
-    private LikedThesisDetailedViewModel viewmodel;
+    private ImageGalleryPicker viewmodel;
 
     public ImageGalleryFragment() {
         // Required empty public constructor

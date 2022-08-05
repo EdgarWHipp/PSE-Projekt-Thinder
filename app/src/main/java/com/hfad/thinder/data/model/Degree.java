@@ -20,5 +20,10 @@ public class Degree {
     return degree;
   }
 
+  @Override
+  public boolean equals(Object degree) {
+    return this.degree.equals(((Degree) degree).getDegree());
+  }
+
 
 }

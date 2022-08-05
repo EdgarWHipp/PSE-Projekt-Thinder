@@ -14,6 +14,7 @@ import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.result.Result;
+import com.hfad.thinder.viewmodels.ImageGalleryPicker;
 import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.viewmodels.ViewModelResultTypes;
 
@@ -23,7 +24,7 @@ import java.util.ListIterator;
 import java.util.Set;
 import java.util.UUID;
 
-public class LikedThesisDetailedViewModel extends ViewModel {
+public class LikedThesisDetailedViewModel extends ViewModel implements ImageGalleryPicker {
 
   private static final ThesisRepository thesisRepository = ThesisRepository.getInstance();
   private ArrayList<Bitmap> images;

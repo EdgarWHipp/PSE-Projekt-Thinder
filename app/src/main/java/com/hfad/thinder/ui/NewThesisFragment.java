@@ -1,5 +1,7 @@
 package com.hfad.thinder.ui;
 
+import static android.content.ContentValues.TAG;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -8,13 +10,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -22,17 +26,25 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentNewThesisBinding;
+import com.hfad.thinder.viewmodels.supervisor.EditThesisViewModel;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link NewThesisFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NewThesisFragment extends Fragment implements View.OnClickListener {
+public class NewThesisFragment extends Fragment{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -43,12 +55,10 @@ public class NewThesisFragment extends Fragment implements View.OnClickListener 
     private String mParam1;
     private String mParam2;
 
-    private Button studyOfCoursesButton;
-    private Button imagePickerButton;
-
     private String imagePath;
 
     private FragmentNewThesisBinding binding;
+    protected EditThesisViewModel viewModel;
 
 
     public NewThesisFragment() {
@@ -88,35 +98,41 @@ public class NewThesisFragment extends Fragment implements View.OnClickListener 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_new_thesis, container, false);
         // Inflate the layout for this fragment
         View view = binding.getRoot();
-        studyOfCoursesButton = binding.btPickCoursesOfStudy;
-        studyOfCoursesButton.setOnClickListener(this);
-        imagePickerButton = binding.btAddImages;
-        imagePickerButton.setOnClickListener(this);
+        viewModel = new ViewModelProvider(requireActivity()).get(EditThesisViewModel.class);
+        binding.setViewModel(viewModel);
+        binding.setFragment(this);
 
         return view;
     }
 
-    @Override
-    public void onClick(View view) {
-        switch(view.getId()){
-            case R.id.btPickCoursesOfStudy:
-                Navigation.findNavController(view).navigate(R.id.action_newThesisFragment_to_coursesOfStudyFragment);
-                break;
-            case R.id.btAddImages:
-                if(ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-                    Toast.makeText(getActivity(), "test", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent();
-                    intent.setType("image/*");
-                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                    startActivityForResult(intent, 10);
-                } else {
-                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-                }
+    public void saveThesis(View view){
+        viewModel.addThesis();
+    }
 
-                break;
+    public void goToCoursesOfStudyFragment(View view){
+        Navigation.findNavController(view).navigate(R.id.action_newThesisFragment_to_coursesOfStudyFragment);
+    }
+
+    public void goToImageGalleryFragment(View view){
+        Navigation.findNavController(view).navigate(R.id.action_newThesisFragment_to_imageGalleryFragment2);
+    }
+
+
+    public void openImagePicker(View view){
+        Log.i(TAG, "openImagePicker: ");
+        makeImageSelection();
+    }
+
+    public void makeImageSelection(){
+        if(ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(intent, 10);
+        } else {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         }
-
     }
 
     @Override
@@ -125,48 +141,36 @@ public class NewThesisFragment extends Fragment implements View.OnClickListener 
         if(data == null)
             return;
         Context context = getActivity();
-        imagePath = "";
 
         if(requestCode == 10 && resultCode == Activity.RESULT_OK){
+            ArrayList<Bitmap> images = new ArrayList<Bitmap>();
             if(data.getData() != null){
                 Uri uri = data.getData();
-                imagePath = getFileName(uri);
-                binding.tvImagesFromGallery.setText(imagePath);
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
+                    images.add(bitmap);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             } else if(data.getClipData() != null){
                 ClipData mClipData = data.getClipData();
-                String paths = "";
                 for(int i = 0; i < mClipData.getItemCount(); ++i){
                     ClipData.Item item = mClipData.getItemAt(i);
                     Uri uri = item.getUri();
-                    imagePath += (getFileName(uri) + " ");
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
+                        images.add(bitmap);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-                binding.tvImagesFromGallery.setText(imagePath);
             }
-
-
+            viewModel.setImages(new MutableLiveData<>(images));
         }
-    }
-
-    @SuppressLint("Range")
-    private String getFileName(Uri uri) {
-        String result = null;
-        if (uri.getScheme().equals("content")) {
-            Cursor cursor = getActivity().getContentResolver().query(uri, null, null, null, null);
-            try {
-                if (cursor != null && cursor.moveToFirst()) {
-                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                }
-            } finally {
-                cursor.close();
-            }
-        }
-        if (result == null) {
-            result = uri.getPath();
-            int cut = result.lastIndexOf('/');
-            if (cut != -1) {
-                result = result.substring(cut + 1);
-            }
-        }
-        return result;
     }
 }

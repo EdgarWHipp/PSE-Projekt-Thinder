@@ -96,7 +96,7 @@ public class ThesisManagerFragment extends Fragment {
             @Override
             public void onChanged(ArrayList<ThesisCardItem> thesisCardItems) {
                 elements = viewModel.getThesisCardItems().getValue();
-                buildRecyclerView(view);
+                adapter.setElements(elements);
             }
         };
 
@@ -114,8 +114,13 @@ public class ThesisManagerFragment extends Fragment {
         adapter.setOnItemClickListener(new ThesisCardAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                // Handle click events
-                Navigation.findNavController(view).navigate(R.id.action_thesisManagerFragment_to_editThesisFragment);
+                String UUID = elements.get(position).getThesisUUID();
+                String thesisTitle = elements.get(position).getTitle();
+                Bundle bundle = new Bundle();
+                bundle.putString("thesisUUID", UUID);
+                bundle.putString("thesisTitle", thesisTitle);
+                Navigation.findNavController(view).navigate(R.id.action_thesisManagerFragment_to_editThesisFragment, bundle);
+
             }
         });
     }

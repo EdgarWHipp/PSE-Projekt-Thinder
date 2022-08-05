@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,9 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.hfad.thinder.R;
+import com.hfad.thinder.data.source.result.Tuple;
 import com.hfad.thinder.databinding.FragmentThesisStatisticsBinding;
+import com.hfad.thinder.viewmodels.supervisor.EditThesisViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +44,7 @@ public class ThesisStatisticsFragment extends Fragment {
 
     private FragmentThesisStatisticsBinding binding;
     private PieChart pieChart;
+    private EditThesisViewModel viewModel;
 
     public ThesisStatisticsFragment() {
         // Required empty public constructor
@@ -78,18 +82,19 @@ public class ThesisStatisticsFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_thesis_statistics, container, false);
         pieChart = binding.pcStatistics;
+        viewModel = new ViewModelProvider(requireActivity()).get(EditThesisViewModel.class);
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
-        setPieChart(10, 3);
+        setPieChart(viewModel.getThesisStatistics());
     }
 
-    private void setPieChart(int likes, int dislikes){
+    private void setPieChart(Tuple<Integer, Integer> statistics){
         ArrayList<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry(likes, getContext().getResources().getString(R.string.likes)));
-        entries.add(new PieEntry(dislikes, getContext().getResources().getString(R.string.dislikes)));
+        entries.add(new PieEntry(statistics.x, getContext().getResources().getString(R.string.likes)));
+        entries.add(new PieEntry(statistics.y, getContext().getResources().getString(R.string.dislikes)));
         PieDataSet dataSet = new PieDataSet(entries, getContext().getResources().getString(R.string.like_dislike_ratio));
         ArrayList<Integer> colors = new ArrayList<>();
         colors.add(getContext().getResources().getColor(R.color.green_400));

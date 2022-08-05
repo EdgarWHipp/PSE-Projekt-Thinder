@@ -187,7 +187,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/insert_institute"
-                        android:inputType="phone"
+                        android:inputType="text"
                         android:text="@={viewmodel.institute}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="parent"

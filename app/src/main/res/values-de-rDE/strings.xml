@@ -87,6 +87,10 @@
     <string name="save_successful">Daten wurden erfolgreich gespeichert.</string>
     <string name="remove_thesis">Abschlussarbeit löschen</string>
     <string name="remove_thesis_text">Sind Sie sich sicher, dass Sie diese Abschlussarbeit löschen möchten?</string>
+    <string name="show_image_selection">Bildauswahl anzeigen</string>
+    <string name="open_image_picker">Bildauswahl öffnen</string>
+    <string name="open_image_picker_text">Eine neue Auswahl wird die Vorherige überschreiben</string>
+    <string name="open">Öffnen</string>
 
 
     <!-- Registration View Model Strings -->
