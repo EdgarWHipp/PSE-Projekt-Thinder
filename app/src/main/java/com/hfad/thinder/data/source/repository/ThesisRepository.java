@@ -2,6 +2,7 @@ package com.hfad.thinder.data.source.repository;
 
 
 import com.hfad.thinder.data.model.Degree;
+import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
@@ -114,7 +115,7 @@ public final class ThesisRepository {
    * @return Result class including success value and error message
    */
     public Result addThesis(String supervisingProf, String name, String motivation, String task, String form, Set<Degree> degrees , Set<Image> images) {
-        return thesisRemoteDataSource.createNewThesis(new Thesis(supervisingProf,name,motivation,task,form,images,(Supervisor) UserRepository.getInstance().getUser(),degrees));
+        return thesisRemoteDataSource.createNewThesis(new Thesis(supervisingProf,name,motivation,task,new Form(form),images,(Supervisor) UserRepository.getInstance().getUser(),degrees));
     }
     //Das Viewmodel holt diese ja eigentlich direkt aus dem Model?
     // Nutzlos

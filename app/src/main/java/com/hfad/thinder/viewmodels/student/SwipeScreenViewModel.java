@@ -11,21 +11,27 @@ import androidx.lifecycle.ViewModel;
 
 import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Thesis;
+import com.hfad.thinder.data.source.repository.StudentRepository;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
+import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.data.source.result.Tuple;
 import com.hfad.thinder.ui.SwipeScreenCard;
 import com.hfad.thinder.ui.SwipeScreenFragment;
 import com.hfad.thinder.viewmodels.ThesisCardItem;
+import com.hfad.thinder.viewmodels.ViewModelResult;
+
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
 import java.util.Set;
+import java.util.UUID;
 
 
 public class SwipeScreenViewModel extends ViewModel {
 
   private static final ThesisRepository thesisRepository = ThesisRepository.getInstance();
-  private Stack<Pair<String, Boolean>> ratings = new Stack();
+  private static final StudentRepository studentRepository = StudentRepository.getInstance();
+  private Stack<Tuple<UUID, Boolean>> ratings = new Stack();
 
   private ArrayList<SwipeScreenCard> cardDeck;
   private MutableLiveData<Integer> currentDeckPosition;
@@ -33,15 +39,16 @@ public class SwipeScreenViewModel extends ViewModel {
   private ArrayList<SwipeScreenFragment.DetailViewStates> detailViewOrder;
   private MutableLiveData<Integer> currentDetailViewPosition;
 
+
   public void like() {
     SwipeScreenCard currentCard = cardDeck.get(getCurrentDeckPosition().getValue());
-    ratings.push(new Pair<>(currentCard.getUUID(), true));
+    ratings.push(new Tuple<>(UUID.fromString(currentCard.getUUID()), true));
     incrementCurrentDeckPosition();
   }
 
   public void dislike(){
     SwipeScreenCard currentCard = cardDeck.get(getCurrentDeckPosition().getValue());
-    ratings.push(new Pair<>(currentCard.getUUID(), false));
+    ratings.push(new Tuple<>(UUID.fromString(currentCard.getUUID()), false));
     incrementCurrentDeckPosition();
   }
 
@@ -52,7 +59,7 @@ public class SwipeScreenViewModel extends ViewModel {
   }
 
   public void pushRatings() {
-    //Todo implementieren wenn Model vorhanden
+    studentRepository.rateThesis(ratings);
   }
 
   public SwipeScreenCard getCurrentCard(){
@@ -162,7 +169,7 @@ public class SwipeScreenViewModel extends ViewModel {
 
   private boolean incrementCurrentDeckPosition() {
     Integer oldPosition = getCurrentDeckPosition().getValue();
-    if (oldPosition < getCardDeck().size() - 2) {//Todo atribute entfernen
+    if (oldPosition < getCardDeck().size() - 2) {
       setDetailedViewOrder();
       getCurrentDeckPosition().setValue(oldPosition + 1);
       return true;

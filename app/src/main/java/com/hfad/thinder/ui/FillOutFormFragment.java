@@ -2,13 +2,17 @@ package com.hfad.thinder.ui;
 
 import android.os.Bundle;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.hfad.thinder.R;
+import com.hfad.thinder.databinding.FragmentFillOutFormBinding;
+import com.hfad.thinder.viewmodels.student.FillOutFormViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +29,9 @@ public class FillOutFormFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    FragmentFillOutFormBinding binding;
+    FillOutFormViewModel viewModel;
 
     public FillOutFormFragment() {
         // Required empty public constructor
@@ -60,7 +67,16 @@ public class FillOutFormFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fill_out_form, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_fill_out_form, container, false);
+        viewModel = new ViewModelProvider(requireActivity()).get(FillOutFormViewModel.class);
+        viewModel.setThesisId(requireArguments().getString("thesisUUID"));
+        binding.setViewModel(viewModel);
+        binding.setFragment(this);
+        return binding.getRoot();
     }
+
+    public void sendForm(View view){
+        viewModel.sendForm();
+    }
+
 }

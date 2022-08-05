@@ -5,6 +5,9 @@
         <variable
             name="fragment"
             type="com.hfad.thinder.ui.LikedThesisDetailedFragment" />
+        <variable
+            name="viewModel"
+            type="com.hfad.thinder.viewmodels.student.LikedThesisDetailedViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -40,9 +43,7 @@
                     android:id="@+id/tvTaskContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="In dieser Arbeit sollen automatisierte Tests mit dem HiL-System mithilfe von MATLAB/Simulink und LabView realisiert werden. Dazu soll eine Systematik zum Erstellen der Testfälle recherchiert und erarbeitet werden. Diese sollen in automatisierter Form realisiert und die Ergebnisse systematisch erfasst und aufbereitet werden:\n- Literaturrecherche zur testgetriebenen Entwicklung und zur Vollständigkeit von Tests
-    \n- Entwurf von automatisierten Tests für die Anwendung am HiL-System eines MMC mit Batteriemodulen
-    \n- Testdurchführung anhand exemplarischer Regelungsmethoden und Validierung der Tests"
+                    android:text="@{viewModel.task}"
                     app:layout_constraintBottom_toTopOf="@id/tvMotivation"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -64,7 +65,7 @@
                     android:id="@+id/tvMotivationContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Der Reglerentwurf für Umrichter ist komplex. Neben dem bestimmungsgemäßen Betrieb in jedem Betriebspunkt muss die Sicherheit zu jedem Zeitpunkt gewährleistet sein. Auch beim Auftreten unvorhergesehener Fehlerkombinationen muss das System in einen sicheren Zustand überführt werden können. Bei der Kombination von Batteriespeichern und Umrichtern in einem System muss das System den Anforderungen beider Seiten gerecht werden. Aus diesem Grund wurde eine HiL-Umgebung entwickelt und wird stetig weiterentwickelt. Um den aktuellen Stand des Regelungsentwurfs zu validieren, sollen nun Ansätze des Test Driven Design übernommen werden."
+                    android:text="@{viewModel.motivation}"
                     app:layout_constraintBottom_toTopOf="@id/tvCoursesOfStudy"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -88,7 +89,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fab_margin"
-                    android:text="M. Sc. Informatik\nB. Sc. Informatik\nM. Sc. Wirtschaftsinformatik"
+                    android:text="@{viewModel.coursesOfStudy}"
                     android:textAlignment="textEnd"
                     app:layout_constraintLeft_toRightOf="@id/tvCoursesOfStudy"
                     app:layout_constraintRight_toRightOf="parent"
@@ -112,7 +113,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fab_margin"
-                    android:text="M.Sc. Jessica Salzmann"
+                    android:text="@{viewModel.supervisorName}"
                     app:layout_constraintLeft_toRightOf="@id/tvSupervisorName"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvCoursesOfStudyContent" />
@@ -135,7 +136,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fab_margin"
-                    android:text="Jessica.Salzmann@kit.edu"
+                    android:text="@{viewModel.mail}"
                     android:textAlignment="textEnd"
                     app:layout_constraintLeft_toRightOf="@id/tvSupervisorEmail"
                     app:layout_constraintRight_toRightOf="parent"
@@ -159,7 +160,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fab_margin"
-                    android:text="+49 1234 56789"
+                    android:text="@{viewModel.phoneNumber}"
                     android:textAlignment="textEnd"
                     app:layout_constraintLeft_toRightOf="@id/tvSupervisorPhoneNumber"
                     app:layout_constraintRight_toRightOf="parent"
@@ -183,7 +184,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fab_margin"
-                    android:text="MZE, 30.48, R. 333"
+                    android:text="@{viewModel.building}"
                     android:textAlignment="textEnd"
                     app:layout_constraintLeft_toRightOf="@id/tvBuilding"
                     app:layout_constraintRight_toRightOf="parent"
@@ -207,7 +208,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fab_margin"
-                    android:text="Prof. Dr. Max Mustermann"
+                    android:text="@{viewModel.supervisingProf}"
                     android:textAlignment="textEnd"
                     app:layout_constraintLeft_toRightOf="@id/tvSupervisingProf"
                     app:layout_constraintRight_toRightOf="parent"
@@ -231,7 +232,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fab_margin"
-                    android:text="Lichttechnisches Institut"
+                    android:text="@{viewModel.institute}"
                     android:textAlignment="textEnd"
                     app:layout_constraintLeft_toRightOf="@id/tvInstitute"
                     app:layout_constraintRight_toRightOf="parent"

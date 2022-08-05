@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentImageGalleryBinding;
 import com.hfad.thinder.viewmodels.student.ImageGalleryViewModel;
+import com.hfad.thinder.viewmodels.student.LikedThesisDetailedViewModel;
 import com.hfad.thinder.viewmodels.user.ForgotPasswordViewModel;
 
 /**
@@ -32,7 +33,7 @@ public class ImageGalleryFragment extends Fragment {
     private String mParam2;
 
     private FragmentImageGalleryBinding binding;
-    private ImageGalleryViewModel viewmodel;
+    private LikedThesisDetailedViewModel viewmodel;
 
     public ImageGalleryFragment() {
         // Required empty public constructor
@@ -69,9 +70,8 @@ public class ImageGalleryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_image_gallery, container, false);
-        viewmodel = new ViewModelProvider(this).get(ImageGalleryViewModel.class);
-        viewmodel.setThesisId(requireArguments().getString("thesisId"));
-        binding.setViewmodel(viewmodel);
+        viewmodel = new ViewModelProvider(requireActivity()).get(LikedThesisDetailedViewModel.class);
+        binding.setViewModel(viewmodel);
         binding.setLifecycleOwner(this);
 
         return binding.getRoot();

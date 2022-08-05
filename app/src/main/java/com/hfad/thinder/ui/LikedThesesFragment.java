@@ -1,9 +1,13 @@
 package com.hfad.thinder.ui;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +24,7 @@ import android.widget.SearchView;
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentLikedThesesBinding;
 import com.hfad.thinder.viewmodels.ThesisCardItem;
+import com.hfad.thinder.viewmodels.student.LikedThesesViewModel;
 
 import java.util.ArrayList;
 
@@ -40,9 +45,9 @@ public class LikedThesesFragment extends Fragment {
     private String mParam2;
 
     private FragmentLikedThesesBinding binding;
+    private LikedThesesViewModel viewModel;
     private View view;
 
-    private ArrayList<ThesisCardItem> elements;
 
     private RecyclerView recyclerView;
     private ThesisCardAdapter adapter;
@@ -83,22 +88,17 @@ public class LikedThesesFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
-        elements = new ArrayList<ThesisCardItem>();
-       /* elements.add(new ThesisCardItem(" Control and Diagnostics System Generator for Complex FPGA-Based Measurement Systems ", "Test", R.drawable.index));
-        elements.add(new ThesisCardItem(" Commissioning and testing of pre-series triple GEM prototypes for CBM-MuCh in the mCBM experiment at the SIS18 facility of GSI ", "Test", R.drawable.index));
-        elements.add(new ThesisCardItem(" An equation-of-state-meter for CBM using PointNet ", "Test", R.drawable.index));
-        elements.add(new ThesisCardItem(" Performance of the MSMGRPC with the Highest Granularity of the CBM-TOF Wall in Cosmic Ray Tests ", "Test", R.drawable.index));
-        elements.add(new ThesisCardItem(" Astrophysics with heavy-ion beams ", "Test", R.drawable.index));
-        elements.add(new ThesisCardItem(" Development and implementation of a time-based signal generation scheme for the muon chamber simulation of the CBM experiment at FAIR ", "Test", R.drawable.index));
-        elements.add(new ThesisCardItem(" Data-Driven Methods for Spectator Symmetry Plane Estimation in CBM Experiment at FAIR ", "Test", R.drawable.index));
-        elements.add(new ThesisCardItem(" Data-Driven Methods for Spectator Symmetry Plane Estimation in CBM Experiment at FAIR ", "Test", R.drawable.index));
-        elements.add(new ThesisCardItem(5," Data-Driven Methods for Spectator Symmetry Plane Estimation in CBM Experiment at FAIR ", "Test", R.drawable.index));
-        */
+        final Observer<ArrayList<ThesisCardItem>> likedThesesObserver = new Observer<ArrayList<ThesisCardItem>>() {
+            @Override
+            public void onChanged(ArrayList<ThesisCardItem> thesisCardItems) {
+                buildRecyclerView(viewModel.getLikedTheses().getValue(), view);
+            }
+        };
+        viewModel.getLikedTheses().observe(getViewLifecycleOwner(), likedThesesObserver);
 
-        buildRecyclerView(view);
     }
 
-    private void buildRecyclerView(View view) {
+    private void buildRecyclerView(ArrayList<ThesisCardItem> elements, View view) {
         recyclerView = binding.recyclerView;
         layoutManager = new LinearLayoutManager(view.getContext());
         adapter = new ThesisCardAdapter(elements);
@@ -110,7 +110,12 @@ public class LikedThesesFragment extends Fragment {
             @Override
             public void onItemClick(int position) {
                 // Handle click events
-                Navigation.findNavController(view).navigate(R.id.action_likedThesesFragment_to_likedThesisDetailedFragment);
+                String UUID = elements.get(position).getThesisUUID();
+                String thesisTitle = elements.get(position).getTitle();
+                Bundle bundle = new Bundle();
+                bundle.putString("thesisUUID", UUID);
+                bundle.putString("thesisTitle", thesisTitle);
+                Navigation.findNavController(view).navigate(R.id.action_likedThesesFragment_to_likedThesisDetailedFragment, bundle);
             }
         });
     }
@@ -119,7 +124,7 @@ public class LikedThesesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_liked_theses, container, false);
-
+        viewModel = new ViewModelProvider(requireActivity()).get(LikedThesesViewModel.class);
         view = binding.getRoot();
         return view;
     }
