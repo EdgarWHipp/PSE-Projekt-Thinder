@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.R;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.User;
+import com.hfad.thinder.data.source.repository.DegreeRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.ui.CourseOfStudyItem;
@@ -19,9 +20,10 @@ import java.util.Set;
 
 
 public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPicker {
-  private final UserRepository userRepository = UserRepository.getInstance();
+  private final static UserRepository userRepository = UserRepository.getInstance();
+  private final static DegreeRepository degreeRepository = DegreeRepository.getInstance();
   private User user;
-  private Set<Degree> degrees;//Todo: updaten nachdem aus dem Courses of Study zurück.
+  private Set<Degree> selectedCoursesOfStudySet;//Todo: updaten nachdem aus dem Courses of Study zurück.
   // list of all courses of study from the backend combined with the user selection
   private MutableLiveData<ArrayList<CourseOfStudyItem>> coursesOfStudyList;
   private MutableLiveData<EditProfileFormState> formState;
@@ -35,7 +37,7 @@ public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPic
 
   public void save() {
     Result result =
-        userRepository.editProfileStudent(degrees, firstName.getValue(), lastName.getValue());
+        userRepository.editProfileStudent(selectedCoursesOfStudySet, firstName.getValue(), lastName.getValue());
     if (result.getSuccess()) {
       getSafeResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
     } else {
@@ -143,13 +145,13 @@ public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPic
       user = userRepository.getUser();
     }
 
-    degrees = new HashSet<>();
-    degrees.add(new Degree("Informatik", "Bachelor"));
-    degrees.add(new Degree("Mathematik", "Bachelor"));//Todo: hole seine Degrees aus Model
+    selectedCoursesOfStudySet = new HashSet<>();
+    selectedCoursesOfStudySet.add(new Degree("Informatik Bachelor"));
+    selectedCoursesOfStudySet.add(new Degree("Mathematik Bachelor"));//Todo: hole seine Degrees aus Model
 
     String degreesAsString = "";
-    for (Degree degree : degrees) {
-      degreesAsString = degreesAsString + degree.getName() + " ";
+    for (Degree degree : selectedCoursesOfStudySet) {
+      degreesAsString = degreesAsString + " ";
     }
     selectedCoursesOfStudy = new MutableLiveData<>();
     selectedCoursesOfStudy.setValue(degreesAsString);
