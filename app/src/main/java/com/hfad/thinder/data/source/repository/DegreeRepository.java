@@ -1,5 +1,8 @@
 package com.hfad.thinder.data.source.repository;
 
+import com.hfad.thinder.data.model.Degree;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class DegreeRepository {
@@ -14,4 +17,11 @@ public class DegreeRepository {
         list.add("Dr. Dr. Prof");
         return list;
     }
+
+    public ArrayList<String> getAllStudentDegrees(){
+        return null;
+
+    }
+
+
 }
