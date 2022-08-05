@@ -1,10 +1,12 @@
 package com.hfad.thinder.data.source.repository;
 
+import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.source.remote.StudentRemoteDataSource;
 import com.hfad.thinder.data.source.remote.ThesisRemoteDataSource;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.data.source.result.Tuple;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Stack;
 import java.util.UUID;
@@ -37,5 +39,13 @@ public class StudentRepository {
    */
   public Result rateThesis(final Collection<Tuple<UUID,Boolean>> ratings){
     return studentRemoteDataSource.rateThesis(ratings);
+  }
+
+  public ArrayList<String> getSelectedDegrees() {
+    //todo remove
+    ArrayList<String> selectedDegrees = new ArrayList<>();
+    selectedDegrees.add("Bachelor Informatik");
+    selectedDegrees.add("Master Mathematik");
+    return selectedDegrees;
   }
 }

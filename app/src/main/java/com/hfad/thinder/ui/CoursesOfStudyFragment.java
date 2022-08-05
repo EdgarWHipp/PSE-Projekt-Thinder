@@ -1,5 +1,7 @@
 package com.hfad.thinder.ui;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -87,15 +90,6 @@ public class CoursesOfStudyFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        elements = new ArrayList<CourseOfStudyItem>();
-        elements.add(new CourseOfStudyItem("Informatik", false));
-        elements.add(new CourseOfStudyItem("Mathematik", true));
-        elements.add(new CourseOfStudyItem("Biologie", false));
-        elements.add(new CourseOfStudyItem("Physik", true));
-        elements.add(new CourseOfStudyItem("Elektrotechnik", false));
-        elements.add(new CourseOfStudyItem("Maschinenbau", true));
-        elements.add(new CourseOfStudyItem("Wirtschaftsinformatik", true));
-
         mRecyclerView = view.findViewById(R.id.rvCoursesOfStudy);
         mLayoutManager = new LinearLayoutManager(view.getContext());
         mAdapter = new CoursesOfStudyAdapter(viewModel);

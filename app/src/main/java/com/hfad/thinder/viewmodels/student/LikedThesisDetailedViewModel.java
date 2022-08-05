@@ -177,8 +177,8 @@ public class LikedThesisDetailedViewModel extends ViewModel {
 
     Supervisor supervisor = new Supervisor(USERTYPE.SUPERVISOR, UUID.randomUUID(), true, UUID.randomUUID(), "gubert", "gubert@mail", "firstname", "lastName", "academicDegree", "building", "officeNumber", "insitute", "phoneNumber" );
     HashSet<Degree> possibleDegrees = new HashSet<>();
-    possibleDegrees.add(new Degree("Bachelor", "Informatik"));
-    possibleDegrees.add(new Degree("Bachelor", "Mathematik"));
+    possibleDegrees.add(new Degree("Bachelor Informatik"));
+    possibleDegrees.add(new Degree("Bachelor Mathematik"));
 
     Thesis thesis = new Thesis("Prof. Hartmann", "Florian", "motivation", "task", new Form("questions"), null, supervisor, possibleDegrees);
 
@@ -198,8 +198,7 @@ public class LikedThesisDetailedViewModel extends ViewModel {
   private ArrayList<String> coursesOfStudyAdapter(Set<Degree> degrees) {
     ArrayList<String> convertedDegrees = new ArrayList<>();
     for (Degree degree : degrees) {
-      String degreeString = degree.getDegree() + " " + degree.getName();
-      convertedDegrees.add(degreeString);
+      convertedDegrees.add(degree.getDegree());
     }
     return convertedDegrees;
   }

@@ -1,5 +1,9 @@
 package com.hfad.thinder.viewmodels.student;
 
+import static android.content.ContentValues.TAG;
+
+import android.util.Log;
+
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -7,6 +11,7 @@ import com.hfad.thinder.R;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.repository.DegreeRepository;
+import com.hfad.thinder.data.source.repository.StudentRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.ui.CourseOfStudyItem;
@@ -16,14 +21,15 @@ import com.hfad.thinder.viewmodels.ViewModelResultTypes;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
 public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPicker {
   private final static UserRepository userRepository = UserRepository.getInstance();
   private final static DegreeRepository degreeRepository = DegreeRepository.getInstance();
+  private final static StudentRepository studentRepository = StudentRepository.getInstance();
   private User user;
-  private Set<Degree> selectedCoursesOfStudySet;//Todo: updaten nachdem aus dem Courses of Study zurück.
   // list of all courses of study from the backend combined with the user selection
   private MutableLiveData<ArrayList<CourseOfStudyItem>> coursesOfStudyList;
   private MutableLiveData<EditProfileFormState> formState;
@@ -37,7 +43,7 @@ public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPic
 
   public void save() {
     Result result =
-        userRepository.editProfileStudent(selectedCoursesOfStudySet, firstName.getValue(), lastName.getValue());
+        userRepository.editProfileStudent(getSelectedSet(), firstName.getValue(), lastName.getValue());
     if (result.getSuccess()) {
       getSafeResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
     } else {
@@ -62,7 +68,10 @@ public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPic
   }
 
   public void makeCourseOfStudySelection(int position, boolean selection){
-    getCoursesOfStudyList().getValue().get(position).setPicked(selection);
+    ArrayList<CourseOfStudyItem> copy = getCoursesOfStudyList().getValue();
+    copy.get(position).setPicked(selection);
+    getCoursesOfStudyList().setValue(copy);
+
   }
 
   @Override
@@ -119,16 +128,19 @@ public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPic
   }
 
   public MutableLiveData<String> getSelectedCoursesOfStudy() {
+
     if (selectedCoursesOfStudy == null) {
       loadCoursesOfStudy();
+    } else {
+      updateSelectedCoursesOfStudy();
     }
-
     return selectedCoursesOfStudy;
   }
 
   public MutableLiveData<ArrayList<CourseOfStudyItem>> getCoursesOfStudyList() {
     if(coursesOfStudyList == null){
       coursesOfStudyList = new MutableLiveData<>();
+      loadCoursesOfStudy();
     }
     return coursesOfStudyList;
   }
@@ -137,22 +149,27 @@ public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPic
     this.coursesOfStudyList = coursesOfStudyList;
   }
 
+
   //-------------------private methods-------------------------
 
 
   private void loadCoursesOfStudy() {
-    if (user == null) {
-      user = userRepository.getUser();
+    ArrayList<String> allDegrees = degreeRepository.getAllStudentDegrees();
+    ArrayList<String> selectedDegrees = studentRepository.getSelectedDegrees();
+    ArrayList<CourseOfStudyItem> courseOfStudyItems = new ArrayList<>();
+    for (String degree : allDegrees) {
+      if (selectedDegrees.contains(degree)) {
+        courseOfStudyItems.add(new CourseOfStudyItem(degree, true));
+        selectedDegrees.add(degree);
+      }else{
+        courseOfStudyItems.add(new CourseOfStudyItem(degree, false));
+      }
     }
+    coursesOfStudyList = new MutableLiveData<>();
+    coursesOfStudyList.setValue(courseOfStudyItems);
 
-    selectedCoursesOfStudySet = new HashSet<>();
-    selectedCoursesOfStudySet.add(new Degree("Informatik Bachelor"));
-    selectedCoursesOfStudySet.add(new Degree("Mathematik Bachelor"));//Todo: hole seine Degrees aus Model
+    String degreesAsString = String.join(", ", selectedDegrees);
 
-    String degreesAsString = "";
-    for (Degree degree : selectedCoursesOfStudySet) {
-      degreesAsString = degreesAsString + " ";
-    }
     selectedCoursesOfStudy = new MutableLiveData<>();
     selectedCoursesOfStudy.setValue(degreesAsString);
   }
@@ -190,6 +207,26 @@ public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPic
       return R.string.no_courses_of_study_error_message;
     }
     return null;
+  }
+
+  private Set<Degree> getSelectedSet() {
+    HashSet<Degree> degrees = new HashSet<>();
+    for (CourseOfStudyItem courseOfStudyItem : getCoursesOfStudyList().getValue()) {
+      if (courseOfStudyItem.isPicked()) {
+        degrees.add(new Degree(courseOfStudyItem.getCourseOfStudy()));
+      }
+    }
+    return degrees;
+  }
+
+  private void updateSelectedCoursesOfStudy() {
+    List<String> selectedCourses = new ArrayList<>();
+    for (CourseOfStudyItem courseOfStudyItem: getCoursesOfStudyList().getValue()) {
+      if (courseOfStudyItem.isPicked()) {
+        selectedCourses.add(courseOfStudyItem.getCourseOfStudy());
+      }
+    }
+    selectedCoursesOfStudy.setValue(String.join(", ", selectedCourses));
   }
 
 }

@@ -33,7 +33,14 @@ public class DegreeRepository {
     }
 
     public ArrayList<String> getAllStudentDegrees(){
-        return null;
+        //Todo löschen
+        ArrayList<String> selectedDegrees = new ArrayList<>();
+        selectedDegrees.add("Bachelor Informatik");
+        selectedDegrees.add("Master Mathematik");
+        selectedDegrees.add("Bachelor Mathematik");
+        selectedDegrees.add("Master Chemie");
+        selectedDegrees.add("Master Germanistik");
+        return selectedDegrees;
 
     }
 

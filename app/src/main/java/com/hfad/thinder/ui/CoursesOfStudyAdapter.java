@@ -1,5 +1,8 @@
 package com.hfad.thinder.ui;
 
+import static android.content.ContentValues.TAG;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,5 +106,10 @@ public class CoursesOfStudyAdapter extends RecyclerView.Adapter<CoursesOfStudyAd
 
     public void setElements(ArrayList<CourseOfStudyItem> elements){
         this.elements = elements;
+        StringBuilder elementsString = new StringBuilder();
+        for(CourseOfStudyItem item : elements){
+            elementsString.append(item.getCourseOfStudy());
+        }
+        notifyDataSetChanged();
     }
 }

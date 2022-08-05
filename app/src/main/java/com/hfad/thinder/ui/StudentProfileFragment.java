@@ -80,7 +80,7 @@ public class StudentProfileFragment extends Fragment {
         DataBindingUtil.inflate(inflater, R.layout.fragment_student_profile, container, false);
 
     view = binding.getRoot();
-    viewModel = new ViewModelProvider(this).get(EditProfileViewModel.class);
+    viewModel = new ViewModelProvider(requireActivity()).get(EditProfileViewModel.class);
     binding.setFragment(this);
     binding.setViewmodel(viewModel);
     binding.setLifecycleOwner(this);
@@ -127,6 +127,8 @@ public class StudentProfileFragment extends Fragment {
         viewModel.profileDataChanged();
       }
     };
+
+
 
 
     viewModel.getDeleteResult().observe(getViewLifecycleOwner(), deleteResultObserver);

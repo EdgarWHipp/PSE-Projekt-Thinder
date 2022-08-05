@@ -91,7 +91,7 @@ public class LikedThesesFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
-        buildRecyclerView(new ArrayList<ThesisCardItem>(), view);
+        buildRecyclerView(viewModel.getLikedTheses().getValue(), view);
         final Observer<ArrayList<ThesisCardItem>> likedThesesObserver = new Observer<ArrayList<ThesisCardItem>>() {
             @Override
             public void onChanged(ArrayList<ThesisCardItem> thesisCardItems) {
