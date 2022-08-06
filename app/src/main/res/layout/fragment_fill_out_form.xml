@@ -8,7 +8,7 @@
             type="com.hfad.thinder.viewmodels.student.FillOutFormViewModel" />
         <variable
             name="fragment"
-            type="com.hfad.thinder.ui.FillOutFormFragment" />
+            type="com.hfad.thinder.ui.student.FillOutFormFragment" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

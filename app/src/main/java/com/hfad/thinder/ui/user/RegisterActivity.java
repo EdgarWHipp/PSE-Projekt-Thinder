@@ -1,4 +1,4 @@
-package com.hfad.thinder.ui;
+package com.hfad.thinder.ui.user;
 
 import android.content.Intent;
 import android.os.Bundle;

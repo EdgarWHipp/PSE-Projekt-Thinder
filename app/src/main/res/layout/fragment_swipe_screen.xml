@@ -6,7 +6,7 @@
     <data>
         <variable
             name="fragment"
-            type="com.hfad.thinder.ui.SwipeScreenFragment" />
+            type="com.hfad.thinder.ui.student.SwipeScreenFragment" />
     </data>
 <androidx.constraintlayout.motion.widget.MotionLayout
     android:id="@+id/motionLayoutSwipeScreen"
@@ -14,7 +14,7 @@
     android:layout_height="match_parent"
     app:showPaths="false"
     app:layoutDescription="@xml/swipe_screen_animations"
-    tools:context=".ui.SwipeScreenFragment">
+    tools:context=".ui.student.SwipeScreenFragment">
 
     <ImageView
         android:id="@+id/ivThinder"

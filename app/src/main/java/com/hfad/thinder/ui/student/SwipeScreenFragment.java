@@ -1,4 +1,4 @@
-package com.hfad.thinder.ui;
+package com.hfad.thinder.ui.student;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,6 @@ import com.hfad.thinder.databinding.FragmentSwipeScreenBinding;
 import com.hfad.thinder.viewmodels.student.SwipeScreenViewModel;
 
 import java.util.ArrayList;
-import java.util.Observable;
 
 /**
  * A simple {@link Fragment} subclass.

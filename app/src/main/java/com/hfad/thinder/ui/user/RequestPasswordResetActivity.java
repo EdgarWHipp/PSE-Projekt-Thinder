@@ -1,4 +1,4 @@
-package com.hfad.thinder.ui;
+package com.hfad.thinder.ui.user;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,11 +9,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.ActivityRequestPasswordResetBinding;
+import com.hfad.thinder.ui.user.ForgotPasswordActivity;
 import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.viewmodels.user.PasswordResetRequestViewModel;
 

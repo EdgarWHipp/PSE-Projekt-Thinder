@@ -1,112 +1,37 @@
 package com.hfad.thinder.viewmodels.supervisor;
 
 import android.graphics.Bitmap;
-import android.media.Image;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.hfad.thinder.data.model.Degree;
+import com.hfad.thinder.data.model.Image;
+import com.hfad.thinder.data.source.repository.ThesisRepository;
+import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.ui.CourseOfStudyItem;
 import com.hfad.thinder.viewmodels.CoursesOfStudyPicker;
+import com.hfad.thinder.viewmodels.ViewModelResult;
+import com.hfad.thinder.viewmodels.ViewModelResultTypes;
 
 import java.util.ArrayList;
+import java.util.Set;
 
-public class NewThesisViewModel extends ViewModel implements CoursesOfStudyPicker {
-    private MutableLiveData<String> name;
-    private MutableLiveData<String> taskDescription;
-    private MutableLiveData<String> motivationDescription;
-    private MutableLiveData<String> professor;
-    private MutableLiveData<ArrayList<String>> fieldsOfStudy;
-    private MutableLiveData<ArrayList<Bitmap>> images;
+public class NewThesisViewModel extends ThesisViewModel  {
+    private static final ThesisRepository thesisRepository = ThesisRepository.getInstance();
+
 
     public void save() {
-        //Todo: implementieren
-    }
-
-    @Override
-    public void makeCourseOfStudySelection(int position, boolean selection) {
-
-    }
-
-    @Override
-    public ArrayList<CourseOfStudyItem> getElements() {
-        return null;
-    }
-
-    @Override
-    public MutableLiveData<ArrayList<CourseOfStudyItem>> getCoursesOfStudyList() {
-        return null;
-    }
-
-    //------------------getter and setter-----------------------------------------------------
-
-    public MutableLiveData<String> getName() {
-        if (name == null) {
-            name = new MutableLiveData<>();
+        Set<Image> imageSet = ThesisUtility.getImageSet(getImages().getValue());
+        Set<Degree> degreeSet = ThesisUtility.getSelectedDegreeSet(getCoursesOfStudyList().getValue());
+        Result result = thesisRepository.addThesis(getProfessor().getValue(), getTitle().getValue(), getMotivation().getValue(), getTask().getValue(), getQuestions().getValue(), degreeSet , imageSet);
+        if (result.getSuccess()) {
+            getSaveResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
+        } else {
+            getSaveResult().setValue(new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
         }
-        return name;
     }
 
 
-    public void setName(MutableLiveData<String> name) {
-        this.name = name;
-    }
 
-    public MutableLiveData<String> getTaskDescription() {
-        if (taskDescription == null) {
-            taskDescription = new MutableLiveData<>();
-        }
-        return taskDescription;
-    }
-
-    public void setTaskDescription(MutableLiveData<String> taskDescription) {
-        this.taskDescription = taskDescription;
-    }
-
-    public MutableLiveData<String> getMotivationDescription() {
-        if (motivationDescription == null) {
-            motivationDescription = new MutableLiveData<>();
-        }
-        return motivationDescription;
-    }
-
-    public void setMotivationDescription(
-            MutableLiveData<String> motivationDescription) {
-        this.motivationDescription = motivationDescription;
-    }
-
-    public MutableLiveData<String> getProfessor() {
-        if (professor == null) {
-            professor = new MutableLiveData<>();
-        }
-        return professor;
-    }
-
-    public void setProfessor(MutableLiveData<String> professor) {
-        this.professor = professor;
-    }
-
-    public MutableLiveData<ArrayList<String>> getFieldsOfStudy() {
-        if (fieldsOfStudy == null) {
-            fieldsOfStudy = new MutableLiveData<>();
-        }
-        return fieldsOfStudy;
-    }
-
-    public void setFieldsOfStudy(
-            MutableLiveData<ArrayList<String>> fieldsOfStudy) {
-        this.fieldsOfStudy = fieldsOfStudy;
-    }
-
-    public MutableLiveData<ArrayList<Bitmap>> getImages() {
-        if (images == null) {
-            images = new MutableLiveData<>();
-        }
-        return images;
-    }
-
-    public void setImages(
-            MutableLiveData<ArrayList<Bitmap>> images) {
-        this.images = images;
-    }
 }

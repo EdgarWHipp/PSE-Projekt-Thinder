@@ -1,4 +1,4 @@
-package com.hfad.thinder.ui;
+package com.hfad.thinder.ui.user;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.ActivityForgotPasswordBinding;
+import com.hfad.thinder.ui.student.StudentActivity;
+import com.hfad.thinder.ui.supervisor.SupervisorActivity;
 import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.viewmodels.ViewModelResultTypes;
 import com.hfad.thinder.viewmodels.user.ForgotPasswordViewModel;

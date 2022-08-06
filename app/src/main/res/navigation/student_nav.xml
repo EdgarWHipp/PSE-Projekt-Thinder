@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/studentProfileFragment"
-        android:name="com.hfad.thinder.ui.StudentProfileFragment"
+        android:name="com.hfad.thinder.ui.student.StudentProfileFragment"
         android:label="@string/edit_profile"
         tools:layout="@layout/fragment_student_profile" >
         <action
@@ -16,12 +16,12 @@
     </fragment>
     <fragment
         android:id="@+id/fillOutFormFragment"
-        android:name="com.hfad.thinder.ui.FillOutFormFragment"
+        android:name="com.hfad.thinder.ui.student.FillOutFormFragment"
         android:label="@string/fill_out_form"
         tools:layout="@layout/fragment_fill_out_form" />
     <fragment
         android:id="@+id/likedThesesFragment"
-        android:name="com.hfad.thinder.ui.LikedThesesFragment"
+        android:name="com.hfad.thinder.ui.student.LikedThesesFragment"
         android:label="@string/liked_theses"
         tools:layout="@layout/fragment_liked_theses" >
         <action
@@ -30,12 +30,12 @@
     </fragment>
     <fragment
         android:id="@+id/swipeScreenFragment"
-        android:name="com.hfad.thinder.ui.SwipeScreenFragment"
+        android:name="com.hfad.thinder.ui.student.SwipeScreenFragment"
         android:label="@string/swipe_screen"
         tools:layout="@layout/fragment_swipe_screen" />
     <fragment
         android:id="@+id/likedThesisDetailedFragment"
-        android:name="com.hfad.thinder.ui.LikedThesisDetailedFragment"
+        android:name="com.hfad.thinder.ui.student.LikedThesisDetailedFragment"
         android:label="@string/details"
         tools:layout="@layout/fragment_liked_thesis_detailed" >
         <action
@@ -47,10 +47,10 @@
     </fragment>
     <fragment
         android:id="@+id/coursesOfStudyStudentFragment"
-        android:name="com.hfad.thinder.ui.CoursesOfStudyStudentFragment"
+        android:name="com.hfad.thinder.ui.student.CoursesOfStudyStudentFragment"
         android:label="@string/courses_of_study" />
     <fragment
         android:id="@+id/imageGalleryFragmentStudent"
-        android:name="com.hfad.thinder.ui.ImageGalleryFragmentStudent"
+        android:name="com.hfad.thinder.ui.student.ImageGalleryFragmentStudent"
         android:label="@string/images" />
 </navigation>

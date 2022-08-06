@@ -11,8 +11,8 @@ import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.repository.StudentRepository;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.result.Tuple;
-import com.hfad.thinder.ui.SwipeScreenCard;
-import com.hfad.thinder.ui.SwipeScreenFragment;
+import com.hfad.thinder.ui.student.SwipeScreenCard;
+import com.hfad.thinder.ui.student.SwipeScreenFragment;
 
 import java.util.ArrayList;
 import java.util.Stack;

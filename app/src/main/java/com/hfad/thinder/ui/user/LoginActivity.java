@@ -1,10 +1,9 @@
-package com.hfad.thinder.ui;
+package com.hfad.thinder.ui.user;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -12,10 +11,11 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.ActivityLoginBinding;
+import com.hfad.thinder.ui.student.StudentActivity;
+import com.hfad.thinder.ui.supervisor.SupervisorActivity;
 import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.viewmodels.ViewModelResultTypes;
 import com.hfad.thinder.viewmodels.user.LoginViewModel;
-import com.hfad.thinder.viewmodels.user.RegistrationViewModel;
 
 public class LoginActivity extends AppCompatActivity {
 

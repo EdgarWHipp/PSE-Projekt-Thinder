@@ -1,4 +1,4 @@
-package com.hfad.thinder.ui;
+package com.hfad.thinder.ui.student;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,15 +14,12 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.hfad.thinder.R;
-import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.databinding.FragmentLikedThesisDetailedBinding;
 import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.viewmodels.student.LikedThesisDetailedViewModel;

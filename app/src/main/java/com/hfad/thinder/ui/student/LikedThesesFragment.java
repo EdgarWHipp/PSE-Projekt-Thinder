@@ -1,9 +1,5 @@
-package com.hfad.thinder.ui;
+package com.hfad.thinder.ui.student;
 
-import static android.content.ContentValues.TAG;
-
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
@@ -14,7 +10,6 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +21,7 @@ import android.widget.SearchView;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentLikedThesesBinding;
+import com.hfad.thinder.ui.ThesisCardAdapter;
 import com.hfad.thinder.viewmodels.ThesisCardItem;
 import com.hfad.thinder.viewmodels.student.LikedThesesViewModel;
 

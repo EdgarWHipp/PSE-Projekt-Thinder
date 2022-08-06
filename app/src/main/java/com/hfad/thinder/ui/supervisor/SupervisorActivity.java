@@ -1,4 +1,4 @@
-package com.hfad.thinder.ui;
+package com.hfad.thinder.ui.supervisor;
 
 import static androidx.navigation.Navigation.findNavController;
 

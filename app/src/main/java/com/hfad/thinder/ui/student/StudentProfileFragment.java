@@ -1,4 +1,4 @@
-package com.hfad.thinder.ui;
+package com.hfad.thinder.ui.student;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentStudentProfileBinding;
+import com.hfad.thinder.ui.user.LoginActivity;
 import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.viewmodels.student.EditProfileViewModel;
 

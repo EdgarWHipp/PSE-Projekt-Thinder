@@ -1,4 +1,4 @@
-package com.hfad.thinder.ui;
+package com.hfad.thinder.ui.supervisor;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -23,7 +23,6 @@ import com.hfad.thinder.databinding.FragmentThesisStatisticsBinding;
 import com.hfad.thinder.viewmodels.supervisor.EditThesisViewModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**

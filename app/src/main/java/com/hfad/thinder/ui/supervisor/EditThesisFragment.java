@@ -1,25 +1,35 @@
-package com.hfad.thinder.ui;
+package com.hfad.thinder.ui.supervisor;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.ClipData;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentEditThesisBinding;
@@ -27,6 +37,8 @@ import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.viewmodels.supervisor.EditThesisFormState;
 import com.hfad.thinder.viewmodels.supervisor.EditThesisViewModel;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -35,7 +47,7 @@ import java.util.UUID;
  * Use the {@link EditThesisFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EditThesisFragment extends NewThesisFragment {
+public class EditThesisFragment extends Fragment{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -48,6 +60,7 @@ public class EditThesisFragment extends NewThesisFragment {
 
     private FragmentEditThesisBinding binding;
     private View view;
+    private EditThesisViewModel viewModel;
 
     public EditThesisFragment() {
         // Required empty public constructor
@@ -165,7 +178,7 @@ public class EditThesisFragment extends NewThesisFragment {
                 }
             }
         };
-        viewModel.getEditThesisResult().observe(getViewLifecycleOwner(), editThesisResultObserver);
+        viewModel.getSaveResult().observe(getViewLifecycleOwner(), editThesisResultObserver);
         viewModel.getDeleteThesisResult().observe(getViewLifecycleOwner(), deleteResultObserver);
     }
 
@@ -204,10 +217,17 @@ public class EditThesisFragment extends NewThesisFragment {
     }
 
     public void saveThesis(View view){
-        viewModel.editThesis();
+        viewModel.save();
     }
 
-    @Override
+    public void goToCoursesOfStudyFragment(View view){
+        Navigation.findNavController(view).navigate(R.id.action_editThesisFragment_to_coursesOfStudyEditThesisFragment);
+    }
+
+    public void goToImageGalleryFragment(View view){
+        Navigation.findNavController(view).navigate(R.id.action_editThesisFragment_to_imageGalleryEditThesisFragment);
+    }
+
     public void openImagePicker(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setCancelable(true);
@@ -227,8 +247,54 @@ public class EditThesisFragment extends NewThesisFragment {
         });
     }
 
+    public void makeImageSelection(){
+        if(ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(intent, 10);
+        } else {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
+    }
+
     @Override
-    public void makeImageSelection() {
-        super.makeImageSelection();
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data == null)
+            return;
+        Context context = getActivity();
+
+        if(requestCode == 10 && resultCode == Activity.RESULT_OK){
+            ArrayList<Bitmap> images = new ArrayList<Bitmap>();
+            if(data.getData() != null){
+                Uri uri = data.getData();
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
+                    images.add(bitmap);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            } else if(data.getClipData() != null){
+                ClipData mClipData = data.getClipData();
+                for(int i = 0; i < mClipData.getItemCount(); ++i){
+                    ClipData.Item item = mClipData.getItemAt(i);
+                    Uri uri = item.getUri();
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
+                        images.add(bitmap);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            viewModel.setImages(new MutableLiveData<>(images));
+        }
     }
 }

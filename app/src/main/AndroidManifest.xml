@@ -21,13 +21,14 @@
 
 
         <activity
-            android:name=".ui.StudentActivity"
+            android:name=".ui.student.StudentActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="true" />
         <activity
-            android:name=".ui.VerifyTokenActivity"
+            android:name=".ui.user.VerifyTokenActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.user.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,34 +37,35 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.RegisterActivity"
+            android:name=".ui.user.RegisterActivity"
             android:exported="false"
-            android:parentActivityName=".ui.LoginActivity">
+            android:parentActivityName=".ui.user.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.LoginActivity" />
+                android:value=".ui.user.LoginActivity" />
         </activity>
 
         <activity
-            android:name=".ui.RequestPasswordResetActivity"
+            android:name=".ui.user.RequestPasswordResetActivity"
             android:exported="false"
-            android:parentActivityName=".ui.LoginActivity">
+            android:parentActivityName=".ui.user.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.LoginActivity" />
+                android:value=".ui.user.LoginActivity" />
         </activity>
         <activity
-            android:name=".ui.ForgotPasswordActivity"
+            android:name=".ui.user.ForgotPasswordActivity"
             android:exported="false"
-            android:parentActivityName=".ui.RequestPasswordResetActivity">
+            android:parentActivityName=".ui.user.RequestPasswordResetActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.RequestPasswordResetActivity" />
+                android:value=".ui.user.RequestPasswordResetActivity" />
         </activity>
 
 
         <activity
-            android:name=".ui.SupervisorActivity"
+            android:name=".ui.supervisor.SupervisorActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="true" />
     </application>
 

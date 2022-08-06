@@ -1,4 +1,4 @@
-package com.hfad.thinder.ui;
+package com.hfad.thinder.ui.student;
 
 import android.os.Bundle;
 
@@ -12,15 +12,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hfad.thinder.R;
-import com.hfad.thinder.databinding.FragmentSwipeScreenInfoBinding;
+import com.hfad.thinder.databinding.FragmentSwipeScreenTextBinding;
 import com.hfad.thinder.viewmodels.student.SwipeScreenViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link SwipeScreenInfoFragment#newInstance} factory method to
+ * Use the {@link SwipeScreenTextFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SwipeScreenInfoFragment extends Fragment {
+public class SwipeScreenTextFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -31,19 +31,13 @@ public class SwipeScreenInfoFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    FragmentSwipeScreenTextBinding binding;
+    SwipeScreenViewModel viewModel;
 
-    private FragmentSwipeScreenInfoBinding binding;
-    private SwipeScreenViewModel viewModel;
+    TextView task;
+    TextView motivation;
 
-    private TextView coursesOfStudy;
-    private TextView supervisorName;
-    private TextView phoneNumber;
-    private TextView building;
-    private TextView email;
-    private TextView professorName;
-    private TextView institute;
-
-    public SwipeScreenInfoFragment() {
+    public SwipeScreenTextFragment() {
         // Required empty public constructor
     }
 
@@ -53,11 +47,11 @@ public class SwipeScreenInfoFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SwipeScreenInfoFragment.
+     * @return A new instance of fragment SwipeScreenTextFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SwipeScreenInfoFragment newInstance(String param1, String param2) {
-        SwipeScreenInfoFragment fragment = new SwipeScreenInfoFragment();
+    public static SwipeScreenTextFragment newInstance(String param1, String param2) {
+        SwipeScreenTextFragment fragment = new SwipeScreenTextFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -77,15 +71,11 @@ public class SwipeScreenInfoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_swipe_screen_info, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_swipe_screen_text, container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(SwipeScreenViewModel.class);
-        coursesOfStudy = binding.tvCoursesOfStudyContent;
-        supervisorName = binding.tvSupervisorNameContent;
-        phoneNumber = binding.tvSupervisorPhoneNumberContent;
-        building = binding.tvBuildingContent;
-        email = binding.tvSupervisorEmailContent;
-        professorName = binding.tvSupervisingProfContent;
-        institute = binding.tvInstituteContent;
+
+        task = binding.tvTaskContent;
+        motivation = binding.tvMotivationContent;
 
         // Inflate the layout for this fragment
         return binding.getRoot();
@@ -94,14 +84,7 @@ public class SwipeScreenInfoFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
         SwipeScreenCard currentCard = viewModel.getCurrentCard();
-        String coursesOfStudyContent = String.join("\n", currentCard.getCoursesOfStudy());
-        coursesOfStudy.setText(coursesOfStudyContent);
-        supervisorName.setText(new StringBuilder().append(currentCard.getSupervisorFirstName()).append(" ").append(currentCard.getSupervisorLastName()).toString());
-        phoneNumber.setText(currentCard.getPhoneNumber());
-        building.setText(new StringBuilder().append(currentCard.getRoomNumber()).append(" ").append(currentCard.getBuilding()).toString());
-        email.setText(currentCard.getEmail());
-        professorName.setText(currentCard.getProfessor());
-        institute.setText(currentCard.getInstitute());
-
+        task.setText(currentCard.getTask());
+        motivation.setText(currentCard.getMotivation());
     }
 }

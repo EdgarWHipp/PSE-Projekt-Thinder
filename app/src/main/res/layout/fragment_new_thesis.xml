@@ -5,16 +5,16 @@
     <data>
         <variable
             name="fragment"
-            type="com.hfad.thinder.ui.NewThesisFragment" />
+            type="com.hfad.thinder.ui.supervisor.NewThesisFragment" />
         <variable
             name="viewModel"
-            type="com.hfad.thinder.viewmodels.supervisor.EditThesisViewModel" />
+            type="com.hfad.thinder.viewmodels.supervisor.NewThesisViewModel" />
     </data>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        tools:context=".ui.NewThesisFragment">
+        tools:context=".ui.supervisor.NewThesisFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

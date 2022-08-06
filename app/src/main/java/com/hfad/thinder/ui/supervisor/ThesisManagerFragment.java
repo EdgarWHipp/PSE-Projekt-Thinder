@@ -1,4 +1,4 @@
-package com.hfad.thinder.ui;
+package com.hfad.thinder.ui.supervisor;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentThesisManagerBinding;
+import com.hfad.thinder.ui.ThesisCardAdapter;
 import com.hfad.thinder.viewmodels.ThesisCardItem;
 import com.hfad.thinder.viewmodels.supervisor.ThesisManagerViewModel;
 

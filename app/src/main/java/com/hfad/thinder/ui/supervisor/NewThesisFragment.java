@@ -1,21 +1,18 @@
-package com.hfad.thinder.ui;
+package com.hfad.thinder.ui.supervisor;
 
 import static android.content.ContentValues.TAG;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.provider.OpenableColumns;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -34,13 +31,13 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentNewThesisBinding;
 import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.viewmodels.supervisor.EditThesisFormState;
 import com.hfad.thinder.viewmodels.supervisor.EditThesisViewModel;
+import com.hfad.thinder.viewmodels.supervisor.NewThesisViewModel;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -63,10 +60,8 @@ public class NewThesisFragment extends Fragment{
     private String mParam1;
     private String mParam2;
 
-    private String imagePath;
-
     private FragmentNewThesisBinding binding;
-    protected EditThesisViewModel viewModel;
+    private NewThesisViewModel viewModel;
 
 
     public NewThesisFragment() {
@@ -106,7 +101,7 @@ public class NewThesisFragment extends Fragment{
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_new_thesis, container, false);
         // Inflate the layout for this fragment
         View view = binding.getRoot();
-        viewModel = new ViewModelProvider(requireActivity()).get(EditThesisViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(NewThesisViewModel.class);
         binding.setViewModel(viewModel);
         binding.setFragment(this);
 
@@ -182,19 +177,19 @@ public class NewThesisFragment extends Fragment{
             }
         };
 
-        viewModel.getAddThesisResult().observe(getViewLifecycleOwner(), saveResultObserver);
+        viewModel.getSaveResult().observe(getViewLifecycleOwner(), saveResultObserver);
     }
 
     public void saveThesis(View view){
-        viewModel.addThesis();
+        viewModel.save();
     }
 
     public void goToCoursesOfStudyFragment(View view){
-        Navigation.findNavController(view).navigate(R.id.action_newThesisFragment_to_coursesOfStudySupervisorFragment);
+        Navigation.findNavController(view).navigate(R.id.action_newThesisFragment_to_coursesOfStudyNewThesisFragment);
     }
 
     public void goToImageGalleryFragment(View view){
-        Navigation.findNavController(view).navigate(R.id.action_newThesisFragment_to_imageGalleryFragmentSupervisor);
+        Navigation.findNavController(view).navigate(R.id.action_newThesisFragment_to_imageGalleryNewThesisFragment);
     }
 
 

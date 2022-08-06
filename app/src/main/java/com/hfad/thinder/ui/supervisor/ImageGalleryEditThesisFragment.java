@@ -1,4 +1,4 @@
-package com.hfad.thinder.ui;
+package com.hfad.thinder.ui.supervisor;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import com.hfad.thinder.ui.ImageGalleryFragment;
 import com.hfad.thinder.viewmodels.supervisor.EditThesisViewModel;
 
-public class ImageGalleryFragmentSupervisor extends ImageGalleryFragment {
-
+public class ImageGalleryEditThesisFragment extends ImageGalleryFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
