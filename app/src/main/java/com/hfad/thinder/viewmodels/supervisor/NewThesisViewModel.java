@@ -1,6 +1,9 @@
 package com.hfad.thinder.viewmodels.supervisor;
 
+import static android.content.ContentValues.TAG;
+
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -18,13 +21,13 @@ import java.util.ArrayList;
 import java.util.Set;
 
 public class NewThesisViewModel extends ThesisViewModel  {
-    private static final ThesisRepository thesisRepository = ThesisRepository.getInstance();
+    
 
 
     public void save() {
         Set<Image> imageSet = ThesisUtility.getImageSet(getImages().getValue());
         Set<Degree> degreeSet = ThesisUtility.getSelectedDegreeSet(getCoursesOfStudyList().getValue());
-        Result result = thesisRepository.addThesis(getProfessor().getValue(), getTitle().getValue(), getMotivation().getValue(), getTask().getValue(), getQuestions().getValue(), degreeSet , imageSet);
+        Result result = ThesisUtility.THESIS_REPOSITORY.addThesis(getProfessor().getValue(), getTitle().getValue(), getMotivation().getValue(), getTask().getValue(), getQuestions().getValue(), degreeSet , imageSet);
         if (result.getSuccess()) {
             getSaveResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
         } else {

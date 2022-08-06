@@ -93,6 +93,7 @@ public class StudentProfileFragment extends Fragment {
         } else {
           Toast toast = Toast.makeText(getContext(), viewModelResult.getErrorMessage(),
               Toast.LENGTH_LONG);
+          toast.show();
         }
       }
     };
@@ -104,9 +105,11 @@ public class StudentProfileFragment extends Fragment {
         if (viewModelResult.isSuccess()) {
           Toast toast =
               Toast.makeText(getContext(), getText(R.string.save_successful), Toast.LENGTH_LONG);
+          toast.show();
         } else {
           Toast toast =
               Toast.makeText(getContext(), viewModelResult.getErrorMessage(), Toast.LENGTH_LONG);
+          toast.show();
         }
       }
     };

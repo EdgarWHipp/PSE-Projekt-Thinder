@@ -1,8 +1,5 @@
 package com.hfad.thinder.ui;
 
-import static android.content.ContentValues.TAG;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

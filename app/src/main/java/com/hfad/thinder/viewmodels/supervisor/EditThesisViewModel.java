@@ -1,16 +1,10 @@
 package com.hfad.thinder.viewmodels.supervisor;
 
-import static android.content.ContentValues.TAG;
 
-import android.app.Application;
 import android.graphics.Bitmap;
 
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 import android.graphics.BitmapFactory;
-import android.util.Log;
-
-import com.hfad.thinder.R;
 import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Supervisor;
@@ -20,8 +14,6 @@ import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Tuple;
 import com.hfad.thinder.ui.CourseOfStudyItem;
-import com.hfad.thinder.viewmodels.CoursesOfStudyPicker;
-import com.hfad.thinder.viewmodels.ImageGalleryPicker;
 import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.source.result.Result;
@@ -32,7 +24,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.ListIterator;
 import java.util.Set;
-import java.nio.ByteBuffer;
 import java.util.UUID;
 
 public class EditThesisViewModel extends ThesisViewModel {
@@ -110,7 +101,7 @@ public class EditThesisViewModel extends ThesisViewModel {
     getCoursesOfStudyList().setValue(coursesOfStudyListAdapter(degreeRepository.getAllDegrees(), thesis.getPossibleDegrees()));
 
     //images
-    //images = convertImages(thesis.getImages()); //todo: uncomment
+    getImages().setValue(convertImages(thesis.getImages())); //todo: uncomment
     if (getImages().getValue() != null) {
       iterator = getImages().getValue().listIterator();
       getCurrentImage().setValue(iterator.next());
@@ -141,7 +132,10 @@ public class EditThesisViewModel extends ThesisViewModel {
     return String.join(", ", selectedCoursesOfStudy);
   }
 
-  private ArrayList<Bitmap> convertImages(java.util.Set<Image> imageSet) {
+  private ArrayList<Bitmap> convertImages(Set<Image> imageSet) {
+    if (imageSet == null) {
+      return null;
+    }
     ArrayList<Bitmap> convertedImages = new ArrayList<>();
     for (Image image : imageSet) {
       byte[] byteArray = image.getImage();
@@ -163,7 +157,7 @@ public class EditThesisViewModel extends ThesisViewModel {
     possibleDegrees.add(new Degree("Bachelor Informatik"));
     possibleDegrees.add(new Degree("Bachelor Mathematik"));
 
-    Thesis thesis = new Thesis("Prof. Hartmann", "", "", "task", new Form("questions"), null, supervisor, possibleDegrees);
+    Thesis thesis = new Thesis("Prof. Hartmann", "test", "test", "task", new Form("questions"), null, supervisor, possibleDegrees);
 
     return thesis;
   }

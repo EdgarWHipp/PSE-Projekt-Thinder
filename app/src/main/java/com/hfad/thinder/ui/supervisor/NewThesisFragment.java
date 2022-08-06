@@ -35,8 +35,7 @@ import androidx.navigation.Navigation;
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentNewThesisBinding;
 import com.hfad.thinder.viewmodels.ViewModelResult;
-import com.hfad.thinder.viewmodels.supervisor.EditThesisFormState;
-import com.hfad.thinder.viewmodels.supervisor.EditThesisViewModel;
+import com.hfad.thinder.viewmodels.supervisor.ThesisFormState;
 import com.hfad.thinder.viewmodels.supervisor.NewThesisViewModel;
 
 import java.io.FileNotFoundException;
@@ -104,6 +103,13 @@ public class NewThesisFragment extends Fragment{
         viewModel = new ViewModelProvider(requireActivity()).get(NewThesisViewModel.class);
         binding.setViewModel(viewModel);
         binding.setFragment(this);
+        binding.setLifecycleOwner(getViewLifecycleOwner());
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
 
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
@@ -129,9 +135,9 @@ public class NewThesisFragment extends Fragment{
             }
         });
 
-        viewModel.getFormState().observe(getViewLifecycleOwner(), new Observer<EditThesisFormState>() {
+        viewModel.getFormState().observe(getViewLifecycleOwner(), new Observer<ThesisFormState>() {
             @Override
-            public void onChanged(EditThesisFormState editThesisFormState) {
+            public void onChanged(ThesisFormState editThesisFormState) {
                 Resources resources = getResources();
                 if (editThesisFormState.getTitleErrorMessage() != null) {
                     binding.etInsertNameOfThesis.setError(resources.getString(editThesisFormState.getTitleErrorMessage()));
@@ -148,6 +154,9 @@ public class NewThesisFragment extends Fragment{
                 if (editThesisFormState.getCourseOfStudy() != null) {
                     binding.tvCoursesOfStudy.setError(resources.getString(editThesisFormState.getCourseOfStudy()));
                 }
+                if(editThesisFormState.getQuestionsErrorMessage() != null){
+                    binding.etInsertQuestions.setError(resources.getString(editThesisFormState.getQuestionsErrorMessage()));
+                }
             }
         });
 
@@ -159,20 +168,17 @@ public class NewThesisFragment extends Fragment{
         binding.etInsertSupervisingProf.addTextChangedListener(afterTextChangedListener);
         binding.tvCoursesOfStudy.addTextChangedListener(afterTextChangedListener);
 
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         final Observer<ViewModelResult> saveResultObserver = new Observer<ViewModelResult>() {
             @Override
             public void onChanged(ViewModelResult viewModelResult) {
                 if (viewModelResult.isSuccess()) {
                     Toast toast =
-                            Toast.makeText(getContext(), getText(R.string.save_successful), Toast.LENGTH_LONG);
+                            Toast.makeText(getActivity(), getText(R.string.save_successful), Toast.LENGTH_LONG);
+                    toast.show();
                 } else {
                     Toast toast =
-                            Toast.makeText(getContext(), viewModelResult.getErrorMessage(), Toast.LENGTH_LONG);
+                            Toast.makeText(getActivity(), viewModelResult.getErrorMessage(), Toast.LENGTH_LONG);
+                    toast.show();
                 }
             }
         };
@@ -245,7 +251,7 @@ public class NewThesisFragment extends Fragment{
                     }
                 }
             }
-            viewModel.setImages(new MutableLiveData<>(images));
+            viewModel.setImages(images);
         }
     }
 }

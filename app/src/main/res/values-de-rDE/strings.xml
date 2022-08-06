@@ -124,4 +124,6 @@
     <string name="no_professor_error">Es muss ein Professor angegeben werden</string>
     <string name="no_courses_of_study_error">Es müssen Studiengänge angegeben werden</string>
     <string name="save_thesis_successfully">Thesis was saved successfully</string>
+
+    <string name="send_form_success">Senden erfolgreich</string>
 </resources>

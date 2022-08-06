@@ -34,7 +34,7 @@ import androidx.navigation.Navigation;
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentEditThesisBinding;
 import com.hfad.thinder.viewmodels.ViewModelResult;
-import com.hfad.thinder.viewmodels.supervisor.EditThesisFormState;
+import com.hfad.thinder.viewmodels.supervisor.ThesisFormState;
 import com.hfad.thinder.viewmodels.supervisor.EditThesisViewModel;
 
 import java.io.FileNotFoundException;
@@ -90,9 +90,21 @@ public class EditThesisFragment extends Fragment{
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_edit_thesis, container, false);
         binding.setFragment(this);
+        binding.setLifecycleOwner(getViewLifecycleOwner());
+
         viewModel = new ViewModelProvider(requireActivity()).get(EditThesisViewModel.class);
         viewModel.setThesisId(UUID.fromString(requireArguments().getString("thesisUUID")));
+        binding.setViewModel(viewModel);
         view = binding.getRoot();
+
+
+
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
 
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
@@ -118,9 +130,9 @@ public class EditThesisFragment extends Fragment{
             }
         });
 
-        viewModel.getFormState().observe(getViewLifecycleOwner(), new Observer<EditThesisFormState>() {
+        viewModel.getFormState().observe(getViewLifecycleOwner(), new Observer<ThesisFormState>() {
             @Override
-            public void onChanged(EditThesisFormState editThesisFormState) {
+            public void onChanged(ThesisFormState editThesisFormState) {
                 Resources resources = getResources();
                 if (editThesisFormState.getTitleErrorMessage() != null) {
                     binding.etInsertNameOfThesis.setError(resources.getString(editThesisFormState.getTitleErrorMessage()));
@@ -137,6 +149,9 @@ public class EditThesisFragment extends Fragment{
                 if (editThesisFormState.getCourseOfStudy() != null) {
                     binding.tvCoursesOfStudy.setError(resources.getString(editThesisFormState.getCourseOfStudy()));
                 }
+                if(editThesisFormState.getQuestionsErrorMessage() != null){
+                    binding.etInsertQuestions.setError(resources.getString(editThesisFormState.getQuestionsErrorMessage()));
+                }
             }
         });
 
@@ -148,12 +163,6 @@ public class EditThesisFragment extends Fragment{
         binding.etInsertSupervisingProf.addTextChangedListener(afterTextChangedListener);
         binding.tvCoursesOfStudy.addTextChangedListener(afterTextChangedListener);
 
-
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         final Observer<ViewModelResult> deleteResultObserver = new Observer<ViewModelResult>() {
             @Override
             public void onChanged(ViewModelResult viewModelResult) {
@@ -162,6 +171,7 @@ public class EditThesisFragment extends Fragment{
                 } else {
                     Toast toast = Toast.makeText(getContext(), viewModelResult.getErrorMessage(),
                             Toast.LENGTH_LONG);
+                    toast.show();
                 }
             }
         };
@@ -172,9 +182,11 @@ public class EditThesisFragment extends Fragment{
                 if (viewModelResult.isSuccess()) {
                     Toast toast =
                             Toast.makeText(getContext(), getText(R.string.save_successful), Toast.LENGTH_LONG);
+                    toast.show();
                 } else {
                     Toast toast =
                             Toast.makeText(getContext(), viewModelResult.getErrorMessage(), Toast.LENGTH_LONG);
+                    toast.show();
                 }
             }
         };
@@ -245,6 +257,7 @@ public class EditThesisFragment extends Fragment{
             public void onClick(DialogInterface dialog, int which) {
             }
         });
+        builder.show();
     }
 
     public void makeImageSelection(){
@@ -294,7 +307,7 @@ public class EditThesisFragment extends Fragment{
                     }
                 }
             }
-            viewModel.setImages(new MutableLiveData<>(images));
+            viewModel.setImages(images);
         }
     }
 }

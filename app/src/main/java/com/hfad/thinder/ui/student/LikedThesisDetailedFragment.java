@@ -102,9 +102,11 @@ public class LikedThesisDetailedFragment extends Fragment  {
             @Override
             public void onChanged(ViewModelResult viewModelResult) {
                 if (viewModelResult.isSuccess()) {
-                    Toast.makeText(getContext(), getText(R.string.delete_successful), Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(getContext(), getText(R.string.delete_successful), Toast.LENGTH_LONG);
+                    toast.show();
                 } else if (!viewModelResult.isSuccess()) {
-                    Toast.makeText(getContext(), viewModelResult.getErrorMessage(), Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(getContext(), viewModelResult.getErrorMessage(), Toast.LENGTH_LONG);
+                    toast.show();
                 }
             }
         };

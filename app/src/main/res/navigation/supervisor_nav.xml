@@ -56,17 +56,17 @@
     <fragment
         android:id="@+id/imageGalleryNewThesisFragment"
         android:name="com.hfad.thinder.ui.supervisor.ImageGalleryNewThesisFragment"
-        android:label="ImageGalleryNewThesisFragment" />
+        android:label="@string/your_image_selection" />
     <fragment
         android:id="@+id/coursesOfStudyNewThesisFragment"
         android:name="com.hfad.thinder.ui.supervisor.CoursesOfStudyNewThesisFragment"
-        android:label="CoursesOfStudyNewThesisFragment" />
+        android:label="@string/courses_of_study" />
     <fragment
         android:id="@+id/coursesOfStudyEditThesisFragment"
         android:name="com.hfad.thinder.ui.supervisor.CoursesOfStudyEditThesisFragment"
-        android:label="CoursesOfStudyEditThesisFragment" />
+        android:label="@string/courses_of_study" />
     <fragment
         android:id="@+id/imageGalleryEditThesisFragment"
         android:name="com.hfad.thinder.ui.supervisor.ImageGalleryEditThesisFragment"
-        android:label="ImageGalleryEditThesisFragment" />
+        android:label="@string/your_image_selection" />
 </navigation>

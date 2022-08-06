@@ -1,7 +1,10 @@
 package com.hfad.thinder.viewmodels.supervisor;
 
 
+import static android.content.ContentValues.TAG;
+
 import android.graphics.Bitmap;
+import android.util.Log;
 
 
 import androidx.lifecycle.MutableLiveData;
@@ -29,13 +32,13 @@ public abstract class ThesisViewModel extends ViewModel implements CoursesOfStud
     private ListIterator<Bitmap> iterator;
     private MutableLiveData<String> selectedCoursesOfStudy;
     private MutableLiveData<ArrayList<CourseOfStudyItem>> coursesOfStudyList;
-    private MutableLiveData<EditThesisFormState> formState;
+    private MutableLiveData<ThesisFormState> formState;
     private MutableLiveData<ViewModelResult> saveResult;
 
     public abstract void save();
 
     public void thesisDataChanged() {
-        getFormState().setValue(new EditThesisFormState(checkTitle(), checkTask(), checkMotivation(), checkQuestions(), checkProfessor(), checkCoursesOfStudy(), chekImages()));
+        getFormState().setValue(new ThesisFormState(checkTitle(), checkTask(), checkMotivation(), checkQuestions(), checkProfessor(), checkCoursesOfStudy(), chekImages()));
     }
 
     @Override
@@ -53,8 +56,9 @@ public abstract class ThesisViewModel extends ViewModel implements CoursesOfStud
     @Override
     public MutableLiveData<ArrayList<CourseOfStudyItem>> getCoursesOfStudyList() {
         if (coursesOfStudyList == null) {
-            coursesOfStudyList = new MutableLiveData<>();
             loadCoursesOfStudy();
+        } else {
+            updateSelectedCoursesOfStudy();
         }
         return coursesOfStudyList;
     }
@@ -79,7 +83,7 @@ public abstract class ThesisViewModel extends ViewModel implements CoursesOfStud
 
     //----------------getter and setter -----------------------------------------------------------
 
-    public MutableLiveData<EditThesisFormState> getFormState() {
+    public MutableLiveData<ThesisFormState> getFormState() {
         if (formState == null) {
             formState = new MutableLiveData<>();
         }
@@ -160,10 +164,10 @@ public abstract class ThesisViewModel extends ViewModel implements CoursesOfStud
     }
 
     public void setImages(
-            MutableLiveData<ArrayList<Bitmap>> images) {
-        iterator = images.getValue().listIterator();
+            ArrayList<Bitmap> images) {
+        iterator = images.listIterator();
         getCurrentImage().setValue(iterator.next());
-        this.images = images;
+        getImages().setValue(images);
     }
 
     public MutableLiveData<String> getQuestions() {
@@ -180,8 +184,12 @@ public abstract class ThesisViewModel extends ViewModel implements CoursesOfStud
 
 
     public MutableLiveData<ViewModelResult> getSaveResult() {
+
         if (saveResult == null) {
             saveResult = new MutableLiveData<>();
+        }
+        if (saveResult.getValue() != null) {
+            Log.i(TAG, saveResult.getValue().getErrorMessage());
         }
         return saveResult;
     }
@@ -253,6 +261,16 @@ public abstract class ThesisViewModel extends ViewModel implements CoursesOfStud
 
     private boolean chekImages() {
         return getImages().getValue() != null;
+    }
+
+    private void updateSelectedCoursesOfStudy() {
+        ArrayList<String> selectedCourses = new ArrayList<>();
+        for (CourseOfStudyItem courseOfStudyItem: coursesOfStudyList.getValue()) {
+            if (courseOfStudyItem.isPicked()) {
+                selectedCourses.add(courseOfStudyItem.getCourseOfStudy());
+            }
+        }
+        selectedCoursesOfStudy.setValue(String.join(", ", selectedCourses));
     }
 }
 

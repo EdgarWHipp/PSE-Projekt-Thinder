@@ -2,7 +2,7 @@ package com.hfad.thinder.viewmodels.supervisor;
 
 import androidx.annotation.Nullable;
 
-public class EditThesisFormState {
+public class ThesisFormState {
 
     @Nullable
     private final Integer titleErrorMessage;
@@ -26,7 +26,7 @@ public class EditThesisFormState {
 
     private final boolean hasImages;
 
-    public EditThesisFormState(@Nullable Integer titleErrorMessage, @Nullable Integer taskErrorMessage, @Nullable Integer motivationErrorMessage, @Nullable Integer questionsErrorMessage, @Nullable Integer professor, @Nullable Integer courseOfStudy, boolean hasImages) {
+    public ThesisFormState(@Nullable Integer titleErrorMessage, @Nullable Integer taskErrorMessage, @Nullable Integer motivationErrorMessage, @Nullable Integer questionsErrorMessage, @Nullable Integer professor, @Nullable Integer courseOfStudy, boolean hasImages) {
         this.titleErrorMessage = titleErrorMessage;
         this.taskErrorMessage = taskErrorMessage;
         this.motivationErrorMessage = motivationErrorMessage;

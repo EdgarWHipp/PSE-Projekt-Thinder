@@ -132,16 +132,18 @@ public class SupervisorProfileFragment extends Fragment {
       }
     };
 
-    final Observer<ViewModelResult> safeResultObserver = new Observer<ViewModelResult>() {
+    final Observer<ViewModelResult> saveResultObserver = new Observer<ViewModelResult>() {
       @Override
       public void onChanged(ViewModelResult editProfileResult) {
         Toast toast;
         if (editProfileResult.isSuccess()) {
           toast = Toast.makeText(getContext(),
               getResources().getString(R.string.edit_profile_success_message), Toast.LENGTH_LONG);
+          toast.show();
         } else if (!editProfileResult.isSuccess()) {
           toast =
               Toast.makeText(getContext(), editProfileResult.getErrorMessage(), Toast.LENGTH_LONG);
+          toast.show();
         }
       }
     };
@@ -154,11 +156,12 @@ public class SupervisorProfileFragment extends Fragment {
         } else if (!editProfileResult.isSuccess()) {
           Toast toast =
               Toast.makeText(getContext(), editProfileResult.getErrorMessage(), Toast.LENGTH_LONG);
+          toast.show();
         }
       }
     };
 
-    viewmodel.getSafeResult().observe(getViewLifecycleOwner(), safeResultObserver);
+    viewmodel.getSafeResult().observe(getViewLifecycleOwner(), saveResultObserver);
     viewmodel.getDeleteResult().observe(getViewLifecycleOwner(), deleteResultObserver);
     binding.etFirstName.addTextChangedListener(afterTextChangedListener);
     binding.etLastName.addTextChangedListener(afterTextChangedListener);

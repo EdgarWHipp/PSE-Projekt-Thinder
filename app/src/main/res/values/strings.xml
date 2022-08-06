@@ -122,4 +122,6 @@
     <string name="no_courses_of_study_error">Courses of study must be assigned to the thesis</string>
     <string name="save_thesis_successfully">Thesis was saved successfully</string>
 
+    <string name="send_form_success">Sending successful</string>
+
 </resources>

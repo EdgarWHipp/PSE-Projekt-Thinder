@@ -4,14 +4,17 @@ import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentFillOutFormBinding;
+import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.viewmodels.student.FillOutFormViewModel;
 
 /**
@@ -72,7 +75,24 @@ public class FillOutFormFragment extends Fragment {
         viewModel.setThesisId(requireArguments().getString("thesisUUID"));
         binding.setViewModel(viewModel);
         binding.setFragment(this);
-        return binding.getRoot();
+
+        View view = binding.getRoot();
+
+        final Observer<ViewModelResult> sendResultObserver = new Observer<ViewModelResult>() {
+            @Override
+            public void onChanged(ViewModelResult viewModelResult) {
+                if(viewModelResult.isSuccess()){
+                    Toast toast = Toast.makeText(getContext(), getContext().getResources().getString(R.string.send_form_success), Toast.LENGTH_LONG);
+                    toast.show();
+
+                } else if (!viewModelResult.isSuccess()) {
+                    Toast toast = Toast.makeText(getContext(), viewModelResult.getErrorMessage(), Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            }
+        };
+
+        return view;
     }
 
     public void sendForm(View view){
