@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
@@ -36,6 +37,7 @@ public class SwipeScreenTopFragment extends Fragment {
     private FragmentSwipeScreenTopBinding binding;
     private View view;
     private SwipeScreenViewModel viewModel;
+    private Boolean isCardOne = true;
 
     private TextView title;
     private TextView task;
@@ -93,12 +95,17 @@ public class SwipeScreenTopFragment extends Fragment {
         if(bundle!=null){
             boolean isCardOne = bundle.getBoolean("isCardOne");
             if(isCardOne){
+                isCardOne = true;
                 title.setText(viewModel.getCurrentCard().getTitle());
-                image.setImageBitmap(viewModel.getCurrentCard().getImages().get(0));
+                if(viewModel.getCurrentHasImages().getValue())
+                    image.setImageBitmap(viewModel.getCurrentCard().getImages().get(0));
                 task.setText(viewModel.getCurrentCard().getTask());
+
             }else{
+                isCardOne = false;
                 title.setText(viewModel.getNextCard().getTitle());
-                image.setImageBitmap(viewModel.getNextCard().getImages().get(0));
+                if(viewModel.getNextHasImages().getValue())
+                    image.setImageBitmap(viewModel.getNextCard().getImages().get(0));
                 task.setText(viewModel.getNextCard().getTask());
             }
         }else{

@@ -91,6 +91,7 @@
     <string name="open_image_picker">Bildauswahl öffnen</string>
     <string name="open_image_picker_text">Eine neue Auswahl wird die Vorherige überschreiben</string>
     <string name="open">Öffnen</string>
+    <string name="your_image_selection">Ihre Bildauswahl</string>
 
 
     <!-- Registration View Model Strings -->
@@ -114,4 +115,13 @@
     <string name="edit_profile_success_message">Profildaten wurden erfolgreich geändert</string>
     <string name="no_courses_of_study_error_message">Es muss mindestes ein Studienfach angegeben werden</string>
     <string name="delete_successful">Data was deleted successfully</string>
+    
+    <!-- Edit Thesis View Model Strings -->
+    <string name="no_title_error">Der Name der Thesis muss angegeben werden</string>
+    <string name="no_task_description_error">Es muss eine Beschreibung der Arbeit angegeben werden</string>
+    <string name="no_motivation_error">Die Motivation für die Arbeit muss angegeben werden</string>
+    <string name="no_questions_error">Es müssen Fragen für den Studenten angegeben werden</string>
+    <string name="no_professor_error">Es muss ein Professor angegeben werden</string>
+    <string name="no_courses_of_study_error">Es müssen Studiengänge angegeben werden</string>
+    <string name="save_thesis_successfully">Thesis was saved successfully</string>
 </resources>

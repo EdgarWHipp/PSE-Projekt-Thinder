@@ -32,7 +32,7 @@ public class DegreeRepository {
         return list;
     }
 
-    public ArrayList<String> getAllStudentDegrees(){
+    public ArrayList<String> getAllDegrees(){
         //Todo löschen
         ArrayList<String> selectedDegrees = new ArrayList<>();
         selectedDegrees.add("Bachelor Informatik");
@@ -43,6 +43,7 @@ public class DegreeRepository {
         return selectedDegrees;
 
     }
+
 
 
 }

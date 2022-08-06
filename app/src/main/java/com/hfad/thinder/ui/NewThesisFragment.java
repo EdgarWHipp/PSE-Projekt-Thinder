@@ -9,29 +9,37 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentNewThesisBinding;
+import com.hfad.thinder.viewmodels.ViewModelResult;
+import com.hfad.thinder.viewmodels.supervisor.EditThesisFormState;
 import com.hfad.thinder.viewmodels.supervisor.EditThesisViewModel;
 
 import java.io.FileNotFoundException;
@@ -102,7 +110,79 @@ public class NewThesisFragment extends Fragment{
         binding.setViewModel(viewModel);
         binding.setFragment(this);
 
+        TextWatcher afterTextChangedListener = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //ignore
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //ignore
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                viewModel.thesisDataChanged();
+            }
+        };
+
+        viewModel.getImages().observe(getViewLifecycleOwner(), new Observer<ArrayList<Bitmap>>() {
+            @Override
+            public void onChanged(ArrayList<Bitmap> bitmaps) {
+                viewModel.thesisDataChanged();
+            }
+        });
+
+        viewModel.getFormState().observe(getViewLifecycleOwner(), new Observer<EditThesisFormState>() {
+            @Override
+            public void onChanged(EditThesisFormState editThesisFormState) {
+                Resources resources = getResources();
+                if (editThesisFormState.getTitleErrorMessage() != null) {
+                    binding.etInsertNameOfThesis.setError(resources.getString(editThesisFormState.getTitleErrorMessage()));
+                }
+                if (editThesisFormState.getTaskErrorMessage() != null) {
+                    binding.etInsertTask.setError(resources.getString(editThesisFormState.getTaskErrorMessage()));
+                }
+                if (editThesisFormState.getMotivationErrorMessage() != null) {
+                    binding.etInsertMotivation.setError(resources.getString(editThesisFormState.getMotivationErrorMessage()));
+                }
+                if (editThesisFormState.getProfessor() != null) {
+                    binding.etInsertSupervisingProf.setError(resources.getString(editThesisFormState.getProfessor()));
+                }
+                if (editThesisFormState.getCourseOfStudy() != null) {
+                    binding.tvCoursesOfStudy.setError(resources.getString(editThesisFormState.getCourseOfStudy()));
+                }
+            }
+        });
+
+
+        binding.etInsertNameOfThesis.addTextChangedListener(afterTextChangedListener);
+        binding.etInsertTask.addTextChangedListener(afterTextChangedListener);
+        binding.etInsertMotivation.addTextChangedListener(afterTextChangedListener);
+        binding.etInsertQuestions.addTextChangedListener(afterTextChangedListener);
+        binding.etInsertSupervisingProf.addTextChangedListener(afterTextChangedListener);
+        binding.tvCoursesOfStudy.addTextChangedListener(afterTextChangedListener);
+
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        final Observer<ViewModelResult> saveResultObserver = new Observer<ViewModelResult>() {
+            @Override
+            public void onChanged(ViewModelResult viewModelResult) {
+                if (viewModelResult.isSuccess()) {
+                    Toast toast =
+                            Toast.makeText(getContext(), getText(R.string.save_successful), Toast.LENGTH_LONG);
+                } else {
+                    Toast toast =
+                            Toast.makeText(getContext(), viewModelResult.getErrorMessage(), Toast.LENGTH_LONG);
+                }
+            }
+        };
+
+        viewModel.getAddThesisResult().observe(getViewLifecycleOwner(), saveResultObserver);
     }
 
     public void saveThesis(View view){
@@ -110,7 +190,7 @@ public class NewThesisFragment extends Fragment{
     }
 
     public void goToCoursesOfStudyFragment(View view){
-        Navigation.findNavController(view).navigate(R.id.action_newThesisFragment_to_coursesOfStudyFragment);
+        Navigation.findNavController(view).navigate(R.id.action_newThesisFragment_to_coursesOfStudySupervisorFragment);
     }
 
     public void goToImageGalleryFragment(View view){

@@ -28,11 +28,11 @@
         android:label="@string/create_thesis"
         tools:layout="@layout/fragment_new_thesis">
         <action
-            android:id="@+id/action_newThesisFragment_to_coursesOfStudyFragment"
-            app:destination="@id/coursesOfStudyFragment" />
-        <action
             android:id="@+id/action_newThesisFragment_to_imageGalleryFragmentSupervisor"
             app:destination="@id/imageGalleryFragmentSupervisor" />
+        <action
+            android:id="@+id/action_newThesisFragment_to_coursesOfStudySupervisorFragment"
+            app:destination="@id/coursesOfStudySupervisorFragment" />
     </fragment>
     <fragment
         android:id="@+id/editThesisFragment"
@@ -44,16 +44,15 @@
             app:destination="@id/thesisStatisticsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/coursesOfStudyFragment"
-        android:name="com.hfad.thinder.ui.CoursesOfStudyFragment"
-        android:label="@string/choose_courses_of_study"
-        tools:layout="@layout/fragment_courses_of_study" />
-    <fragment
         android:id="@+id/thesisStatisticsFragment"
         android:name="com.hfad.thinder.ui.ThesisStatisticsFragment"
         android:label="@string/statistics" />
     <fragment
         android:id="@+id/imageGalleryFragmentSupervisor"
         android:name="com.hfad.thinder.ui.ImageGalleryFragmentSupervisor"
-        android:label="ImageGalleryFragmentSupervisor" />
+        android:label="@string/your_image_selection" />
+    <fragment
+        android:id="@+id/coursesOfStudySupervisorFragment"
+        android:name="com.hfad.thinder.ui.CoursesOfStudySupervisorFragment"
+        android:label="@string/courses_of_study" />
 </navigation>

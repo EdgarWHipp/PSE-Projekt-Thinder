@@ -1,21 +1,34 @@
 package com.hfad.thinder.ui;
 
 import android.content.DialogInterface;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentEditThesisBinding;
+import com.hfad.thinder.viewmodels.ViewModelResult;
+import com.hfad.thinder.viewmodels.supervisor.EditThesisFormState;
 import com.hfad.thinder.viewmodels.supervisor.EditThesisViewModel;
+
+import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +47,7 @@ public class EditThesisFragment extends NewThesisFragment {
     private String mParam2;
 
     private FragmentEditThesisBinding binding;
+    private View view;
 
     public EditThesisFragment() {
         // Required empty public constructor
@@ -64,14 +78,109 @@ public class EditThesisFragment extends NewThesisFragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_edit_thesis, container, false);
         binding.setFragment(this);
         viewModel = new ViewModelProvider(requireActivity()).get(EditThesisViewModel.class);
-        viewModel.setThesisId(requireArguments().getString("thesisUUID"));
-        return binding.getRoot();
+        viewModel.setThesisId(UUID.fromString(requireArguments().getString("thesisUUID")));
+        view = binding.getRoot();
+
+        TextWatcher afterTextChangedListener = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //ignore
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //ignore
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                viewModel.thesisDataChanged();
+            }
+        };
+
+        viewModel.getImages().observe(getViewLifecycleOwner(), new Observer<ArrayList<Bitmap>>() {
+            @Override
+            public void onChanged(ArrayList<Bitmap> bitmaps) {
+                viewModel.thesisDataChanged();
+            }
+        });
+
+        viewModel.getFormState().observe(getViewLifecycleOwner(), new Observer<EditThesisFormState>() {
+            @Override
+            public void onChanged(EditThesisFormState editThesisFormState) {
+                Resources resources = getResources();
+                if (editThesisFormState.getTitleErrorMessage() != null) {
+                    binding.etInsertNameOfThesis.setError(resources.getString(editThesisFormState.getTitleErrorMessage()));
+                }
+                if (editThesisFormState.getTaskErrorMessage() != null) {
+                    binding.etInsertTask.setError(resources.getString(editThesisFormState.getTaskErrorMessage()));
+                }
+                if (editThesisFormState.getMotivationErrorMessage() != null) {
+                    binding.etInsertMotivation.setError(resources.getString(editThesisFormState.getMotivationErrorMessage()));
+                }
+                if (editThesisFormState.getProfessor() != null) {
+                    binding.etInsertSupervisingProf.setError(resources.getString(editThesisFormState.getProfessor()));
+                }
+                if (editThesisFormState.getCourseOfStudy() != null) {
+                    binding.tvCoursesOfStudy.setError(resources.getString(editThesisFormState.getCourseOfStudy()));
+                }
+            }
+        });
+
+
+        binding.etInsertNameOfThesis.addTextChangedListener(afterTextChangedListener);
+        binding.etInsertTask.addTextChangedListener(afterTextChangedListener);
+        binding.etInsertMotivation.addTextChangedListener(afterTextChangedListener);
+        binding.etInsertQuestions.addTextChangedListener(afterTextChangedListener);
+        binding.etInsertSupervisingProf.addTextChangedListener(afterTextChangedListener);
+        binding.tvCoursesOfStudy.addTextChangedListener(afterTextChangedListener);
+
+
+        return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        final Observer<ViewModelResult> deleteResultObserver = new Observer<ViewModelResult>() {
+            @Override
+            public void onChanged(ViewModelResult viewModelResult) {
+                if (viewModelResult.isSuccess()) {
+                    Navigation.findNavController(view).popBackStack();
+                } else {
+                    Toast toast = Toast.makeText(getContext(), viewModelResult.getErrorMessage(),
+                            Toast.LENGTH_LONG);
+                }
+            }
+        };
+
+        final Observer<ViewModelResult> editThesisResultObserver = new Observer<ViewModelResult>() {
+            @Override
+            public void onChanged(ViewModelResult viewModelResult) {
+                if (viewModelResult.isSuccess()) {
+                    Toast toast =
+                            Toast.makeText(getContext(), getText(R.string.save_successful), Toast.LENGTH_LONG);
+                } else {
+                    Toast toast =
+                            Toast.makeText(getContext(), viewModelResult.getErrorMessage(), Toast.LENGTH_LONG);
+                }
+            }
+        };
+        viewModel.getEditThesisResult().observe(getViewLifecycleOwner(), editThesisResultObserver);
+        viewModel.getDeleteThesisResult().observe(getViewLifecycleOwner(), deleteResultObserver);
+    }
+
+    /**
+     * Uses NavigationComponent to navigate to the StatisticsFragment
+     *
+     * @param view used to find corresponding NavigationController
+     */
     public void goToStatistics(View view){
         Navigation.findNavController(view).navigate(R.id.action_editThesisFragment_to_thesisStatisticsFragment);
     }
 
+    /**
+     * Opens dialog window und calls delete function in viewmodel
+     */
     public void deleteThesis(View view){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setCancelable(true);
@@ -108,7 +217,7 @@ public class EditThesisFragment extends NewThesisFragment {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        EditThesisFragment.super.makeImageSelection();
+                        makeImageSelection();
                     }
                 });
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -116,6 +225,10 @@ public class EditThesisFragment extends NewThesisFragment {
             public void onClick(DialogInterface dialog, int which) {
             }
         });
+    }
 
+    @Override
+    public void makeImageSelection() {
+        super.makeImageSelection();
     }
 }

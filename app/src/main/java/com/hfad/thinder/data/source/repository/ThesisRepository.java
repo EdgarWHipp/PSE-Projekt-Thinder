@@ -159,5 +159,13 @@ public final class ThesisRepository {
         return new Tuple<>(10, 20);
     }
 
+    public ArrayList<String> getSelectedDegrees() {
+        //todo remove
+        ArrayList<String> selectedDegrees = new ArrayList<>();
+        selectedDegrees.add("Bachelor Informatik");
+        selectedDegrees.add("Master Mathematik");
+        return selectedDegrees;
+    }
+
 
 }

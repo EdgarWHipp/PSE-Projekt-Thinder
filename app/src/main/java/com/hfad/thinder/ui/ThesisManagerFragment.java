@@ -27,6 +27,7 @@ import com.hfad.thinder.viewmodels.ThesisCardItem;
 import com.hfad.thinder.viewmodels.supervisor.ThesisManagerViewModel;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,7 +47,6 @@ public class ThesisManagerFragment extends Fragment {
 
     private FragmentThesisManagerBinding binding;
 
-    private ArrayList<ThesisCardItem> elements;
 
     private RecyclerView recyclerView;
     private ThesisCardAdapter adapter;
@@ -92,10 +92,11 @@ public class ThesisManagerFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
         viewModel = new ViewModelProvider(this).get(ThesisManagerViewModel.class);
+        buildRecyclerView(view, new ArrayList<>());
         final androidx.lifecycle.Observer<ArrayList<ThesisCardItem>> thesisCardItemObserver = new Observer<ArrayList<ThesisCardItem>>() {
             @Override
             public void onChanged(ArrayList<ThesisCardItem> thesisCardItems) {
-                elements = viewModel.getThesisCardItems().getValue();
+                ArrayList<ThesisCardItem> elements = viewModel.getThesisCardItems().getValue();
                 adapter.setElements(elements);
             }
         };
@@ -103,7 +104,7 @@ public class ThesisManagerFragment extends Fragment {
         viewModel.getThesisCardItems().observe(getViewLifecycleOwner(), thesisCardItemObserver);
     }
 
-    private void buildRecyclerView(View view) {
+    private void buildRecyclerView(View view, ArrayList<ThesisCardItem> elements) {
         recyclerView = binding.recyclerView;
         layoutManager = new LinearLayoutManager(view.getContext());
         adapter = new ThesisCardAdapter(elements);
@@ -114,10 +115,10 @@ public class ThesisManagerFragment extends Fragment {
         adapter.setOnItemClickListener(new ThesisCardAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                String UUID = elements.get(position).getThesisUUID();
-                String thesisTitle = elements.get(position).getTitle();
+                UUID UUID = viewModel.getThesisCardItems().getValue().get(position).getThesisUUID();
+                String thesisTitle = viewModel.getThesisCardItems().getValue().get(position).getTitle();
                 Bundle bundle = new Bundle();
-                bundle.putString("thesisUUID", UUID);
+                bundle.putString("thesisUUID", UUID.toString());
                 bundle.putString("thesisTitle", thesisTitle);
                 Navigation.findNavController(view).navigate(R.id.action_thesisManagerFragment_to_editThesisFragment, bundle);
 

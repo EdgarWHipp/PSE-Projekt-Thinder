@@ -28,6 +28,7 @@ import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.viewmodels.student.LikedThesisDetailedViewModel;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,7 +49,7 @@ public class LikedThesisDetailedFragment extends Fragment  {
     private FragmentLikedThesisDetailedBinding binding;
     private LikedThesisDetailedViewModel viewModel;
 
-    String thesisUUID;
+    UUID thesisUUID;
 
 
     public LikedThesisDetailedFragment() {
@@ -87,7 +88,7 @@ public class LikedThesisDetailedFragment extends Fragment  {
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_liked_thesis_detailed, container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(LikedThesisDetailedViewModel.class);
-        thesisUUID = requireArguments().getString("thesisUUID");
+        thesisUUID = UUID.fromString(requireArguments().getString("thesisUUID"));
         String thesisTitle = requireArguments().getString("thesisTitle");
         ((StudentActivity) getActivity()).setActionBarTitle(thesisTitle);
         Bitmap image = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.default_image);
@@ -126,7 +127,7 @@ public class LikedThesisDetailedFragment extends Fragment  {
 
     public void goToFillOutFormFragment(View view){
         Bundle bundle = new Bundle();
-        bundle.putString("thesisUUID", thesisUUID);
+        bundle.putString("thesisUUID", thesisUUID.toString());
         Navigation.findNavController(view).navigate(R.id.action_likedThesisDetailedFragment_to_fillOutFormFragment, bundle);
     }
 

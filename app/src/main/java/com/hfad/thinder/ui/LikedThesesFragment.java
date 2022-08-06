@@ -30,6 +30,7 @@ import com.hfad.thinder.viewmodels.ThesisCardItem;
 import com.hfad.thinder.viewmodels.student.LikedThesesViewModel;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -114,10 +115,10 @@ public class LikedThesesFragment extends Fragment {
             @Override
             public void onItemClick(int position) {
                 // Handle click events
-                String UUID = elements.get(position).getThesisUUID();
+                UUID UUID = elements.get(position).getThesisUUID();
                 String thesisTitle = elements.get(position).getTitle();
                 Bundle bundle = new Bundle();
-                bundle.putString("thesisUUID", UUID);
+                bundle.putString("thesisUUID", UUID.toString());
                 bundle.putString("thesisTitle", thesisTitle);
                 Navigation.findNavController(view).navigate(R.id.action_likedThesesFragment_to_likedThesisDetailedFragment, bundle);
             }

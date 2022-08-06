@@ -71,6 +71,7 @@
     <string name="open_image_picker">Open image picker</string>
     <string name="open_image_picker_text">Making a new selection will override the previous one</string>
     <string name="open">Open</string>
+    <string name="your_image_selection">Your image selection</string>
 
     <!-- Student Strings -->
     <string name="swipe_screen">Swipe screen</string>
@@ -111,4 +112,14 @@
     <string name="edit_profile_success_message">Profile data was updated successfully</string>
     <string name="no_courses_of_study_error_message">At least one course of study must be selected</string>
     <string name="delete_successful">Data was deleted successfully</string>
+
+    <!-- Edit Thesis View Model Strings -->
+    <string name="no_title_error">The name of the thesis must not be empty</string>
+    <string name="no_task_description_error">The description of the thesis must not be empty</string>
+    <string name="no_motivation_error">The motivation for the thesis must not be empty</string>
+    <string name="no_questions_error">The questions for the student must not be empty</string>
+    <string name="no_professor_error">A professor must be assigned to the thesis</string>
+    <string name="no_courses_of_study_error">Courses of study must be assigned to the thesis</string>
+    <string name="save_thesis_successfully">Thesis was saved successfully</string>
+
 </resources>

@@ -7,10 +7,11 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 public class Thesis {
     @SerializedName("id")
-    private String id;
+    private UUID id;
     @SerializedName("name")
     private String name;
     @SerializedName("supervisingProfessor")
@@ -37,11 +38,11 @@ public class Thesis {
         this.supervisingProfessor = supervisingProfessor;
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 public class ThesisManagerViewModel extends ViewModel {
   private static final ThesisRepository thesisRepository = ThesisRepository.getInstance();
@@ -25,6 +26,12 @@ public class ThesisManagerViewModel extends ViewModel {
   public MutableLiveData<ArrayList<ThesisCardItem>> getThesisCardItems() {
     if (thesisCardItems == null) {
       thesisCardItems = new MutableLiveData<>();
+      //todo remove
+      Bitmap image = Bitmap.createBitmap(100, 50, Bitmap.Config.ARGB_8888);
+      ThesisCardItem thesisCardItem = new ThesisCardItem(UUID.randomUUID(), "title", "task", image);
+      ArrayList<ThesisCardItem> items = new ArrayList<>();
+      items.add(thesisCardItem);
+      thesisCardItems.setValue(items);
       //loadThesisManagerItems();
     }
     return thesisCardItems;
@@ -32,7 +39,7 @@ public class ThesisManagerViewModel extends ViewModel {
 
   private void loadThesisManagerItems() {
     thesisRepository.fetchAllSwipeableThesis();
-    List<com.hfad.thinder.data.model.Thesis> thesisList = thesisRepository.getAllSwipeableTheses();
+    List<com.hfad.thinder.data.model.Thesis> thesisList = thesisRepository.getAllSwipeableTheses();//Todo hole alle Thesis des Supervisors
     if(thesisList==null){
       //TODO
     }

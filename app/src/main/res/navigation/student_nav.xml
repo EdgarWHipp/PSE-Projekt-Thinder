@@ -48,9 +48,9 @@
     <fragment
         android:id="@+id/coursesOfStudyStudentFragment"
         android:name="com.hfad.thinder.ui.CoursesOfStudyStudentFragment"
-        android:label="CoursesOfStudyStudentFragment" />
+        android:label="@string/courses_of_study" />
     <fragment
         android:id="@+id/imageGalleryFragmentStudent"
         android:name="com.hfad.thinder.ui.ImageGalleryFragmentStudent"
-        android:label="ImageGalleryFragmentStudent" />
+        android:label="@string/images" />
 </navigation>

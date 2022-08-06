@@ -56,7 +56,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/insert_name_of_thesis"
-                        android:text="@={viewModel.name}"
+                        android:text="@={viewModel.title}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvThesisTitle">
@@ -83,7 +83,7 @@
                         android:background="@drawable/bg_rounded"
                         android:gravity="top"
                         android:hint="@string/add_task"
-                        android:text="@={viewModel.taskDescription}"
+                        android:text="@={viewModel.task}"
                         android:inputType="textMultiLine"
                         android:minLines="@integer/multiline_textview_linenum"
                         android:padding="@dimen/multiline_textview_padding"
@@ -115,7 +115,7 @@
                         android:background="@drawable/bg_rounded"
                         android:gravity="top"
                         android:hint="@string/add_motivation"
-                        android:text="@={viewModel.motivationDescription}"
+                        android:text="@={viewModel.motivation}"
                         android:inputType="textMultiLine"
                         android:minLines="@integer/multiline_textview_linenum"
                         android:padding="@dimen/multiline_textview_padding"
@@ -208,7 +208,6 @@
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/btPickCoursesOfStudy">
-
                     </TextView>
 
                     <Button
@@ -222,7 +221,6 @@
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tvCoursesOfStudy">
-
                     </Button>
 
                     <Button
@@ -233,6 +231,7 @@
                         android:text="@string/show_image_selection"
                         android:drawableEnd="@drawable/ic_images"
                         android:onClick="@{(v) -> fragment.goToImageGalleryFragment(v)}"
+                        android:enabled="@{viewModel.formState.hasImages()}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/btAddImages">
@@ -249,11 +248,11 @@
                 android:drawableTop="@drawable/ic_save"
                 android:text="@string/save"
                 android:onClick="@{(v) -> fragment.saveThesis(v)}"
+                android:enabled="@{viewModel.formState.valid}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@id/btStatistics">
-
             </Button>
 
             <Button
@@ -267,7 +266,6 @@
                 app:layout_constraintEnd_toStartOf="@id/btRemoveThesis"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@id/btSave">
-
             </Button>
 
             <Button
@@ -281,7 +279,6 @@
                 app:layout_constraintEnd_toStartOf="@id/btStatistics"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent">
-
             </Button>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

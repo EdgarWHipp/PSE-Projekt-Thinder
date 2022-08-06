@@ -40,13 +40,14 @@ public class LikedThesisDetailedViewModel extends ViewModel implements ImageGall
   private MutableLiveData<String> supervisingProf;
   private MutableLiveData<String> institute;
 
-  private String thesisId;
+  private UUID thesisId;
 
   private MutableLiveData<Bitmap> currentImage;
   private MutableLiveData<ViewModelResult> deleteResult;
+  private MutableLiveData<Boolean> hasImages;
 
   public void delete() {
-    Result result = thesisRepository.removeLikedThesisFromStudent(UUID.fromString(thesisId));
+    Result result = thesisRepository.removeLikedThesisFromStudent(thesisId);
     if (result.getSuccess()) {
       getDeleteResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
     } else {
@@ -73,7 +74,7 @@ public class LikedThesisDetailedViewModel extends ViewModel implements ImageGall
       getCurrentImage().setValue(iterator.previous());
   }
   //todo: remove images
-  public void setThesisId(String thesisId, ArrayList<Bitmap> images) {
+  public void setThesisId(UUID thesisId, ArrayList<Bitmap> images) {
     this.images = images;
     this.thesisId = thesisId;
     loadThesis();
@@ -151,6 +152,16 @@ public class LikedThesisDetailedViewModel extends ViewModel implements ImageGall
     return deleteResult;
   }
 
+  public MutableLiveData<Boolean> getHasImages() {
+    if(hasImages == null){
+      hasImages = new MutableLiveData<>();
+      hasImages.setValue(false);
+      if(images.size() > 0)
+        hasImages.setValue(true);
+    }
+    return hasImages;
+  }
+
   //-----------------------private methods--------------------------------
 
   private void loadThesis() {
@@ -164,7 +175,7 @@ public class LikedThesisDetailedViewModel extends ViewModel implements ImageGall
     getMotivation().setValue(thesis.getMotivation());
     coursesOfStudyList = coursesOfStudyAdapter(thesis.getPossibleDegrees());
     getCoursesOfStudy().setValue(String.join("\n", coursesOfStudyList));
-    getSupervisorName().setValue(supervisor.getFirstName() + " " + supervisor.getLastName());
+    getSupervisorName().setValue(new StringBuilder().append(supervisor.getAcademicDegree()).append(" ").append(supervisor.getFirstName()).append(" ").append(supervisor.getLastName()).toString());
     getMail().setValue(supervisor.getMail());
     getBuilding().setValue(supervisor.getBuilding() + " " + supervisor.getBuilding());
     getPhoneNumber().setValue(supervisor.getPhoneNumber());
@@ -176,7 +187,7 @@ public class LikedThesisDetailedViewModel extends ViewModel implements ImageGall
   // todo: remove
   Thesis generateThesis(){
 
-    Supervisor supervisor = new Supervisor(USERTYPE.SUPERVISOR, UUID.randomUUID(), true, UUID.randomUUID(), "gubert", "gubert@mail", "firstname", "lastName", "academicDegree", "building", "officeNumber", "insitute", "phoneNumber" );
+    Supervisor supervisor = new Supervisor(USERTYPE.SUPERVISOR, UUID.randomUUID(), true, UUID.randomUUID(), "gubert", "test@kit.edu", "firstname", "lastName", "academicDegree", "building", "officeNumber", "insitute", "phoneNumber" );
     HashSet<Degree> possibleDegrees = new HashSet<>();
     possibleDegrees.add(new Degree("Bachelor Informatik"));
     possibleDegrees.add(new Degree("Bachelor Mathematik"));

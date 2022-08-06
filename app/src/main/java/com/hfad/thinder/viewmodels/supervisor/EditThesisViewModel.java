@@ -2,6 +2,7 @@ package com.hfad.thinder.viewmodels.supervisor;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.Application;
 import android.graphics.Bitmap;
 
 import androidx.lifecycle.MutableLiveData;
@@ -9,13 +10,14 @@ import androidx.lifecycle.ViewModel;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import com.hfad.thinder.R;
 import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.source.repository.DegreeRepository;
-import com.hfad.thinder.data.source.repository.StudentRepository;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
+import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Tuple;
 import com.hfad.thinder.ui.CourseOfStudyItem;
 import com.hfad.thinder.viewmodels.CoursesOfStudyPicker;
@@ -26,7 +28,6 @@ import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.viewmodels.ViewModelResultTypes;
 import com.hfad.thinder.data.model.Thesis;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.ListIterator;
@@ -36,29 +37,32 @@ import java.util.UUID;
 
 public class EditThesisViewModel extends ViewModel implements CoursesOfStudyPicker, ImageGalleryPicker {
   private static final DegreeRepository degreeRepository = DegreeRepository.getInstance();
-  private static final StudentRepository studentRepository = StudentRepository.getInstance();
   private static final ThesisRepository thesisRepository = ThesisRepository.getInstance();
-  private MutableLiveData<String> name;
-  private MutableLiveData<String> taskDescription;
-  private MutableLiveData<String> motivationDescription;
+  private static final UserRepository userRepository = UserRepository.getInstance();
+  private MutableLiveData<String> title;
+  private MutableLiveData<String> task;
+  private MutableLiveData<String> motivation;
   private MutableLiveData<String> professor;
   private MutableLiveData<ArrayList<Bitmap>> images;
   private MutableLiveData<String> questions;
-  private MutableLiveData<ViewModelResult> addThesisResult;
-  private MutableLiveData<ViewModelResult> editThesisResult;
-  private MutableLiveData<ViewModelResult> deleteThesisResult;
+
   private MutableLiveData<Bitmap> currentImage;
   private ListIterator<Bitmap> iterator;
-  private String thesisId;
+  private UUID thesisId;
   // likes, dislikes
   private Tuple<Integer, Integer> thesisStatistics;
 
-  private MutableLiveData<String> selectedCoursesOfStudy;
-  private MutableLiveData<ArrayList<CourseOfStudyItem>> coursesOfStudyList;
+  private MutableLiveData<String> selectedCoursesOfStudy; //ausgewählte Studiengänge
+  private MutableLiveData<ArrayList<CourseOfStudyItem>> coursesOfStudyList; //alle Studiengänge
+
+  private MutableLiveData<EditThesisFormState> formState;
+  private MutableLiveData<ViewModelResult> addThesisResult;
+  private MutableLiveData<ViewModelResult> editThesisResult;
+  private MutableLiveData<ViewModelResult> deleteThesisResult;
 
 
   public void addThesis() {
-    Result result = thesisRepository.addThesis(getProfessor().getValue(), getName().getValue(), getMotivationDescription().getValue(), getTaskDescription().getValue(), getQuestions().getValue(), getSelectedDegreeSet() , getImageSet());
+    Result result = thesisRepository.addThesis(getProfessor().getValue(), getTitle().getValue(), getMotivation().getValue(), getTask().getValue(), getQuestions().getValue(), getSelectedDegreeSet() , getImageSet());
     if (result.getSuccess()) {
       getAddThesisResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
     } else {
@@ -67,16 +71,37 @@ public class EditThesisViewModel extends ViewModel implements CoursesOfStudyPick
   }
 
   public void editThesis() {
-    //Todo: implement
+    Thesis thesis = new Thesis(getProfessor().getValue(), getTitle().getValue(), getMotivation().getValue(), getTask().getValue(), new Form(getQuestions().getValue()), getImageSet(), (Supervisor) userRepository.getUser(), getSelectedDegreeSet());
+    Result result = thesisRepository.editThesis(thesisId, thesis);
+    if (result.getSuccess()) {
+      getEditThesisResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
+    } else {
+      getEditThesisResult().setValue(new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
+    }
   }
 
   public void delete() {
-    //Todo: implementieren
+    Result result = thesisRepository.deleteThesis(thesisId);
+    if (result.getSuccess()) {
+      getDeleteThesisResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
+    } else {
+      getDeleteThesisResult().setValue(new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
+    }
+  }
+
+  public void thesisDataChanged() {
+    getFormState().setValue(new EditThesisFormState(checkTitle(), checkTask(), checkMotivation(), checkQuestions(), checkProfessor(), checkCoursesOfStudy(), chekImages()));
+  }
+
+  public boolean hasImages() {
+    return getImages().getValue() != null;
   }
 
   @Override
   public void makeCourseOfStudySelection(int position, boolean selection) {
-
+      ArrayList<CourseOfStudyItem> copy = getCoursesOfStudyList().getValue();
+      copy.get(position).setPicked(selection);
+      getCoursesOfStudyList().setValue(copy);
   }
 
   @Override
@@ -113,48 +138,54 @@ public class EditThesisViewModel extends ViewModel implements CoursesOfStudyPick
   //------------------getter and setter-----------------------------------------------------
 
 
+  public MutableLiveData<EditThesisFormState> getFormState() {
+    if (formState == null) {
+      formState = new MutableLiveData<>();
+    }
+    return formState;
+  }
 
-  public void setThesisId(String thesisId) {
+  public void setThesisId(UUID thesisId) {
     this.thesisId = thesisId;
     loadThesis();
   }
 
-  public MutableLiveData<String> getName() {
-    if (name == null) {
-      name = new MutableLiveData<>();
+  public MutableLiveData<String> getTitle() {
+    if (title == null) {
+      title = new MutableLiveData<>();
 
     }
-    return name;
+    return title;
   }
 
 
-  public void setName(MutableLiveData<String> name) {
-    this.name = name;
+  public void setTitle(MutableLiveData<String> title) {
+    this.title = title;
   }
 
-  public MutableLiveData<String> getTaskDescription() {
-    if (taskDescription == null) {
-      taskDescription = new MutableLiveData<>();
+  public MutableLiveData<String> getTask() {
+    if (task == null) {
+      task = new MutableLiveData<>();
 
     }
-    return taskDescription;
+    return task;
   }
 
-  public void setTaskDescription(MutableLiveData<String> taskDescription) {
-    this.taskDescription = taskDescription;
+  public void setTask(MutableLiveData<String> task) {
+    this.task = task;
   }
 
-  public MutableLiveData<String> getMotivationDescription() {
-    if (motivationDescription == null) {
-      motivationDescription = new MutableLiveData<>();
+  public MutableLiveData<String> getMotivation() {
+    if (motivation == null) {
+      motivation = new MutableLiveData<>();
 
     }
-    return motivationDescription;
+    return motivation;
   }
 
-  public void setMotivationDescription(
-      MutableLiveData<String> motivationDescription) {
-    this.motivationDescription = motivationDescription;
+  public void setMotivation(
+      MutableLiveData<String> motivation) {
+    this.motivation = motivation;
   }
 
   public MutableLiveData<String> getProfessor() {
@@ -235,12 +266,14 @@ public class EditThesisViewModel extends ViewModel implements CoursesOfStudyPick
     return thesisStatistics;
   }
 
+
+
   //-------------private methods-----------------------------------------------------
 
 
   private void loadCoursesOfStudy() {
-    ArrayList<String> allDegrees = degreeRepository.getAllStudentDegrees();
-    ArrayList<String> selectedDegrees = studentRepository.getSelectedDegrees();
+    ArrayList<String> allDegrees = degreeRepository.getAllDegrees();
+    ArrayList<String> selectedDegrees = thesisRepository.getSelectedDegrees();
     ArrayList<CourseOfStudyItem> courseOfStudyItems = new ArrayList<>();
     for (String degree : allDegrees) {
       if (selectedDegrees.contains(degree)) {
@@ -269,7 +302,7 @@ public class EditThesisViewModel extends ViewModel implements CoursesOfStudyPick
     return degrees;
   }
 
-  private Set<Image> getImageSet() {
+  private Set<Image> getImageSet() {//Todo in Utility klasse
     HashSet<Image> images = new HashSet<>();
     for (Bitmap bitmap : getImages().getValue()) {
       int size = bitmap.getRowBytes() * bitmap.getHeight();
@@ -288,10 +321,28 @@ public class EditThesisViewModel extends ViewModel implements CoursesOfStudyPick
     //UUID uuid = UUID.fromString(thesisId);
     //Thesis thesis = thesisRepository.getThesis(uuid).x; //todo uncomment
     Thesis thesis = generateThesis();//Todo löschen
-    //images = convertImages(thesis.getImages()); //todo: uncomment
+
+    getTitle().setValue(thesis.getName());
+    getTask().setValue(thesis.getTask());
+    getMotivation().setValue(thesis.getMotivation());
+    getQuestions().setValue(thesis.getForm().getQuestions());
+
+    //courses of Study
     getSelectedCoursesOfStudy().setValue(coursesOfStudyStringAdapter(thesis.getPossibleDegrees()));
-    getCoursesOfStudyList().setValue(coursesOfStudyListAdapter(degreeRepository.getAllStudentDegrees(), thesis.getPossibleDegrees()));
-    thesisStatistics = thesisRepository.getThesisStatistics(UUID.randomUUID()); //todo set actual uuid
+    getCoursesOfStudyList().setValue(coursesOfStudyListAdapter(degreeRepository.getAllDegrees(), thesis.getPossibleDegrees()));
+
+    //images
+    //images = convertImages(thesis.getImages()); //todo: uncomment
+    if(getImages().getValue() != null) {
+      iterator = getImages().getValue().listIterator();
+      getCurrentImage().setValue(iterator.next());
+    }
+
+
+
+
+    thesisStatistics = thesisRepository.getThesisStatistics(thesisId); //todo set actual uuid
+
   }
 
   private ArrayList<CourseOfStudyItem> coursesOfStudyListAdapter(ArrayList<String> allDegrees, Set<Degree> selectedDegrees) {
@@ -326,14 +377,64 @@ public class EditThesisViewModel extends ViewModel implements CoursesOfStudyPick
 
   // todo: remove
   Thesis generateThesis(){
-
+    Bitmap image1 = Bitmap.createBitmap(100, 50, Bitmap.Config.ARGB_8888);
+    Bitmap image2 = Bitmap.createBitmap(100, 50, Bitmap.Config.ARGB_8888);
+    ArrayList<Bitmap> newImages = new ArrayList<>();
+    newImages.add(image1);
+    newImages.add(image2);
     Supervisor supervisor = new Supervisor(USERTYPE.SUPERVISOR, UUID.randomUUID(), true, UUID.randomUUID(), "gubert", "gubert@mail", "firstname", "lastName", "academicDegree", "building", "officeNumber", "insitute", "phoneNumber" );
     HashSet<Degree> possibleDegrees = new HashSet<>();
     possibleDegrees.add(new Degree("Bachelor Informatik"));
     possibleDegrees.add(new Degree("Bachelor Mathematik"));
 
-    Thesis thesis = new Thesis("Prof. Hartmann", "Florian", "motivation", "task", new Form("questions"), null, supervisor, possibleDegrees);
+    Thesis thesis = new Thesis("Prof. Hartmann", "", "", "task", new Form("questions"), null, supervisor, possibleDegrees);
 
     return thesis;
+  }
+
+  private Integer checkTitle() {
+    if (getTitle().getValue() == null || getTitle().getValue().equals("")) {
+      return R.string.no_title_error;
+    }
+    return null;
+  }
+
+  private Integer checkTask() {
+    if(getTask().getValue() == null || getTask().getValue().equals("")) {
+      return R.string.no_task_description_error;
+    }
+    return null;
+  }
+
+  private Integer checkMotivation() {
+    if (getMotivation().getValue() == null || getMotivation().getValue().equals("")) {
+      return R.string.no_motivation_error;
+    }
+    return null;
+  }
+
+  private Integer checkQuestions() {
+    if (getQuestions().getValue() == null || getQuestions().getValue().equals("")) {
+      return R.string.no_questions_error;
+    }
+    return null;
+  }
+
+  private Integer checkProfessor() {
+    if (getProfessor().getValue() == null || getProfessor().getValue().equals("")) {
+      return R.string.no_professor_error;
+    }
+    return null;
+  }
+
+  private Integer checkCoursesOfStudy() {
+    if (getSelectedCoursesOfStudy().getValue() == null || getSelectedCoursesOfStudy().getValue().equals("")) {
+      return R.string.no_courses_of_study_error;
+    }
+    return null;
+  }
+
+  private boolean chekImages() {
+    return getImages().getValue() != null;
   }
 }

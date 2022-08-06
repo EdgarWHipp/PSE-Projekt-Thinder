@@ -5,14 +5,16 @@ import android.graphics.Bitmap;
 
 import com.hfad.thinder.data.model.Image;
 
+import java.util.UUID;
+
 public class ThesisCardItem {
 
-    private String thesisUUID;
+    private UUID thesisUUID;
     private String title;
     private String task;
     private Bitmap image;
 
-    public String getThesisUUID() {
+    public UUID getThesisUUID() {
         return thesisUUID;
     }
 
@@ -28,7 +30,7 @@ public class ThesisCardItem {
         return image;
     }
 
-    public ThesisCardItem(String id, String title, String task, Bitmap image) {
+    public ThesisCardItem(UUID id, String title, String task, Bitmap image) {
         this.thesisUUID = id;
         this.title = title;
         this.task = task;

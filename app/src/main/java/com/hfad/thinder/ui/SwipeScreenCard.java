@@ -3,11 +3,12 @@ package com.hfad.thinder.ui;
 import android.graphics.Bitmap;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class SwipeScreenCard {
 
     private ArrayList<Bitmap> images;
-    private String UUID;
+    private java.util.UUID UUID;
     private String title;
     private String task;
     private String motivation;
@@ -22,7 +23,7 @@ public class SwipeScreenCard {
     private String email;
     private Integer id;
 
-    public SwipeScreenCard(ArrayList<Bitmap> images, String UUID, String title, String task, String motivation, String professor, ArrayList<String> coursesOfStudy, String supervisorFirstName, String supervisorLastName, String building, String roomNumber, String phoneNumber, String institute, String email) {
+    public SwipeScreenCard(ArrayList<Bitmap> images, java.util.UUID UUID, String title, String task, String motivation, String professor, ArrayList<String> coursesOfStudy, String supervisorFirstName, String supervisorLastName, String building, String roomNumber, String phoneNumber, String institute, String email) {
         this.images = images;
         this.UUID = UUID;
         this.title = title;
@@ -87,7 +88,7 @@ public class SwipeScreenCard {
         return institute;
     }
 
-    public String getUUID() {
+    public java.util.UUID getUUID() {
         return UUID;
     }
     public String getEmail() {

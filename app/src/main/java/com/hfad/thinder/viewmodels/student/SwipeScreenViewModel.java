@@ -2,10 +2,7 @@ package com.hfad.thinder.viewmodels.student;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
 
-import androidx.annotation.ColorInt;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -13,15 +10,11 @@ import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.repository.StudentRepository;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
-import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.data.source.result.Tuple;
 import com.hfad.thinder.ui.SwipeScreenCard;
 import com.hfad.thinder.ui.SwipeScreenFragment;
-import com.hfad.thinder.viewmodels.ThesisCardItem;
-import com.hfad.thinder.viewmodels.ViewModelResult;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Stack;
 import java.util.Set;
 import java.util.UUID;
@@ -38,17 +31,25 @@ public class SwipeScreenViewModel extends ViewModel {
 
   private ArrayList<SwipeScreenFragment.DetailViewStates> detailViewOrder;
   private MutableLiveData<Integer> currentDetailViewPosition;
+  private MutableLiveData<Boolean> currentHasImages;
+  private MutableLiveData<Boolean> nextHasImages;
 
 
   public void like() {
+    if(getCurrentDeckPosition().getValue() >= cardDeck.size() - 2){
+      return;
+    }
     SwipeScreenCard currentCard = cardDeck.get(getCurrentDeckPosition().getValue());
-    ratings.push(new Tuple<>(UUID.fromString(currentCard.getUUID()), true));
+    ratings.push(new Tuple<>(currentCard.getUUID(), true));
     incrementCurrentDeckPosition();
   }
 
   public void dislike(){
+    if(getCurrentDeckPosition().getValue() >= cardDeck.size() - 2){
+      return;
+    }
     SwipeScreenCard currentCard = cardDeck.get(getCurrentDeckPosition().getValue());
-    ratings.push(new Tuple<>(UUID.fromString(currentCard.getUUID()), false));
+    ratings.push(new Tuple<>(currentCard.getUUID(), false));
     incrementCurrentDeckPosition();
   }
 
@@ -59,15 +60,23 @@ public class SwipeScreenViewModel extends ViewModel {
   }
 
   public void pushRatings() {
-    studentRepository.rateThesis(ratings);
+    if(ratings.size() != 0){
+      studentRepository.rateThesis(ratings);
+    }
   }
 
   public SwipeScreenCard getCurrentCard(){
-    return getCardDeck().get(getCurrentDeckPosition().getValue());
+    SwipeScreenCard currentCard = getCardDeck().get(getCurrentDeckPosition().getValue());
+    Boolean currentCardHasImages = currentCard.getImages().size() > 0;
+    currentHasImages.setValue(currentCardHasImages);
+    return currentCard;
   }
 
   public SwipeScreenCard getNextCard(){
-    return getCardDeck().get(getCurrentDeckPosition().getValue() + 1);
+    SwipeScreenCard nextCard = getCardDeck().get(getCurrentDeckPosition().getValue()+1);
+    Boolean currentCardHasImages = nextCard.getImages().size() > 0;
+    nextHasImages.setValue(currentCardHasImages);
+    return nextCard;
   }
 
   public SwipeScreenFragment.DetailViewStates getCurrentDetailViewState(){
@@ -134,6 +143,20 @@ public class SwipeScreenViewModel extends ViewModel {
     return currentDeckPosition;
   }
 
+  public MutableLiveData<Boolean> getCurrentHasImages() {
+    if(currentHasImages == null){
+      currentHasImages = new MutableLiveData<>();
+    }
+    return currentHasImages;
+  }
+
+  public MutableLiveData<Boolean> getNextHasImages() {
+    if(nextHasImages == null){
+      nextHasImages = new MutableLiveData<>();
+    }
+    return nextHasImages;
+  }
+
   //----------------private methods-----------------------------------
 
   private void loadCardDeck(ArrayList<Bitmap> images) {//Todo Attribut entfernen
@@ -149,13 +172,13 @@ public class SwipeScreenViewModel extends ViewModel {
     ArrayList<String> coursesOfStudy = new ArrayList<>();
     coursesOfStudy.add("Bachelor Mathematik");
     coursesOfStudy.add("Bachelor Informatik");
-    cardDeck.add(new SwipeScreenCard(images, " asdfjsdfkajsf öa", "Mülleimerentsorgung", "Mülleimer sind zu Verschrotten", "Ich mag keine Mülleimer", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
-    cardDeck.add(new SwipeScreenCard(images, " ajsdf asjflkasf", "Sachen Machen", "Sachen sind zu Verschrotten", "Ich mag Sachen", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
-    cardDeck.add(new SwipeScreenCard(images, " asdöfj askks", "Schlafen bei Tag", "24h durchschlafen", "Ich möchte mehr schlafen", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
-    cardDeck.add(new SwipeScreenCard(images, "lasjdfjas", "Regale einräumen", "Regale bei Rewe einräumen", "Regale müssen eingeräumt werden", "Dc. Otto Octavius",coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
-    cardDeck.add(new SwipeScreenCard(images, " ajsdfjaös", "Zimmer aufräumen", "Zimmer aufräumen", "Zimmer ist nicht aufgeräumt", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
-    cardDeck.add(new SwipeScreenCard(images, " asjdfjasdf", "keine Karten mehr", "hör auf zu Swipen", "Es gibt kein Karten meht", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
-    cardDeck.add(new SwipeScreenCard(images, " lsjdfjasf", "keine Karten Mehr", "Hör auf zu Swipen!!!!!", "Es gibt keine Karten mehr", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
+    cardDeck.add(new SwipeScreenCard(images, UUID.randomUUID(), "Mülleimerentsorgung", "Mülleimer sind zu Verschrotten", "Ich mag keine Mülleimer", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
+    cardDeck.add(new SwipeScreenCard(images, UUID.randomUUID(), "Sachen Machen", "Sachen sind zu Verschrotten", "Ich mag Sachen", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
+    cardDeck.add(new SwipeScreenCard(images, UUID.randomUUID(), "Schlafen bei Tag", "24h durchschlafen", "Ich möchte mehr schlafen", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
+    cardDeck.add(new SwipeScreenCard(images, UUID.randomUUID(), "Regale einräumen", "Regale bei Rewe einräumen", "Regale müssen eingeräumt werden", "Dc. Otto Octavius",coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
+    cardDeck.add(new SwipeScreenCard(images, UUID.randomUUID(), "Zimmer aufräumen", "Zimmer aufräumen", "Zimmer ist nicht aufgeräumt", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
+    cardDeck.add(new SwipeScreenCard(images, UUID.randomUUID(), "keine Karten mehr", "hör auf zu Swipen", "Es gibt kein Karten meht", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
+    cardDeck.add(new SwipeScreenCard(images, UUID.randomUUID(), "keine Karten Mehr", "Hör auf zu Swipen!!!!!", "Es gibt keine Karten mehr", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
   }
 
   private ArrayList<Bitmap> convertImagesToBitmaps(Set<Image> imageSet) {

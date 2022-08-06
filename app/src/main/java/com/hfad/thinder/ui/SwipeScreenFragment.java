@@ -91,7 +91,6 @@ public class SwipeScreenFragment extends Fragment {
     public void onDestroy(){
         super.onDestroy();
         viewmodel.pushRatings();
-        //todo: let viewmodel send data to backend
     }
 
     @Override

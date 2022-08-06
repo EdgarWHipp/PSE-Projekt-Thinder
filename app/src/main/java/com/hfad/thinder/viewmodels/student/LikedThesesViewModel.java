@@ -28,7 +28,7 @@ public class LikedThesesViewModel extends ViewModel {
       likedTheses = new MutableLiveData<>();
       //Todo löschen
       image = Bitmap.createBitmap(100, 50, Bitmap.Config.ARGB_8888);
-      ThesisCardItem thesisCardItem = new ThesisCardItem("", "title", "task", image);
+      ThesisCardItem thesisCardItem = new ThesisCardItem(UUID.randomUUID(), "title", "task", image);
       ArrayList<ThesisCardItem> items = new ArrayList<>();
       items.add(thesisCardItem);
       likedTheses.setValue(items);
