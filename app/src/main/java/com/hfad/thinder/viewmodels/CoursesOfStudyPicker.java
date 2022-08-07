@@ -2,8 +2,6 @@ package com.hfad.thinder.viewmodels;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.hfad.thinder.ui.CourseOfStudyItem;
-
 import java.util.ArrayList;
 
 public interface CoursesOfStudyPicker {

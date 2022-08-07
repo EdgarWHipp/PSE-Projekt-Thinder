@@ -1,4 +1,4 @@
-package com.hfad.thinder.ui;
+package com.hfad.thinder.viewmodels;
 
 public class CourseOfStudyItem {
     private String courseOfStudy;

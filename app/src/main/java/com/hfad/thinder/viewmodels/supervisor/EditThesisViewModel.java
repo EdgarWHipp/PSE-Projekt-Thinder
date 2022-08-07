@@ -1,13 +1,10 @@
 package com.hfad.thinder.viewmodels.supervisor;
 
 
-import static android.content.ContentValues.TAG;
-
 import android.graphics.Bitmap;
 
 import androidx.lifecycle.MutableLiveData;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 
 import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Image;
@@ -17,7 +14,7 @@ import com.hfad.thinder.data.source.repository.DegreeRepository;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Tuple;
-import com.hfad.thinder.ui.CourseOfStudyItem;
+import com.hfad.thinder.viewmodels.CourseOfStudyItem;
 import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.source.result.Result;
@@ -26,7 +23,6 @@ import com.hfad.thinder.data.model.Thesis;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.ListIterator;
 import java.util.Set;
 import java.util.UUID;
 

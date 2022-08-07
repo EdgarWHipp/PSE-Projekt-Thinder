@@ -10,7 +10,7 @@ import com.hfad.thinder.data.source.repository.DegreeRepository;
 import com.hfad.thinder.data.source.repository.StudentRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
-import com.hfad.thinder.ui.CourseOfStudyItem;
+import com.hfad.thinder.viewmodels.CourseOfStudyItem;
 import com.hfad.thinder.viewmodels.CoursesOfStudyPicker;
 import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.viewmodels.ViewModelResultTypes;

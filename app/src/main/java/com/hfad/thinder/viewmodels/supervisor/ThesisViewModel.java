@@ -11,7 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.hfad.thinder.R;
-import com.hfad.thinder.ui.CourseOfStudyItem;
+import com.hfad.thinder.viewmodels.CourseOfStudyItem;
 import com.hfad.thinder.viewmodels.CoursesOfStudyPicker;
 import com.hfad.thinder.viewmodels.ImageGalleryPicker;
 import com.hfad.thinder.viewmodels.ViewModelResult;
