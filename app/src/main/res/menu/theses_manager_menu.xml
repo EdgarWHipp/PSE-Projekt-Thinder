@@ -9,7 +9,7 @@
         app:actionViewClass="android.widget.SearchView"></item>
 
     <item
-        android:id="@+id/newThesisFragment"
+        android:id="@+id/action_newFragment"
         android:title="@string/action_add"
         android:icon="@drawable/ic_add"
         app:showAsAction="ifRoom" />

@@ -68,14 +68,14 @@ public class SwipeScreenViewModel extends ViewModel {
   public SwipeScreenCard getCurrentCard(){
     SwipeScreenCard currentCard = getCardDeck().get(getCurrentDeckPosition().getValue());
     Boolean currentCardHasImages = currentCard.getImages().size() > 0;
-    currentHasImages.setValue(currentCardHasImages);
+    getCurrentHasImages().setValue(currentCardHasImages);
     return currentCard;
   }
 
   public SwipeScreenCard getNextCard(){
     SwipeScreenCard nextCard = getCardDeck().get(getCurrentDeckPosition().getValue()+1);
     Boolean currentCardHasImages = nextCard.getImages().size() > 0;
-    nextHasImages.setValue(currentCardHasImages);
+    getNextHasImages().setValue(currentCardHasImages);
     return nextCard;
   }
 

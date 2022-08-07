@@ -38,7 +38,7 @@ public abstract class ThesisViewModel extends ViewModel implements CoursesOfStud
     public abstract void save();
 
     public void thesisDataChanged() {
-        getFormState().setValue(new ThesisFormState(checkTitle(), checkTask(), checkMotivation(), checkQuestions(), checkProfessor(), checkCoursesOfStudy(), chekImages()));
+        getFormState().postValue(new ThesisFormState(checkTitle(), checkTask(), checkMotivation(), checkQuestions(), checkProfessor(), checkCoursesOfStudy(), chekImages()));
     }
 
     @Override
@@ -61,6 +61,10 @@ public abstract class ThesisViewModel extends ViewModel implements CoursesOfStud
             updateSelectedCoursesOfStudy();
         }
         return coursesOfStudyList;
+    }
+
+    public void setCoursesOfStudyList(MutableLiveData<ArrayList<CourseOfStudyItem>> coursesOfStudyList) {
+        this.coursesOfStudyList = coursesOfStudyList;
     }
 
     public MutableLiveData<Bitmap> getCurrentImage() {
@@ -198,23 +202,12 @@ public abstract class ThesisViewModel extends ViewModel implements CoursesOfStud
 
     private void loadCoursesOfStudy() {
         ArrayList<String> allDegrees = ThesisUtility.DEGREE_REPOSITORY.getAllDegrees();
-        ArrayList<String> selectedDegrees = ThesisUtility.THESIS_REPOSITORY.getSelectedDegrees();
         ArrayList<CourseOfStudyItem> courseOfStudyItems = new ArrayList<>();
         for (String degree : allDegrees) {
-            if (selectedDegrees.contains(degree)) {
-                courseOfStudyItems.add(new CourseOfStudyItem(degree, true));
-                selectedDegrees.add(degree);
-            }else{
-                courseOfStudyItems.add(new CourseOfStudyItem(degree, false));
-            }
+            courseOfStudyItems.add(new CourseOfStudyItem(degree, false));
         }
         coursesOfStudyList = new MutableLiveData<>();
         coursesOfStudyList.setValue(courseOfStudyItems);
-
-        String degreesAsString = String.join(", ", selectedDegrees);
-
-        selectedCoursesOfStudy = new MutableLiveData<>();
-        selectedCoursesOfStudy.setValue(degreesAsString);
     }
 
     private Integer checkTitle() {

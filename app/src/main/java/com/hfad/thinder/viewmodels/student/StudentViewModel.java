@@ -11,7 +11,11 @@ public class StudentViewModel extends ViewModel {
     public MutableLiveData<Boolean> getProfileComplete() {
         if(profileComplete == null)
             profileComplete = new MutableLiveData<>();
-        profileComplete.setValue(true);
+            loadProfileComplete();
         return profileComplete;
+    }
+
+    private void loadProfileComplete(){
+        profileComplete.postValue(true);
     }
 }

@@ -11,12 +11,13 @@ import com.hfad.thinder.ui.ImageGalleryFragment;
 import com.hfad.thinder.viewmodels.supervisor.NewThesisViewModel;
 
 public class ImageGalleryNewThesisFragment extends ImageGalleryFragment {
+    NewThesisViewModel viewModel;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        viewmodel = new ViewModelProvider(requireActivity()).get(NewThesisViewModel.class);
-        binding.setViewModel(viewmodel);
+        viewModel = new ViewModelProvider(requireActivity()).get(NewThesisViewModel.class);
+        binding.setViewModel(viewModel);
 
         return view;
     }

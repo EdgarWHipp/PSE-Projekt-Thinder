@@ -97,9 +97,6 @@ public class EditThesisFragment extends Fragment{
         binding.setViewModel(viewModel);
         view = binding.getRoot();
 
-
-
-
         return view;
     }
 

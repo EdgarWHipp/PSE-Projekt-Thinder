@@ -97,8 +97,10 @@ public class ThesisManagerFragment extends Fragment {
         final androidx.lifecycle.Observer<ArrayList<ThesisCardItem>> thesisCardItemObserver = new Observer<ArrayList<ThesisCardItem>>() {
             @Override
             public void onChanged(ArrayList<ThesisCardItem> thesisCardItems) {
-                ArrayList<ThesisCardItem> elements = viewModel.getThesisCardItems().getValue();
-                adapter.setElements(elements);
+                if(!recyclerView.isComputingLayout()){
+                    ArrayList<ThesisCardItem> elements = viewModel.getThesisCardItems().getValue();
+                    adapter.setElements(elements);
+                }
             }
         };
 
@@ -168,8 +170,11 @@ public class ThesisManagerFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        NavController navController = Navigation.findNavController(view);
-        return NavigationUI.onNavDestinationSelected(item, navController) || super.onOptionsItemSelected(item);
+        switch(item.getItemId()){
+            case R.id.action_newFragment:
+                Navigation.findNavController(view).navigate(R.id.action_thesisManagerFragment_to_newThesisFragment);
+        }
+        return true;
     }
 
 }

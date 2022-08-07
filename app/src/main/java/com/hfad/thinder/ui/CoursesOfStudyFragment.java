@@ -82,7 +82,8 @@ public abstract class CoursesOfStudyFragment extends Fragment {
         final Observer<ArrayList<CourseOfStudyItem>> coursesOfStudyItemsObserver = new Observer<ArrayList<CourseOfStudyItem>>() {
             @Override
             public void onChanged(ArrayList<CourseOfStudyItem> courseOfStudyItems) {
-                mAdapter.setElements(viewModel.getCoursesOfStudyList().getValue());
+                if(!mRecyclerView.isComputingLayout())
+                    mAdapter.setElements(viewModel.getCoursesOfStudyList().getValue());
             }
         };
         viewModel.getCoursesOfStudyList().observe(getViewLifecycleOwner(), coursesOfStudyItemsObserver);
@@ -93,7 +94,6 @@ public abstract class CoursesOfStudyFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_courses_of_study, container, false);
         binding.setFragment(this);
-        //viewModel = new ViewModelProvider(requireActivity()).get(EditProfileViewModel.class);
         // Inflate the layout for this fragment
         view = binding.getRoot();
         return view;

@@ -1,10 +1,14 @@
 package com.hfad.thinder.viewmodels.supervisor;
 
 
+import static android.content.ContentValues.TAG;
+
 import android.graphics.Bitmap;
 
 import androidx.lifecycle.MutableLiveData;
 import android.graphics.BitmapFactory;
+import android.util.Log;
+
 import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Supervisor;
@@ -30,7 +34,6 @@ public class EditThesisViewModel extends ThesisViewModel {
   private static final DegreeRepository degreeRepository = DegreeRepository.getInstance();
   private static final ThesisRepository thesisRepository = ThesisRepository.getInstance();
   private static final UserRepository userRepository = UserRepository.getInstance();
-  private ListIterator<Bitmap> iterator;
   private UUID thesisId;
   // likes, dislikes
   private Tuple<Integer, Integer> thesisStatistics;
@@ -64,8 +67,11 @@ public class EditThesisViewModel extends ThesisViewModel {
 
 
   public void setThesisId(UUID thesisId) {
-    this.thesisId = thesisId;
-    loadThesis();
+    if (this.thesisId == null || !this.thesisId.equals(thesisId)) {
+      this.thesisId = thesisId;
+      loadThesis();
+    }
+
   }
 
 
@@ -98,24 +104,25 @@ public class EditThesisViewModel extends ThesisViewModel {
 
     //courses of Study
     getSelectedCoursesOfStudy().setValue(coursesOfStudyStringAdapter(thesis.getPossibleDegrees()));
-    getCoursesOfStudyList().setValue(coursesOfStudyListAdapter(degreeRepository.getAllDegrees(), thesis.getPossibleDegrees()));
+    MutableLiveData<ArrayList<CourseOfStudyItem>> coursesOfStudyList = new MutableLiveData<>();
+    coursesOfStudyList.setValue(coursesOfStudyListAdapter(degreeRepository.getAllDegrees(), thesis.getPossibleDegrees()));
+    setCoursesOfStudyList(coursesOfStudyList);
 
     //images
     getImages().setValue(convertImages(thesis.getImages())); //todo: uncomment
-    if (getImages().getValue() != null) {
-      iterator = getImages().getValue().listIterator();
-      getCurrentImage().setValue(iterator.next());
-    }
-
 
     thesisStatistics = thesisRepository.getThesisStatistics(thesisId); //todo set actual uuid
 
   }
 
   private ArrayList<CourseOfStudyItem> coursesOfStudyListAdapter(ArrayList<String> allDegrees, Set<Degree> selectedDegrees) {
+    ArrayList<String> selectedDegreesTypeString = new ArrayList<>();
+    for(Degree degree : selectedDegrees){
+      selectedDegreesTypeString.add(degree.getDegree());
+    }
     ArrayList<CourseOfStudyItem> convertedDegrees = new ArrayList<>();
     for (String degree : allDegrees) {
-      if (selectedDegrees.contains(new Degree(degree))) {
+      if (selectedDegreesTypeString.contains(degree)){
         convertedDegrees.add(new CourseOfStudyItem(degree, true));
       } else {
         convertedDegrees.add(new CourseOfStudyItem(degree, false));

@@ -13,13 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.viewmodels.ThesisCardItem;
+import com.hfad.thinder.viewmodels.supervisor.ThesisManagerViewModel;
 
 import java.util.ArrayList;
 
 public class ThesisCardAdapter extends RecyclerView.Adapter<ThesisCardAdapter.ThesisManagerViewHolder> implements Filterable {
 
     private ArrayList<ThesisCardItem> elements;
-    private ArrayList<ThesisCardItem> elementsFull;
+    private final ArrayList<ThesisCardItem> elementsFull;
     private OnItemClickListener listener;
 
 
@@ -57,7 +58,7 @@ public class ThesisCardAdapter extends RecyclerView.Adapter<ThesisCardAdapter.Th
     }
 
     public ThesisCardAdapter(ArrayList<ThesisCardItem> elements) {
-        this.elements = elements;
+        this.elements = new ArrayList<>(elements);
         elementsFull = new ArrayList<>(elements);
     }
 

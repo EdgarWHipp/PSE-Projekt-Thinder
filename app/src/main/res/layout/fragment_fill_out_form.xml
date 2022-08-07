@@ -80,6 +80,7 @@
             android:layout_height="wrap_content"
             android:text="@string/send_form"
             android:drawableTop="@drawable/ic_mail"
+            android:enabled="@{viewModel.isDataValid.booleanValue()}"
             android:onClick="@{(v) -> fragment.sendForm(v)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"

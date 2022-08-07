@@ -51,6 +51,6 @@
         android:label="@string/courses_of_study" />
     <fragment
         android:id="@+id/imageGalleryFragmentStudent"
-        android:name="com.hfad.thinder.ui.student.ImageGalleryFragmentStudent"
+        android:name="com.hfad.thinder.ui.student.ImageGalleryStudentFragment"
         android:label="@string/images" />
 </navigation>

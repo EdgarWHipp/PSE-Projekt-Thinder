@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -104,6 +105,8 @@ public class NewThesisFragment extends Fragment{
         binding.setViewModel(viewModel);
         binding.setFragment(this);
         binding.setLifecycleOwner(getViewLifecycleOwner());
+
+
 
         return view;
     }

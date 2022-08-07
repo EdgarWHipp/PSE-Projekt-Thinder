@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,6 +76,7 @@ public class FillOutFormFragment extends Fragment {
         viewModel = new ViewModelProvider(requireActivity()).get(FillOutFormViewModel.class);
         viewModel.setThesisId(requireArguments().getString("thesisUUID"));
         binding.setViewModel(viewModel);
+        binding.setLifecycleOwner(this);
         binding.setFragment(this);
 
         View view = binding.getRoot();
@@ -91,6 +94,27 @@ public class FillOutFormFragment extends Fragment {
                 }
             }
         };
+
+        viewModel.getSendResult().observe(getViewLifecycleOwner(), sendResultObserver);
+
+        TextWatcher afterTextChangeWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                viewModel.formDataChanged();
+            }
+        };
+
+        binding.etInsertAnswers.addTextChangedListener(afterTextChangeWatcher);
 
         return view;
     }

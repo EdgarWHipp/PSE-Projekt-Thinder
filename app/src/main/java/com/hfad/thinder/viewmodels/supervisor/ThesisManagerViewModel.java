@@ -28,9 +28,11 @@ public class ThesisManagerViewModel extends ViewModel {
       thesisCardItems = new MutableLiveData<>();
       //todo remove
       Bitmap image = Bitmap.createBitmap(100, 50, Bitmap.Config.ARGB_8888);
-      ThesisCardItem thesisCardItem = new ThesisCardItem(UUID.randomUUID(), "title", "task", image);
+      ThesisCardItem thesisCardItem1= new ThesisCardItem(UUID.randomUUID(), "title1", "task", image);
+      ThesisCardItem thesisCardItem2 = new ThesisCardItem(UUID.randomUUID(), "title2", "task", image);
       ArrayList<ThesisCardItem> items = new ArrayList<>();
-      items.add(thesisCardItem);
+      items.add(thesisCardItem1);
+      items.add(thesisCardItem2);
       thesisCardItems.setValue(items);
       //loadThesisManagerItems();
     }

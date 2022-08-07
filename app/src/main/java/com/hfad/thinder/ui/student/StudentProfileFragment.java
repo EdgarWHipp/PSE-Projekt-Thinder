@@ -2,6 +2,7 @@ package com.hfad.thinder.ui.student;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,6 +20,7 @@ import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentStudentProfileBinding;
 import com.hfad.thinder.ui.user.LoginActivity;
 import com.hfad.thinder.viewmodels.ViewModelResult;
+import com.hfad.thinder.viewmodels.student.EditProfileFormState;
 import com.hfad.thinder.viewmodels.student.EditProfileViewModel;
 
 /**
@@ -134,7 +136,28 @@ public class StudentProfileFragment extends Fragment {
 
 
 
+    viewModel.getSelectedCoursesOfStudy().observe(getViewLifecycleOwner(), new Observer<String>() {
+      @Override
+      public void onChanged(String s) {
+        viewModel.profileDataChanged();
+      }
+    });
 
+    viewModel.getFormState().observe(getViewLifecycleOwner(), new Observer<EditProfileFormState>() {
+      @Override
+      public void onChanged(EditProfileFormState editProfileFormState) {
+        Resources resources = getResources();
+        if (editProfileFormState.getFirstNameErrorMessage() != null) {
+          binding.etFirstName.setError(resources.getString(editProfileFormState.getFirstNameErrorMessage()));
+        }
+        if (editProfileFormState.getLastNameErrorMessage() != null) {
+          binding.etLastName.setError(resources.getString(editProfileFormState.getLastNameErrorMessage()));
+        }
+        if (editProfileFormState.getCoursesOfStudyErrorMessage() != null) {
+          binding.tvCoursesOfStudy.setError(resources.getString(editProfileFormState.getCoursesOfStudyErrorMessage()));
+        }
+      }
+    });
     viewModel.getDeleteResult().observe(getViewLifecycleOwner(), deleteResultObserver);
     viewModel.getSafeResult().observe(getViewLifecycleOwner(), safeResultObserver);
     binding.etFirstName.addTextChangedListener(afterTextChangedListener);

@@ -34,7 +34,6 @@ public abstract class ImageGalleryFragment extends Fragment {
     private String mParam2;
 
     protected FragmentImageGalleryBinding binding;
-    protected ImageGalleryPicker viewmodel;
 
     public ImageGalleryFragment() {
         // Required empty public constructor
@@ -54,8 +53,6 @@ public abstract class ImageGalleryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_image_gallery, container, false);
-        viewmodel = new ViewModelProvider(requireActivity()).get(EditThesisViewModel.class);
-        binding.setViewModel(viewmodel);
         binding.setLifecycleOwner(this);
 
         return binding.getRoot();
