@@ -169,9 +169,13 @@ public abstract class ThesisViewModel extends ViewModel implements CoursesOfStud
 
     public void setImages(
             ArrayList<Bitmap> images) {
-        iterator = images.listIterator();
+        ArrayList<Bitmap> compressedImages = new ArrayList<>();
+        for(Bitmap image : images){
+            compressedImages.add(getResizedBitmap(image, 1000));
+        }
+        iterator = compressedImages.listIterator();
         getCurrentImage().setValue(iterator.next());
-        getImages().setValue(images);
+        getImages().setValue(compressedImages);
     }
 
     public MutableLiveData<String> getQuestions() {
@@ -264,6 +268,27 @@ public abstract class ThesisViewModel extends ViewModel implements CoursesOfStud
             }
         }
         selectedCoursesOfStudy.setValue(String.join(", ", selectedCourses));
+    }
+
+    /**
+     * reduces the size of the image
+     * @param image
+     * @param maxSize
+     * @return
+     */
+    private Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        float bitmapRatio = (float)width / (float) height;
+        if (bitmapRatio > 1) {
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
+        }
+        return Bitmap.createScaledBitmap(image, width, height, true);
     }
 }
 
