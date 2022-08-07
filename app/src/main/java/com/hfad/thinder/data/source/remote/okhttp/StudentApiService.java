@@ -65,14 +65,19 @@ public class StudentApiService {
                             getUser().getMail(), UserRepository.getInstance().getPassword()))
             .build();
 
-    ArrayList<UUID> idOfDegrees = (ArrayList<UUID>) degrees.stream().map(v->v.getId());
+    //ArrayList<UUID> idOfDegrees = (ArrayList<UUID>) degrees.stream().map(v->v.getId());
+    String uuidAsString = "b5e29596-1668-11ed-861d-0242ac120002";
+
+    UUID sameUuid = UUID.fromString(uuidAsString);
+    ArrayList<UUID> ids = new ArrayList<>();
+    ids.add(sameUuid);
+    ids.add(null);
     JSONObject studentJson = new JSONObject()
-            .put("degrees", idOfDegrees)
+              .put("degrees", ids)
             .put("firstName",firstName)
             .put("lastName",lastName);
-
+  Log.e("",studentJson.toString());
     RequestBody body = RequestBody.create(studentJson.toString(), JSON);
-
 
     HttpUrl url = new HttpUrl.Builder()
             .scheme(scheme)
