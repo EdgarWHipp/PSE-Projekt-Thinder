@@ -54,13 +54,15 @@ public class LoginActivity extends AppCompatActivity {
       @Override
       public void onChanged(ViewModelResult loginResult) {
 
-
           if (loginResult.getSuccess() == ViewModelResultTypes.STUDENT) {
             goToStudentActivity();
           }
           if (loginResult.getSuccess() == ViewModelResultTypes.SUPERVISOR) {
 
             goToSupervisorActivity();
+          }
+          if (loginResult.getSuccess() == ViewModelResultTypes.UNVERIFIED) {
+            gotToVerifyTokenActivity();
           }
 
       }
@@ -92,6 +94,11 @@ public class LoginActivity extends AppCompatActivity {
 
   private void goToSupervisorActivity() {
     Intent intent = new Intent(this, SupervisorActivity.class);
+    startActivity(intent);
+  }
+
+  private void gotToVerifyTokenActivity() {
+    Intent intent = new Intent(this, VerifyTokenActivity.class);
     startActivity(intent);
   }
 
