@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import com.hfad.thinder.R;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
+import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.data.source.result.Tuple;
@@ -17,9 +18,11 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -66,25 +69,23 @@ public class ThesesApiService {
   private int port = 8080;
 
   /**
-   * Get all already liked thesis for the student.
-   * @param id
-   * @return
+   * Get all already liked thesis for the student. If the response is successful, set the Hashmap in the ThesisRepository for the viewmodel.
+   * @return Tuple<CompletableFuture<HashMap<UUID,Thesis>>, CompletableFuture<Result>>
    */
-  public Tuple<CompletableFuture<List<Thesis>>, CompletableFuture<Result>> getAllPositivRatedThesesFuture(UUID id) {
+  public Tuple<CompletableFuture<HashMap<UUID,Thesis>>, CompletableFuture<Result>> getAllPositiveRatedThesesFuture() {
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(new AuthInterceptor
                     (UserRepository.getInstance().getUser().getMail(),
                             UserRepository.getInstance().getUser().getPassword()))
             .build();
     CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
-    CompletableFuture<List<Thesis>> thesisListFuture = new CompletableFuture<>();
+    CompletableFuture<HashMap<UUID,Thesis>> thesisListFuture = new CompletableFuture<>();
 
     HttpUrl url = new HttpUrl.Builder()
             .scheme(scheme)
             .host(host)
             .port(port)
-            .addPathSegment("users")
-            .addPathSegment(id.toString())
+            .addPathSegment("students")
             .addPathSegment("rated-theses")
             .build();
 
@@ -104,9 +105,12 @@ public class ThesesApiService {
       @Override
       public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
         if (response.isSuccessful()) {
+          Gson gson = new Gson();
+          String body = response.body().string();
+          ArrayList<Thesis> theses  = gson.fromJson(body, new TypeToken<List<Thesis>>(){}.getType());
+          HashMap<UUID,Thesis> thesisHashMap = (HashMap<UUID, Thesis>) theses.stream().collect(Collectors.toMap(v->v.getId(), v->v));
           resultCompletableFuture.complete(new Result(true));
-          // parse all returned theses.
-          thesisListFuture.complete(null);
+          thesisListFuture.complete(thesisHashMap);
         } else {
           resultCompletableFuture.complete(new Result("not successful", false));
           thesisListFuture.complete(null);
@@ -114,7 +118,7 @@ public class ThesesApiService {
       }
     });
 
-    Tuple<CompletableFuture<List<Thesis>>, CompletableFuture<Result>> resultCompletableFutureTuple
+    Tuple<CompletableFuture<HashMap<UUID,Thesis>>, CompletableFuture<Result>> resultCompletableFutureTuple
             = new Tuple<>(thesisListFuture, resultCompletableFuture);
     return resultCompletableFutureTuple;
   }
@@ -272,7 +276,7 @@ public class ThesesApiService {
   }
 
   /**
-   * Returns all theses that a student swipes.
+   * Returns all theses that a student swipes, based on a certain critiera (currently just implemented as random in the backend)
    * @return Tuple<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>>
    */
   public Tuple<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>> getAllThesesForTheStudentFuture(){
@@ -310,7 +314,7 @@ public class ThesesApiService {
           Gson gson = new Gson();
           String body = response.body().string();
           ArrayList<Thesis> theses  = gson.fromJson(body, new TypeToken<List<Thesis>>(){}.getType());
-
+          ThesisRepository.getInstance().setTheses(theses);
 
           resultCompletableFuture.complete(new Result(true));
           resultThesisFuture.complete(theses);

@@ -3,6 +3,7 @@ package com.hfad.thinder.data.source.remote;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.remote.okhttp.ThesesApiService;
 import com.hfad.thinder.data.source.remote.okhttp.UsersApiService;
+import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.data.source.result.Tuple;
@@ -11,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -100,13 +102,14 @@ public class ThesisRemoteDataSource {
      * This function handles all the exceptions that the getAllThesesForTheStudentFuture function throws.
      * @return ArrayList<Thesis>
      */
-    public ArrayList<Thesis> getAllThesisForAStudent(){
+    public Result getAllThesisForAStudent(){
         try{
             Tuple<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>> result = okHttpService.getAllThesesForTheStudentFuture();
             if(result.y.get().getSuccess()){
-                return result.x.get();
+                ThesisRepository.getInstance().setTheses(result.x.get());
+                return result.y.get();
             }else {
-                return null;
+                return new Result("not successful",false);
             }
 
         } catch (ExecutionException e) {
@@ -117,7 +120,7 @@ public class ThesisRemoteDataSource {
     }
 
     /**
-     * This function handles all the exceptions that the removeALikedThesisFromAStudentFuture function throws.
+     * This function handles all the exceptions that the removeALikedThesisFromAStudentFuture from the ThesisApiService function throws.
      * @param thesisId
      * @return Result
      */
@@ -135,4 +138,24 @@ public class ThesisRemoteDataSource {
 
     }
 
+    /**
+     * This function handles all the exceptions from the getAllPositiveRatedThesesFuture call out of the ThesisApiService
+     * @return Result
+     */
+    public Result getAllLikedThesesFromAStudent() {
+        try {
+            Tuple<CompletableFuture<HashMap<UUID, Thesis>>, CompletableFuture<Result>> result = okHttpService.getAllPositiveRatedThesesFuture();
+            if (result.y.get().getSuccess()) {
+                ThesisRepository.getInstance().setThesisMap(result.x.get());
+                return result.y.get();
+            } else {
+                return new Result("not successful", false);
+            }
+
+        } catch (ExecutionException e) {
+            return new Result("not successful", false);
+        } catch (InterruptedException e) {
+            return new Result("not successful", false);
+        }
+    }
 }

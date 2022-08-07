@@ -89,7 +89,11 @@ public final class ThesisRepository {
         return thesisMap;
     }
 
-  /**
+    public void setThesisMap(HashMap<UUID, Thesis> thesisMap) {
+        this.thesisMap = thesisMap;
+    }
+
+    /**
    * Simply returns all theses that the student should be able to select from.
    * Taken directly from the thesisRepository.
    * @return ArrayList<Thesis>
@@ -97,10 +101,18 @@ public final class ThesisRepository {
   public ArrayList<Thesis> getAllSwipeableTheses(){return theses;}
 
   /**
-   * get all viable theses for the currently active student and save them inside the ThesisRepository.
+   * Get all viable theses for the currently active student and save them inside the ThesisRepository.
    */
-    public void fetchAllSwipeableThesis(){
-      setTheses(thesisRemoteDataSource.getAllThesisForAStudent());
+    public Result fetchAllSwipeableThesis(){
+       return thesisRemoteDataSource.getAllThesisForAStudent();
+    }
+
+    /**
+     * Gets all already liked thesis from the student.
+     * @return
+     */
+    public Result fetchAllLikedThesisForAStudent(){
+        return thesisRemoteDataSource.getAllLikedThesesFromAStudent();
     }
 
   /**
@@ -166,6 +178,7 @@ public final class ThesisRepository {
         selectedDegrees.add("Master Mathematik");
         return selectedDegrees;
     }
+
 
 
 }

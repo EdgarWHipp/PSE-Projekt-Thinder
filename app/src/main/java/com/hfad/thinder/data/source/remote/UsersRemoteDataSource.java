@@ -52,7 +52,6 @@ public class UsersRemoteDataSource {
 
     public Result getUserRole(){
         try{
-            Log.e("",UserRepository.getInstance().getUser().getMail() + " " + UserRepository.getInstance().getUser().getPassword());
         CompletableFuture<Result> resultCompletableFuture =
                 usersApiService.getUserRole(new Login(UserRepository.getInstance().getUser().getMail(),UserRepository.getInstance().getUser().getPassword()));
         return resultCompletableFuture.get(TIMEOUT_SECONDS,TimeUnit.SECONDS);
@@ -75,12 +74,9 @@ public class UsersRemoteDataSource {
      */
     public Result login(Login login) {
         try {
-            CompletableFuture<Result> resultRole = usersApiService.getUserRole(login);
-            resultRole.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
-
             CompletableFuture<Result> resultFuture = usersApiService.getUserDetails(login);
             return resultFuture.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
-        } catch (IOException | JSONException | ExecutionException // TODO error messages
+        } catch (IOException | JSONException | ExecutionException
                 | TimeoutException | InterruptedException e) {
             return new Result(e.toString(), false);
         }

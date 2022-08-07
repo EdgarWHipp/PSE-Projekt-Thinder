@@ -62,7 +62,7 @@ public class StudentApiServiceTest {
         MockResponse response = new MockResponse().setResponseCode(200);
         server.enqueue(response);
 
-        Degree degreeInformatik = new Degree("Informatik","Bsc");
+        Degree degreeInformatik = new Degree("Informatik Bsc");
         Set<Degree> degreesOld = new HashSet<>();
         degreesOld.add(degreeInformatik);
 
@@ -75,7 +75,7 @@ public class StudentApiServiceTest {
         userRepository.setType(USERTYPE.STUDENT);
         userRepository.setUser(student);
 
-        Degree degreeMathe = new Degree("Mathematik","Msc");
+        Degree degreeMathe = new Degree("Mathematik Msc");
         Set<Degree> degreesNew = new HashSet<>();
         degreesNew.add(degreeMathe);
 
@@ -102,7 +102,7 @@ public class StudentApiServiceTest {
     @Test
     public void rateThesisFuture() throws JSONException, InterruptedException, ExecutionException {
         //Set current loged in user
-        Degree degreeInformatik = new Degree("Informatik","Bsc");
+        Degree degreeInformatik = new Degree("Informatik Bsc");
         Set<Degree> degreesOld = new HashSet<>();
         degreesOld.add(degreeInformatik);
 
@@ -128,7 +128,7 @@ public class StudentApiServiceTest {
     @Test
     public void rateThesisFutureFail() throws JSONException, InterruptedException, ExecutionException {
         //Set current loged in user
-        Degree degreeInformatik = new Degree("Informatik","Bsc");
+        Degree degreeInformatik = new Degree("Informatik Bsc");
         Set<Degree> degreesOld = new HashSet<>();
         degreesOld.add(degreeInformatik);
 
@@ -152,7 +152,9 @@ public class StudentApiServiceTest {
     }
 
     @Test
-    public void getSwipeOrder() {
+    public void getRateableThesis() {
+
+
     }
 
 

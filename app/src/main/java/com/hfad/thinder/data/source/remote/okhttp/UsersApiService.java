@@ -225,7 +225,7 @@ public class UsersApiService {
                 .put("lastName", user.getLastName())
                 .put("password", user.getPassword())
                 .put("mail", user.getMail())
-                .put("role","USER");
+                .put("type","USER");
         UserRepository.getInstance()
                 .setUser(new User(null,null,false,null,
                         user.getPassword(),user.getMail(),user.getFirstName(),user.getLastName()));
@@ -255,7 +255,6 @@ public class UsersApiService {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-                        //setUserRole(user.getPassword(),user.getEmail());
                         resultCompletableFuture.complete(new Result(true));
                 } else {
 
@@ -360,7 +359,8 @@ public class UsersApiService {
     }
 
     /**
-     *
+     *  This function creates the actual HTTP POST request that signals a new password for a currently logged in user to the backend.
+     *  The user has a new password after this call.
      * @param token
      * @param newPassword
      * @return CompletableFuture<Result>
@@ -403,20 +403,27 @@ public class UsersApiService {
         return resultCompletableFuture;
     }
 
+    /**
+     * This function parses the returned JSON from the login HTTP GET request. All necessary user values are set inside the UserRepository.
+     * @param body
+     * @return Result
+     * @throws JSONException
+     */
     private Result setUserValues(String body) throws JSONException {
         Gson gson = new Gson();
         UserRepository userRepository = UserRepository.getInstance();
-        Log.e("","INSIDE SET USER VALUES");
-        switch(userRepository.getType().toString()){
+        String role = new JSONObject(body).get("type").toString();
+        switch(role){
             case "STUDENT":
                 Student student;
                 student = gson.fromJson(body, Student.class);
-
+                userRepository.setType(USERTYPE.STUDENT);
                 userRepository.setUser(student);
                 break;
             case "SUPERVISOR":
                 Supervisor supervisor;
                 supervisor = gson.fromJson(body, Supervisor.class);
+                userRepository.setType(USERTYPE.SUPERVISOR);
                 userRepository.setUser(supervisor);
                 break;
             default:
