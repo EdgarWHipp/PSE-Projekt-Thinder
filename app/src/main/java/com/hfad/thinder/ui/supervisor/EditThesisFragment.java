@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -37,6 +38,8 @@ import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.viewmodels.supervisor.ThesisFormState;
 import com.hfad.thinder.viewmodels.supervisor.EditThesisViewModel;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -282,7 +285,8 @@ public class EditThesisFragment extends Fragment{
                 Uri uri = data.getData();
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
-                    images.add(bitmap);
+
+                    images.add(getResizedBitmap(bitmap, 1000));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -296,7 +300,7 @@ public class EditThesisFragment extends Fragment{
                     Uri uri = item.getUri();
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
-                        images.add(bitmap);
+                        images.add(getResizedBitmap(bitmap, 1000));
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -306,5 +310,26 @@ public class EditThesisFragment extends Fragment{
             }
             viewModel.setImages(images);
         }
+    }
+
+    /**
+     * reduces the size of the image
+     * @param image
+     * @param maxSize
+     * @return
+     */
+    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        float bitmapRatio = (float)width / (float) height;
+        if (bitmapRatio > 1) {
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
+        }
+        return Bitmap.createScaledBitmap(image, width, height, true);
     }
 }
