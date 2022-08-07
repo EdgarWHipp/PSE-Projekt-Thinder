@@ -20,7 +20,6 @@ public class ThesisManagerViewModel extends ViewModel {
   private static final ThesisRepository thesisRepository = ThesisRepository.getInstance();
   private MutableLiveData<ArrayList<ThesisCardItem>> thesisCardItems;
 
-  //Todo: Databinding
   //-------------------getter and setter-----------------------------
 
   public MutableLiveData<ArrayList<ThesisCardItem>> getThesisCardItems() {

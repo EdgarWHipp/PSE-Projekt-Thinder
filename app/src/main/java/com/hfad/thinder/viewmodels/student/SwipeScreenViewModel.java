@@ -163,7 +163,7 @@ public class SwipeScreenViewModel extends ViewModel {
     cardDeck = new ArrayList<>();
     ArrayList<Thesis> theses = new ArrayList<>();//thesisRepository.getAll().get();
     for (Thesis thesis : theses) {
-      ArrayList<Bitmap> images1 = convertImagesToBitmaps(thesis.getImages());
+      ArrayList<Bitmap> bitmaps = convertImagesToBitmaps(thesis.getImages());
       //SwipeScreenCard swipeScreenCard = new SwipeScreenCard(images,);
       //Todo fertig machen wenn Implementierung Model fertig ist
     }

@@ -46,7 +46,6 @@ public class EditProfileViewModel extends ViewModel {
         userRepository.editProfilSupervisor(degree, officeNumber, buildingString, institute,
             phoneNumber, firstName,
             lastName);
-    Log.e("", result.getErrorMessage());
     if (result.getSuccess()) {
       safeResult.setValue(
           new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.SUCCESSFUL));
