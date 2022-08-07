@@ -6,6 +6,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.hfad.thinder.data.model.Degree;
+import com.hfad.thinder.data.model.Student;
+import com.hfad.thinder.data.source.repository.StudentRepository;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.viewmodels.Thesis;
 import com.hfad.thinder.viewmodels.ThesisCardItem;
@@ -18,6 +20,7 @@ import java.util.UUID;
 
 public class ThesisManagerViewModel extends ViewModel {
   private static final ThesisRepository thesisRepository = ThesisRepository.getInstance();
+  private static final StudentRepository studentRepository = StudentRepository.getInstance();
   private MutableLiveData<ArrayList<ThesisCardItem>> thesisCardItems;
 
   //-------------------getter and setter-----------------------------
@@ -39,7 +42,7 @@ public class ThesisManagerViewModel extends ViewModel {
   }
 
   private void loadThesisManagerItems() {
-    thesisRepository.fetchAllSwipeableThesis();
+    studentRepository.fetchAllSwipeableThesis();
     List<com.hfad.thinder.data.model.Thesis> thesisList = thesisRepository.getAllSwipeableTheses();//Todo hole alle Thesis des Supervisors
     if(thesisList==null){
       //TODO

@@ -205,8 +205,8 @@ public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPic
     return null;
   }
 
-  private Set<Degree> getSelectedSet() {
-    HashSet<Degree> degrees = new HashSet<>();
+  private ArrayList<Degree> getSelectedSet() {
+    ArrayList<Degree> degrees = new ArrayList<>();
     for (CourseOfStudyItem courseOfStudyItem : getCoursesOfStudyList().getValue()) {
       if (courseOfStudyItem.isPicked()) {
         degrees.add(new Degree(courseOfStudyItem.getCourseOfStudy()));

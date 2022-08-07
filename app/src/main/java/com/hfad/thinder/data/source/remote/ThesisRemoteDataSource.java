@@ -98,26 +98,7 @@ public class ThesisRemoteDataSource {
         }
     }
 
-    /**
-     * This function handles all the exceptions that the getAllThesesForTheStudentFuture function throws.
-     * @return ArrayList<Thesis>
-     */
-    public Result getAllThesisForAStudent(){
-        try{
-            Tuple<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>> result = okHttpService.getAllThesesForTheStudentFuture();
-            if(result.y.get().getSuccess()){
-                ThesisRepository.getInstance().setTheses(result.x.get());
-                return result.y.get();
-            }else {
-                return new Result("not successful",false);
-            }
 
-        } catch (ExecutionException e) {
-            return null;
-        } catch (InterruptedException e) {
-            return null;
-        }
-    }
 
     /**
      * This function handles all the exceptions that the removeALikedThesisFromAStudentFuture from the ThesisApiService function throws.
@@ -138,24 +119,5 @@ public class ThesisRemoteDataSource {
 
     }
 
-    /**
-     * This function handles all the exceptions from the getAllPositiveRatedThesesFuture call out of the ThesisApiService
-     * @return Result
-     */
-    public Result getAllLikedThesesFromAStudent() {
-        try {
-            Tuple<CompletableFuture<HashMap<UUID, Thesis>>, CompletableFuture<Result>> result = okHttpService.getAllPositiveRatedThesesFuture();
-            if (result.y.get().getSuccess()) {
-                ThesisRepository.getInstance().setThesisMap(result.x.get());
-                return result.y.get();
-            } else {
-                return new Result("not successful", false);
-            }
 
-        } catch (ExecutionException e) {
-            return new Result("not successful", false);
-        } catch (InterruptedException e) {
-            return new Result("not successful", false);
-        }
-    }
 }

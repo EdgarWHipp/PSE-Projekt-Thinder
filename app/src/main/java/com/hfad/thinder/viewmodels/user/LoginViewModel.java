@@ -34,6 +34,7 @@ public class LoginViewModel extends ViewModel {
     }
 
     else if (result.getSuccess()) {
+      userRepository.setPassword(password.getValue());
       USERTYPE usertype = userRepository.getType();
       if (usertype == USERTYPE.STUDENT) {
         loginResult.setValue(

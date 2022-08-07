@@ -37,7 +37,7 @@ public class ApiCallUnitTest {
     Set<Degree> set =new HashSet<>();;
     Result resultStudent =new Result(false);
     Result resultSupervisor =new Result(false);
-    set.add(new Degree("informatik","bachelor"));
+    set.add(new Degree("informatik bachelor"));
     if (UserRepository.getInstance().getType().equals(USERTYPE.STUDENT)){
 
      resultStudent = UserRepository.getInstance().editProfileStudent(set,"edgar wilhelm","hipp");

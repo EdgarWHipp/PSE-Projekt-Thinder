@@ -13,6 +13,7 @@ import com.hfad.thinder.data.source.remote.UsersRemoteDataSource;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.data.source.result.Tuple;
 
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
 
@@ -31,11 +32,20 @@ public final class UserRepository {
     private final StudentRemoteDataSource studentRemoteDataSource =  new StudentRemoteDataSource();
     private final SupervisorRemoteDataSource supervisorRemoteDataSource = new SupervisorRemoteDataSource();
     private final ThesisRemoteDataSource thesisRemoteDataSource = new ThesisRemoteDataSource();
+    private String password = null;
     private UUID currentId = null;
     private USERTYPE type = null;
     private User user = null;
 
     private UserRepository() {
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setUser(User user) {
@@ -140,7 +150,7 @@ public final class UserRepository {
      * @param degrees
      * @return Result
      */
-    public Result editProfileStudent(Set<Degree> degrees, String firstName, String lastName) {
+    public Result editProfileStudent(ArrayList<Degree> degrees, String firstName, String lastName) {
         return studentRemoteDataSource.extendUserToStudent(degrees,firstName,lastName);
     }
 

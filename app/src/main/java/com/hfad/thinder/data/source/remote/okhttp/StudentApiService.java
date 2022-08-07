@@ -13,6 +13,7 @@ import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.User;
+import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.data.source.result.Tuple;
@@ -23,10 +24,12 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -54,20 +57,20 @@ public class StudentApiService {
    * @param degrees
    * @return CompletableFuture<Result>
    */
-  public CompletableFuture<Result> editStudentProfileFuture(Set<Degree> degrees, String firstName, String lastName) throws JSONException, IOException {
+  public CompletableFuture<Result> editStudentProfileFuture(ArrayList<Degree> degrees, String firstName, String lastName) throws JSONException, IOException {
     CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(
                     new AuthInterceptor(UserRepository.getInstance().
-                            getUser().getMail(), UserRepository.getInstance().
-                            getUser().getPassword()))
+                            getUser().getMail(), UserRepository.getInstance().getPassword()))
             .build();
+
+    ArrayList<UUID> idOfDegrees = (ArrayList<UUID>) degrees.stream().map(v->v.getId());
     JSONObject studentJson = new JSONObject()
-            .put("degrees", degrees)
+            .put("degrees", idOfDegrees)
             .put("firstName",firstName)
             .put("lastName",lastName);
 
-    Log.e("","atleast im in the function");
     RequestBody body = RequestBody.create(studentJson.toString(), JSON);
 
 
@@ -78,7 +81,6 @@ public class StudentApiService {
             .addPathSegment("users")
             .addPathSegment("current")
             .build();
-    Log.e("","atleast im in the function");
     Request request = new Request.Builder()
             .url(url)
             .put(body)
@@ -293,6 +295,115 @@ public class StudentApiService {
       }
     });
   return  resultCompletableFuture;
+  }
+  /**
+   * Get all already liked thesis for the student. If the response is successful, set the Hashmap in the ThesisRepository for the viewmodel.
+   * @return Tuple<CompletableFuture<HashMap<UUID,Thesis>>, CompletableFuture<Result>>
+   */
+  public Tuple<CompletableFuture<HashMap<UUID,Thesis>>, CompletableFuture<Result>> getAllPositiveRatedThesesFuture() {
+    OkHttpClient clientAuth = new OkHttpClient.Builder()
+            .addInterceptor(new AuthInterceptor
+                    (UserRepository.getInstance().getUser().getMail(),
+                            UserRepository.getInstance().getUser().getPassword()))
+            .build();
+    CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
+    CompletableFuture<HashMap<UUID,Thesis>> thesisListFuture = new CompletableFuture<>();
+
+    HttpUrl url = new HttpUrl.Builder()
+            .scheme(scheme)
+            .host(host)
+            .port(port)
+            .addPathSegment("students")
+            .addPathSegment("rated-theses")
+            .build();
+
+    Request request = new Request.Builder()
+            .url(url)
+            .get()
+            .build();
+
+    Call call = clientAuth.newCall(request);
+    call.enqueue(new Callback() {
+      @Override
+      public void onFailure(@NonNull Call call, @NonNull IOException e) {
+        resultCompletableFuture.complete(new Result(e.toString(), false));
+        thesisListFuture.complete(null);
+      }
+
+      @Override
+      public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+        if (response.isSuccessful()) {
+          Gson gson = new Gson();
+          String body = response.body().string();
+          ArrayList<Thesis> theses  = gson.fromJson(body, new TypeToken<List<Thesis>>(){}.getType());
+          HashMap<UUID,Thesis> thesisHashMap = (HashMap<UUID, Thesis>) theses.stream().collect(Collectors.toMap(v->v.getId(), v->v));
+          resultCompletableFuture.complete(new Result(true));
+          thesisListFuture.complete(thesisHashMap);
+        } else {
+          resultCompletableFuture.complete(new Result("not successful", false));
+          thesisListFuture.complete(null);
+        }
+      }
+    });
+
+    Tuple<CompletableFuture<HashMap<UUID,Thesis>>, CompletableFuture<Result>> resultCompletableFutureTuple
+            = new Tuple<>(thesisListFuture, resultCompletableFuture);
+    return resultCompletableFutureTuple;
+  }
+  /**
+   * Returns all theses that a student swipes, based on a certain critiera (currently just implemented as random in the backend)
+   * @return Tuple<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>>
+   */
+  public Tuple<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>> getAllThesesForTheStudentFuture(){
+    OkHttpClient clientAuth = new OkHttpClient.Builder()
+            .addInterceptor(new AuthInterceptor
+                    (UserRepository.getInstance().getUser().getMail(),
+                            UserRepository.getInstance().getUser().getPassword()))
+            .build();
+    CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
+    CompletableFuture<ArrayList<Thesis>> resultThesisFuture = new CompletableFuture<>();
+    HttpUrl url = new HttpUrl.Builder()
+            .scheme(scheme)
+            .host(host)
+            .port(port)
+            .addPathSegment("students")
+            .addPathSegment("theses")
+            .addPathSegment("get-swipe-theses")
+            .build();
+    Request request = new Request.Builder()
+            .url(url)
+            .get()
+            .build();
+
+    Call call = clientAuth.newCall(request);
+    call.enqueue(new Callback() {
+      @Override
+      public void onFailure(@NonNull Call call, @NonNull IOException e) {
+        resultCompletableFuture.complete(new Result("error",false));
+        resultThesisFuture.complete(null);
+      }
+
+      @Override
+      public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+        if (response.isSuccessful()) {
+          Gson gson = new Gson();
+          String body = response.body().string();
+          ArrayList<Thesis> theses  = gson.fromJson(body, new TypeToken<List<Thesis>>(){}.getType());
+          ThesisRepository.getInstance().setTheses(theses);
+
+          resultCompletableFuture.complete(new Result(true));
+          resultThesisFuture.complete(theses);
+
+
+        }else{
+          resultCompletableFuture.complete(new Result("error", false));
+          resultThesisFuture.complete(null);
+        }
+
+      }
+
+    });
+    return new Tuple<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>>(resultThesisFuture,resultCompletableFuture);
   }
 
 }

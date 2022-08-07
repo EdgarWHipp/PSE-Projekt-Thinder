@@ -100,20 +100,9 @@ public final class ThesisRepository {
    */
   public ArrayList<Thesis> getAllSwipeableTheses(){return theses;}
 
-  /**
-   * Get all viable theses for the currently active student and save them inside the ThesisRepository.
-   */
-    public Result fetchAllSwipeableThesis(){
-       return thesisRemoteDataSource.getAllThesisForAStudent();
-    }
 
-    /**
-     * Gets all already liked thesis from the student.
-     * @return
-     */
-    public Result fetchAllLikedThesisForAStudent(){
-        return thesisRemoteDataSource.getAllLikedThesesFromAStudent();
-    }
+
+
 
   /**
    * Adds a new thesis to the global list of all thesis that the students can

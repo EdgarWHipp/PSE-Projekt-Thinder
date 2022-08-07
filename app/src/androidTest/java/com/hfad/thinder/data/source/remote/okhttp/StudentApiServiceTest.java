@@ -63,7 +63,7 @@ public class StudentApiServiceTest {
         server.enqueue(response);
 
         Degree degreeInformatik = new Degree("Informatik Bsc");
-        Set<Degree> degreesOld = new HashSet<>();
+        ArrayList<Degree> degreesOld = new ArrayList<>();
         degreesOld.add(degreeInformatik);
 
         Student student = new Student(USERTYPE.STUDENT,
@@ -76,7 +76,7 @@ public class StudentApiServiceTest {
         userRepository.setUser(student);
 
         Degree degreeMathe = new Degree("Mathematik Msc");
-        Set<Degree> degreesNew = new HashSet<>();
+        ArrayList<Degree> degreesNew = new ArrayList<>();
         degreesNew.add(degreeMathe);
 
         CompletableFuture<Result> result = studentApiService
@@ -103,7 +103,7 @@ public class StudentApiServiceTest {
     public void rateThesisFuture() throws JSONException, InterruptedException, ExecutionException {
         //Set current loged in user
         Degree degreeInformatik = new Degree("Informatik Bsc");
-        Set<Degree> degreesOld = new HashSet<>();
+        ArrayList<Degree> degreesOld = new ArrayList<>();
         degreesOld.add(degreeInformatik);
 
         Student student = new Student(USERTYPE.STUDENT,
@@ -129,7 +129,7 @@ public class StudentApiServiceTest {
     public void rateThesisFutureFail() throws JSONException, InterruptedException, ExecutionException {
         //Set current loged in user
         Degree degreeInformatik = new Degree("Informatik Bsc");
-        Set<Degree> degreesOld = new HashSet<>();
+        ArrayList<Degree> degreesOld = new ArrayList<>();
         degreesOld.add(degreeInformatik);
 
         Student student = new Student(USERTYPE.STUDENT,

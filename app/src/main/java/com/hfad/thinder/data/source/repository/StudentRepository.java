@@ -48,4 +48,17 @@ public class StudentRepository {
     selectedDegrees.add("Master Mathematik");
     return selectedDegrees;
   }
+  /**
+   * Gets all already liked thesis from the student.
+   * @return
+   */
+  public Result fetchAllLikedThesisForAStudent(){
+    return studentRemoteDataSource.getAllLikedThesesFromAStudent();
+  }
+  /**
+   * Get all viable theses for the currently active student and save them inside the ThesisRepository.
+   */
+  public Result fetchAllSwipeableThesis(){
+    return studentRemoteDataSource.getAllThesisForAStudent();
+  }
 }

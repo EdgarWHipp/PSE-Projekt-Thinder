@@ -10,11 +10,13 @@ import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
+import com.hfad.thinder.data.source.result.Tuple;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -190,5 +192,44 @@ public class SupervisorApiService {
       }
     });
     return resultCompletableFuture;
+  }
+
+  /**
+   *
+   * @return Tuple<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>>
+   */
+  public Tuple<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>> getCreatedThesisFromSupervisorFuture(){
+    OkHttpClient clientAuth = new OkHttpClient.Builder()
+            .addInterceptor(new AuthInterceptor
+                    (UserRepository.getInstance().getUser().getMail(),
+                            UserRepository.getInstance().getUser().getPassword()))
+            .build();
+    CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
+    CompletableFuture<ArrayList<Thesis>> completableFuture = new CompletableFuture<>();
+
+    HttpUrl url = new HttpUrl.Builder()
+            .scheme(scheme)
+            .host(host)
+            .port(port)
+            .addPathSegment("thesis").build();
+
+    //RequestBody body = RequestBody.create(thesisJSON.toString(), JSON);
+    Request request = new Request.Builder()
+            .url(url)
+            .get()
+            .build();
+    Call call = clientAuth.newCall(request);
+    call.enqueue(new Callback() {
+      @Override
+      public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+      }
+
+      @Override
+      public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+
+      }
+    });
+    return new Tuple<>(completableFuture,resultCompletableFuture);
   }
 }

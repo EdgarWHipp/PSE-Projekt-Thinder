@@ -68,60 +68,7 @@ public class ThesesApiService {
   private String host = "10.0.2.2";
   private int port = 8080;
 
-  /**
-   * Get all already liked thesis for the student. If the response is successful, set the Hashmap in the ThesisRepository for the viewmodel.
-   * @return Tuple<CompletableFuture<HashMap<UUID,Thesis>>, CompletableFuture<Result>>
-   */
-  public Tuple<CompletableFuture<HashMap<UUID,Thesis>>, CompletableFuture<Result>> getAllPositiveRatedThesesFuture() {
-    OkHttpClient clientAuth = new OkHttpClient.Builder()
-            .addInterceptor(new AuthInterceptor
-                    (UserRepository.getInstance().getUser().getMail(),
-                            UserRepository.getInstance().getUser().getPassword()))
-            .build();
-    CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
-    CompletableFuture<HashMap<UUID,Thesis>> thesisListFuture = new CompletableFuture<>();
 
-    HttpUrl url = new HttpUrl.Builder()
-            .scheme(scheme)
-            .host(host)
-            .port(port)
-            .addPathSegment("students")
-            .addPathSegment("rated-theses")
-            .build();
-
-    Request request = new Request.Builder()
-            .url(url)
-            .get()
-            .build();
-
-    Call call = clientAuth.newCall(request);
-    call.enqueue(new Callback() {
-      @Override
-      public void onFailure(@NonNull Call call, @NonNull IOException e) {
-        resultCompletableFuture.complete(new Result(e.toString(), false));
-        thesisListFuture.complete(null);
-      }
-
-      @Override
-      public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-        if (response.isSuccessful()) {
-          Gson gson = new Gson();
-          String body = response.body().string();
-          ArrayList<Thesis> theses  = gson.fromJson(body, new TypeToken<List<Thesis>>(){}.getType());
-          HashMap<UUID,Thesis> thesisHashMap = (HashMap<UUID, Thesis>) theses.stream().collect(Collectors.toMap(v->v.getId(), v->v));
-          resultCompletableFuture.complete(new Result(true));
-          thesisListFuture.complete(thesisHashMap);
-        } else {
-          resultCompletableFuture.complete(new Result("not successful", false));
-          thesisListFuture.complete(null);
-        }
-      }
-    });
-
-    Tuple<CompletableFuture<HashMap<UUID,Thesis>>, CompletableFuture<Result>> resultCompletableFutureTuple
-            = new Tuple<>(thesisListFuture, resultCompletableFuture);
-    return resultCompletableFutureTuple;
-  }
 
   /**
    * This function creates the actual HTTP POST request to the backend that leads to a created thesis object inside the database.
@@ -275,61 +222,7 @@ public class ThesesApiService {
     return resultCompletableFuture;
   }
 
-  /**
-   * Returns all theses that a student swipes, based on a certain critiera (currently just implemented as random in the backend)
-   * @return Tuple<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>>
-   */
-  public Tuple<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>> getAllThesesForTheStudentFuture(){
-    OkHttpClient clientAuth = new OkHttpClient.Builder()
-            .addInterceptor(new AuthInterceptor
-                    (UserRepository.getInstance().getUser().getMail(),
-                            UserRepository.getInstance().getUser().getPassword()))
-            .build();
-    CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
-    CompletableFuture<ArrayList<Thesis>> resultThesisFuture = new CompletableFuture<>();
-    HttpUrl url = new HttpUrl.Builder()
-            .scheme(scheme)
-            .host(host)
-            .port(port)
-            .addPathSegment("students")
-            .addPathSegment("theses")
-            .addPathSegment("get-swipe-theses")
-            .build();
-    Request request = new Request.Builder()
-            .url(url)
-            .get()
-            .build();
 
-    Call call = clientAuth.newCall(request);
-    call.enqueue(new Callback() {
-      @Override
-      public void onFailure(@NonNull Call call, @NonNull IOException e) {
-        resultCompletableFuture.complete(new Result("error",false));
-        resultThesisFuture.complete(null);
-      }
-
-      @Override
-      public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-        if (response.isSuccessful()) {
-          Gson gson = new Gson();
-          String body = response.body().string();
-          ArrayList<Thesis> theses  = gson.fromJson(body, new TypeToken<List<Thesis>>(){}.getType());
-          ThesisRepository.getInstance().setTheses(theses);
-
-          resultCompletableFuture.complete(new Result(true));
-          resultThesisFuture.complete(theses);
-
-
-        }else{
-            resultCompletableFuture.complete(new Result("error", false));
-            resultThesisFuture.complete(null);
-          }
-
-        }
-
-        });
-    return new Tuple<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>>(resultThesisFuture,resultCompletableFuture);
-  }
 
   /**
    * This function creates the actual HTTP POST request that removes an already liked thesis from the list of liked theses from the student.
