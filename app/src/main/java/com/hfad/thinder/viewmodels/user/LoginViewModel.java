@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
@@ -24,24 +25,25 @@ public class LoginViewModel extends ViewModel {
   //Ruft die Login Funktion im Repository auf und aktualisiert den Zustand der Anmeldung
   public void login() {
 
-    Result restult;
-    restult = userRepository.login(password.getValue(), email.getValue());
-    if(restult.getSuccess()){
-      loginResult.setValue(new ViewModelResult(restult.getErrorMessage(), ViewModelResultTypes.SUCCESSFUL));
+    Result result;
+    result = userRepository.login(password.getValue(), email.getValue());
+
+    if (!result.getSuccess()) {
+      loginResult.setValue(
+          new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
     }
 
-    if (!restult.getSuccess()) {
-      loginResult.setValue(new ViewModelResult(restult.getErrorMessage(), null));
-    } else if (userRepository.getType() == USERTYPE.STUDENT) {
-      loginResult.setValue(new ViewModelResult(restult.getErrorMessage(), ViewModelResultTypes.STUDENT));
-    } else if (userRepository.getType() ==USERTYPE.SUPERVISOR) {
+    else if (result.getSuccess()) {
+      USERTYPE usertype = userRepository.getType();
+      if (usertype == USERTYPE.STUDENT) {
+        loginResult.setValue(
+            new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.STUDENT));
+      } else if (usertype == USERTYPE.SUPERVISOR) {
+        loginResult.setValue(
+            new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.SUPERVISOR));
+      } //Todo: unverified fehlt noch
 
-      loginResult.setValue(new ViewModelResult(restult.getErrorMessage(), ViewModelResultTypes.SUPERVISOR));
-    } else {
-
-      loginResult.setValue(new ViewModelResult(restult.getErrorMessage(), ViewModelResultTypes.ERROR));
     }
-    //Todo: es fehlt noch ein Unverified
 
 
   }

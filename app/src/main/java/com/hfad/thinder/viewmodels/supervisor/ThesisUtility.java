@@ -7,7 +7,7 @@ import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.source.repository.DegreeRepository;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
-import com.hfad.thinder.ui.CourseOfStudyItem;
+import com.hfad.thinder.viewmodels.CourseOfStudyItem;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;

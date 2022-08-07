@@ -17,27 +17,30 @@ public class VerifyTokenViewModel extends ViewModel {
   private MutableLiveData<String> token;
   private MutableLiveData<ViewModelResult> verifyTokenResult;
   private MutableLiveData<VerifyTokenStates> state;
-  // Todo: Auch nach dem Verlassen der App muss, befor es weiter geht der Token verifiziert werden in(siehe login seite)
+
 
   public void VerifyToken() {
     Result result = userRepository.verifyUser(token.getValue());
     if (!result.getSuccess()) {
       verifyTokenResult.setValue(new ViewModelResult(result.getErrorMessage(),
               ViewModelResultTypes.ERROR));
-
+      state.setValue(VerifyTokenStates.FAILURE);
     }else {
       Result roleResult = userRepository.login(userRepository.getUser().getPassword(),userRepository.getUser().getMail());
       if (!roleResult.getSuccess()) {
         verifyTokenResult.setValue(new ViewModelResult(result.getErrorMessage(),
                 ViewModelResultTypes.ERROR));
-      }else {
+        state.setValue(VerifyTokenStates.FAILURE);
+      } else {
 
         if (userRepository.getType().toString() == USERTYPE.STUDENT.toString()) {
           verifyTokenResult.setValue(
                   new ViewModelResult("STUDENT", ViewModelResultTypes.STUDENT));
+          state.setValue(VerifyTokenStates.SUCCESSFUL);
         } else if (userRepository.getType().toString() == USERTYPE.SUPERVISOR.toString()) {
           verifyTokenResult.setValue(
                   new ViewModelResult("SUPERVISOR", ViewModelResultTypes.SUPERVISOR));
+          state.setValue(VerifyTokenStates.SUCCESSFUL);
         } else {
           state.setValue(VerifyTokenStates.FAILURE);
         }

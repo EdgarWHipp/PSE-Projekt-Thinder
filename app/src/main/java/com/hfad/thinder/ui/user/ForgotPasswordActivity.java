@@ -70,6 +70,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
           if (viewModelResult.getSuccess() == ViewModelResultTypes.SUPERVISOR) {
             goToSupervisorActivity();
           }
+          if (viewModelResult.getSuccess() == ViewModelResultTypes.UNVERIFIED) {
+            goToVerifyTokenActivity();
+          }
         }
       }
     };
@@ -78,6 +81,11 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     binding.etcode.addTextChangedListener(afterTextChangedListener);
     binding.etLoginPassword.addTextChangedListener(afterTextChangedListener);
     binding.etconfirmpassword.addTextChangedListener(afterTextChangedListener);
+  }
+
+  private void goToVerifyTokenActivity() {
+    Intent intent = new Intent(this, VerifyTokenActivity.class);
+    startActivity(intent);
   }
 
   private void goToStudentActivity() {

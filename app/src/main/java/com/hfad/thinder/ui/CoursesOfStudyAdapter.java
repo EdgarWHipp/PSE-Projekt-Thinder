@@ -1,8 +1,5 @@
 package com.hfad.thinder.ui;
 
-import static android.content.ContentValues.TAG;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hfad.thinder.R;
+import com.hfad.thinder.viewmodels.CourseOfStudyItem;
 import com.hfad.thinder.viewmodels.CoursesOfStudyPicker;
 
 import java.util.ArrayList;

@@ -1,19 +1,15 @@
 package com.hfad.thinder.ui;
 
-import static android.content.ContentValues.TAG;
-
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,8 +21,8 @@ import android.widget.SearchView;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentCoursesOfStudyBinding;
+import com.hfad.thinder.viewmodels.CourseOfStudyItem;
 import com.hfad.thinder.viewmodels.CoursesOfStudyPicker;
-import com.hfad.thinder.viewmodels.student.EditProfileViewModel;
 
 import java.util.ArrayList;
 
