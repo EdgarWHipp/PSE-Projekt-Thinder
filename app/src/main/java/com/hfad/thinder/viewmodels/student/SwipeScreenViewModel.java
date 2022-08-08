@@ -10,7 +10,7 @@ import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.repository.StudentRepository;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
-import com.hfad.thinder.data.source.result.Tuple;
+import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.ui.student.SwipeScreenCard;
 import com.hfad.thinder.ui.student.SwipeScreenFragment;
 
@@ -24,7 +24,7 @@ public class SwipeScreenViewModel extends ViewModel {
 
   private static final ThesisRepository thesisRepository = ThesisRepository.getInstance();
   private static final StudentRepository studentRepository = StudentRepository.getInstance();
-  private Stack<Tuple<UUID, Boolean>> ratings = new Stack();
+  private Stack<Pair<UUID, Boolean>> ratings = new Stack();
 
   private ArrayList<SwipeScreenCard> cardDeck;
   private MutableLiveData<Integer> currentDeckPosition;
@@ -40,7 +40,7 @@ public class SwipeScreenViewModel extends ViewModel {
       return;
     }
     SwipeScreenCard currentCard = cardDeck.get(getCurrentDeckPosition().getValue());
-    ratings.push(new Tuple<>(currentCard.getUUID(), true));
+    ratings.push(new Pair<>(currentCard.getUUID(), true));
     incrementCurrentDeckPosition();
   }
 
@@ -49,7 +49,7 @@ public class SwipeScreenViewModel extends ViewModel {
       return;
     }
     SwipeScreenCard currentCard = cardDeck.get(getCurrentDeckPosition().getValue());
-    ratings.push(new Tuple<>(currentCard.getUUID(), false));
+    ratings.push(new Pair<>(currentCard.getUUID(), false));
     incrementCurrentDeckPosition();
   }
 

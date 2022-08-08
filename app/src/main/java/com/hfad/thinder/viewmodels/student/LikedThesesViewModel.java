@@ -41,7 +41,7 @@ public class LikedThesesViewModel extends ViewModel {
   //----------------private methods--------------------------
   private void loadLikedTheses() {
     ArrayList<ThesisCardItem> thesisCards = new ArrayList<>();
-    HashMap<UUID, Thesis> likedTheses = thesisRepository.getLikedThesisMap();
+    HashMap<UUID, Thesis> likedTheses = thesisRepository.getThesisMap();
     for (Thesis thesis : likedTheses.values()) {
       byte[] byteArray = thesis.getImages().iterator().next().getImage();
       Bitmap image = BitmapFactory.decodeByteArray(byteArray, 0 , byteArray.length);

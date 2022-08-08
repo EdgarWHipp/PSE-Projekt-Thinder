@@ -8,6 +8,7 @@ import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.repository.DegreeRepository;
+import com.hfad.thinder.data.source.repository.SupervisorRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.viewmodels.ViewModelResult;
@@ -20,6 +21,7 @@ public class EditProfileViewModel extends ViewModel {
       Pattern.compile("^\\+?(?:[0-9]⋅?){6,14}[0-9]$");
   private Supervisor supervisor;
   private static final UserRepository userRepository = UserRepository.getInstance();
+  private static final SupervisorRepository supervisorRepository = SupervisorRepository.getInstance();
   private static final DegreeRepository degreeRepository = DegreeRepository.getInstance();
   private MutableLiveData<EditProfileFormState> formState;
   private MutableLiveData<ViewModelResult> safeResult;
@@ -34,7 +36,7 @@ public class EditProfileViewModel extends ViewModel {
   private MutableLiveData<String> institute;
 
 
-  public void safe() {
+  public void save() {
     String degree = academicTitles.getValue().get(selectedAcademicTitlePosition.getValue());
     String buildingString = building.getValue();
     String officeNumber = room.getValue();
@@ -43,7 +45,7 @@ public class EditProfileViewModel extends ViewModel {
     String firstName = getFirstName().getValue();
     String lastName = getLastName().getValue();
     Result result =
-        userRepository.editProfilSupervisor(degree, officeNumber, buildingString, institute,
+            supervisorRepository.editProfilSupervisor(degree, officeNumber, buildingString, institute,
             phoneNumber, firstName,
             lastName);
     if (result.getSuccess()) {

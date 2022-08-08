@@ -3,11 +3,14 @@ package com.hfad.thinder.data.source.remote;
 import com.google.gson.Gson;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.remote.okhttp.SupervisorApiService;
+import com.hfad.thinder.data.source.repository.ThesisRepository;
+import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.data.source.result.Result;
 
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -72,5 +75,21 @@ public class SupervisorRemoteDataSource {
       return new Result("not successful", false);
     }
 
+  }
+  public Result getCreatedThesisFromSupervisor(){
+    try {
+      Pair<CompletableFuture<HashMap<UUID, Thesis>>, CompletableFuture<Result>> result = supervisorApiService.getCreatedThesisFromSupervisorFuture();
+      if (result.getSecond().get().getSuccess()) {
+        ThesisRepository.getInstance().setThesisMap(result.getFirst().get());
+        return result.getSecond().get();
+      } else {
+        return new Result("not successful", false);
+      }
+
+    } catch (ExecutionException e) {
+      return new Result("not successful", false);
+    } catch (InterruptedException e) {
+      return new Result("not successful", false);
+    }
   }
 }

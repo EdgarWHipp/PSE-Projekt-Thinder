@@ -39,7 +39,7 @@ public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPic
 
   public void save() {
     Result result =
-        userRepository.editProfileStudent(getSelectedSet(), firstName.getValue(), lastName.getValue());
+            studentRepository.editProfileStudent(getSelectedSet(), firstName.getValue(), lastName.getValue());
     if (result.getSuccess()) {
       getSafeResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
     } else {
