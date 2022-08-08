@@ -80,10 +80,6 @@ public class SupervisorApiService {
    */
   public CompletableFuture<Result> editSupervisorProfileFuture(String degree, String officeNumber,String building, String institute, String phoneNumber, String firstName, String lastName)
           throws JSONException, IOException {
-    Log.i("", UserRepository.getInstance().
-            getUser().getMail());
-    Log.i("", UserRepository.getInstance().
-            getUser().getPassword());
     CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(
