@@ -65,16 +65,13 @@ public class StudentApiService {
                     new AuthInterceptor(UserRepository.getInstance().
                             getUser().getMail(), UserRepository.getInstance().getPassword()))
             .build();
-    Log.e("",UserRepository.getInstance().getPassword());
-    Log.e("",UserRepository.getInstance().
-            getUser().getMail());
-    //ArrayList<UUID> idOfDegrees = (ArrayList<UUID>) degrees.stream().map(v->v.getId());
-    String uuidAsString = "b5e29596-1668-11ed-861d-0242ac120002";
-
-    JSONObject degreeJson = new JSONObject().put("id", uuidAsString);
     JSONArray degreesJsonArray = new JSONArray();
+    JSONObject degreeJson;
+      for (Degree degree : degrees){
+        degreeJson= new JSONObject().put("id", degree.getId());
+        degreesJsonArray.put(degreeJson);
+      }
 
-    degreesJsonArray.put(degreeJson);
     JSONObject studentJson = new JSONObject()
               .put("degrees", degreesJsonArray)
             .put("firstName",firstName)

@@ -95,7 +95,8 @@ public class SupervisorApiService {
             .put("institute", institute)
             .put("phoneNumber", phoneNumber)
             .put("firstName",firstName)
-            .put("lastName",lastName);
+            .put("lastName",lastName)
+            .put("type","SUPERVISOR");
 
 
     RequestBody body = RequestBody.create(supervisorJson.toString(), JSON);
