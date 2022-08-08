@@ -33,9 +33,9 @@ public class EditProfileFormState {
     this.roomErrorMessage = roomErrorMessage;
     this.phoneNumberErrorMessage = phoneNumberErrorMessage;
     this.instituteErrorMessage = instituteErrorMessage;
-    this.isDataValid = firstNameErrorMessage != null &&
-        lastNameErrorMessage != null && buildingErrorMessage != null && roomErrorMessage != null &&
-        phoneNumberErrorMessage != null && instituteErrorMessage != null;
+    this.isDataValid = firstNameErrorMessage == null &&
+        lastNameErrorMessage == null && buildingErrorMessage == null && roomErrorMessage == null &&
+        phoneNumberErrorMessage == null && instituteErrorMessage == null;
   }
 
   public boolean isDataValid() {

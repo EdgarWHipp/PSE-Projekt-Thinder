@@ -51,10 +51,6 @@ public class VerifyTokenViewModel extends ViewModel {
   }
 
 
-
-
-
-
   //---------------------getter and setter
 
 

@@ -82,6 +82,8 @@ public class ThesisStatisticsFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_thesis_statistics, container, false);
         pieChart = binding.pcStatistics;
         viewModel = new ViewModelProvider(requireActivity()).get(EditThesisViewModel.class);
+        binding.setViewModel(viewModel);
+        binding.setLifecycleOwner(getViewLifecycleOwner());
         return binding.getRoot();
     }
 
@@ -92,7 +94,7 @@ public class ThesisStatisticsFragment extends Fragment {
 
     private void setPieChart(Pair<Integer, Integer> statistics){
         ArrayList<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry(statistics.getSecond(), getContext().getResources().getString(R.string.likes)));
+        entries.add(new PieEntry(statistics.getFirst(), getContext().getResources().getString(R.string.likes)));
         entries.add(new PieEntry(statistics.getSecond(), getContext().getResources().getString(R.string.dislikes)));
         PieDataSet dataSet = new PieDataSet(entries, getContext().getResources().getString(R.string.like_dislike_ratio));
         ArrayList<Integer> colors = new ArrayList<>();

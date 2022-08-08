@@ -14,10 +14,10 @@ import com.hfad.thinder.R;
 import com.hfad.thinder.viewmodels.CourseOfStudyItem;
 import com.hfad.thinder.viewmodels.CoursesOfStudyPicker;
 import com.hfad.thinder.viewmodels.ImageGalleryPicker;
+import com.hfad.thinder.viewmodels.ImageListIterator;
 import com.hfad.thinder.viewmodels.ViewModelResult;
 
 import java.util.ArrayList;
-import java.util.ListIterator;
 
 
 public abstract class ThesisViewModel extends ViewModel implements CoursesOfStudyPicker, ImageGalleryPicker {
@@ -29,7 +29,7 @@ public abstract class ThesisViewModel extends ViewModel implements CoursesOfStud
     private MutableLiveData<String> questions;
 
     private MutableLiveData<Bitmap> currentImage;
-    private ListIterator<Bitmap> iterator;
+    private ImageListIterator<Bitmap> iterator;
     private MutableLiveData<String> selectedCoursesOfStudy;
     private MutableLiveData<ArrayList<CourseOfStudyItem>> coursesOfStudyList;
     private MutableLiveData<ThesisFormState> formState;
@@ -37,15 +37,22 @@ public abstract class ThesisViewModel extends ViewModel implements CoursesOfStud
 
     public abstract void save();
 
+    private static final int COMPRESSION_SIZE = 1000;
+
     public void thesisDataChanged() {
-        getFormState().postValue(new ThesisFormState(checkTitle(), checkTask(), checkMotivation(), checkQuestions(), checkProfessor(), checkCoursesOfStudy(), chekImages()));
+        getFormState().postValue(new ThesisFormState(checkTitle(), checkTask(), checkMotivation(), checkQuestions(), checkProfessor(), checkCoursesOfStudy(), checkImages()));
     }
 
     @Override
-    public void makeCourseOfStudySelection(int position, boolean selection) {
+    public void makeCourseOfStudySelection(String changedCourseOfStudy, boolean selection) {
+
         ArrayList<CourseOfStudyItem> copy = getCoursesOfStudyList().getValue();
-        copy.get(position).setPicked(selection);
-        getCoursesOfStudyList().setValue(copy);
+        for(CourseOfStudyItem courseOfStudyItem : copy){
+            if(courseOfStudyItem.getCourseOfStudy().equals(changedCourseOfStudy)){
+                courseOfStudyItem.setPicked(selection);
+            }
+        }
+        getCoursesOfStudyList().postValue(copy);
     }
 
     @Override
@@ -75,13 +82,11 @@ public abstract class ThesisViewModel extends ViewModel implements CoursesOfStud
     }
 
     public void nextImage(){
-        if(iterator.hasNext())
-            getCurrentImage().setValue(iterator.next());
+        currentImage.setValue(iterator.next());
     }
 
     public void previousImage() {
-        if (iterator.hasPrevious())
-            getCurrentImage().setValue(iterator.previous());
+        currentImage.setValue(iterator.previous());
     }
 
 
@@ -171,10 +176,10 @@ public abstract class ThesisViewModel extends ViewModel implements CoursesOfStud
             ArrayList<Bitmap> images) {
         ArrayList<Bitmap> compressedImages = new ArrayList<>();
         for(Bitmap image : images){
-            compressedImages.add(getResizedBitmap(image, 1000));
+            compressedImages.add(getResizedBitmap(image, COMPRESSION_SIZE));
         }
-        iterator = compressedImages.listIterator();
-        getCurrentImage().setValue(iterator.next());
+        iterator = new ImageListIterator<>(compressedImages);
+        getCurrentImage().setValue(iterator.current());
         getImages().setValue(compressedImages);
     }
 
@@ -256,7 +261,7 @@ public abstract class ThesisViewModel extends ViewModel implements CoursesOfStud
         return null;
     }
 
-    private boolean chekImages() {
+    private boolean checkImages() {
         return getImages().getValue() != null;
     }
 

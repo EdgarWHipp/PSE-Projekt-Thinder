@@ -10,7 +10,7 @@ public interface CoursesOfStudyPicker {
      * @param position points to entry in the list
      * @param selection user's selection
      */
-    public void makeCourseOfStudySelection(int position, boolean selection);
+    public void makeCourseOfStudySelection(String changedCourseOfStudy, boolean selection);
     public ArrayList<CourseOfStudyItem> getElements();
     public MutableLiveData<ArrayList<CourseOfStudyItem>> getCoursesOfStudyList();
 }
