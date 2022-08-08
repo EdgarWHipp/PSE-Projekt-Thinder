@@ -1,14 +1,21 @@
 package com.hfad.thinder.data.source.repository;
 
 import com.hfad.thinder.data.model.Degree;
+import com.hfad.thinder.data.source.remote.DegreeRemoteDataSource;
+import com.hfad.thinder.data.source.result.Result;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DegreeRepository {
     public static DegreeRepository INSTANCE;
-
+    private ArrayList<Degree> allDegrees= new ArrayList<>();
+    private DegreeRemoteDataSource degreeRemoteDataSource = new DegreeRemoteDataSource();
     private DegreeRepository(){}
+
+    public void setAllDegrees(ArrayList<Degree> allDegrees) {
+        this.allDegrees = allDegrees;
+    }
 
     /**
      * @return current instance of DegreeRepository singleton class.
@@ -42,6 +49,14 @@ public class DegreeRepository {
         selectedDegrees.add("Master Germanistik");
         return selectedDegrees;
 
+    }
+
+    /**
+     * Fetches all Degrees from the specified university of the user.
+     * @return Result
+     */
+    public Result fetchAllDegrees(){
+        return degreeRemoteDataSource.fetchAllDegreesFromAUniverisity();
     }
 
 

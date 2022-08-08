@@ -1,11 +1,28 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
+import androidx.annotation.NonNull;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.hfad.thinder.data.model.Degree;
+import com.hfad.thinder.data.model.Thesis;
+import com.hfad.thinder.data.model.User;
+import com.hfad.thinder.data.source.repository.UserRepository;
+import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.data.source.result.Result;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class DegreeApiService {
   private static final MediaType JSON
@@ -16,6 +33,52 @@ public class DegreeApiService {
   private String host="http";
   private String scheme ="10.0.2.2";
   private int port =8080;
+
+    public Pair<CompletableFuture<ArrayList<Degree>>,CompletableFuture<Result>> fetchAllDegreesOfAUniversityFuture(){
+      CompletableFuture<ArrayList<Degree>> degrees= new CompletableFuture<>();
+      CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
+      OkHttpClient clientAuth = new OkHttpClient.Builder()
+              .addInterceptor(
+                      new AuthInterceptor(UserRepository.getInstance().
+                              getUser().getMail(), UserRepository.getInstance().getPassword()))
+              .build();
+      HttpUrl url = new HttpUrl.Builder()
+              .scheme(scheme)
+              .host(host)
+              .port(port)
+              .addPathSegment("university")
+              .addPathSegment(UserRepository.getInstance().getUser().getUniversityId().toString())
+              .addPathSegment("degrees")
+              .build();
+      Request request = new Request.Builder()
+              .url(url)
+              .get()
+              .build();
+      Call call =  clientAuth.newCall(request);
+      call.enqueue(new Callback() {
+        @Override
+        public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+        }
+
+        @Override
+        public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+          if(response.isSuccessful()){
+            resultCompletableFuture.complete(new Result(true));
+            String body = response.body().string();
+            Gson gson = new Gson();
+
+            ArrayList<Degree> thesisList = (ArrayList<Degree>)gson.fromJson(response.body().string(), new TypeToken<ArrayList<Degree>>(){}.getType());
+            degrees.complete(thesisList);
+          }else{
+            resultCompletableFuture.complete(new Result("not successful",false));
+          }
+
+
+        }
+      });
+      return new Pair<CompletableFuture<ArrayList<Degree>>,CompletableFuture<Result>>(degrees,resultCompletableFuture);
+  }
 
 
 }

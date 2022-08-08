@@ -37,6 +37,16 @@ public final class UserRepository {
     private USERTYPE type = null;
     private User user = null;
 
+    public Result getResult() {
+        return result;
+    }
+
+    public void setResult(Result result) {
+        this.result = result;
+    }
+
+    private Result result=null;
+
     public boolean isProfileComplete() {
         return profileComplete;
     }
@@ -139,6 +149,9 @@ public final class UserRepository {
      */
     public Result register(String firstName, String secondName, String password, String mail)  {
         return usersDataSource.createNewUser(new UserCreation(firstName, secondName, mail, password));
+
+
+
 
     }
 

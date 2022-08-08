@@ -35,7 +35,7 @@ public class SupervisorRemoteDataSource {
    * @param degree
    * @param institute
    * @param phoneNumber
-   * @return Result
+   * @return Result that includes a success value and an error message
    */
   public Result extendUserToSupervisor( String degree, String officeNumber, String building, String institute, String phoneNumber, String firstName, String lastName) {
     try {
@@ -43,15 +43,15 @@ public class SupervisorRemoteDataSource {
       CompletableFuture<Result> result = supervisorApiService.editSupervisorProfileFuture(degree, officeNumber,building, institute, phoneNumber, firstName, lastName);
       return result.get(10000, TimeUnit.SECONDS);
     } catch (JSONException j) {
-      return new Result("error", false);
+      return new Result("not successful", false);
     } catch (IOException i) {
-      return new Result("error", false);
+      return new Result("not successful", false);
     } catch (ExecutionException e) {
-      return new Result("error", false);
+      return new Result("not successful", false);
     } catch (InterruptedException e) {
-      return new Result("error", false);
+      return new Result("not successful", false);
     } catch (TimeoutException e) {
-      return new Result("error", false);
+      return new Result("not successful", false);
     }
 
   }
@@ -76,6 +76,11 @@ public class SupervisorRemoteDataSource {
     }
 
   }
+
+  /**
+   * Handles the exceptions for the getCreatedThesisFromSupervisorFuture call in der SupervisorApiService Klasse.
+   * @return Result that includes a success value and an error message
+   */
   public Result getCreatedThesisFromSupervisor(){
     try {
       Pair<CompletableFuture<HashMap<UUID, Thesis>>, CompletableFuture<Result>> result = supervisorApiService.getCreatedThesisFromSupervisorFuture();

@@ -70,11 +70,11 @@ public class ThesisRemoteDataSource {
                 return new Pair<>(result.getFirst().get(10000, TimeUnit.SECONDS),result.getSecond().get(10000, TimeUnit.SECONDS));
 
             } catch (ExecutionException e) {
-                return new Pair<>(null,new Result("error", false));
+                return new Pair<>(null,new Result("not successful", false));
             } catch (InterruptedException e) {
-                return new Pair<>(null,new Result("error", false));
+                return new Pair<>(null,new Result("not successful", false));
             } catch (TimeoutException e) {
-                return new Pair<>(null,new Result("error", false));
+                return new Pair<>(null,new Result("not successful", false));
             }
     }
 
@@ -83,7 +83,7 @@ public class ThesisRemoteDataSource {
     /**
      * Handles the errors that occur during the HTTP DELETE request that deletes the thesis (specified through the id)
      * @param thesisId
-     * @return
+     * @return Result that includes a success value and an error message
      */
     public Result deleteThesis(final UUID thesisId){
         try{
@@ -103,7 +103,7 @@ public class ThesisRemoteDataSource {
     /**
      * This function handles all the exceptions that the removeALikedThesisFromAStudentFuture from the ThesisApiService function throws.
      * @param thesisId
-     * @return Result
+     * @return Result that includes a success value and an error message
      */
     public Result removeLikedThesisFromStudent(UUID thesisId){
         try{

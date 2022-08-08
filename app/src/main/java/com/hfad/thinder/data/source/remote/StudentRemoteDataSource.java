@@ -47,17 +47,18 @@ public class StudentRemoteDataSource {
 
 
     } catch (IOException e) {
-      return new Result("error", false);
+      return new Result("not successful", false);
     } catch (JSONException j) {
-      return new Result("error", false);
+      return new Result("not successful", false);
     } catch (ExecutionException e) {
-      return new Result("error", false);
+      return new Result("not successful", false);
     } catch (InterruptedException e) {
-      return new Result("error", false);
+      return new Result("not successful", false);
     } catch (TimeoutException e) {
-      return new Result("error", false);
+      return new Result("not successful", false);
     }
   }
+  //useless?
   public Pair<List<Thesis>,Result> getLikedTheses(final UUID id){
     try {
       Pair<CompletableFuture<List<Thesis>>,CompletableFuture<Result>> result = okHttpService.getLikedThesesFuture(id);
@@ -65,13 +66,19 @@ public class StudentRemoteDataSource {
 
 
     } catch (ExecutionException e) {
-      return new Pair<>(null,new Result("error", false));
+      return new Pair<>(null,new Result("not successful", false));
     } catch (InterruptedException e) {
-      return new Pair<>(null,new Result("error", false));
+      return new Pair<>(null,new Result("not successful", false));
     } catch (TimeoutException e) {
-      return new Pair<>(null,new Result("error", false));
+      return new Pair<>(null,new Result("not successful", false));
     }
   }
+
+  /**
+   * Handles the exceptions for the rateThesisFuture call in the StudentApiService.
+   * @param ratings
+   * @return
+   */
   public Result rateThesis(final Collection<Pair<UUID,Boolean>> ratings){
     try {
       CompletableFuture<Result> result =
@@ -80,13 +87,13 @@ public class StudentRemoteDataSource {
 
 
     } catch (JSONException j) {
-      return new Result("error", false);
+      return new Result("not successful", false);
     } catch (ExecutionException e) {
-      return new Result("error", false);
+      return new Result("not successful", false);
     } catch (InterruptedException e) {
-      return new Result("error", false);
+      return new Result("not successful", false);
     } catch (TimeoutException e) {
-      return new Result("error", false);
+      return new Result("not successful", false);
     }
   }
   /**

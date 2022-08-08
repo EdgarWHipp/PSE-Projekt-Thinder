@@ -18,6 +18,7 @@ import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.data.source.result.Pair;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -64,19 +65,21 @@ public class StudentApiService {
                     new AuthInterceptor(UserRepository.getInstance().
                             getUser().getMail(), UserRepository.getInstance().getPassword()))
             .build();
-
+    Log.e("",UserRepository.getInstance().getPassword());
+    Log.e("",UserRepository.getInstance().
+            getUser().getMail());
     //ArrayList<UUID> idOfDegrees = (ArrayList<UUID>) degrees.stream().map(v->v.getId());
     String uuidAsString = "b5e29596-1668-11ed-861d-0242ac120002";
 
-    UUID sameUuid = UUID.fromString(uuidAsString);
-    ArrayList<UUID> ids = new ArrayList<>();
-    ids.add(sameUuid);
-    ids.add(null);
+    JSONObject degreeJson = new JSONObject().put("id", uuidAsString);
+    JSONArray degreesJsonArray = new JSONArray();
+
+    degreesJsonArray.put(degreeJson);
     JSONObject studentJson = new JSONObject()
-              .put("degrees", ids)
+              .put("degrees", degreesJsonArray)
             .put("firstName",firstName)
-            .put("lastName",lastName);
-  Log.e("",studentJson.toString());
+            .put("lastName",lastName)
+            .put("type",UserRepository.getInstance().getType().toString());
     RequestBody body = RequestBody.create(studentJson.toString(), JSON);
 
     HttpUrl url = new HttpUrl.Builder()
@@ -90,6 +93,7 @@ public class StudentApiService {
             .url(url)
             .put(body)
             .build();
+    Log.e("",studentJson.toString());
     Call call = clientAuth.newCall(request);
     call.enqueue(new Callback() {
       @Override

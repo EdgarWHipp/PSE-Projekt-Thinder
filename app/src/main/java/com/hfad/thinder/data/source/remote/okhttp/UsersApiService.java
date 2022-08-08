@@ -229,7 +229,7 @@ public class UsersApiService {
         UserRepository.getInstance()
                 .setUser(new User(null,null,false,null,
                         user.getPassword(),user.getMail(),user.getFirstName(),user.getLastName()));
-
+        UserRepository.getInstance().setPassword(user.getPassword());
 
         RequestBody body = RequestBody.create(userJson.toString(), JSON);
 
@@ -444,6 +444,8 @@ public class UsersApiService {
     public void setPort(int port) {
         this.port = port;
     }
+
+
 }
 
 
