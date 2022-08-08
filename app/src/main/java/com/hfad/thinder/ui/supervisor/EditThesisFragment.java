@@ -147,7 +147,7 @@ public class EditThesisFragment extends Fragment{
                     binding.etInsertSupervisingProf.setError(resources.getString(editThesisFormState.getProfessor()));
                 }
                 if (editThesisFormState.getCourseOfStudy() != null) {
-                    binding.tvCoursesOfStudy.setError(resources.getString(editThesisFormState.getCourseOfStudy()));
+                    //binding.tvCoursesOfStudy.setError(resources.getString(editThesisFormState.getCourseOfStudy())); //todo find fix
                 }
                 if(editThesisFormState.getQuestionsErrorMessage() != null){
                     binding.etInsertQuestions.setError(resources.getString(editThesisFormState.getQuestionsErrorMessage()));

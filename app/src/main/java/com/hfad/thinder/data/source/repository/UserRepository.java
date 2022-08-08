@@ -48,7 +48,8 @@ public final class UserRepository {
     private Result result=null;
 
     public boolean isProfileComplete() {
-        return profileComplete;
+        //return profileComplete; todo remove slashes
+        return true;
     }
 
     public void setProfileComplete(boolean profileComplete) {

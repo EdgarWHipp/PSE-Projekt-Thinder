@@ -78,7 +78,7 @@ public abstract class CoursesOfStudyFragment extends Fragment {
         final Observer<ArrayList<CourseOfStudyItem>> coursesOfStudyItemsObserver = new Observer<ArrayList<CourseOfStudyItem>>() {
             @Override
             public void onChanged(ArrayList<CourseOfStudyItem> courseOfStudyItems) {
-                if(!mRecyclerView.isComputingLayout())
+                if(!mRecyclerView.isComputingLayout() && !mRecyclerView.isShown())
                     mAdapter.setElements(viewModel.getCoursesOfStudyList().getValue());
             }
         };

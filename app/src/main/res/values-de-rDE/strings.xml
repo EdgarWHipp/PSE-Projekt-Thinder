@@ -68,6 +68,7 @@
     <string name="like_dislike_ratio">Like/Dislike-Verhältnis</string>
     <string name="likes">Likes</string>
     <string name="dislikes">Dislikes</string>
+    <string name="total_rating_number">Gesamtanzahl der Bewertungen:</string>
 
     <!-- student strings -->
     <string name="swipe_screen">Swipe Seite</string>

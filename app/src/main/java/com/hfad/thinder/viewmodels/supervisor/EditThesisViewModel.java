@@ -30,6 +30,7 @@ public class EditThesisViewModel extends ThesisViewModel {
   private static final DegreeRepository degreeRepository = DegreeRepository.getInstance();
   private static final ThesisRepository thesisRepository = ThesisRepository.getInstance();
   private static final UserRepository userRepository = UserRepository.getInstance();
+  private MutableLiveData<String> totalRating;
   private UUID thesisId;
   // likes, dislikes
   private Pair<Integer, Integer> thesisStatistics;
@@ -60,6 +61,13 @@ public class EditThesisViewModel extends ThesisViewModel {
 
 
   //------------------getter and setter-----------------------------------------------------
+
+  public MutableLiveData<String> getTotalRating() {
+    if (totalRating == null) {
+      totalRating = new MutableLiveData<String>();
+    }
+    return totalRating;
+  }
 
 
   public void setThesisId(UUID thesisId) {
@@ -108,6 +116,7 @@ public class EditThesisViewModel extends ThesisViewModel {
     getImages().setValue(convertImages(thesis.getImages())); //todo: uncomment
 
     thesisStatistics = thesisRepository.getThesisStatistics(thesisId); //todo set actual uuid
+    getTotalRating().postValue(String.valueOf(thesisStatistics.getFirst() + thesisStatistics.getSecond()));
 
   }
 

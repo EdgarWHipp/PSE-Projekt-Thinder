@@ -72,6 +72,7 @@
     <string name="open_image_picker_text">Making a new selection will override the previous one</string>
     <string name="open">Open</string>
     <string name="your_image_selection">Your image selection</string>
+    <string name="total_rating_number">Total rating count:</string>
 
     <!-- Student Strings -->
     <string name="swipe_screen">Swipe screen</string>

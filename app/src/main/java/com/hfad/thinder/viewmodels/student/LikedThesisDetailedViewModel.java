@@ -15,6 +15,7 @@ import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.viewmodels.ImageGalleryPicker;
+import com.hfad.thinder.viewmodels.ImageListIterator;
 import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.viewmodels.ViewModelResultTypes;
 
@@ -28,7 +29,7 @@ public class LikedThesisDetailedViewModel extends ViewModel implements ImageGall
 
   private static final ThesisRepository thesisRepository = ThesisRepository.getInstance();
   private ArrayList<Bitmap> images;
-  private ListIterator<Bitmap> iterator;
+  private ImageListIterator<Bitmap> iterator;
   private MutableLiveData<String> task;
   private MutableLiveData<String> motivation;
   private MutableLiveData<String> coursesOfStudy;
@@ -65,13 +66,11 @@ public class LikedThesisDetailedViewModel extends ViewModel implements ImageGall
   }
 
   public void nextImage(){
-    if(iterator.hasNext())
       getCurrentImage().setValue(iterator.next());
   }
 
   public void previousImage(){
-    if(iterator.hasPrevious())
-      getCurrentImage().setValue(iterator.previous());
+    getCurrentImage().setValue(iterator.previous());
   }
   //todo: remove images
   public void setThesisId(UUID thesisId, ArrayList<Bitmap> images) {
@@ -170,7 +169,7 @@ public class LikedThesisDetailedViewModel extends ViewModel implements ImageGall
     Thesis thesis = generateThesis();//Todo löschen
     Supervisor supervisor = thesis.getSupervisor();
     //images = convertImages(thesis.getImages()); //todo: uncomment
-    iterator = images.listIterator();
+    iterator = new ImageListIterator<>(images);
     getTask().setValue(thesis.getTask());
     getMotivation().setValue(thesis.getMotivation());
     coursesOfStudyList = coursesOfStudyAdapter(thesis.getPossibleDegrees());
@@ -181,7 +180,7 @@ public class LikedThesisDetailedViewModel extends ViewModel implements ImageGall
     getPhoneNumber().setValue(supervisor.getPhoneNumber());
     getSupervisingProf().setValue(thesis.getSupervisingProfessor());
     getInstitute().setValue(supervisor.getInstitute());
-    getCurrentImage().setValue(iterator.next());
+    getCurrentImage().setValue(iterator.current());
 
   }
   // todo: remove

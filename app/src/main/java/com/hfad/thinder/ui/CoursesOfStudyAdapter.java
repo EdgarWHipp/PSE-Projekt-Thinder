@@ -1,5 +1,8 @@
 package com.hfad.thinder.ui;
 
+import static android.content.ContentValues.TAG;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +61,8 @@ public class CoursesOfStudyAdapter extends RecyclerView.Adapter<CoursesOfStudyAd
         holder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                viewModel.makeCourseOfStudySelection(currentPosition, b);
+                Log.i(TAG, "onCheckedChanged: " + elements.get(currentPosition).getCourseOfStudy() + " " + b);
+                viewModel.makeCourseOfStudySelection(elements.get(currentPosition).getCourseOfStudy(), b);
             }
         });
     }

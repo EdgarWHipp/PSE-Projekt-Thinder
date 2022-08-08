@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.hfad.thinder.viewmodels.supervisor.EditThesisViewModel" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
@@ -8,7 +13,27 @@
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pcStatistics"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toTopOf="@id/etTotalRatingNumber"/>
+        <TextView
+            android:id="@+id/tvTotalRatingNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/total_rating_number"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/etTotalRatingNumber"/>
+        <TextView
+            android:id="@+id/etTotalRatingNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.totalRating, default=0}"
+            android:textAlignment="textEnd"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/tvTotalRatingNumber"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

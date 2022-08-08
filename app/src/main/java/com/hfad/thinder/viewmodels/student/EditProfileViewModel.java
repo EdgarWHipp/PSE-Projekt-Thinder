@@ -63,12 +63,18 @@ public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPic
         new EditProfileFormState(checkFirstName(), checkLastName(), checkCoursesOfStudy()));
   }
 
-  public void makeCourseOfStudySelection(int position, boolean selection){
-    ArrayList<CourseOfStudyItem> copy = getCoursesOfStudyList().getValue();
-    copy.get(position).setPicked(selection);
-    getCoursesOfStudyList().setValue(copy);
+  @Override
+  public void makeCourseOfStudySelection(String changedCourseOfStudy, boolean selection) {
 
+    ArrayList<CourseOfStudyItem> copy = getCoursesOfStudyList().getValue();
+    for(CourseOfStudyItem courseOfStudyItem : copy){
+      if(courseOfStudyItem.getCourseOfStudy().equals(changedCourseOfStudy)){
+        courseOfStudyItem.setPicked(selection);
+      }
+    }
+    getCoursesOfStudyList().postValue(copy);
   }
+
 
   @Override
   public ArrayList<CourseOfStudyItem> getElements() {

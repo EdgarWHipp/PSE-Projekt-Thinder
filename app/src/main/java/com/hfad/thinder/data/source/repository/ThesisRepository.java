@@ -157,7 +157,7 @@ public final class ThesisRepository {
     }
 
     public Pair<Integer, Integer> getThesisStatistics(UUID thesisId){
-        return new Pair<>(10, 20);
+        return new Pair<>(1, 99);
     }
 
     public ArrayList<String> getSelectedDegrees() {
