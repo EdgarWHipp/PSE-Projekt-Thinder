@@ -216,6 +216,7 @@
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/ic_save"
                 android:onClick="@{() -> viewmodel.safe()}"
+                android:enabled="@{viewmodel.formState.dataValid}"
                 android:text="@string/save"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
