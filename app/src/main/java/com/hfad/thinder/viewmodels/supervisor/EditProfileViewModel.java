@@ -242,7 +242,13 @@ public class EditProfileViewModel extends ViewModel {
   }
 
   private void loadRoom() {
-    //Todo: lade aus Repo
+    if (supervisor == null) {
+      supervisor = (Supervisor) userRepository.getUser();
+     }
+    if (supervisor != null) {
+      room.setValue(supervisor.getOfficeNumber());
+    }
+
   }
 
   private void loadInstitute() {
