@@ -10,7 +10,7 @@ import com.hfad.thinder.data.source.remote.StudentRemoteDataSource;
 import com.hfad.thinder.data.source.remote.SupervisorRemoteDataSource;
 import com.hfad.thinder.data.source.remote.ThesisRemoteDataSource;
 import com.hfad.thinder.data.source.result.Result;
-import com.hfad.thinder.data.source.result.Tuple;
+import com.hfad.thinder.data.source.result.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -85,7 +85,7 @@ public final class ThesisRepository {
    * Returns a hashmap of all theses that the currently active student has liked.
    * @return HashMap<UUID, Thesis>
    */
-    public HashMap<UUID, Thesis> getLikedThesisMap() {
+    public HashMap<UUID, Thesis> getThesisMap() {
         return thesisMap;
     }
 
@@ -118,9 +118,9 @@ public final class ThesisRepository {
     public Result addThesis(String supervisingProf, String name, String motivation, String task, String form, Set<Degree> degrees , Set<Image> images) {
         return thesisRemoteDataSource.createNewThesis(new Thesis(supervisingProf,name,motivation,task,new Form(form),images,(Supervisor) UserRepository.getInstance().getUser(),degrees));
     }
-    //Das Viewmodel holt diese ja eigentlich direkt aus dem Model?
-    // Nutzlos
-    public Tuple<Thesis,Result> getThesis(final UUID id){
+
+
+    public Pair<Thesis,Result> getThesis(final UUID id){
         return thesisRemoteDataSource.getNewThesis(id);
     }
 
@@ -156,8 +156,8 @@ public final class ThesisRepository {
       return thesisRemoteDataSource.removeLikedThesisFromStudent(thesisId);
     }
 
-    public Tuple<Integer, Integer> getThesisStatistics(UUID thesisId){
-        return new Tuple<>(10, 20);
+    public Pair<Integer, Integer> getThesisStatistics(UUID thesisId){
+        return new Pair<>(10, 20);
     }
 
     public ArrayList<String> getSelectedDegrees() {

@@ -13,7 +13,7 @@ import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.source.repository.DegreeRepository;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
-import com.hfad.thinder.data.source.result.Tuple;
+import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.viewmodels.CourseOfStudyItem;
 import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.data.model.Degree;
@@ -32,7 +32,7 @@ public class EditThesisViewModel extends ThesisViewModel {
   private static final UserRepository userRepository = UserRepository.getInstance();
   private UUID thesisId;
   // likes, dislikes
-  private Tuple<Integer, Integer> thesisStatistics;
+  private Pair<Integer, Integer> thesisStatistics;
   private MutableLiveData<ViewModelResult> deleteThesisResult;
 
 
@@ -79,7 +79,7 @@ public class EditThesisViewModel extends ThesisViewModel {
   }
 
 
-  public Tuple<Integer, Integer> getThesisStatistics() {
+  public Pair<Integer, Integer> getThesisStatistics() {
     return thesisStatistics;
   }
 

@@ -18,7 +18,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.hfad.thinder.R;
-import com.hfad.thinder.data.source.result.Tuple;
+import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.databinding.FragmentThesisStatisticsBinding;
 import com.hfad.thinder.viewmodels.supervisor.EditThesisViewModel;
 
@@ -90,10 +90,10 @@ public class ThesisStatisticsFragment extends Fragment {
         setPieChart(viewModel.getThesisStatistics());
     }
 
-    private void setPieChart(Tuple<Integer, Integer> statistics){
+    private void setPieChart(Pair<Integer, Integer> statistics){
         ArrayList<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry(statistics.x, getContext().getResources().getString(R.string.likes)));
-        entries.add(new PieEntry(statistics.y, getContext().getResources().getString(R.string.dislikes)));
+        entries.add(new PieEntry(statistics.getSecond(), getContext().getResources().getString(R.string.likes)));
+        entries.add(new PieEntry(statistics.getSecond(), getContext().getResources().getString(R.string.dislikes)));
         PieDataSet dataSet = new PieDataSet(entries, getContext().getResources().getString(R.string.like_dislike_ratio));
         ArrayList<Integer> colors = new ArrayList<>();
         colors.add(getContext().getResources().getColor(R.color.green_400));

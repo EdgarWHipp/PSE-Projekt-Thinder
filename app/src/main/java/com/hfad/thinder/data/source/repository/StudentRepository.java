@@ -3,8 +3,8 @@ package com.hfad.thinder.data.source.repository;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.source.remote.StudentRemoteDataSource;
 import com.hfad.thinder.data.source.remote.ThesisRemoteDataSource;
+import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.data.source.result.Result;
-import com.hfad.thinder.data.source.result.Tuple;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,7 +37,7 @@ public class StudentRepository {
    * @param ratings
    * @return Result
    */
-  public Result rateThesis(final Collection<Tuple<UUID,Boolean>> ratings){
+  public Result rateThesis(final Collection<Pair<UUID,Boolean>> ratings){
     return studentRemoteDataSource.rateThesis(ratings);
   }
 
@@ -52,7 +52,7 @@ public class StudentRepository {
    * Gets all already liked thesis from the student.
    * @return
    */
-  public Result fetchAllLikedThesisForAStudent(){
+  public Result fetchAllLikedThesis(){
     return studentRemoteDataSource.getAllLikedThesesFromAStudent();
   }
   /**
@@ -60,5 +60,14 @@ public class StudentRepository {
    */
   public Result fetchAllSwipeableThesis(){
     return studentRemoteDataSource.getAllThesisForAStudent();
+  }
+  /**
+   * Extends a user to a student (this occurs during the edit profile screen where the user has to input aditional information)
+   *
+   * @param degrees
+   * @return Result
+   */
+  public Result editProfileStudent(ArrayList<Degree> degrees, String firstName, String lastName) {
+    return studentRemoteDataSource.extendUserToStudent(degrees,firstName,lastName);
   }
 }

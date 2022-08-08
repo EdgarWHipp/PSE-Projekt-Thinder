@@ -4,21 +4,26 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hfad.thinder.data.model.Login;
 import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
-import com.hfad.thinder.data.source.result.Tuple;
+import com.hfad.thinder.data.source.result.Pair;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -196,25 +201,24 @@ public class SupervisorApiService {
   }
 
   /**
-   *
-   * @return Tuple<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>>
+   *  Performs the actual HTTP GET request that gets all already created theses from a supervisor.
+   * @return Pair<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>>
    */
-  public Tuple<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>> getCreatedThesisFromSupervisorFuture(){
+  public Pair<CompletableFuture<HashMap<UUID,Thesis>>,CompletableFuture<Result>> getCreatedThesisFromSupervisorFuture(){
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(new AuthInterceptor
                     (UserRepository.getInstance().getUser().getMail(),
                             UserRepository.getInstance().getUser().getPassword()))
             .build();
     CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
-    CompletableFuture<ArrayList<Thesis>> completableFuture = new CompletableFuture<>();
+    CompletableFuture<HashMap<UUID,Thesis>> thesisHashmap = new CompletableFuture<>();
 
     HttpUrl url = new HttpUrl.Builder()
             .scheme(scheme)
             .host(host)
             .port(port)
-            .addPathSegment("thesis").build();
+            .addPathSegment("theses").build();
 
-    //RequestBody body = RequestBody.create(thesisJSON.toString(), JSON);
     Request request = new Request.Builder()
             .url(url)
             .get()
@@ -223,14 +227,26 @@ public class SupervisorApiService {
     call.enqueue(new Callback() {
       @Override
       public void onFailure(@NonNull Call call, @NonNull IOException e) {
+        resultCompletableFuture.complete(new Result("not successful",false));
 
       }
 
       @Override
       public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+        if(response.isSuccessful()){
 
+          resultCompletableFuture.complete(new Result(true));
+            Gson gson = new Gson();
+            String body = response.body().string();
+            ArrayList<Thesis> theses  = gson.fromJson(body, new TypeToken<List<Thesis>>(){}.getType());
+            HashMap<UUID,Thesis> thesisHashMap = (HashMap<UUID, Thesis>) theses.stream().collect(Collectors.toMap(v->v.getId(), v->v));
+            resultCompletableFuture.complete(new Result(true));
+            thesisHashmap.complete(thesisHashMap);
+        }else{
+          resultCompletableFuture.complete(new Result("not successful",false));
+        }
       }
     });
-    return new Tuple<>(completableFuture,resultCompletableFuture);
+    return new Pair<>(thesisHashmap,resultCompletableFuture);
   }
 }

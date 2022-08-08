@@ -6,7 +6,7 @@ import com.hfad.thinder.data.source.remote.okhttp.UsersApiService;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
-import com.hfad.thinder.data.source.result.Tuple;
+import com.hfad.thinder.data.source.result.Pair;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -62,19 +62,19 @@ public class ThesisRemoteDataSource {
     /**
      * Handles the errors that occur during the HTTP GET request that gets a thesis with a specific id from the backend.
      * @param id
-     * @return A tuple of both the fetched thesis object and a Result object
+     * @return A Pair of both the fetched thesis object and a Result object
      */
-    public Tuple<Thesis,Result> getNewThesis(final UUID id){
+    public Pair<Thesis,Result> getNewThesis(final UUID id){
             try {
-                Tuple<CompletableFuture<Thesis>,CompletableFuture<Result>> result = okHttpService.getSpecificThesisFuture(id);
-                return new Tuple<>(result.x.get(10000, TimeUnit.SECONDS),result.y.get(10000, TimeUnit.SECONDS));
+                Pair<CompletableFuture<Thesis>,CompletableFuture<Result>> result = okHttpService.getSpecificThesisFuture(id);
+                return new Pair<>(result.getFirst().get(10000, TimeUnit.SECONDS),result.getSecond().get(10000, TimeUnit.SECONDS));
 
             } catch (ExecutionException e) {
-                return new Tuple<>(null,new Result("error", false));
+                return new Pair<>(null,new Result("error", false));
             } catch (InterruptedException e) {
-                return new Tuple<>(null,new Result("error", false));
+                return new Pair<>(null,new Result("error", false));
             } catch (TimeoutException e) {
-                return new Tuple<>(null,new Result("error", false));
+                return new Pair<>(null,new Result("error", false));
             }
     }
 

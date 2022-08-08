@@ -16,7 +16,7 @@ import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
-import com.hfad.thinder.data.source.result.Tuple;
+import com.hfad.thinder.data.source.result.Pair;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -114,7 +114,7 @@ public class StudentApiService {
     });
     return resultCompletableFuture;
   }
-  public Tuple<CompletableFuture<List<UUID>>,CompletableFuture<Result>> getSwipeOrder(final UUID id){
+  public Pair<CompletableFuture<List<UUID>>,CompletableFuture<Result>> getSwipeOrder(final UUID id){
     CompletableFuture<Result> resultCompletableFuture=new CompletableFuture<>();
     CompletableFuture<List<UUID>> listOfIds = new CompletableFuture<>();
     OkHttpClient clientAuth = new OkHttpClient.Builder()
@@ -160,7 +160,7 @@ public class StudentApiService {
    * @param id
    * @return
    */
-  public Tuple<CompletableFuture<List<Thesis>>,CompletableFuture<Result>> getLikedThesesFuture(final UUID id){
+  public Pair<CompletableFuture<List<Thesis>>,CompletableFuture<Result>> getLikedThesesFuture(final UUID id){
     CompletableFuture<List<Thesis>> listCompletableFuture = new CompletableFuture<>();
     CompletableFuture<Result> resultCompletableFuture= new CompletableFuture<>();
     OkHttpClient clientAuth = new OkHttpClient.Builder()
@@ -201,7 +201,7 @@ public class StudentApiService {
         }
       }
     });
-    return new Tuple<>(listCompletableFuture,resultCompletableFuture);
+    return new Pair<>(listCompletableFuture,resultCompletableFuture);
   }
 
   public void setScheme(String scheme) {
@@ -221,7 +221,7 @@ public class StudentApiService {
    * @return CompletableFuture<Result> The result is later fetched in the StudentRemoteDataSource class.
    * @throws JSONException
    */
-  public CompletableFuture<Result> rateThesisFuture(final Collection<Tuple<UUID,Boolean>> ratings) throws JSONException {
+  public CompletableFuture<Result> rateThesisFuture(final Collection<Pair<UUID,Boolean>> ratings) throws JSONException {
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(
                     new AuthInterceptor(UserRepository.getInstance().
@@ -304,9 +304,9 @@ public class StudentApiService {
   }
   /**
    * Get all already liked thesis for the student. If the response is successful, set the Hashmap in the ThesisRepository for the viewmodel.
-   * @return Tuple<CompletableFuture<HashMap<UUID,Thesis>>, CompletableFuture<Result>>
+   * @return Pair<CompletableFuture<HashMap<UUID,Thesis>>, CompletableFuture<Result>>
    */
-  public Tuple<CompletableFuture<HashMap<UUID,Thesis>>, CompletableFuture<Result>> getAllPositiveRatedThesesFuture() {
+  public Pair<CompletableFuture<HashMap<UUID,Thesis>>, CompletableFuture<Result>> getAllPositiveRatedThesesFuture() {
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(new AuthInterceptor
                     (UserRepository.getInstance().getUser().getMail(),
@@ -352,15 +352,15 @@ public class StudentApiService {
       }
     });
 
-    Tuple<CompletableFuture<HashMap<UUID,Thesis>>, CompletableFuture<Result>> resultCompletableFutureTuple
-            = new Tuple<>(thesisListFuture, resultCompletableFuture);
-    return resultCompletableFutureTuple;
+    Pair<CompletableFuture<HashMap<UUID,Thesis>>, CompletableFuture<Result>> resultCompletableFuturePair
+            = new Pair<>(thesisListFuture, resultCompletableFuture);
+    return resultCompletableFuturePair;
   }
   /**
    * Returns all theses that a student swipes, based on a certain critiera (currently just implemented as random in the backend)
-   * @return Tuple<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>>
+   * @return Pair<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>>
    */
-  public Tuple<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>> getAllThesesForTheStudentFuture(){
+  public Pair<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>> getAllThesesForTheStudentFuture(){
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(new AuthInterceptor
                     (UserRepository.getInstance().getUser().getMail(),
@@ -409,7 +409,7 @@ public class StudentApiService {
       }
 
     });
-    return new Tuple<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>>(resultThesisFuture,resultCompletableFuture);
+    return new Pair<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>>(resultThesisFuture,resultCompletableFuture);
   }
 
 }

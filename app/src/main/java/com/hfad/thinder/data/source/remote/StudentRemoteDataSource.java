@@ -7,7 +7,7 @@ import com.hfad.thinder.data.source.remote.okhttp.StudentApiService;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
-import com.hfad.thinder.data.source.result.Tuple;
+import com.hfad.thinder.data.source.result.Pair;
 
 import org.json.JSONException;
 
@@ -58,21 +58,21 @@ public class StudentRemoteDataSource {
       return new Result("error", false);
     }
   }
-  public Tuple<List<Thesis>,Result> getLikedTheses(final UUID id){
+  public Pair<List<Thesis>,Result> getLikedTheses(final UUID id){
     try {
-      Tuple<CompletableFuture<List<Thesis>>,CompletableFuture<Result>> result = okHttpService.getLikedThesesFuture(id);
-      return new Tuple<>(result.x.get(10000,TimeUnit.SECONDS),result.y.get(10000, TimeUnit.SECONDS));
+      Pair<CompletableFuture<List<Thesis>>,CompletableFuture<Result>> result = okHttpService.getLikedThesesFuture(id);
+      return new Pair<>(result.getFirst().get(10000,TimeUnit.SECONDS),result.getSecond().get(10000, TimeUnit.SECONDS));
 
 
     } catch (ExecutionException e) {
-      return new Tuple<>(null,new Result("error", false));
+      return new Pair<>(null,new Result("error", false));
     } catch (InterruptedException e) {
-      return new Tuple<>(null,new Result("error", false));
+      return new Pair<>(null,new Result("error", false));
     } catch (TimeoutException e) {
-      return new Tuple<>(null,new Result("error", false));
+      return new Pair<>(null,new Result("error", false));
     }
   }
-  public Result rateThesis(final Collection<Tuple<UUID,Boolean>> ratings){
+  public Result rateThesis(final Collection<Pair<UUID,Boolean>> ratings){
     try {
       CompletableFuture<Result> result =
               okHttpService.rateThesisFuture(ratings);
@@ -95,10 +95,10 @@ public class StudentRemoteDataSource {
    */
   public Result getAllLikedThesesFromAStudent() {
     try {
-      Tuple<CompletableFuture<HashMap<UUID, Thesis>>, CompletableFuture<Result>> result = okHttpService.getAllPositiveRatedThesesFuture();
-      if (result.y.get().getSuccess()) {
-        ThesisRepository.getInstance().setThesisMap(result.x.get());
-        return result.y.get();
+      Pair<CompletableFuture<HashMap<UUID, Thesis>>, CompletableFuture<Result>> result = okHttpService.getAllPositiveRatedThesesFuture();
+      if (result.getSecond().get().getSuccess()) {
+        ThesisRepository.getInstance().setThesisMap(result.getFirst().get());
+        return result.getSecond().get();
       } else {
         return new Result("not successful", false);
       }
@@ -115,10 +115,10 @@ public class StudentRemoteDataSource {
    */
   public Result getAllThesisForAStudent(){
     try{
-      Tuple<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>> result = okHttpService.getAllThesesForTheStudentFuture();
-      if(result.y.get().getSuccess()){
-        ThesisRepository.getInstance().setTheses(result.x.get());
-        return result.y.get();
+      Pair<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>> result = okHttpService.getAllThesesForTheStudentFuture();
+      if(result.getSecond().get().getSuccess()){
+        ThesisRepository.getInstance().setTheses(result.getFirst().get());
+        return result.getSecond().get();
       }else {
         return new Result("not successful",false);
       }

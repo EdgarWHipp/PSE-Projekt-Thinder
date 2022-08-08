@@ -11,7 +11,7 @@ import com.hfad.thinder.data.source.remote.SupervisorRemoteDataSource;
 import com.hfad.thinder.data.source.remote.ThesisRemoteDataSource;
 import com.hfad.thinder.data.source.remote.UsersRemoteDataSource;
 import com.hfad.thinder.data.source.result.Result;
-import com.hfad.thinder.data.source.result.Tuple;
+import com.hfad.thinder.data.source.result.Pair;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -98,7 +98,7 @@ public final class UserRepository {
         return INSTANCE;
     }
 
-    public Tuple<Thesis,Result> getUserThesis(UUID thesisId) {
+    public Pair<Thesis,Result> getUserThesis(UUID thesisId) {
         return thesisRemoteDataSource.getNewThesis(thesisId);
 
     }
@@ -154,27 +154,9 @@ public final class UserRepository {
         return usersDataSource.deleteUser();
     }
 
-    /**
-     * Extends a user to a student (this occurs during the edit profile screen where the user has to input aditional information)
-     *
-     * @param degrees
-     * @return Result
-     */
-    public Result editProfileStudent(ArrayList<Degree> degrees, String firstName, String lastName) {
-        return studentRemoteDataSource.extendUserToStudent(degrees,firstName,lastName);
-    }
 
-    /**
-     * Edits the profile of a supervisor (this occurs during the edit profile screen where the user has to input additional information)
-     *
-     * @param degree
-     * @param institute
-     * @param phoneNumber
-     * @return Result
-     */
-    public Result editProfilSupervisor(String degree, String officeNumber, String building, String institute, String phoneNumber,String firstName,String lastName) {
-        return supervisorRemoteDataSource.extendUserToSupervisor(degree,officeNumber,building, institute, phoneNumber,firstName,lastName);
-    }
+
+
 
     /**
      * The Backend sends the code that the user needs to reset their email.

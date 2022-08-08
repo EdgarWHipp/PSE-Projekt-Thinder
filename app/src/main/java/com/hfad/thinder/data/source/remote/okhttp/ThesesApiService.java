@@ -10,7 +10,7 @@ import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
-import com.hfad.thinder.data.source.result.Tuple;
+import com.hfad.thinder.data.source.result.Pair;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -129,9 +129,9 @@ public class ThesesApiService {
   /**
    * This function creates the actual HTTP GET request that returns a specific thesis from the backend.
    * @param thesisId
-   * @return A Tuple of <CompletableFuture<Thesis>,CompletableFuture<Result>
+   * @return A Pair of <CompletableFuture<Thesis>,CompletableFuture<Result>
    */
-  public Tuple<CompletableFuture<Thesis>,CompletableFuture<Result>>  getSpecificThesisFuture(UUID thesisId){
+  public Pair<CompletableFuture<Thesis>,CompletableFuture<Result>>  getSpecificThesisFuture(UUID thesisId){
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(new AuthInterceptor
                     (UserRepository.getInstance().getUser().getMail(),
@@ -174,7 +174,7 @@ public class ThesesApiService {
 
 
 
-    return new Tuple<>(resultThesis,resultCompletableFuture);
+    return new Pair<>(resultThesis,resultCompletableFuture);
   }
 
   /**

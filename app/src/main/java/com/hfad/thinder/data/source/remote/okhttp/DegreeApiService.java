@@ -17,7 +17,5 @@ public class DegreeApiService {
   private String scheme ="10.0.2.2";
   private int port =8080;
 
-  public CompletableFuture<Result> getAllDegrees(){
-    return null;
-  }
+
 }
