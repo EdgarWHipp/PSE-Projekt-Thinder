@@ -37,6 +37,16 @@ public final class UserRepository {
     private USERTYPE type = null;
     private User user = null;
 
+    public boolean isProfileComplete() {
+        return profileComplete;
+    }
+
+    public void setProfileComplete(boolean profileComplete) {
+        this.profileComplete = profileComplete;
+    }
+
+    private boolean profileComplete = false;
+
     private UserRepository() {
     }
 

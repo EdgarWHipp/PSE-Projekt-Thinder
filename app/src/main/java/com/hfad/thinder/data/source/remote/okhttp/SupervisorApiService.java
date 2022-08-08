@@ -129,6 +129,7 @@ public class SupervisorApiService {
           current.setOfficeNumber(officeNumber);
           current.setPhoneNumber(phoneNumber);
           UserRepository.getInstance().setUser(current);
+          UserRepository.getInstance().setProfileComplete(true);
           resultCompletableFuture.complete(new Result("success",true));
         }else {
           resultCompletableFuture.complete(new Result("error",false));

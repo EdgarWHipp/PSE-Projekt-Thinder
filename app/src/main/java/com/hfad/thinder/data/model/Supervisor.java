@@ -38,7 +38,7 @@ public class Supervisor extends User {
         super(role, id, active, universityId, password, mail, firstName, lastName);
         this.academicDegree = academicDegree;
         this.building = building;
-        OfficeNumber = officeNumber;
+        this.OfficeNumber = officeNumber;
         this.institute = institute;
         this.phoneNumber = phoneNumber;
     }

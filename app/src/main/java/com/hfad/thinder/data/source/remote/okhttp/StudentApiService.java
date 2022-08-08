@@ -105,6 +105,7 @@ public class StudentApiService {
           current.setLastName(lastName);
           current.setDegree(degrees);
           UserRepository.getInstance().setUser(current);
+          UserRepository.getInstance().setProfileComplete(true);
           resultCompletableFuture.complete(new Result(true));
         }else{
           resultCompletableFuture.complete(new Result("not successful",false));
