@@ -1,6 +1,7 @@
 package com.hfad.thinder.data.source.repository;
 
 import com.hfad.thinder.data.model.Degree;
+import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.source.remote.StudentRemoteDataSource;
 import com.hfad.thinder.data.source.remote.ThesisRemoteDataSource;
 import com.hfad.thinder.data.source.result.Pair;
@@ -69,5 +70,15 @@ public class StudentRepository {
    */
   public Result editProfileStudent(ArrayList<Degree> degrees, String firstName, String lastName) {
     return studentRemoteDataSource.extendUserToStudent(degrees,firstName,lastName);
+  }
+
+  /**
+   * Sends the form that is attached to each thesis (that the user has completed with answers) to the supervisors email.
+   * @param form
+   * @param thesisId
+   * @returnResult
+   */
+  public Result sendForm(final Form form, final UUID thesisId){
+    return studentRemoteDataSource.sendTheFormToTheSupervisor(form,thesisId);
   }
 }

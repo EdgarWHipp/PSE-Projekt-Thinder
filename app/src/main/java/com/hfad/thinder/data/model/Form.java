@@ -3,8 +3,9 @@ package com.hfad.thinder.data.model;
 import com.google.gson.annotations.SerializedName;
 
 public class Form {
-    @SerializedName("text")
+    @SerializedName("questions")
     private String questions;
+    @SerializedName("answers")
     private String answers;
 
     public void setQuestions(String questions) {

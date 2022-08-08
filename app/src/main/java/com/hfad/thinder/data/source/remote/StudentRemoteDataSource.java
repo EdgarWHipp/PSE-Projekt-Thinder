@@ -2,6 +2,7 @@ package com.hfad.thinder.data.source.remote;
 
 import com.google.gson.Gson;
 import com.hfad.thinder.data.model.Degree;
+import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.remote.okhttp.StudentApiService;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
@@ -134,6 +135,29 @@ public class StudentRemoteDataSource {
       return null;
     } catch (InterruptedException e) {
       return null;
+    }
+  }
+
+  /**
+   * This function handles all the exceptions that the sendThesisFormToSupervisorFuture in the StudentApiService class throws.
+   * @param form
+   * @param thesisId
+   * @return Result
+   */
+  public Result sendTheFormToTheSupervisor(final Form form, final UUID thesisId){
+    try {
+      CompletableFuture<Result> result =
+              okHttpService.sendThesisFormToSupervisorFuture(form,thesisId);
+      return result.get(10000, TimeUnit.SECONDS);
+
+    } catch (JSONException j) {
+      return new Result("not successful", false);
+    } catch (ExecutionException e) {
+      return new Result("not successful", false);
+    } catch (InterruptedException e) {
+      return new Result("not successful", false);
+    } catch (TimeoutException e) {
+      return new Result("not successful", false);
     }
   }
 

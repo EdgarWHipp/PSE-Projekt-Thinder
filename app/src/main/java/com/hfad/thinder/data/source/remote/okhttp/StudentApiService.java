@@ -17,6 +17,7 @@ import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.data.source.result.Pair;
+import com.hfad.thinder.data.model.Form;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -263,6 +264,11 @@ public class StudentApiService {
     return resultCompletableFuture;
   }
 
+  /**
+   *
+   * @param thesisId
+   * @return
+   */
   public CompletableFuture<Result> removeThesisFromLikedTheses(final UUID thesisId){
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(
@@ -411,6 +417,58 @@ public class StudentApiService {
 
     });
     return new Pair<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>>(resultThesisFuture,resultCompletableFuture);
+  }
+
+  /**
+   * Performs the actual HTTP POST request that sends the form to the supervisor mail. Both questions and answers are included.
+   * @param form
+   * @param thesisId
+   * @return
+   * @throws JSONException
+   */
+  public CompletableFuture<Result> sendThesisFormToSupervisorFuture(Form form,final UUID thesisId) throws JSONException {
+    CompletableFuture<Result> resultCompletableFuture= new CompletableFuture<>();
+
+    OkHttpClient clientAuth = new OkHttpClient.Builder()
+            .addInterceptor(new AuthInterceptor
+                    (UserRepository.getInstance().getUser().getMail(),
+                            UserRepository.getInstance().getUser().getPassword()))
+            .build();
+    JSONObject formJson = null;
+    formJson = new JSONObject().put("answers",form.getAnswers()).put("questions",form.getQuestions());
+    RequestBody body = RequestBody.create(formJson,JSON);
+    HttpUrl url = new HttpUrl.Builder()
+            .scheme(scheme)
+            .host(host)
+            .port(port)
+            .addPathSegment("students")
+            .addPathSegment("rated-theses")
+            .addPathSegment(thesisId.toString())
+            .addPathSegment("form")
+            .build();
+    Request request = new Request.Builder()
+            .url(url)
+            .post()
+            .build();
+    Call call = new Call(request);
+    call.enqueue(new Callback() {
+      @Override
+      public void onFailure(@NonNull Call call, @NonNull IOException e) {
+        resultCompletableFuture.complete(new Result("not successful",false));
+      }
+
+      @Override
+      public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+        if(response.isSuccessful()){
+          resultCompletableFuture.complete(new Result(true));
+        }else{
+          resultCompletableFuture.complete(new Result("not successful",false));
+        }
+      }
+    });
+    return resultCompletableFuture;
+
+
   }
 
 }
