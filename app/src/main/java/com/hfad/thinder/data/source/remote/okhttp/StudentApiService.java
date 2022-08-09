@@ -436,7 +436,8 @@ public class StudentApiService {
             .build();
     JSONObject formJson = null;
     formJson = new JSONObject().put("answers",form.getAnswers()).put("questions",form.getQuestions());
-    RequestBody body = RequestBody.create(formJson,JSON);
+    String jsonBodyString = formJson.toString();
+    RequestBody body = RequestBody.create(jsonBodyString,JSON);
     HttpUrl url = new HttpUrl.Builder()
             .scheme(scheme)
             .host(host)
@@ -448,9 +449,9 @@ public class StudentApiService {
             .build();
     Request request = new Request.Builder()
             .url(url)
-            .post()
+            .post(body)
             .build();
-    Call call = new Call(request);
+    Call call = clientAuth.newCall(request);
     call.enqueue(new Callback() {
       @Override
       public void onFailure(@NonNull Call call, @NonNull IOException e) {
