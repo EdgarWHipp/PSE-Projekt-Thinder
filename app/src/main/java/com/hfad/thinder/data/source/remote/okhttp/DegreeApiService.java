@@ -8,6 +8,7 @@ import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.data.source.result.Result;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 import okhttp3.Call;
@@ -69,11 +70,10 @@ public class DegreeApiService {
           resultCompletableFuture.complete(new Result(true));
           String body = response.body().string();
           Gson gson = new Gson();
+          Type listType = new TypeToken<ArrayList<Degree>>(){}.getType();
 
-          ArrayList<Degree> thesisList = (ArrayList<Degree>) gson.fromJson(response.body().string(),
-              new TypeToken<ArrayList<Degree>>() {
-              }.getType());
-          degrees.complete(thesisList);
+          ArrayList<Degree> list = gson.fromJson(body, listType);
+          degrees.complete(list);
         } else {
           resultCompletableFuture.complete(new Result("not successful", false));
         }
