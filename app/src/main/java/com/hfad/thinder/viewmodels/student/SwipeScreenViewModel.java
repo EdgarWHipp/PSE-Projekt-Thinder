@@ -6,7 +6,9 @@ import android.graphics.BitmapFactory;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Image;
+import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.repository.StudentRepository;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
@@ -14,6 +16,7 @@ import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.ui.student.SwipeScreenCard;
 import com.hfad.thinder.ui.student.SwipeScreenFragment;
 
+import com.hfad.thinder.viewmodels.supervisor.ThesisUtility;
 import java.util.ArrayList;
 import java.util.Stack;
 import java.util.Set;
@@ -21,7 +24,6 @@ import java.util.UUID;
 
 
 public class SwipeScreenViewModel extends ViewModel {
-
   private static final ThesisRepository thesisRepository = ThesisRepository.getInstance();
   private static final StudentRepository studentRepository = StudentRepository.getInstance();
   private Stack<Pair<UUID, Boolean>> ratings = new Stack();
@@ -130,7 +132,7 @@ public class SwipeScreenViewModel extends ViewModel {
 
   private ArrayList<SwipeScreenCard> getCardDeck() {
     if (cardDeck == null) {
-      loadCardDeck(images);
+      loadCardDeck();
     }
     return cardDeck;
   }
@@ -159,26 +161,24 @@ public class SwipeScreenViewModel extends ViewModel {
 
   //----------------private methods-----------------------------------
 
-  private void loadCardDeck(ArrayList<Bitmap> images) {//Todo Attribut entfernen
+  private void loadCardDeck() {
     cardDeck = new ArrayList<>();
-    ArrayList<Thesis> theses = new ArrayList<>();//thesisRepository.getAll().get();
+    ArrayList<Thesis> theses = thesisRepository.getAllSwipeableTheses();
     for (Thesis thesis : theses) {
       ArrayList<Bitmap> bitmaps = convertImagesToBitmaps(thesis.getImages());
-      //SwipeScreenCard swipeScreenCard = new SwipeScreenCard(images,);
-      //Todo fertig machen wenn Implementierung Model fertig ist
+      ArrayList<String> selectedCoursesOfStudy = getCoursesOfStudyList(thesis.getPossibleDegrees());
+      Supervisor supervisor = thesis.getSupervisor();
+      SwipeScreenCard swipeScreenCard = new SwipeScreenCard(bitmaps, thesis.getId(), thesis.getName(), thesis.getTask(), thesis.getMotivation(), thesis.getSupervisingProfessor(), selectedCoursesOfStudy, supervisor.getFirstName(), supervisor.getLastName(), supervisor.getBuilding(), supervisor.getOfficeNumber(), supervisor.getPhoneNumber(), supervisor.getInstitute(), supervisor.getMail());
+      cardDeck.add(swipeScreenCard);
     }
-    //Todo hardgecodeten Teil entfernen
-    //ArrayList<Bitmap> images, String UUID, String title, String task, String motivation, String professor, ArrayList<String> coursesOfStudy, String supervisorFirstName, String supervisorLastName, String building, String roomNumber, String phoneNumber, String institute, String email
-    ArrayList<String> coursesOfStudy = new ArrayList<>();
-    coursesOfStudy.add("Bachelor Mathematik");
-    coursesOfStudy.add("Bachelor Informatik");
-    cardDeck.add(new SwipeScreenCard(images, UUID.randomUUID(), "Mülleimerentsorgung", "Mülleimer sind zu Verschrotten", "Ich mag keine Mülleimer", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
-    cardDeck.add(new SwipeScreenCard(images, UUID.randomUUID(), "Sachen Machen", "Sachen sind zu Verschrotten", "Ich mag Sachen", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
-    cardDeck.add(new SwipeScreenCard(images, UUID.randomUUID(), "Schlafen bei Tag", "24h durchschlafen", "Ich möchte mehr schlafen", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
-    cardDeck.add(new SwipeScreenCard(images, UUID.randomUUID(), "Regale einräumen", "Regale bei Rewe einräumen", "Regale müssen eingeräumt werden", "Dc. Otto Octavius",coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
-    cardDeck.add(new SwipeScreenCard(images, UUID.randomUUID(), "Zimmer aufräumen", "Zimmer aufräumen", "Zimmer ist nicht aufgeräumt", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
-    cardDeck.add(new SwipeScreenCard(images, UUID.randomUUID(), "keine Karten mehr", "hör auf zu Swipen", "Es gibt kein Karten meht", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
-    cardDeck.add(new SwipeScreenCard(images, UUID.randomUUID(), "keine Karten Mehr", "Hör auf zu Swipen!!!!!", "Es gibt keine Karten mehr", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
+  }
+
+  private ArrayList<String> getCoursesOfStudyList(Set<Degree> degrees) {
+    ArrayList<String> degreeList = new ArrayList<>();
+    for (Degree degree : degrees) {
+      degreeList.add(degree.getDegree());
+    }
+    return degreeList;
   }
 
   private ArrayList<Bitmap> convertImagesToBitmaps(Set<Image> imageSet) {
@@ -221,10 +221,5 @@ public class SwipeScreenViewModel extends ViewModel {
     detailViewOrder.add(SwipeScreenFragment.DetailViewStates.INFO);
   }
 
-  //Todo löschen
-  private ArrayList<Bitmap> images;
 
-  public void setImages(ArrayList<Bitmap> images) {
-    this.images = images;
-  }
 }

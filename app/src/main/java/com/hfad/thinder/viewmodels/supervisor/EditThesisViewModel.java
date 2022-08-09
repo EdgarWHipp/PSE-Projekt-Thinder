@@ -97,9 +97,8 @@ public class EditThesisViewModel extends ThesisViewModel {
 
 
   private void loadThesis() {
-    //UUID uuid = UUID.fromString(thesisId);
-    //Thesis thesis = thesisRepository.getThesis(uuid).x; //todo uncomment
-    Thesis thesis = generateThesis();//Todo löschen
+    Thesis thesis = thesisRepository.getThesis(thesisId).getFirst();
+
 
     getTitle().setValue(thesis.getName());
     getTask().setValue(thesis.getTask());
@@ -113,9 +112,9 @@ public class EditThesisViewModel extends ThesisViewModel {
     setCoursesOfStudyList(coursesOfStudyList);
 
     //images
-    getImages().setValue(convertImages(thesis.getImages())); //todo: uncomment
+    getImages().setValue(convertImages(thesis.getImages()));
 
-    thesisStatistics = thesisRepository.getThesisStatistics(thesisId); //todo set actual uuid
+    thesisStatistics = thesisRepository.getThesisStatistics(thesisId);
     getTotalRating().postValue(String.valueOf(thesisStatistics.getFirst() + thesisStatistics.getSecond()));
 
   }
@@ -157,22 +156,6 @@ public class EditThesisViewModel extends ThesisViewModel {
     return convertedImages;
   }
 
-  // todo: remove
-  Thesis generateThesis() {
-    Bitmap image1 = Bitmap.createBitmap(100, 50, Bitmap.Config.ARGB_8888);
-    Bitmap image2 = Bitmap.createBitmap(100, 50, Bitmap.Config.ARGB_8888);
-    ArrayList<Bitmap> newImages = new ArrayList<>();
-    newImages.add(image1);
-    newImages.add(image2);
-    Supervisor supervisor = new Supervisor(USERTYPE.SUPERVISOR, UUID.randomUUID(), true, UUID.randomUUID(), "gubert", "gubert@mail", "firstname", "lastName", "academicDegree", "building", "officeNumber", "insitute", "phoneNumber");
-    HashSet<Degree> possibleDegrees = new HashSet<>();
-    possibleDegrees.add(new Degree("Bachelor Informatik"));
-    possibleDegrees.add(new Degree("Bachelor Mathematik"));
-
-    Thesis thesis = new Thesis("Prof. Hartmann", "test", "test", "task", new Form("questions"), null, supervisor, possibleDegrees);
-
-    return thesis;
-  }
 }
 
 
