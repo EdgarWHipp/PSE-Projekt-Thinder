@@ -1,5 +1,7 @@
 package com.hfad.thinder.data.source.repository;
 
+import android.util.Log;
+
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Login;
 import com.hfad.thinder.data.model.Thesis;
@@ -32,6 +34,7 @@ public final class UserRepository {
     private final StudentRemoteDataSource studentRemoteDataSource =  new StudentRemoteDataSource();
     private final SupervisorRemoteDataSource supervisorRemoteDataSource = new SupervisorRemoteDataSource();
     private final ThesisRemoteDataSource thesisRemoteDataSource = new ThesisRemoteDataSource();
+    private boolean profileComplete = false;
     private String password = null;
     private UUID currentId = null;
     private USERTYPE type = null;
@@ -48,15 +51,15 @@ public final class UserRepository {
     private Result result=null;
 
     public boolean isProfileComplete() {
-        //return profileComplete; todo remove slashes
-        return true;
+
+        return profileComplete;
     }
 
     public void setProfileComplete(boolean profileComplete) {
         this.profileComplete = profileComplete;
     }
 
-    private boolean profileComplete = false;
+
 
     private UserRepository() {
     }
@@ -121,6 +124,7 @@ public final class UserRepository {
      */
 
     public Result login(String password, String mail) {
+        Log.e("",password + mail);
         return usersDataSource.login(new Login(mail, password));
     }
 
