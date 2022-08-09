@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +11,6 @@ import android.view.ViewGroup;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentImageGalleryBinding;
-import com.hfad.thinder.viewmodels.ImageGalleryPicker;
-import com.hfad.thinder.viewmodels.student.ImageGalleryViewModel;
-import com.hfad.thinder.viewmodels.student.LikedThesisDetailedViewModel;
-import com.hfad.thinder.viewmodels.supervisor.EditThesisViewModel;
-import com.hfad.thinder.viewmodels.user.ForgotPasswordViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
