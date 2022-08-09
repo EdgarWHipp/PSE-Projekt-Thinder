@@ -66,7 +66,7 @@ public class DegreeRepository {
      * Fetches all Degrees from the specified university of the user.
      * @return Result
      */
-    public Result fetchAllDegrees(){
+    public Result fetchAllCoursesOfStudy(){
         return degreeRemoteDataSource.fetchAllCoursesOfStudyFromAUniverisity();
     }
 
