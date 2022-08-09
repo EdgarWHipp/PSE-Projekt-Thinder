@@ -52,25 +52,6 @@ public class UsersRemoteDataSource {
 
     }
 
-    /**
-     *  Handles the thrown exceptions
-     * @return Result that includes a success value and an error message
-     */
-    public Result getUserRole(){
-        try{
-        CompletableFuture<Result> resultCompletableFuture =
-                usersApiService.getUserRole(new Login(UserRepository.getInstance().getUser().getMail(),UserRepository.getInstance().getUser().getPassword()));
-        return resultCompletableFuture.get(TIMEOUT_SECONDS,TimeUnit.SECONDS);
-
-        } catch (ExecutionException e) {
-            return new Result("not successful", false);
-        } catch (InterruptedException ie) {
-            return new Result("not successful", false);
-        } catch (TimeoutException t) {
-            return new Result("not successful", false);
-        }
-
-    }
 
     /**
      * Handles the thrown exceptions of the usersLoginResponse HTTP GET request in the UsersApiService class. Also checks if the response is successful.

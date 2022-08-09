@@ -14,10 +14,13 @@ import java.util.concurrent.ExecutionException;
 public class DegreeRemoteDataSource {
   private final DegreeApiService okHttpService = new DegreeApiService();
 
-
-  public Result fetchAllDegreesFromAUniverisity(){
+  /**
+   *
+   * @return Result
+   */
+  public Result fetchAllCoursesOfStudyFromAUniverisity(){
     try{
-      Pair<CompletableFuture<ArrayList<Degree>>,CompletableFuture<Result>> list =okHttpService.fetchAllDegreesOfAUniversityFuture();
+      Pair<CompletableFuture<ArrayList<Degree>>,CompletableFuture<Result>> list =okHttpService.fetchAllCoursesOfStudyFuture();
       if (list.getSecond().get().getSuccess()){
         DegreeRepository.getInstance().setAllDegrees(list.getFirst().get());
         return list.getSecond().get();

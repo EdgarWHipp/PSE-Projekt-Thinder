@@ -24,6 +24,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * This Class is a collection of all HTTP requests that deal with courses of study in the backend.
+ */
 public class DegreeApiService {
   private static final MediaType JSON
           = MediaType.parse("application/json; charset=utf-8");
@@ -34,7 +37,11 @@ public class DegreeApiService {
   private String scheme ="10.0.2.2";
   private int port =8080;
 
-    public Pair<CompletableFuture<ArrayList<Degree>>,CompletableFuture<Result>> fetchAllDegreesOfAUniversityFuture(){
+  /**
+   * Implements the actual HTTP GET request that fetches all courses of study for the users university.
+   * @return Pair<CompletableFuture<ArrayList<Degree>>,CompletableFuture<Result>>
+   */
+    public Pair<CompletableFuture<ArrayList<Degree>>,CompletableFuture<Result>> fetchAllCoursesOfStudyFuture(){
       CompletableFuture<ArrayList<Degree>> degrees= new CompletableFuture<>();
       CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
       OkHttpClient clientAuth = new OkHttpClient.Builder()
@@ -73,7 +80,6 @@ public class DegreeApiService {
           }else{
             resultCompletableFuture.complete(new Result("not successful",false));
           }
-
 
         }
       });

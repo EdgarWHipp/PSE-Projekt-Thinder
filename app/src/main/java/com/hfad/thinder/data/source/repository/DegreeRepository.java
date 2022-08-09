@@ -9,12 +9,12 @@ import java.util.List;
 
 public class DegreeRepository {
     public static DegreeRepository INSTANCE;
-    private ArrayList<Degree> allDegrees= new ArrayList<>();
+    private ArrayList<Degree> allCoursesOfStudy= new ArrayList<>();
     private DegreeRemoteDataSource degreeRemoteDataSource = new DegreeRemoteDataSource();
     private DegreeRepository(){}
 
     public void setAllDegrees(ArrayList<Degree> allDegrees) {
-        this.allDegrees = allDegrees;
+        this.allCoursesOfStudy = allDegrees;
     }
 
     /**
@@ -56,7 +56,7 @@ public class DegreeRepository {
      * @return Result
      */
     public Result fetchAllDegrees(){
-        return degreeRemoteDataSource.fetchAllDegreesFromAUniverisity();
+        return degreeRemoteDataSource.fetchAllCoursesOfStudyFromAUniverisity();
     }
 
 

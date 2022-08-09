@@ -135,10 +135,6 @@ public final class UserRepository {
 
         return usersDataSource.verify(token);
     }
-    public Result getUserRole(){
-        return usersDataSource.getUserRole();
-    }
-
     /**
      * Adds the given user to the private local users list.
      *
