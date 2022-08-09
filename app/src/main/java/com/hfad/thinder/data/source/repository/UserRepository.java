@@ -31,10 +31,7 @@ public final class UserRepository {
     @SuppressWarnings("checkstyle:StaticVariableName")
     private static UserRepository INSTANCE;
     private final UsersRemoteDataSource usersDataSource = new UsersRemoteDataSource();
-    private final StudentRemoteDataSource studentRemoteDataSource =  new StudentRemoteDataSource();
-    private final SupervisorRemoteDataSource supervisorRemoteDataSource = new SupervisorRemoteDataSource();
     private final ThesisRemoteDataSource thesisRemoteDataSource = new ThesisRemoteDataSource();
-    private boolean profileComplete = false;
     private String password = null;
     private UUID currentId = null;
     private USERTYPE type = null;
@@ -49,16 +46,6 @@ public final class UserRepository {
     }
 
     private Result result=null;
-
-    public boolean isProfileComplete() {
-
-        return profileComplete;
-    }
-
-    public void setProfileComplete(boolean profileComplete) {
-        this.profileComplete = profileComplete;
-    }
-
 
 
     private UserRepository() {
@@ -124,7 +111,7 @@ public final class UserRepository {
      */
 
     public Result login(String password, String mail) {
-        Log.e("",password + mail);
+
         return usersDataSource.login(new Login(mail, password));
     }
 

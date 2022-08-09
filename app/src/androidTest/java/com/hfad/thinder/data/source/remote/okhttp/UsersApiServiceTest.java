@@ -116,7 +116,7 @@ public class UsersApiServiceTest extends TestCase {
         assertEquals(UserJson.uni_id, student.getUniversityId().toString());
 
         // Student data
-        assertEquals(UserJson.degrees, student.getDegree());
+        assertEquals(UserJson.degrees, student.getDegrees());
     }
 
     @Test
