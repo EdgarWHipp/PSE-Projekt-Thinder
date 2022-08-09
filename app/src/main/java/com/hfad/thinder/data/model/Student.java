@@ -8,19 +8,19 @@ import java.util.UUID;
 
 public class Student extends User {
 
-    private ArrayList<Degree> degree;
+    private ArrayList<Degree> degrees;
 
 
-    public Student(USERTYPE role, UUID id, boolean active, UUID universityId, String password, String mail, String firstName, String lastName, ArrayList<Degree> degree) {
+    public Student(USERTYPE role, UUID id, boolean active, UUID universityId, String password, String mail, String firstName, String lastName, ArrayList<Degree> degrees) {
         super(role, id, active, universityId, password, mail, firstName, lastName);
-        this.degree = degree;
+        this.degrees = degrees;
     }
 
-    public ArrayList<Degree> getDegree() {
+    public ArrayList<Degree> getDegrees() {
         return degree;
     }
 
-    public void setDegree(ArrayList<Degree> degree) {
+    public void setDegrees(ArrayList<Degree> degree) {
         this.degree = degree;
     }
 }
