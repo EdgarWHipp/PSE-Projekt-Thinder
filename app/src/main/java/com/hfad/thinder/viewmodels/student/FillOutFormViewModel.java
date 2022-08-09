@@ -34,7 +34,6 @@ public class FillOutFormViewModel extends ViewModel {
     public void formDataChanged() {
         Boolean value = getQuestions().getValue() != null && !getQuestions().getValue().equals("") && getAnswers().getValue() != null && !getAnswers().getValue().equals("");
         getIsDataValid().postValue(value);
-        Log.i(TAG, "formDataChanged: " + value);
     }
 
     public MutableLiveData<String> getQuestions() {
