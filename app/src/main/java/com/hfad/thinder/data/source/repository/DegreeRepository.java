@@ -7,6 +7,9 @@ import com.hfad.thinder.data.source.result.Result;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Interface for the Viewmodel to
+ */
 public class DegreeRepository {
     public static DegreeRepository INSTANCE;
     private ArrayList<Degree> allCoursesOfStudy= new ArrayList<>();
@@ -15,6 +18,14 @@ public class DegreeRepository {
 
     public void setAllDegrees(ArrayList<Degree> allDegrees) {
         this.allCoursesOfStudy = allDegrees;
+    }
+
+    public ArrayList<Degree> getAllCoursesOfStudy() {
+        return allCoursesOfStudy;
+    }
+
+    public void setAllCoursesOfStudy(ArrayList<Degree> allCoursesOfStudy) {
+        this.allCoursesOfStudy = allCoursesOfStudy;
     }
 
     /**
