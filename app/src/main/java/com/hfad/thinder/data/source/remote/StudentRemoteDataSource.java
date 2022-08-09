@@ -160,5 +160,23 @@ public class StudentRemoteDataSource {
       return new Result("not successful", false);
     }
   }
+  /**
+   * This function handles all the exceptions that the removeALikedThesisFromAStudentFuture from the ThesisApiService function throws.
+   * @param thesisId
+   * @return Result that includes a success value and an error message
+   */
+  public Result removeLikedThesisFromStudent(UUID thesisId){
+    try{
+      CompletableFuture<Result> result = okHttpService.removeALikedThesisFromAStudentFuture(thesisId);
+      return result.get(100, TimeUnit.SECONDS);
+    } catch (ExecutionException e) {
+      return new Result("not successful", false);
+    } catch (InterruptedException e) {
+      return new Result("not successful", false);
+    } catch (TimeoutException e) {
+      return new Result("not successful", false);
+    }
+
+  }
 
 }

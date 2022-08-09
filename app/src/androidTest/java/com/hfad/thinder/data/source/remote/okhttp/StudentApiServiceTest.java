@@ -89,7 +89,7 @@ public class StudentApiServiceTest {
         assertTrue(result.get().getSuccess());
         assertEquals("Basic bWFpbEBnbWFpbC5jb206cGFzc3dvcmQ=", authToken);
         assertEquals(UserRepository.getInstance().getUser().getFirstName(),"Tom");
-        assertEquals(((Student)UserRepository.getInstance().getUser()).getDegree(),degreesNew);
+        assertEquals(((Student)UserRepository.getInstance().getUser()).getDegrees(),degreesNew);
         assertEquals(UserRepository.getInstance().getUser().getLastName(),"Müller");
         assertEquals(UserRepository.getInstance().getUser().getFirstName(),"Tom");
         JSONObject sentBodyJson = new JSONObject()

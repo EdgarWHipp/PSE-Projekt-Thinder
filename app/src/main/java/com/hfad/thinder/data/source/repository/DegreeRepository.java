@@ -7,14 +7,26 @@ import com.hfad.thinder.data.source.result.Result;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Interface for the Viewmodel to
+ */
 public class DegreeRepository {
     public static DegreeRepository INSTANCE;
-    private ArrayList<Degree> allDegrees= new ArrayList<>();
+    private ArrayList<Degree> allCoursesOfStudy= new ArrayList<>();
     private DegreeRemoteDataSource degreeRemoteDataSource = new DegreeRemoteDataSource();
+    private boolean flag=false;
     private DegreeRepository(){}
 
     public void setAllDegrees(ArrayList<Degree> allDegrees) {
-        this.allDegrees = allDegrees;
+        this.allCoursesOfStudy = allDegrees;
+    }
+
+    public ArrayList<Degree> getAllCoursesOfStudy() {
+        return allCoursesOfStudy;
+    }
+
+    public void setAllCoursesOfStudy(ArrayList<Degree> allCoursesOfStudy) {
+        this.allCoursesOfStudy = allCoursesOfStudy;
     }
 
     /**
@@ -38,25 +50,18 @@ public class DegreeRepository {
         list.add("Prof. Dr. Dr.");
         return list;
     }
-
-    public ArrayList<String> getAllDegrees(){
-        //Todo löschen
-        ArrayList<String> selectedDegrees = new ArrayList<>();
-        selectedDegrees.add("Bachelor Informatik");
-        selectedDegrees.add("Master Mathematik");
-        selectedDegrees.add("Bachelor Mathematik");
-        selectedDegrees.add("Master Chemie");
-        selectedDegrees.add("Master Germanistik");
-        return selectedDegrees;
-
-    }
-
     /**
      * Fetches all Degrees from the specified university of the user.
      * @return Result
      */
-    public Result fetchAllDegrees(){
-        return degreeRemoteDataSource.fetchAllDegreesFromAUniverisity();
+    public ArrayList<Degree> fetchAllCoursesOfStudy(){
+        Result result= degreeRemoteDataSource.fetchAllCoursesOfStudyFromAUniverisity();
+            if(result.getSuccess() || flag==true){
+                flag=true;
+                return allCoursesOfStudy;
+            }else{
+                return null;
+            }
     }
 
 

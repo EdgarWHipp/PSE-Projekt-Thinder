@@ -26,7 +26,7 @@ public class VerifyTokenViewModel extends ViewModel {
               ViewModelResultTypes.ERROR));
       state.setValue(VerifyTokenStates.FAILURE);
     }else {
-      Result roleResult = userRepository.login(userRepository.getUser().getPassword(),userRepository.getUser().getMail());
+      Result roleResult = userRepository.login(userRepository.getPassword(),userRepository.getUser().getMail());
       if (!roleResult.getSuccess()) {
         verifyTokenResult.setValue(new ViewModelResult(result.getErrorMessage(),
                 ViewModelResultTypes.ERROR));

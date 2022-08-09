@@ -37,9 +37,6 @@ import okhttp3.Response;
 public class SupervisorApiService {
   private static final MediaType JSON
           = MediaType.parse("application/json; charset=utf-8");
-  private static final OkHttpClient client = new OkHttpClient();
-  private static final String url = "http://localhost:8080";
-  private static final String  emulatorLocalHost = "http://10.0.2.2:8080";
   private String host="http";
   private String scheme ="10.0.2.2";
   private int port =8080;
@@ -85,9 +82,11 @@ public class SupervisorApiService {
             .addInterceptor(
                     new AuthInterceptor(UserRepository.getInstance().
                             getUser().getMail(), UserRepository.getInstance().
-                            getUser().getPassword()))
+                            getPassword()))
             .build();
-
+    Log.e("",UserRepository.getInstance().
+            getUser().getMail()+UserRepository.getInstance().
+            getPassword());
     JSONObject supervisorJson = new JSONObject()
             .put("academicDegree", degree)
             .put("officeNumber", officeNumber)
@@ -100,7 +99,8 @@ public class SupervisorApiService {
 
 
     RequestBody body = RequestBody.create(supervisorJson.toString(), JSON);
-
+    Log.e("",supervisorJson.toString());
+  Log.e("",scheme);
     HttpUrl url = new HttpUrl.Builder()
             .scheme(scheme)
             .host(host)
@@ -185,7 +185,7 @@ public class SupervisorApiService {
       }
 
       @Override
-      public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+      public void onResponse(@NonNull Call call, @NonNull Response response) {
         if (response.isSuccessful()){
           resultCompletableFuture.complete(new Result(true));
         }else {
@@ -205,7 +205,7 @@ public class SupervisorApiService {
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(new AuthInterceptor
                     (UserRepository.getInstance().getUser().getMail(),
-                            UserRepository.getInstance().getUser().getPassword()))
+                            UserRepository.getInstance().getPassword()))
             .build();
     CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
     CompletableFuture<HashMap<UUID,Thesis>> thesisHashmap = new CompletableFuture<>();

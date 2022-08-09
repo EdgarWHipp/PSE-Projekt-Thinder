@@ -81,4 +81,12 @@ public class StudentRepository {
   public Result sendForm(final Form form, final UUID thesisId){
     return studentRemoteDataSource.sendTheFormToTheSupervisor(form,thesisId);
   }
+  /**
+   * Removes an already liked thesis from a student profile.
+   * @param thesisId
+   * @return Result
+   */
+  public Result removeLikedThesisFromStudent(UUID thesisId){
+    return studentRemoteDataSource.removeLikedThesisFromStudent(thesisId);
+  }
 }

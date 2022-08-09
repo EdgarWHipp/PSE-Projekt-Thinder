@@ -2,6 +2,9 @@ package com.hfad.thinder.data.source.result;
 
 import androidx.annotation.Nullable;
 
+/**
+ * A result class with an error message and a success value.
+ */
 public class Result {
   @Nullable
   private final String errorMessage;

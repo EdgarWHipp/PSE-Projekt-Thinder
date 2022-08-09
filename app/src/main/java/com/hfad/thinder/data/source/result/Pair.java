@@ -1,5 +1,10 @@
 package com.hfad.thinder.data.source.result;
 
+/**
+ * Pair class for easier modelling.
+ * @param <T>
+ * @param <E>
+ */
 public class Pair<T, E> {
   private T first;
   private E second;

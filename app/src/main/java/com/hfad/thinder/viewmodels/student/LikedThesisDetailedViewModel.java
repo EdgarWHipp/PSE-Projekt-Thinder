@@ -12,6 +12,7 @@ import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.USERTYPE;
+import com.hfad.thinder.data.source.repository.StudentRepository;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.viewmodels.ImageGalleryPicker;
@@ -28,6 +29,7 @@ import java.util.UUID;
 public class LikedThesisDetailedViewModel extends ViewModel implements ImageGalleryPicker {
 
   private static final ThesisRepository thesisRepository = ThesisRepository.getInstance();
+  private static final StudentRepository studentRepository = StudentRepository.getInstance();
   private ArrayList<Bitmap> images;
   private ImageListIterator<Bitmap> iterator;
   private MutableLiveData<String> task;
@@ -48,7 +50,7 @@ public class LikedThesisDetailedViewModel extends ViewModel implements ImageGall
   private MutableLiveData<Boolean> hasImages;
 
   public void delete() {
-    Result result = thesisRepository.removeLikedThesisFromStudent(thesisId);
+    Result result = studentRepository.removeLikedThesisFromStudent(thesisId);
     if (result.getSuccess()) {
       getDeleteResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
     } else {
@@ -56,7 +58,7 @@ public class LikedThesisDetailedViewModel extends ViewModel implements ImageGall
     }
   }
 
-  //todo: fill images arraylist with images from thesisId
+
 
   public MutableLiveData<Bitmap> getCurrentImage() {
     if(currentImage == null){
@@ -72,7 +74,7 @@ public class LikedThesisDetailedViewModel extends ViewModel implements ImageGall
   public void previousImage(){
     getCurrentImage().setValue(iterator.previous());
   }
-  //todo: remove images
+
   public void setThesisId(UUID thesisId, ArrayList<Bitmap> images) {
     this.images = images;
     this.thesisId = thesisId;
@@ -164,11 +166,9 @@ public class LikedThesisDetailedViewModel extends ViewModel implements ImageGall
   //-----------------------private methods--------------------------------
 
   private void loadThesis() {
-    //UUID uuid = UUID.fromString(thesisId);
-    //Thesis thesis = thesisRepository.getThesis(uuid).x; //todo uncomment
-    Thesis thesis = generateThesis();//Todo löschen
+    Thesis thesis = thesisRepository.getThesis(thesisId).getFirst();
     Supervisor supervisor = thesis.getSupervisor();
-    //images = convertImages(thesis.getImages()); //todo: uncomment
+    images = convertImages(thesis.getImages());
     iterator = new ImageListIterator<>(images);
     getTask().setValue(thesis.getTask());
     getMotivation().setValue(thesis.getMotivation());
@@ -182,18 +182,6 @@ public class LikedThesisDetailedViewModel extends ViewModel implements ImageGall
     getInstitute().setValue(supervisor.getInstitute());
     getCurrentImage().setValue(iterator.current());
 
-  }
-  // todo: remove
-  Thesis generateThesis(){
-
-    Supervisor supervisor = new Supervisor(USERTYPE.SUPERVISOR, UUID.randomUUID(), true, UUID.randomUUID(), "gubert", "test@kit.edu", "firstname", "lastName", "academicDegree", "building", "officeNumber", "insitute", "phoneNumber" );
-    HashSet<Degree> possibleDegrees = new HashSet<>();
-    possibleDegrees.add(new Degree("Bachelor Informatik"));
-    possibleDegrees.add(new Degree("Bachelor Mathematik"));
-
-    Thesis thesis = new Thesis("Prof. Hartmann", "Florian", "motivation", "task", new Form("questions"), null, supervisor, possibleDegrees);
-
-    return thesis;
   }
 
   private ArrayList<Bitmap> convertImages(java.util.Set<Image> imageSet) {
@@ -213,5 +201,6 @@ public class LikedThesisDetailedViewModel extends ViewModel implements ImageGall
     }
     return convertedDegrees;
   }
+
 
 }

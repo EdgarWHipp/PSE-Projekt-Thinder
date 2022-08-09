@@ -40,70 +40,7 @@ public class UsersApiService {
     private String host = "10.0.2.2";
     private int port = 8080;
 
-    /**
-     * This function creates a HTTP GET request with http basic authentication(email & password)
-     * to set the USERTYPE of the user loggin in for the UserRepository.getInstance().getType() function.
-     * Checks if the asynchronous call return fails or responds.
-     *
-     * @param login
-     * @return CompletableFuture<Result>
-     */
-    public CompletableFuture<Result> getUserRole(Login login){
-        Log.e("", login.getMail()+login.getPassword());
-        OkHttpClient clientAuth = new OkHttpClient.Builder()
-                .addInterceptor(new AuthInterceptor(login.getMail(), login.getPassword()))
-                .build();
-        CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 
-        HttpUrl url = new HttpUrl.Builder()
-                .scheme(scheme)
-                .host(host)
-                .port(port)
-                .addPathSegment("users")
-                .addPathSegment("current")
-                .addPathSegment("getRole")
-                .build();
-
-        Request request = new Request.Builder()
-                .url(url)
-                .get()
-                .build();
-
-        Call call = clientAuth.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result(e.toString(),false));
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                    if(response.isSuccessful()){
-                        String returnValue = response.body().string();
-                        String userType =  returnValue.substring(1, returnValue.length() - 1);
-
-                        switch(userType) {
-                            case "SUPERVISOR":
-                                UserRepository.getInstance().setType(USERTYPE.SUPERVISOR);
-                                Log.e("","WORKED");
-                                resultCompletableFuture.complete(new Result(true));
-                                Log.e("","resutl is true)");
-                                break;
-                            case "STUDENT":
-                                UserRepository.getInstance().setType(USERTYPE.STUDENT);
-                                resultCompletableFuture.complete(new Result(true));
-                                break;
-                            default:
-                                resultCompletableFuture.complete(new Result("type not correctly specified",false));
-                                break;
-                        }
-                    }else {
-                        resultCompletableFuture.complete(new Result("not successful",false));
-                    }
-            }
-        });
-        return resultCompletableFuture;
-    }
     /**
      * This function creates the HTTP GET request that firstly makes sure the email, password tuple exists in the database and then fetches a JSON with attributes type and id.
      * Checks if the asynchronous call return fails or responds.
@@ -198,7 +135,7 @@ public class UsersApiService {
             }
 
             @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull Response response)  {
                 if (response.isSuccessful()){
 
                     resultCompletableFuture.complete(new Result(true));
@@ -392,7 +329,7 @@ public class UsersApiService {
             }
 
             @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull Response response){
                 if(response.isSuccessful()){
                     resultCompletableFuture.complete(new Result(true));
                 }else {
@@ -405,9 +342,9 @@ public class UsersApiService {
 
     /**
      * This function parses the returned JSON from the login HTTP GET request. All necessary user values are set inside the UserRepository.
-     * @param body
+     * @param body the response.body().string() that is returned from the getUserDetails function.
      * @return Result
-     * @throws JSONException
+     * @throws JSONException, when the JSON is incorrectly parsed
      */
     private Result setUserValues(String body) throws JSONException {
         Gson gson = new Gson();
