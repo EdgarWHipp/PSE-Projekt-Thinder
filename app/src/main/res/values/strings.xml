@@ -92,6 +92,8 @@
     <string name="save_successful">Data was saved successfully.</string>
     <string name="remove_thesis">Delete Thesis</string>
     <string name="remove_thesis_text">Are you sure you want to delete this thesis?</string>
+    <string name="card_stack_empty">The card stack ist empty</string>
+    <string name="no_cards_available_for_swipe">There are no swipeable cards. As soon as a new fitting thesis gets posted it will be shown on your card stack.</string>
 
     <!-- Registration View Model Strings -->
     <string name="no_password_error">Password field must not be empty</string>

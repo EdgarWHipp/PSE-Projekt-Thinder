@@ -34,9 +34,6 @@ public class SwipeScreenTextFragment extends Fragment {
     FragmentSwipeScreenTextBinding binding;
     SwipeScreenViewModel viewModel;
 
-    TextView task;
-    TextView motivation;
-
     public SwipeScreenTextFragment() {
         // Required empty public constructor
     }
@@ -73,18 +70,10 @@ public class SwipeScreenTextFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_swipe_screen_text, container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(SwipeScreenViewModel.class);
-
-        task = binding.tvTaskContent;
-        motivation = binding.tvMotivationContent;
+        binding.setViewModel(viewModel);
+        binding.setLifecycleOwner(getViewLifecycleOwner());
 
         // Inflate the layout for this fragment
         return binding.getRoot();
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
-        SwipeScreenCard currentCard = viewModel.getCurrentCard();
-        task.setText(currentCard.getTask());
-        motivation.setText(currentCard.getMotivation());
     }
 }

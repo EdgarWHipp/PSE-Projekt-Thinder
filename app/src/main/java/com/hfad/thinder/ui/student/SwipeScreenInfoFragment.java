@@ -35,13 +35,6 @@ public class SwipeScreenInfoFragment extends Fragment {
     private FragmentSwipeScreenInfoBinding binding;
     private SwipeScreenViewModel viewModel;
 
-    private TextView coursesOfStudy;
-    private TextView supervisorName;
-    private TextView phoneNumber;
-    private TextView building;
-    private TextView email;
-    private TextView professorName;
-    private TextView institute;
 
     public SwipeScreenInfoFragment() {
         // Required empty public constructor
@@ -79,29 +72,11 @@ public class SwipeScreenInfoFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_swipe_screen_info, container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(SwipeScreenViewModel.class);
-        coursesOfStudy = binding.tvCoursesOfStudyContent;
-        supervisorName = binding.tvSupervisorNameContent;
-        phoneNumber = binding.tvSupervisorPhoneNumberContent;
-        building = binding.tvBuildingContent;
-        email = binding.tvSupervisorEmailContent;
-        professorName = binding.tvSupervisingProfContent;
-        institute = binding.tvInstituteContent;
+        binding.setViewModel(viewModel);
+        binding.setLifecycleOwner(getViewLifecycleOwner());
+
 
         // Inflate the layout for this fragment
         return binding.getRoot();
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
-        SwipeScreenCard currentCard = viewModel.getCurrentCard();
-        String coursesOfStudyContent = String.join("\n", currentCard.getCoursesOfStudy());
-        coursesOfStudy.setText(coursesOfStudyContent);
-        supervisorName.setText(new StringBuilder().append(currentCard.getSupervisorFirstName()).append(" ").append(currentCard.getSupervisorLastName()).toString());
-        phoneNumber.setText(currentCard.getPhoneNumber());
-        building.setText(new StringBuilder().append(currentCard.getRoomNumber()).append(" ").append(currentCard.getBuilding()).toString());
-        email.setText(currentCard.getEmail());
-        professorName.setText(currentCard.getProfessor());
-        institute.setText(currentCard.getInstitute());
-
     }
 }

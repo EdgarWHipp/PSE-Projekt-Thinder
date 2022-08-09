@@ -36,11 +36,8 @@ public class SwipeScreenTopFragment extends Fragment {
     private FragmentSwipeScreenTopBinding binding;
     private View view;
     private SwipeScreenViewModel viewModel;
-    private Boolean isCardOne = true;
 
-    private TextView title;
-    private TextView task;
-    private ImageView image;
+    private Boolean isCardOne = true;
 
     public SwipeScreenTopFragment() {
         // Required empty public constructor
@@ -80,10 +77,9 @@ public class SwipeScreenTopFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_swipe_screen_top, container, false);
         view = binding.getRoot();
         viewModel = new ViewModelProvider(requireActivity()).get(SwipeScreenViewModel.class);
-
-        title = binding.tvTitleCardOne;
-        image = binding.ivCardOne;
-        task = binding.TaskContentCardOne;
+        binding.setFragment(this);
+        binding.setViewModel(viewModel);
+        binding.setLifecycleOwner(getViewLifecycleOwner());
 
         return view;
     }
@@ -92,25 +88,11 @@ public class SwipeScreenTopFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
         Bundle bundle = this.getArguments();
         if(bundle!=null){
-            boolean isCardOne = bundle.getBoolean("isCardOne");
-            if(isCardOne){
-                isCardOne = true;
-                title.setText(viewModel.getCurrentCard().getTitle());
-                if(viewModel.getCurrentHasImages().getValue())
-                    image.setImageBitmap(viewModel.getCurrentCard().getImages().get(0));
-                task.setText(viewModel.getCurrentCard().getTask());
-
-            }else{
-                isCardOne = false;
-                title.setText(viewModel.getNextCard().getTitle());
-                if(viewModel.getNextHasImages().getValue())
-                    image.setImageBitmap(viewModel.getNextCard().getImages().get(0));
-                task.setText(viewModel.getNextCard().getTask());
-            }
-        }else{
-            title.setText(viewModel.getCurrentCard().getTitle());
-            image.setImageBitmap(viewModel.getCurrentCard().getImages().get(0));
-            task.setText(viewModel.getCurrentCard().getTask());
+            isCardOne = bundle.getBoolean("isCardOne");
         }
+    }
+
+    public boolean isCardOne(){
+        return isCardOne;
     }
 }

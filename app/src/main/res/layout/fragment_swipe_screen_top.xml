@@ -2,6 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.hfad.thinder.viewmodels.student.SwipeScreenViewModel" />
+        <variable
+            name="fragment"
+            type="com.hfad.thinder.ui.student.SwipeScreenTopFragment" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -12,13 +20,13 @@
         android:adjustViewBounds="true"
         android:maxHeight="75dp"
         android:scaleType="centerCrop"
-        tools:srcCompat="@tools:sample/backgrounds/scenic"
+        imageBitmap="@{fragment.isCardOne ? viewModel.getCurrentImage : viewModel.getNextImage}"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <TextView
-        android:text="Control and Diagnostics System Generator for Complex FPGA-Based Measurement Systems"
+        android:text="@{(fragment.isCardOne ? viewModel.getCurrentCard().getTitle : viewModel.getNextCard().getTitle) ?? @string/card_stack_empty}"
         android:id="@+id/tvTitleCardOne"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,6 +34,7 @@
         android:textStyle="bold"
         android:layout_marginTop="@dimen/fab_margin"
         android:textColor="@color/grey_700"
+        android:autoSizeMaxTextSize="20sp"
         app:layout_constraintTop_toBottomOf="@id/ivCardOne"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -44,9 +53,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         style="@style/headline_h6"/>
     <TextView
-        android:text="In dieser Arbeit sollen automatisierte Tests mit dem HiL-System mithilfe von MATLAB/Simulink und LabView realisiert werden. Dazu soll eine Systematik zum Erstellen der Testfälle recherchiert und erarbeitet werden. Diese sollen in automatisierter Form realisiert und die Ergebnisse systematisch erfasst und aufbereitet werden:\n- Literaturrecherche zur testgetriebenen Entwicklung und zur Vollständigkeit von Tests
-    \n- Entwurf von automatisierten Tests für die Anwendung am HiL-System eines MMC mit Batteriemodulen
-    \n- Testdurchführung anhand exemplarischer Regelungsmethoden und Validierung der Tests"
+        android:text="@{(fragment.isCardOne ? viewModel.getCurrentCard().getTask : viewModel.getNextCard().getTask) ?? @string/no_cards_available_for_swipe}"
         android:id="@+id/TaskContentCardOne"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -56,6 +63,7 @@
         android:layout_marginBottom="@dimen/fab_margin"
         android:autoSizeTextType="uniform"
         android:autoSizeStepGranularity="2sp"
+        android:autoSizeMaxTextSize="20sp"
         app:layout_constraintTop_toBottomOf="@id/tvTaskCardOne"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

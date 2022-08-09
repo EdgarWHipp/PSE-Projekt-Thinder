@@ -21,9 +21,9 @@ public class SwipeScreenCard {
     private String phoneNumber;
     private String institute;
     private String email;
-    private Integer id;
+    private String academicDegree;
 
-    public SwipeScreenCard(ArrayList<Bitmap> images, java.util.UUID UUID, String title, String task, String motivation, String professor, ArrayList<String> coursesOfStudy, String supervisorFirstName, String supervisorLastName, String building, String roomNumber, String phoneNumber, String institute, String email) {
+    public SwipeScreenCard(ArrayList<Bitmap> images, java.util.UUID UUID, String title, String task, String motivation, String professor, ArrayList<String> coursesOfStudy, String supervisorFirstName, String supervisorLastName, String building, String roomNumber, String phoneNumber, String institute, String email, String academicDegree) {
         this.images = images;
         this.UUID = UUID;
         this.title = title;
@@ -38,6 +38,7 @@ public class SwipeScreenCard {
         this.phoneNumber = phoneNumber;
         this.institute = institute;
         this.email = email;
+        this.academicDegree = academicDegree;
     }
 
     public ArrayList<Bitmap> getImages() {
@@ -93,6 +94,10 @@ public class SwipeScreenCard {
     }
     public String getEmail() {
         return email;
+    }
+
+    public String getAcademicDegree() {
+        return academicDegree;
     }
 }
 

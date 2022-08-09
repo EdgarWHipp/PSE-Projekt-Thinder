@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.hfad.thinder.viewmodels.student.SwipeScreenViewModel" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,14 +22,13 @@
             app:layout_constraintBottom_toTopOf="@id/tvTaskContent"
             style="@style/headline_h6" />
         <TextView
-            android:text="In dieser Arbeit sollen automatisierte Tests mit dem HiL-System mithilfe von MATLAB/Simulink und LabView realisiert werden. Dazu soll eine Systematik zum Erstellen der Testfälle recherchiert und erarbeitet werden. Diese sollen in automatisierter Form realisiert und die Ergebnisse systematisch erfasst und aufbereitet werden:\n- Literaturrecherche zur testgetriebenen Entwicklung und zur Vollständigkeit von Tests
-    \n- Entwurf von automatisierten Tests für die Anwendung am HiL-System eines MMC mit Batteriemodulen
-    \n- Testdurchführung anhand exemplarischer Regelungsmethoden und Validierung der Tests"
+            android:text="@{viewModel.getCurrentTask}"
             android:id="@+id/tvTaskContent"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:ellipsize="end"
             android:autoSizeTextType="uniform"
+            android:autoSizeMaxTextSize="20sp"
             app:layout_constraintTop_toBottomOf="@id/tvTask"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -41,12 +45,13 @@
             app:layout_constraintBottom_toTopOf="@id/tvMotivationContent"
             style="@style/headline_h6"/>
         <TextView
-            android:text="Der Reglerentwurf für Umrichter ist komplex. Neben dem bestimmungsgemäßen Betrieb in jedem Betriebspunkt muss die Sicherheit zu jedem Zeitpunkt gewährleistet sein. Auch beim Auftreten unvorhergesehener Fehlerkombinationen muss das System in einen sicheren Zustand überführt werden können. Bei der Kombination von Batteriespeichern und Umrichtern in einem System muss das System den Anforderungen beider Seiten gerecht werden. Aus diesem Grund wurde eine HiL-Umgebung entwickelt und wird stetig weiterentwickelt. Um den aktuellen Stand des Regelungsentwurfs zu validieren, sollen nun Ansätze des Test Driven Design übernommen werden."
+            android:text="@{viewModel.getCurrentMotivation}"
             android:id="@+id/tvMotivationContent"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:ellipsize="end"
             android:autoSizeTextType="uniform"
+            android:autoSizeMaxTextSize="20sp"
             app:layout_constraintTop_toBottomOf="@id/tvMotivation"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

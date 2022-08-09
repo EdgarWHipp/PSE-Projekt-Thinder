@@ -32,10 +32,8 @@ public class SwipeScreenImageFragment extends Fragment {
     private String mParam2;
 
     private FragmentSwipeScreenImageBinding binding;
-    private View view;
     private SwipeScreenViewModel viewModel;
 
-    private ImageView imageView;
 
     public SwipeScreenImageFragment() {
         // Required empty public constructor
@@ -73,15 +71,10 @@ public class SwipeScreenImageFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_swipe_screen_image, container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(SwipeScreenViewModel.class);
-        view = binding.getRoot();
+        binding.setViewModel(viewModel);
+        binding.setLifecycleOwner(getViewLifecycleOwner());
 
-        imageView = binding.ivImage;
-
-        return view;
+        return binding.getRoot();
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
-        imageView.setImageBitmap(viewModel.getCurrentDetailViewImage());
-    }
 }

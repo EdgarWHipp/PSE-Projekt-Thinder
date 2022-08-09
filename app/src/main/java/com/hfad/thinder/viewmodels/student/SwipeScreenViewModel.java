@@ -1,7 +1,10 @@
 package com.hfad.thinder.viewmodels.student;
 
+import static android.content.ContentValues.TAG;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -31,8 +34,18 @@ public class SwipeScreenViewModel extends ViewModel {
 
   private ArrayList<SwipeScreenFragment.DetailViewStates> detailViewOrder;
   private MutableLiveData<Integer> currentDetailViewPosition;
-  private MutableLiveData<Boolean> currentHasImages;
-  private MutableLiveData<Boolean> nextHasImages;
+  private MutableLiveData<Bitmap> currentImage;
+  private MutableLiveData<Bitmap> nextImage;
+
+  private MutableLiveData<String> coursesOfStudy;
+  private MutableLiveData<String> superVisorName;
+  private MutableLiveData<String> phoneNumber;
+  private MutableLiveData<String> building;
+  private MutableLiveData<String> mail;
+  private MutableLiveData<String> professorName;
+  private MutableLiveData<String> institute;
+  private MutableLiveData<String> currentTask;
+  private MutableLiveData<String> currentMotivation;
 
 
   public void like() {
@@ -67,15 +80,11 @@ public class SwipeScreenViewModel extends ViewModel {
 
   public SwipeScreenCard getCurrentCard(){
     SwipeScreenCard currentCard = getCardDeck().get(getCurrentDeckPosition().getValue());
-    Boolean currentCardHasImages = currentCard.getImages().size() > 0;
-    getCurrentHasImages().setValue(currentCardHasImages);
     return currentCard;
   }
 
   public SwipeScreenCard getNextCard(){
     SwipeScreenCard nextCard = getCardDeck().get(getCurrentDeckPosition().getValue()+1);
-    Boolean currentCardHasImages = nextCard.getImages().size() > 0;
-    getNextHasImages().setValue(currentCardHasImages);
     return nextCard;
   }
 
@@ -143,19 +152,105 @@ public class SwipeScreenViewModel extends ViewModel {
     return currentDeckPosition;
   }
 
-  public MutableLiveData<Boolean> getCurrentHasImages() {
-    if(currentHasImages == null){
-      currentHasImages = new MutableLiveData<>();
-    }
-    return currentHasImages;
+  public MutableLiveData<Bitmap> getCurrentImage() {
+    if(currentImage == null)
+      currentImage = new MutableLiveData<>();
+    if(getCurrentCard().getImages().size() == 0)
+      return null;
+    currentImage.setValue(getCurrentCard().getImages().get(0));
+    return currentImage;
   }
 
-  public MutableLiveData<Boolean> getNextHasImages() {
-    if(nextHasImages == null){
-      nextHasImages = new MutableLiveData<>();
-    }
-    return nextHasImages;
+  public MutableLiveData<Bitmap> getNextImage() {
+    if(nextImage == null)
+      nextImage = new MutableLiveData<>();
+    if(getNextCard().getImages().size() == 0)
+      return null;
+    nextImage.setValue(getNextCard().getImages().get(0));
+    return nextImage;
   }
+
+  public MutableLiveData<String> getCoursesOfStudy() {
+    if(coursesOfStudy == null)
+      coursesOfStudy = new MutableLiveData<>();
+    if(getCurrentCard().getCoursesOfStudy() == null)
+      return null;
+    coursesOfStudy.setValue(String.join("\n", getCurrentCard().getCoursesOfStudy()));
+    return coursesOfStudy;
+  }
+
+  public MutableLiveData<String> getSuperVisorName() {
+    if(superVisorName == null)
+      superVisorName = new MutableLiveData<>();
+    if(getCurrentCard().getSupervisorLastName() == null || getCurrentCard().getSupervisorFirstName() == null)
+      return null;
+    superVisorName.setValue(String.join(" ",getCurrentCard().getAcademicDegree(), getCurrentCard().getSupervisorFirstName(), getCurrentCard().getSupervisorLastName()));
+    return superVisorName;
+  }
+
+  public MutableLiveData<String> getPhoneNumber() {
+    if(phoneNumber==null)
+      phoneNumber = new MutableLiveData<>();
+    if(getCurrentCard().getPhoneNumber() == null)
+      return null;
+    phoneNumber.setValue(getCurrentCard().getPhoneNumber());
+    return phoneNumber;
+  }
+
+  public MutableLiveData<String> getBuilding() {
+    if(building==null)
+      building=new MutableLiveData<>();
+    if (getCurrentCard().getRoomNumber() == null || getCurrentCard().getBuilding() == null)
+      return null;
+    building.setValue(String.join(" ", getCurrentCard().getRoomNumber(), getCurrentCard().getBuilding()));
+    return building;
+  }
+
+  public MutableLiveData<String> getMail() {
+    if (mail == null)
+      mail = new MutableLiveData<>();
+    if(getCurrentCard().getEmail() == null)
+      return null;
+    mail.setValue(getCurrentCard().getEmail());
+    return mail;
+  }
+
+  public MutableLiveData<String> getProfessorName() {
+    if(professorName == null)
+      professorName = new MutableLiveData<>();
+    if(getCurrentCard().getProfessor() == null)
+      return null;
+    professorName.setValue(getCurrentCard().getProfessor());
+    return professorName;
+  }
+
+  public MutableLiveData<String> getInstitute() {
+    if(institute == null)
+      institute = new MutableLiveData<>();
+    if(getCurrentCard().getInstitute() == null)
+      return null;
+    institute.setValue(getCurrentCard().getInstitute());
+    return institute;
+  }
+
+  public MutableLiveData<String> getCurrentTask() {
+    if(currentTask == null)
+      currentTask = new MutableLiveData<>();
+    if(getCurrentCard().getTask() == null)
+      return null;
+    currentTask.setValue(getCurrentCard().getTask());
+    return currentTask;
+  }
+
+  public MutableLiveData<String> getCurrentMotivation() {
+    if(currentMotivation == null)
+      currentMotivation = new MutableLiveData<>();
+    if(getCurrentCard().getMotivation() == null)
+      return null;
+    currentMotivation.setValue(getCurrentCard().getMotivation());
+    return currentMotivation;
+  }
+
 
   //----------------private methods-----------------------------------
 
@@ -172,13 +267,13 @@ public class SwipeScreenViewModel extends ViewModel {
     ArrayList<String> coursesOfStudy = new ArrayList<>();
     coursesOfStudy.add("Bachelor Mathematik");
     coursesOfStudy.add("Bachelor Informatik");
-    cardDeck.add(new SwipeScreenCard(images, UUID.randomUUID(), "Mülleimerentsorgung", "Mülleimer sind zu Verschrotten", "Ich mag keine Mülleimer", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
-    cardDeck.add(new SwipeScreenCard(images, UUID.randomUUID(), "Sachen Machen", "Sachen sind zu Verschrotten", "Ich mag Sachen", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
-    cardDeck.add(new SwipeScreenCard(images, UUID.randomUUID(), "Schlafen bei Tag", "24h durchschlafen", "Ich möchte mehr schlafen", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
-    cardDeck.add(new SwipeScreenCard(images, UUID.randomUUID(), "Regale einräumen", "Regale bei Rewe einräumen", "Regale müssen eingeräumt werden", "Dc. Otto Octavius",coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
-    cardDeck.add(new SwipeScreenCard(images, UUID.randomUUID(), "Zimmer aufräumen", "Zimmer aufräumen", "Zimmer ist nicht aufgeräumt", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
-    cardDeck.add(new SwipeScreenCard(images, UUID.randomUUID(), "keine Karten mehr", "hör auf zu Swipen", "Es gibt kein Karten meht", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
-    cardDeck.add(new SwipeScreenCard(images, UUID.randomUUID(), "keine Karten Mehr", "Hör auf zu Swipen!!!!!", "Es gibt keine Karten mehr", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com"));
+    cardDeck.add(new SwipeScreenCard(new ArrayList<>(), UUID.randomUUID(), "Mülleimerentsorgung", "Mülleimer sind zu Verschrotten", "Ich mag keine Mülleimer", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com", "B. Sc."));
+    cardDeck.add(new SwipeScreenCard(new ArrayList<>(), UUID.randomUUID(), "Sachen Machen", "Sachen sind zu Verschrotten", "Ich mag Sachen", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com", "B. Sc."));
+    cardDeck.add(new SwipeScreenCard(new ArrayList<>(), UUID.randomUUID(), "Schlafen bei Tag", "24h durchschlafen", "Ich möchte mehr schlafen", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com", "B. Sc."));
+    cardDeck.add(new SwipeScreenCard(new ArrayList<>(), UUID.randomUUID(), "Regale einräumen", "Regale bei Rewe einräumen", "Regale müssen eingeräumt werden", "Dc. Otto Octavius",coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com", "B. Sc."));
+    cardDeck.add(new SwipeScreenCard(new ArrayList<>(), UUID.randomUUID(), "Zimmer aufräumen", "Zimmer aufräumen", "Zimmer ist nicht aufgeräumt", "Dc. Otto Octavius", coursesOfStudy, "Peter", "Parker", "Occorp Tower", "42", "+49 243243434", "Mega Institut", "dcOc@gmail.com", "B. Sc."));
+    cardDeck.add(new SwipeScreenCard(new ArrayList<>(), UUID.randomUUID(), null, null, null, null, null, null, null, null, null, null, null, null, null));
+    cardDeck.add(new SwipeScreenCard(new ArrayList<>(), UUID.randomUUID(), null, null, null, null, null, null, null, null, null, null, null, null, null));
   }
 
   private ArrayList<Bitmap> convertImagesToBitmaps(Set<Image> imageSet) {

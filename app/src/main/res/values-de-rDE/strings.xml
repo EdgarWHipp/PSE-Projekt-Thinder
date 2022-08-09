@@ -93,6 +93,8 @@
     <string name="open_image_picker_text">Eine neue Auswahl wird die Vorherige überschreiben</string>
     <string name="open">Öffnen</string>
     <string name="your_image_selection">Ihre Bildauswahl</string>
+    <string name="card_stack_empty">Kartenstapel leer</string>
+    <string name="no_cards_available_for_swipe">Es gibt keine Karten mehr zum Swipen. Sobald passende neue Karten verfügbar sind, werden sie auf dem Stapel angezeigt.</string>
 
 
     <!-- Registration View Model Strings -->
