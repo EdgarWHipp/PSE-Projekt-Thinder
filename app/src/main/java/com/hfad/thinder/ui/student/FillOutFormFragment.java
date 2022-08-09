@@ -76,7 +76,7 @@ public class FillOutFormFragment extends Fragment {
         viewModel = new ViewModelProvider(requireActivity()).get(FillOutFormViewModel.class);
         viewModel.setThesisId(requireArguments().getString("thesisUUID"));
         binding.setViewModel(viewModel);
-        binding.setLifecycleOwner(this);
+        binding.setLifecycleOwner(getViewLifecycleOwner());
         binding.setFragment(this);
 
         View view = binding.getRoot();

@@ -86,7 +86,7 @@ public class StudentProfileFragment extends Fragment {
     viewModel = new ViewModelProvider(requireActivity()).get(EditProfileViewModel.class);
     binding.setFragment(this);
     binding.setViewmodel(viewModel);
-    binding.setLifecycleOwner(this);
+    binding.setLifecycleOwner(getViewLifecycleOwner());
     final Observer<ViewModelResult> deleteResultObserver = new Observer<ViewModelResult>() {
       @Override
       public void onChanged(ViewModelResult viewModelResult) {

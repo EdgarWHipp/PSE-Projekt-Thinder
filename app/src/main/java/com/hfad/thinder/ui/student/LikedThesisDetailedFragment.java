@@ -97,6 +97,7 @@ public class LikedThesisDetailedFragment extends Fragment  {
         // Inflate the layout for this fragment
         binding.setFragment(this);
         binding.setViewModel(viewModel);
+        binding.setLifecycleOwner(getViewLifecycleOwner());
 
         final Observer<ViewModelResult> deleteResultObserver = new Observer<ViewModelResult>() {
             @Override

@@ -83,7 +83,7 @@ public class SupervisorProfileFragment extends Fragment {
     viewmodel = new ViewModelProvider(this).get(EditProfileViewModel.class);
     binding.setFragment(this);
     binding.setViewmodel(viewmodel);
-    binding.setLifecycleOwner(this);
+    binding.setLifecycleOwner(getViewLifecycleOwner());
 
     viewmodel.getFormState().observe(getViewLifecycleOwner(), new Observer<EditProfileFormState>() {
       @Override

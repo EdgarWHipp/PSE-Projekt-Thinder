@@ -19,6 +19,7 @@ public class ImageGalleryStudentFragment extends ImageGalleryFragment {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(LikedThesisDetailedViewModel.class);
         binding.setViewModel(viewModel);
+        binding.setLifecycleOwner(getViewLifecycleOwner());
 
         return view;
     }

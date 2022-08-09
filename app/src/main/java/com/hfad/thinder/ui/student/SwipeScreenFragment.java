@@ -89,7 +89,7 @@ public class SwipeScreenFragment extends Fragment {
     binding = DataBindingUtil.inflate(inflater, R.layout.fragment_swipe_screen, container, false);
     binding.setFragment(this);
     viewmodel = new ViewModelProvider(requireActivity()).get(SwipeScreenViewModel.class);
-    binding.setLifecycleOwner(this);
+    binding.setLifecycleOwner(getViewLifecycleOwner());
 
     View view = binding.getRoot();
     like = binding.btSwipeRight;
