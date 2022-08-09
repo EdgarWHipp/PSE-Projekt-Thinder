@@ -36,7 +36,7 @@ public class EditProfileViewModel extends ViewModel {
   private MutableLiveData<String> institute;
 
 
-  public void safe() {
+  public void save() {
     String degree = academicTitles.getValue().get(selectedAcademicTitlePosition.getValue());
     String buildingString = building.getValue();
     String officeNumber = room.getValue();
