@@ -360,8 +360,10 @@ public class UsersApiService {
             case "SUPERVISOR":
                 Supervisor supervisor;
                 supervisor = gson.fromJson(body, Supervisor.class);
+
                 userRepository.setType(USERTYPE.SUPERVISOR);
                 userRepository.setUser(supervisor);
+                Log.e("",new Boolean(userRepository.getUser().isComplete()).toString());
                 break;
             default:
                 return new Result("User Role not specified.",false);

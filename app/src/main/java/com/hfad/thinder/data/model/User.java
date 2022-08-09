@@ -31,6 +31,17 @@ public class User {
     @SerializedName("lastName")
     @Expose
     private String lastName;
+    @SerializedName("isComplete")
+    @Expose
+    private boolean isComplete;
+
+    public boolean isComplete() {
+        return isComplete;
+    }
+
+    public void setComplete(boolean complete) {
+        isComplete = complete;
+    }
 
     public User(USERTYPE role, UUID id, boolean active, UUID universityId, String password,
                 String mail, String firstName, String lastName) {
