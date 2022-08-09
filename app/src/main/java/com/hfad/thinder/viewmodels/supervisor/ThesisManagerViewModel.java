@@ -4,20 +4,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
-import com.hfad.thinder.data.model.Degree;
-import com.hfad.thinder.data.model.Student;
+import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.repository.StudentRepository;
 import com.hfad.thinder.data.source.repository.SupervisorRepository;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.result.Result;
-
 import com.hfad.thinder.viewmodels.ThesisCardItem;
-
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -39,23 +34,24 @@ public class ThesisManagerViewModel extends ViewModel {
   }
 
   private void loadThesisManagerItems() {
-    studentRepository.fetchAllSwipeableThesis();
     Result result =
         supervisorRepository.getAllCreatedTheses();//Todo ist dies variante nicht sehr umständlich??
     if (result.getSuccess()) {
-      List<com.hfad.thinder.data.model.Thesis> thesisList =
-          thesisRepository.getThesisMap().entrySet().stream().map(e -> e.getValue()).collect(
-              Collectors.toList());
+      HashMap<UUID, Thesis> thesisHashMap = thesisRepository.getThesisMap();
       ArrayList<ThesisCardItem> newThesisList = new ArrayList<>();
-      if (!thesisList.isEmpty()) {
+      if (!(thesisHashMap == null)) {
+        List<Thesis> thesisList =
+            thesisHashMap.values().stream().collect(
+                Collectors.toList());
         for (com.hfad.thinder.data.model.Thesis thesis : thesisList) {
           byte[] byteArray = thesis.getImages().iterator().next().getImage();
           Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
           newThesisList.add(
               new ThesisCardItem(thesis.getId(), thesis.getName(), thesis.getTask(), bitmap));
         }
+        thesisCardItems.setValue(newThesisList);
       }
-      thesisCardItems.setValue(newThesisList);
+
     }
 
   }
