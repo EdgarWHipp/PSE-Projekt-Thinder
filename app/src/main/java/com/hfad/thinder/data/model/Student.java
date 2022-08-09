@@ -17,10 +17,10 @@ public class Student extends User {
     }
 
     public ArrayList<Degree> getDegrees() {
-        return degree;
+        return degrees;
     }
 
     public void setDegrees(ArrayList<Degree> degree) {
-        this.degree = degree;
+        this.degrees = degrees;
     }
 }

@@ -105,7 +105,7 @@ public class StudentApiService {
           Student current = (Student) UserRepository.getInstance().getUser();
           current.setFirstName(firstName);
           current.setLastName(lastName);
-          current.setDegree(degrees);
+          current.setDegrees(degrees);
           UserRepository.getInstance().setUser(current);
           UserRepository.getInstance().setProfileComplete(true);
           resultCompletableFuture.complete(new Result(true));
