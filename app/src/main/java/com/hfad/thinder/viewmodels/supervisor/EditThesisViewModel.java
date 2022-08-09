@@ -2,29 +2,25 @@ package com.hfad.thinder.viewmodels.supervisor;
 
 
 import android.graphics.Bitmap;
-
-import androidx.lifecycle.MutableLiveData;
 import android.graphics.BitmapFactory;
-
+import androidx.lifecycle.MutableLiveData;
+import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Supervisor;
-import com.hfad.thinder.data.model.USERTYPE;
+import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.repository.DegreeRepository;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Pair;
+import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.viewmodels.CourseOfStudyItem;
 import com.hfad.thinder.viewmodels.ViewModelResult;
-import com.hfad.thinder.data.model.Degree;
-import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.viewmodels.ViewModelResultTypes;
-import com.hfad.thinder.data.model.Thesis;
-
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class EditThesisViewModel extends ThesisViewModel {
   private static final DegreeRepository degreeRepository = DegreeRepository.getInstance();
@@ -41,12 +37,15 @@ public class EditThesisViewModel extends ThesisViewModel {
     Form form = new Form(getQuestions().getValue());
     Set<Image> imageSet = ThesisUtility.getImageSet(getImages().getValue());
     Set<Degree> degreeSet = ThesisUtility.getSelectedDegreeSet(getCoursesOfStudyList().getValue());
-    Thesis thesis = new Thesis(getProfessor().getValue(), getTitle().getValue(), getMotivation().getValue(), getTask().getValue(), form, imageSet, (Supervisor) userRepository.getUser(), degreeSet);
+    Thesis thesis =
+        new Thesis(getProfessor().getValue(), getTitle().getValue(), getMotivation().getValue(),
+            getTask().getValue(), form, imageSet, (Supervisor) userRepository.getUser(), degreeSet);
     Result result = thesisRepository.editThesis(thesisId, thesis);
     if (result.getSuccess()) {
       getSaveResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
     } else {
-      getSaveResult().setValue(new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
+      getSaveResult().setValue(
+          new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
     }
   }
 
@@ -55,7 +54,8 @@ public class EditThesisViewModel extends ThesisViewModel {
     if (result.getSuccess()) {
       getDeleteThesisResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
     } else {
-      getDeleteThesisResult().setValue(new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
+      getDeleteThesisResult().setValue(
+          new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
     }
   }
 
@@ -95,7 +95,6 @@ public class EditThesisViewModel extends ThesisViewModel {
   //-------------private methods-----------------------------------------------------
 
 
-
   private void loadThesis() {
     Thesis thesis = thesisRepository.getThesis(thesisId).getFirst();
 
@@ -108,25 +107,32 @@ public class EditThesisViewModel extends ThesisViewModel {
     //courses of Study
     getSelectedCoursesOfStudy().setValue(coursesOfStudyStringAdapter(thesis.getPossibleDegrees()));
     MutableLiveData<ArrayList<CourseOfStudyItem>> coursesOfStudyList = new MutableLiveData<>();
-    coursesOfStudyList.setValue(coursesOfStudyListAdapter(degreeRepository.getAllDegrees(), thesis.getPossibleDegrees()));
+    ArrayList<String> allDegrees = new ArrayList<>(
+        ThesisUtility.DEGREE_REPOSITORY.fetchAllCoursesOfStudy().stream().map(e -> e.getDegree())
+            .collect(
+                Collectors.toList()));
+    coursesOfStudyList.setValue(
+        coursesOfStudyListAdapter(allDegrees, thesis.getPossibleDegrees()));
     setCoursesOfStudyList(coursesOfStudyList);
 
     //images
     getImages().setValue(convertImages(thesis.getImages()));
 
     thesisStatistics = thesisRepository.getThesisStatistics(thesisId);
-    getTotalRating().postValue(String.valueOf(thesisStatistics.getFirst() + thesisStatistics.getSecond()));
+    getTotalRating().postValue(
+        String.valueOf(thesisStatistics.getFirst() + thesisStatistics.getSecond()));
 
   }
 
-  private ArrayList<CourseOfStudyItem> coursesOfStudyListAdapter(ArrayList<String> allDegrees, Set<Degree> selectedDegrees) {
+  private ArrayList<CourseOfStudyItem> coursesOfStudyListAdapter(ArrayList<String> allDegrees,
+                                                                 Set<Degree> selectedDegrees) {
     ArrayList<String> selectedDegreesTypeString = new ArrayList<>();
-    for(Degree degree : selectedDegrees){
+    for (Degree degree : selectedDegrees) {
       selectedDegreesTypeString.add(degree.getDegree());
     }
     ArrayList<CourseOfStudyItem> convertedDegrees = new ArrayList<>();
     for (String degree : allDegrees) {
-      if (selectedDegreesTypeString.contains(degree)){
+      if (selectedDegreesTypeString.contains(degree)) {
         convertedDegrees.add(new CourseOfStudyItem(degree, true));
       } else {
         convertedDegrees.add(new CourseOfStudyItem(degree, false));

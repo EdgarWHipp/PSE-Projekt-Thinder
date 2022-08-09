@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.R;
 import com.hfad.thinder.data.model.Degree;
+import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.repository.DegreeRepository;
 import com.hfad.thinder.data.source.repository.StudentRepository;
@@ -14,11 +15,9 @@ import com.hfad.thinder.viewmodels.CourseOfStudyItem;
 import com.hfad.thinder.viewmodels.CoursesOfStudyPicker;
 import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.viewmodels.ViewModelResultTypes;
-
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 
 public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPicker {
@@ -39,7 +38,8 @@ public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPic
 
   public void save() {
     Result result =
-            studentRepository.editProfileStudent(getSelectedSet(), firstName.getValue(), lastName.getValue());
+        studentRepository.editProfileStudent(getSelectedSet(), firstName.getValue(),
+            lastName.getValue());
     if (result.getSuccess()) {
       getSafeResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
     } else {
@@ -67,8 +67,8 @@ public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPic
   public void makeCourseOfStudySelection(String changedCourseOfStudy, boolean selection) {
 
     ArrayList<CourseOfStudyItem> copy = getCoursesOfStudyList().getValue();
-    for(CourseOfStudyItem courseOfStudyItem : copy){
-      if(courseOfStudyItem.getCourseOfStudy().equals(changedCourseOfStudy)){
+    for (CourseOfStudyItem courseOfStudyItem : copy) {
+      if (courseOfStudyItem.getCourseOfStudy().equals(changedCourseOfStudy)) {
         courseOfStudyItem.setPicked(selection);
       }
     }
@@ -140,14 +140,15 @@ public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPic
   }
 
   public MutableLiveData<ArrayList<CourseOfStudyItem>> getCoursesOfStudyList() {
-    if(coursesOfStudyList == null){
+    if (coursesOfStudyList == null) {
       coursesOfStudyList = new MutableLiveData<>();
       loadCoursesOfStudy();
     }
     return coursesOfStudyList;
   }
 
-  public void setCoursesOfStudyList(MutableLiveData<ArrayList<CourseOfStudyItem>> coursesOfStudyList) {
+  public void setCoursesOfStudyList(
+      MutableLiveData<ArrayList<CourseOfStudyItem>> coursesOfStudyList) {
     this.coursesOfStudyList = coursesOfStudyList;
   }
 
@@ -156,14 +157,18 @@ public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPic
 
 
   private void loadCoursesOfStudy() {
-    ArrayList<String> allDegrees = degreeRepository.getAllDegrees();
-    ArrayList<String> selectedDegrees = studentRepository.getSelectedDegrees();
+    List<String> allDegrees =
+        degreeRepository.fetchAllCoursesOfStudy().stream().map(e -> e.getDegree())
+            .collect(Collectors.toList());
+    List<String> selectedDegrees =
+        ((Student) userRepository.getUser()).getDegree().stream().map(e -> e.getDegree()).collect(
+            Collectors.toList());
     ArrayList<CourseOfStudyItem> courseOfStudyItems = new ArrayList<>();
     for (String degree : allDegrees) {
       if (selectedDegrees.contains(degree)) {
         courseOfStudyItems.add(new CourseOfStudyItem(degree, true));
         selectedDegrees.add(degree);
-      }else{
+      } else {
         courseOfStudyItems.add(new CourseOfStudyItem(degree, false));
       }
     }
@@ -223,7 +228,7 @@ public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPic
 
   private void updateSelectedCoursesOfStudy() {
     List<String> selectedCourses = new ArrayList<>();
-    for (CourseOfStudyItem courseOfStudyItem: getCoursesOfStudyList().getValue()) {
+    for (CourseOfStudyItem courseOfStudyItem : getCoursesOfStudyList().getValue()) {
       if (courseOfStudyItem.isPicked()) {
         selectedCourses.add(courseOfStudyItem.getCourseOfStudy());
       }
