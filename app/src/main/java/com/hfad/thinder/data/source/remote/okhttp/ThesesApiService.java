@@ -224,51 +224,5 @@ public class ThesesApiService {
 
 
 
-  /**
-   * This function creates the actual HTTP POST request that removes an already liked thesis from the list of liked theses from the student.
-   * @param thesisId
-   * @return CompletableFuture<Result>
-   */
 
-  public CompletableFuture<Result> removeALikedThesisFromAStudentFuture(final UUID thesisId){
-    OkHttpClient clientAuth = new OkHttpClient.Builder()
-            .addInterceptor(new AuthInterceptor
-                    (UserRepository.getInstance().getUser().getMail(),
-                            UserRepository.getInstance().getUser().getPassword()))
-            .build();
-    CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
-    RequestBody body = RequestBody.create(null, new byte[]{});
-    HttpUrl url = new HttpUrl.Builder()
-            .scheme(scheme)
-            .host(host)
-            .port(port)
-            .addPathSegment("students")
-            .addPathSegment("rated-theses")
-            .addPathSegment(thesisId.toString())
-            .addPathSegment("remove")
-            .build();
-    Request request = new Request.Builder()
-            .url(url)
-            .post(body)
-            .build();
-
-    Call call = clientAuth.newCall(request);
-    call.enqueue(new Callback() {
-      @Override
-      public void onFailure(@NonNull Call call, @NonNull IOException e) {
-        resultCompletableFuture.complete(new Result("error",false));
-      }
-
-      @Override
-      public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-        if(response.isSuccessful()) {
-          resultCompletableFuture.complete(new Result(true));
-        }else{
-          resultCompletableFuture.complete(new Result("error", false));
-        }
-
-      }
-    });
-    return resultCompletableFuture;
-  }
 }

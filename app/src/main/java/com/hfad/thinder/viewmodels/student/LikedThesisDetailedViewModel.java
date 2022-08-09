@@ -12,6 +12,7 @@ import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.USERTYPE;
+import com.hfad.thinder.data.source.repository.StudentRepository;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.viewmodels.ImageGalleryPicker;
@@ -28,6 +29,7 @@ import java.util.UUID;
 public class LikedThesisDetailedViewModel extends ViewModel implements ImageGalleryPicker {
 
   private static final ThesisRepository thesisRepository = ThesisRepository.getInstance();
+  private static final StudentRepository studentRepository = StudentRepository.getInstance();
   private ArrayList<Bitmap> images;
   private ImageListIterator<Bitmap> iterator;
   private MutableLiveData<String> task;
@@ -48,7 +50,7 @@ public class LikedThesisDetailedViewModel extends ViewModel implements ImageGall
   private MutableLiveData<Boolean> hasImages;
 
   public void delete() {
-    Result result = thesisRepository.removeLikedThesisFromStudent(thesisId);
+    Result result = studentRepository.removeLikedThesisFromStudent(thesisId);
     if (result.getSuccess()) {
       getDeleteResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
     } else {

@@ -147,14 +147,7 @@ public final class ThesisRepository {
         return thesisRemoteDataSource.deleteThesis(thesisId);
     }
 
-  /**
-   * Removes an already liked thesis from a student profile.
-   * @param thesisId
-   * @return Result
-   */
-    public Result removeLikedThesisFromStudent(UUID thesisId){
-      return thesisRemoteDataSource.removeLikedThesisFromStudent(thesisId);
-    }
+
 
     public Pair<Integer, Integer> getThesisStatistics(UUID thesisId){
         return new Pair<>(1, 99);
