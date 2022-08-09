@@ -1,14 +1,9 @@
 package com.hfad.thinder.viewmodels.student;
 
-import static android.content.ContentValues.TAG;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Supervisor;
@@ -18,18 +13,16 @@ import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.ui.student.SwipeScreenCard;
 import com.hfad.thinder.ui.student.SwipeScreenFragment;
-
-import com.hfad.thinder.viewmodels.supervisor.ThesisUtility;
 import java.util.ArrayList;
-import java.util.Stack;
 import java.util.Set;
+import java.util.Stack;
 import java.util.UUID;
 
 
 public class SwipeScreenViewModel extends ViewModel {
   private static final ThesisRepository thesisRepository = ThesisRepository.getInstance();
   private static final StudentRepository studentRepository = StudentRepository.getInstance();
-  private Stack<Pair<UUID, Boolean>> ratings = new Stack();
+  private final Stack<Pair<UUID, Boolean>> ratings = new Stack();
 
   private ArrayList<SwipeScreenCard> cardDeck;
   private MutableLiveData<Integer> currentDeckPosition;
@@ -51,7 +44,7 @@ public class SwipeScreenViewModel extends ViewModel {
 
 
   public void like() {
-    if(getCurrentDeckPosition().getValue() >= cardDeck.size() - 2){
+    if (getCurrentDeckPosition().getValue() >= cardDeck.size() - 2) {
       return;
     }
     SwipeScreenCard currentCard = cardDeck.get(getCurrentDeckPosition().getValue());
@@ -59,8 +52,8 @@ public class SwipeScreenViewModel extends ViewModel {
     incrementCurrentDeckPosition();
   }
 
-  public void dislike(){
-    if(getCurrentDeckPosition().getValue() >= cardDeck.size() - 2){
+  public void dislike() {
+    if (getCurrentDeckPosition().getValue() >= cardDeck.size() - 2) {
       return;
     }
     SwipeScreenCard currentCard = cardDeck.get(getCurrentDeckPosition().getValue());
@@ -68,35 +61,37 @@ public class SwipeScreenViewModel extends ViewModel {
     incrementCurrentDeckPosition();
   }
 
-  public void redraw(){
+  public void redraw() {
     if (decrementCurrentDeckPosition()) {
       ratings.pop();
     }
   }
 
   public void pushRatings() {
-    if(ratings.size() != 0){
+    if (ratings.size() != 0) {
       studentRepository.rateThesis(ratings);
     }
   }
 
-  public SwipeScreenCard getCurrentCard(){
+  public SwipeScreenCard getCurrentCard() {
     SwipeScreenCard currentCard = getCardDeck().get(getCurrentDeckPosition().getValue());
     return currentCard;
   }
 
-  public SwipeScreenCard getNextCard(){
-    SwipeScreenCard nextCard = getCardDeck().get(getCurrentDeckPosition().getValue()+1);
+  public SwipeScreenCard getNextCard() {
+    SwipeScreenCard nextCard = getCardDeck().get(getCurrentDeckPosition().getValue() + 1);
     return nextCard;
   }
 
-  public SwipeScreenFragment.DetailViewStates getCurrentDetailViewState(){
+  public SwipeScreenFragment.DetailViewStates getCurrentDetailViewState() {
     return getDetailViewOrder().get(getCurrentDetailViewPosition().getValue());
   }
 
-  public Bitmap getCurrentDetailViewImage(){
-    if(getCurrentDetailViewPosition().getValue() > 0 && getCurrentDetailViewPosition().getValue() <= getCurrentCard().getImages().size())
+  public Bitmap getCurrentDetailViewImage() {
+    if (getCurrentDetailViewPosition().getValue() > 0 &&
+        getCurrentDetailViewPosition().getValue() <= getCurrentCard().getImages().size()) {
       return getCurrentCard().getImages().get(getCurrentDetailViewPosition().getValue() - 1);
+    }
     return null;
   }
 
@@ -113,7 +108,7 @@ public class SwipeScreenViewModel extends ViewModel {
   public boolean decrementCurrentDetailViewPosition() {
     Integer oldPosition = getCurrentDetailViewPosition().getValue();
     if (getCurrentDetailViewPosition().getValue() > 0) {
-      getCurrentDetailViewPosition().setValue(oldPosition -1);
+      getCurrentDetailViewPosition().setValue(oldPosition - 1);
       return true;
     }
     return false;
@@ -124,7 +119,7 @@ public class SwipeScreenViewModel extends ViewModel {
 
 
   private MutableLiveData<Integer> getCurrentDetailViewPosition() {
-    if(currentDetailViewPosition == null){
+    if (currentDetailViewPosition == null) {
       currentDetailViewPosition = new MutableLiveData<>();
       currentDetailViewPosition.setValue(0);
     }
@@ -147,7 +142,7 @@ public class SwipeScreenViewModel extends ViewModel {
   }
 
   public MutableLiveData<Integer> getCurrentDeckPosition() {
-    if(currentDeckPosition == null){
+    if (currentDeckPosition == null) {
       currentDeckPosition = new MutableLiveData<>();
       currentDeckPosition.setValue(0);
     }
@@ -155,100 +150,125 @@ public class SwipeScreenViewModel extends ViewModel {
   }
 
   public MutableLiveData<Bitmap> getCurrentImage() {
-    if(currentImage == null)
+    if (currentImage == null) {
       currentImage = new MutableLiveData<>();
-    if(getCurrentCard().getImages().size() == 0)
+    }
+    if (getCurrentCard().getImages().size() == 0) {
       return null;
+    }
     currentImage.setValue(getCurrentCard().getImages().get(0));
     return currentImage;
   }
 
   public MutableLiveData<Bitmap> getNextImage() {
-    if(nextImage == null)
+    if (nextImage == null) {
       nextImage = new MutableLiveData<>();
-    if(getNextCard().getImages().size() == 0)
+    }
+    if (getNextCard().getImages().size() == 0) {
       return null;
+    }
     nextImage.setValue(getNextCard().getImages().get(0));
     return nextImage;
   }
 
   public MutableLiveData<String> getCoursesOfStudy() {
-    if(coursesOfStudy == null)
+    if (coursesOfStudy == null) {
       coursesOfStudy = new MutableLiveData<>();
-    if(getCurrentCard().getCoursesOfStudy() == null)
+    }
+    if (getCurrentCard().getCoursesOfStudy() == null) {
       return null;
+    }
     coursesOfStudy.setValue(String.join("\n", getCurrentCard().getCoursesOfStudy()));
     return coursesOfStudy;
   }
 
   public MutableLiveData<String> getSuperVisorName() {
-    if(superVisorName == null)
+    if (superVisorName == null) {
       superVisorName = new MutableLiveData<>();
-    if(getCurrentCard().getSupervisorLastName() == null || getCurrentCard().getSupervisorFirstName() == null)
+    }
+    if (getCurrentCard().getSupervisorLastName() == null ||
+        getCurrentCard().getSupervisorFirstName() == null) {
       return null;
-    superVisorName.setValue(String.join(" ",getCurrentCard().getAcademicDegree(), getCurrentCard().getSupervisorFirstName(), getCurrentCard().getSupervisorLastName()));
+    }
+    superVisorName.setValue(String.join(" ", getCurrentCard().getAcademicDegree(),
+        getCurrentCard().getSupervisorFirstName(), getCurrentCard().getSupervisorLastName()));
     return superVisorName;
   }
 
   public MutableLiveData<String> getPhoneNumber() {
-    if(phoneNumber==null)
+    if (phoneNumber == null) {
       phoneNumber = new MutableLiveData<>();
-    if(getCurrentCard().getPhoneNumber() == null)
+    }
+    if (getCurrentCard().getPhoneNumber() == null) {
       return null;
+    }
     phoneNumber.setValue(getCurrentCard().getPhoneNumber());
     return phoneNumber;
   }
 
   public MutableLiveData<String> getBuilding() {
-    if(building==null)
-      building=new MutableLiveData<>();
-    if (getCurrentCard().getRoomNumber() == null || getCurrentCard().getBuilding() == null)
+    if (building == null) {
+      building = new MutableLiveData<>();
+    }
+    if (getCurrentCard().getRoomNumber() == null || getCurrentCard().getBuilding() == null) {
       return null;
-    building.setValue(String.join(" ", getCurrentCard().getRoomNumber(), getCurrentCard().getBuilding()));
+    }
+    building.setValue(
+        String.join(" ", getCurrentCard().getRoomNumber(), getCurrentCard().getBuilding()));
     return building;
   }
 
   public MutableLiveData<String> getMail() {
-    if (mail == null)
+    if (mail == null) {
       mail = new MutableLiveData<>();
-    if(getCurrentCard().getEmail() == null)
+    }
+    if (getCurrentCard().getEmail() == null) {
       return null;
+    }
     mail.setValue(getCurrentCard().getEmail());
     return mail;
   }
 
   public MutableLiveData<String> getProfessorName() {
-    if(professorName == null)
+    if (professorName == null) {
       professorName = new MutableLiveData<>();
-    if(getCurrentCard().getProfessor() == null)
+    }
+    if (getCurrentCard().getProfessor() == null) {
       return null;
+    }
     professorName.setValue(getCurrentCard().getProfessor());
     return professorName;
   }
 
   public MutableLiveData<String> getInstitute() {
-    if(institute == null)
+    if (institute == null) {
       institute = new MutableLiveData<>();
-    if(getCurrentCard().getInstitute() == null)
+    }
+    if (getCurrentCard().getInstitute() == null) {
       return null;
+    }
     institute.setValue(getCurrentCard().getInstitute());
     return institute;
   }
 
   public MutableLiveData<String> getCurrentTask() {
-    if(currentTask == null)
+    if (currentTask == null) {
       currentTask = new MutableLiveData<>();
-    if(getCurrentCard().getTask() == null)
+    }
+    if (getCurrentCard().getTask() == null) {
       return null;
+    }
     currentTask.setValue(getCurrentCard().getTask());
     return currentTask;
   }
 
   public MutableLiveData<String> getCurrentMotivation() {
-    if(currentMotivation == null)
+    if (currentMotivation == null) {
       currentMotivation = new MutableLiveData<>();
-    if(getCurrentCard().getMotivation() == null)
+    }
+    if (getCurrentCard().getMotivation() == null) {
       return null;
+    }
     currentMotivation.setValue(getCurrentCard().getMotivation());
     return currentMotivation;
   }
@@ -263,7 +283,12 @@ public class SwipeScreenViewModel extends ViewModel {
       ArrayList<Bitmap> bitmaps = convertImagesToBitmaps(thesis.getImages());
       ArrayList<String> selectedCoursesOfStudy = getCoursesOfStudyList(thesis.getPossibleDegrees());
       Supervisor supervisor = thesis.getSupervisor();
-      SwipeScreenCard swipeScreenCard = new SwipeScreenCard(bitmaps, thesis.getId(), thesis.getName(), thesis.getTask(), thesis.getMotivation(), thesis.getSupervisingProfessor(), selectedCoursesOfStudy, supervisor.getFirstName(), supervisor.getLastName(), supervisor.getBuilding(), supervisor.getOfficeNumber(), supervisor.getPhoneNumber(), supervisor.getInstitute(), supervisor.getMail());
+      SwipeScreenCard swipeScreenCard =
+          new SwipeScreenCard(bitmaps, thesis.getId(), thesis.getName(), thesis.getTask(),
+              thesis.getMotivation(), thesis.getSupervisingProfessor(), selectedCoursesOfStudy,
+              supervisor.getFirstName(), supervisor.getLastName(), supervisor.getBuilding(),
+              supervisor.getOfficeNumber(), supervisor.getPhoneNumber(), supervisor.getInstitute(),
+              supervisor.getMail(), supervisor.getAcademicDegree());
       cardDeck.add(swipeScreenCard);
     }
   }
@@ -295,7 +320,7 @@ public class SwipeScreenViewModel extends ViewModel {
     return false;
   }
 
-  private boolean decrementCurrentDeckPosition(){
+  private boolean decrementCurrentDeckPosition() {
     Integer oldPosition = getCurrentDeckPosition().getValue();
     if (oldPosition > 0) {
       setDetailedViewOrder();
@@ -309,7 +334,7 @@ public class SwipeScreenViewModel extends ViewModel {
     getCurrentDetailViewPosition().setValue(0);
     getDetailViewOrder().clear();
     detailViewOrder.add(SwipeScreenFragment.DetailViewStates.TOP);
-    for(int i = 0; i < cardDeck.get(getCurrentDeckPosition().getValue()).getImages().size(); ++i){
+    for (int i = 0; i < cardDeck.get(getCurrentDeckPosition().getValue()).getImages().size(); ++i) {
       detailViewOrder.add(SwipeScreenFragment.DetailViewStates.IMAGE);
     }
     detailViewOrder.add(SwipeScreenFragment.DetailViewStates.TEXT);
