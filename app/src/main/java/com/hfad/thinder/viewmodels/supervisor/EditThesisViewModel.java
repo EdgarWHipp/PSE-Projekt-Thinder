@@ -20,7 +20,6 @@ import com.hfad.thinder.viewmodels.ViewModelResultTypes;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class EditThesisViewModel extends ThesisViewModel {
   private static final DegreeRepository degreeRepository = DegreeRepository.getInstance();
@@ -107,10 +106,7 @@ public class EditThesisViewModel extends ThesisViewModel {
     //courses of Study
     getSelectedCoursesOfStudy().setValue(coursesOfStudyStringAdapter(thesis.getPossibleDegrees()));
     MutableLiveData<ArrayList<CourseOfStudyItem>> coursesOfStudyList = new MutableLiveData<>();
-    ArrayList<String> allDegrees = new ArrayList<>(
-        ThesisUtility.DEGREE_REPOSITORY.fetchAllCoursesOfStudy().stream().map(e -> e.getDegree())
-            .collect(
-                Collectors.toList()));
+    ArrayList<Degree> allDegrees = ThesisUtility.DEGREE_REPOSITORY.fetchAllCoursesOfStudy();
     coursesOfStudyList.setValue(
         coursesOfStudyListAdapter(allDegrees, thesis.getPossibleDegrees()));
     setCoursesOfStudyList(coursesOfStudyList);
@@ -124,18 +120,18 @@ public class EditThesisViewModel extends ThesisViewModel {
 
   }
 
-  private ArrayList<CourseOfStudyItem> coursesOfStudyListAdapter(ArrayList<String> allDegrees,
+  private ArrayList<CourseOfStudyItem> coursesOfStudyListAdapter(ArrayList<Degree> allDegrees,
                                                                  Set<Degree> selectedDegrees) {
     ArrayList<String> selectedDegreesTypeString = new ArrayList<>();
     for (Degree degree : selectedDegrees) {
       selectedDegreesTypeString.add(degree.getDegree());
     }
     ArrayList<CourseOfStudyItem> convertedDegrees = new ArrayList<>();
-    for (String degree : allDegrees) {
+    for (Degree degree : allDegrees) {
       if (selectedDegreesTypeString.contains(degree)) {
-        convertedDegrees.add(new CourseOfStudyItem(degree, true));
+        convertedDegrees.add(new CourseOfStudyItem(degree.getDegree(), degree.getId(), true));
       } else {
-        convertedDegrees.add(new CourseOfStudyItem(degree, false));
+        convertedDegrees.add(new CourseOfStudyItem(degree.getDegree(), degree.getId(), false));
       }
     }
     return convertedDegrees;

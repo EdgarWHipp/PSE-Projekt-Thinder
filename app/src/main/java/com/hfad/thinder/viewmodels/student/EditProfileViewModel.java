@@ -157,19 +157,18 @@ public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPic
 
 
   private void loadCoursesOfStudy() {
-    List<String> allDegrees =
-        degreeRepository.fetchAllCoursesOfStudy().stream().map(e -> e.getDegree())
-            .collect(Collectors.toList());
+    List<Degree> allDegrees =
+        degreeRepository.fetchAllCoursesOfStudy().stream().collect(Collectors.toList());
     List<String> selectedDegrees =
         ((Student) userRepository.getUser()).getDegrees().stream().map(e -> e.getDegree()).collect(
             Collectors.toList());
     ArrayList<CourseOfStudyItem> courseOfStudyItems = new ArrayList<>();
-    for (String degree : allDegrees) {
+    for (Degree degree : allDegrees) {
       if (selectedDegrees.contains(degree)) {
-        courseOfStudyItems.add(new CourseOfStudyItem(degree, true));
-        selectedDegrees.add(degree);
+        courseOfStudyItems.add(new CourseOfStudyItem(degree.getDegree(), degree.getId(), true));
+        selectedDegrees.add(degree.getDegree());
       } else {
-        courseOfStudyItems.add(new CourseOfStudyItem(degree, false));
+        courseOfStudyItems.add(new CourseOfStudyItem(degree.getDegree(), degree.getId(), false));
       }
     }
     coursesOfStudyList = new MutableLiveData<>();

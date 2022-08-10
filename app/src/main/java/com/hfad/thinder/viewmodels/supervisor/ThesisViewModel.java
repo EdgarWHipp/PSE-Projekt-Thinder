@@ -8,14 +8,13 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.R;
+import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.viewmodels.CourseOfStudyItem;
 import com.hfad.thinder.viewmodels.CoursesOfStudyPicker;
 import com.hfad.thinder.viewmodels.ImageGalleryPicker;
 import com.hfad.thinder.viewmodels.ImageListIterator;
 import com.hfad.thinder.viewmodels.ViewModelResult;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 public abstract class ThesisViewModel extends ViewModel
@@ -208,14 +207,10 @@ public abstract class ThesisViewModel extends ViewModel
   //-----------------------------private methods---------------------------------------------------------------
 
   private void loadCoursesOfStudy() {
-    List<String>
-        allDegrees =
-        ThesisUtility.DEGREE_REPOSITORY.fetchAllCoursesOfStudy().stream().map(e -> e.getDegree())
-            .collect(
-                Collectors.toList());
+    ArrayList<Degree> allDegrees = ThesisUtility.DEGREE_REPOSITORY.fetchAllCoursesOfStudy();
     ArrayList<CourseOfStudyItem> courseOfStudyItems = new ArrayList<>();
-    for (String degree : allDegrees) {
-      courseOfStudyItems.add(new CourseOfStudyItem(degree, false));
+    for (Degree degree : allDegrees) {
+      courseOfStudyItems.add(new CourseOfStudyItem(degree.getDegree(), degree.getId(), false));
     }
     coursesOfStudyList = new MutableLiveData<>();
     coursesOfStudyList.setValue(courseOfStudyItems);
