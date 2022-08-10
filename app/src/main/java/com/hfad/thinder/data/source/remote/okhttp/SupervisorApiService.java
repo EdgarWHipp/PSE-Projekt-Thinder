@@ -116,15 +116,7 @@ public class SupervisorApiService {
       @Override
       public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
         if (response.isSuccessful()) {
-          UserRepository.getInstance().getUser().setLastName(lastName);
-          UserRepository.getInstance().getUser().setFirstName(firstName);
-          ((Supervisor)UserRepository.getInstance().getUser()).setAcademicDegree(degree);
-          ((Supervisor)UserRepository.getInstance().getUser()).setInstitute(institute);
-          ((Supervisor)UserRepository.getInstance().getUser()).setBuilding(building);
-          UserRepository.getInstance().getUser().setComplete(true);
-          ((Supervisor)UserRepository.getInstance().getUser()).setOfficeNumber(officeNumber);
-          ((Supervisor)UserRepository.getInstance().getUser()).setPhoneNumber(phoneNumber);
-
+          UserRepository.getInstance().login(UserRepository.getInstance().getPassword(),  UserRepository.getInstance().getUser().getMail());
           resultCompletableFuture.complete(new Result("success", true));
         } else {
           resultCompletableFuture.complete(new Result("error", false));

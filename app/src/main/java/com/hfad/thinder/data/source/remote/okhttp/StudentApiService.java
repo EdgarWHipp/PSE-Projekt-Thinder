@@ -102,9 +102,7 @@ public class StudentApiService {
       @Override
       public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
         if(response.isSuccessful()){
-          Gson gson = new Gson();
-          Supervisor supervisor = gson.fromJson(response.body().string(), Supervisor.class);
-          UserRepository.getInstance().setUser(supervisor);
+          UserRepository.getInstance().login(UserRepository.getInstance().getPassword(),  UserRepository.getInstance().getUser().getMail());
           resultCompletableFuture.complete(new Result(true));
         }else{
           resultCompletableFuture.complete(new Result("not successful",false));
