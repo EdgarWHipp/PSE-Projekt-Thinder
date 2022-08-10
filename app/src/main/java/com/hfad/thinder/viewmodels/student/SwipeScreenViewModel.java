@@ -153,7 +153,7 @@ public class SwipeScreenViewModel extends ViewModel {
     if (currentImage == null) {
       currentImage = new MutableLiveData<>();
     }
-    if (getCurrentCard().getImages().size() == 0) {
+    if (getCurrentCard().getImages() == null || getCurrentCard().getImages().size() == 0) {
       return null;
     }
     currentImage.setValue(getCurrentCard().getImages().get(0));
@@ -164,7 +164,7 @@ public class SwipeScreenViewModel extends ViewModel {
     if (nextImage == null) {
       nextImage = new MutableLiveData<>();
     }
-    if (getNextCard().getImages().size() == 0) {
+    if (getNextCard().getImages() == null || getNextCard().getImages().size() == 0) {
       return null;
     }
     nextImage.setValue(getNextCard().getImages().get(0));
@@ -278,6 +278,7 @@ public class SwipeScreenViewModel extends ViewModel {
 
   private void loadCardDeck() {
     cardDeck = new ArrayList<>();
+    addDummyCards(cardDeck);
     ArrayList<Thesis> theses = thesisRepository.getAllSwipeableTheses();
     for (Thesis thesis : theses) {
       ArrayList<Bitmap> bitmaps = convertImagesToBitmaps(thesis.getImages());
@@ -291,6 +292,16 @@ public class SwipeScreenViewModel extends ViewModel {
               supervisor.getMail(), supervisor.getAcademicDegree());
       cardDeck.add(swipeScreenCard);
     }
+  }
+
+  private void addDummyCards(ArrayList<SwipeScreenCard> cardDeck) {
+
+    cardDeck.add(
+        new SwipeScreenCard(null, null, null, null, null, null, null, null, null, null, null, null,
+            null, null, null));
+    cardDeck.add(
+        new SwipeScreenCard(null, null, null, null, null, null, null, null, null, null, null, null,
+            null, null, null));
   }
 
   private ArrayList<String> getCoursesOfStudyList(Set<Degree> degrees) {
@@ -334,7 +345,8 @@ public class SwipeScreenViewModel extends ViewModel {
     getCurrentDetailViewPosition().setValue(0);
     getDetailViewOrder().clear();
     detailViewOrder.add(SwipeScreenFragment.DetailViewStates.TOP);
-    for (int i = 0; i < cardDeck.get(getCurrentDeckPosition().getValue()).getImages().size(); ++i) {
+    for (int i = 0; cardDeck.get(getCurrentDeckPosition().getValue()).getImages() != null &&
+        i < cardDeck.get(getCurrentDeckPosition().getValue()).getImages().size(); ++i) {
       detailViewOrder.add(SwipeScreenFragment.DetailViewStates.IMAGE);
     }
     detailViewOrder.add(SwipeScreenFragment.DetailViewStates.TEXT);
