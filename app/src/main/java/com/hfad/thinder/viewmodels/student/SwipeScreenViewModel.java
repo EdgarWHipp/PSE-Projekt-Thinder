@@ -2,6 +2,8 @@ package com.hfad.thinder.viewmodels.student;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.data.model.Degree;
@@ -11,6 +13,7 @@ import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.repository.StudentRepository;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.result.Pair;
+import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.ui.student.SwipeScreenCard;
 import com.hfad.thinder.ui.student.SwipeScreenFragment;
 import java.util.ArrayList;
@@ -278,8 +281,16 @@ public class SwipeScreenViewModel extends ViewModel {
 
   private void loadCardDeck() {
     cardDeck = new ArrayList<>();
-    addDummyCards(cardDeck);
-    ArrayList<Thesis> theses = thesisRepository.getAllSwipeableTheses();
+   // addDummyCards(cardDeck);
+    Result result = studentRepository.fetchAllSwipeableThesis();
+    ArrayList<Thesis> theses=new ArrayList<>();
+    if(result.getSuccess()){
+       theses = thesisRepository.getAllSwipeableTheses();
+    }else{
+      //error
+    }
+    Log.e("",theses.get(0).toString());
+
     for (Thesis thesis : theses) {
       ArrayList<Bitmap> bitmaps = convertImagesToBitmaps(thesis.getImages());
       ArrayList<String> selectedCoursesOfStudy = getCoursesOfStudyList(thesis.getPossibleDegrees());

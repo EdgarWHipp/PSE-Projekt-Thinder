@@ -98,7 +98,9 @@ public final class ThesisRepository {
    * Taken directly from the thesisRepository.
    * @return ArrayList<Thesis>
    */
-  public ArrayList<Thesis> getAllSwipeableTheses(){return theses;}
+  public ArrayList<Thesis> getAllSwipeableTheses(){
+
+      return theses;}
 
 
 
