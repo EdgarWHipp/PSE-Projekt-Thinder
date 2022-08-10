@@ -32,8 +32,9 @@ public class Degree {
     this.id = id;
   }
 
-  public Degree(String degree) {
+  public Degree(String degree,UUID id) {
     this.degree = degree;
+    this.id = id;
 
   }
 

@@ -25,9 +25,6 @@ import okhttp3.Response;
 public class DegreeApiService {
   private static final MediaType JSON
       = MediaType.parse("application/json; charset=utf-8");
-  private static final OkHttpClient client = new OkHttpClient();
-  private static final String url = "http://localhost:8080";
-  private static final String emulatorLocalHost = "http://10.0.2.2:8080";
   private final String host = "10.0.2.2";
   private final String scheme = "http";
   private final int port = 8080;

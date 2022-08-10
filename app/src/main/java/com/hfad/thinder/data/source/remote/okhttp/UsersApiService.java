@@ -165,7 +165,7 @@ public class UsersApiService {
                 .put("type","USER");
         UserRepository.getInstance()
                 .setUser(new User(null,null,false,null,
-                        user.getPassword(),user.getMail(),user.getFirstName(),user.getLastName()));
+                        user.getPassword(),user.getMail(),user.getFirstName(),user.getLastName(),false));
         UserRepository.getInstance().setPassword(user.getPassword());
 
         RequestBody body = RequestBody.create(userJson.toString(), JSON);
@@ -360,10 +360,8 @@ public class UsersApiService {
             case "SUPERVISOR":
                 Supervisor supervisor;
                 supervisor = gson.fromJson(body, Supervisor.class);
-
                 userRepository.setType(USERTYPE.SUPERVISOR);
                 userRepository.setUser(supervisor);
-                Log.e("",new Boolean(userRepository.getUser().isComplete()).toString());
                 break;
             default:
                 return new Result("User Role not specified.",false);

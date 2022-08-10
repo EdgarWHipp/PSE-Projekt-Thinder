@@ -46,9 +46,6 @@ import okhttp3.ResponseBody;
 public class StudentApiService {
   private static final MediaType JSON
           = MediaType.parse("application/json; charset=utf-8");
-  private static final OkHttpClient client = new OkHttpClient();
-  private static final String url = "http://localhost:8080";
-  private static final String  emulatorLocalHost = "http://10.0.2.2:8080";
   private String scheme = "http";
   private String host = "10.0.2.2";
   private int port = 8080;
@@ -60,6 +57,9 @@ public class StudentApiService {
    * @return CompletableFuture<Result>
    */
   public CompletableFuture<Result> editStudentProfileFuture(ArrayList<Degree> degrees, String firstName, String lastName) throws JSONException, IOException {
+   for(Degree degree: degrees){
+     Log.e("",degree.getId().toString());
+   }
     CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(
@@ -79,7 +79,7 @@ public class StudentApiService {
             .put("lastName",lastName)
             .put("type",UserRepository.getInstance().getType().toString());
     RequestBody body = RequestBody.create(studentJson.toString(), JSON);
-
+  Log.e("",degreesJsonArray.toString());
     HttpUrl url = new HttpUrl.Builder()
             .scheme(scheme)
             .host(host)
@@ -102,11 +102,9 @@ public class StudentApiService {
       @Override
       public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
         if(response.isSuccessful()){
-          Student current = (Student) UserRepository.getInstance().getUser();
-          current.setFirstName(firstName);
-          current.setLastName(lastName);
-          current.setDegrees(degrees);
-          UserRepository.getInstance().setUser(current);
+          Gson gson = new Gson();
+          Supervisor supervisor = gson.fromJson(response.body().string(), Supervisor.class);
+          UserRepository.getInstance().setUser(supervisor);
           resultCompletableFuture.complete(new Result(true));
         }else{
           resultCompletableFuture.complete(new Result("not successful",false));

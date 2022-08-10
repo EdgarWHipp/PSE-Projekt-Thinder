@@ -1,5 +1,7 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
@@ -36,11 +38,9 @@ import okhttp3.Response;
 public class ThesesApiService {
   private static final MediaType JSON
           = MediaType.parse("application/json; charset=utf-8");
-  private static final OkHttpClient client = new OkHttpClient();
-  private static final String url = "http://localhost:8080";
-  private static final String emulatorLocalHost = "http://10.0.2.2:8080";
   private String scheme = "http";
-
+  private String host = "10.0.2.2";
+  private int port = 8080;
   public String getScheme() {
     return scheme;
   }
@@ -65,8 +65,7 @@ public class ThesesApiService {
     this.port = port;
   }
 
-  private String host = "10.0.2.2";
-  private int port = 8080;
+
 
 
 
@@ -80,17 +79,18 @@ public class ThesesApiService {
     OkHttpClient clientAuth = new OkHttpClient.Builder()
             .addInterceptor(new AuthInterceptor
                     (UserRepository.getInstance().getUser().getMail(),
-                            UserRepository.getInstance().getUser().getPassword()))
+                            UserRepository.getInstance().getPassword()))
             .build();
     CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
+    List<byte[]> byteArrayImages = thesis.getImages().stream().map(x->x.getImage()).collect(Collectors.toList());
+    List<UUID> degreeUUIDS = (List<UUID>) thesis.getPossibleDegrees().stream().map(x->x.getId()).collect(Collectors.toList());
     JSONObject thesisJSON = new JSONObject()
             .put("name", thesis.getName())
             .put("motivation", thesis.getMotivation())
             .put("task", thesis.getTask())
             .put("questionForm", thesis.getForm())
-            .put("images", thesis.getImages())
-            .put("possibleDegrees", thesis.getPossibleDegrees())
-            .put("supervisor", UserRepository.getInstance().getUser())
+            .put("images", byteArrayImages)
+            .put("possibleDegrees", degreeUUIDS)
             .put("supervisingProfessor", thesis.getSupervisingProfessor());
 
 
@@ -107,6 +107,7 @@ public class ThesesApiService {
             .post(body)
             .build();
     Call call = clientAuth.newCall(request);
+    Log.e("",thesisJSON.toString());
     call.enqueue(new Callback() {
       @Override
       public void onFailure(@NonNull Call call, @NonNull IOException e) {

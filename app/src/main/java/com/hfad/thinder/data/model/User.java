@@ -44,7 +44,7 @@ public class User {
     }
 
     public User(USERTYPE role, UUID id, boolean active, UUID universityId, String password,
-                String mail, String firstName, String lastName) {
+                String mail, String firstName, String lastName,boolean isComplete) {
         this.role = role;
         this.id = id;
         this.active = active;
@@ -53,6 +53,7 @@ public class User {
         this.mail = mail;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.isComplete = isComplete;
     }
 
     public USERTYPE getRole() {

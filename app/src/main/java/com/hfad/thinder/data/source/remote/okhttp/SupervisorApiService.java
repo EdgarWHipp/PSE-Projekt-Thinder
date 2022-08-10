@@ -81,9 +81,6 @@ public class SupervisorApiService {
                 getUser().getMail(), UserRepository.getInstance().
                 getPassword()))
         .build();
-    Log.e("", UserRepository.getInstance().
-        getUser().getMail() + UserRepository.getInstance().
-        getPassword());
     JSONObject supervisorJson = new JSONObject()
         .put("academicDegree", degree)
         .put("officeNumber", officeNumber)
@@ -119,15 +116,15 @@ public class SupervisorApiService {
       @Override
       public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
         if (response.isSuccessful()) {
-          Supervisor current = (Supervisor) UserRepository.getInstance().getUser();
-          current.setFirstName(firstName);
-          current.setLastName(lastName);
-          current.setInstitute(institute);
-          current.setAcademicDegree(degree);
-          current.setBuilding(building);
-          current.setOfficeNumber(officeNumber);
-          current.setPhoneNumber(phoneNumber);
-          UserRepository.getInstance().setUser(current);
+          UserRepository.getInstance().getUser().setLastName(lastName);
+          UserRepository.getInstance().getUser().setFirstName(firstName);
+          ((Supervisor)UserRepository.getInstance().getUser()).setAcademicDegree(degree);
+          ((Supervisor)UserRepository.getInstance().getUser()).setInstitute(institute);
+          ((Supervisor)UserRepository.getInstance().getUser()).setBuilding(building);
+          UserRepository.getInstance().getUser().setComplete(true);
+          ((Supervisor)UserRepository.getInstance().getUser()).setOfficeNumber(officeNumber);
+          ((Supervisor)UserRepository.getInstance().getUser()).setPhoneNumber(phoneNumber);
+
           resultCompletableFuture.complete(new Result("success", true));
         } else {
           resultCompletableFuture.complete(new Result("error", false));
