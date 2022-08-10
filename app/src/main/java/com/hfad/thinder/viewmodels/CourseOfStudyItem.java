@@ -29,5 +29,7 @@ public class CourseOfStudyItem {
     this.picked = picked;
   }
 
-
+  public UUID getUuid() {
+    return uuid;
+  }
 }

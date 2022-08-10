@@ -22,7 +22,7 @@ public class ThesisUtility {
     HashSet<Degree> degrees = new HashSet<>();
     for (CourseOfStudyItem courseOfStudyItem : courseOfStudyItems) {
       if (courseOfStudyItem.isPicked()) {
-        degrees.add(new Degree(courseOfStudyItem.getCourseOfStudy()));
+        degrees.add(new Degree(courseOfStudyItem.getCourseOfStudy(), courseOfStudyItem.getUuid()));
       }
     }
     return degrees;

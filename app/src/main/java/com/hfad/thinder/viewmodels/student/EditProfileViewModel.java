@@ -219,7 +219,7 @@ public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPic
     ArrayList<Degree> degrees = new ArrayList<>();
     for (CourseOfStudyItem courseOfStudyItem : getCoursesOfStudyList().getValue()) {
       if (courseOfStudyItem.isPicked()) {
-        degrees.add(new Degree(courseOfStudyItem.getCourseOfStudy()));
+        degrees.add(new Degree(courseOfStudyItem.getCourseOfStudy(), courseOfStudyItem.getUuid()));
       }
     }
     return degrees;
