@@ -2,14 +2,11 @@ package com.hfad.thinder.viewmodels.student;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.speech.RecognitionService;
-
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.repository.StudentRepository;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
-import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.viewmodels.ThesisCardItem;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,16 +33,18 @@ public class LikedThesesViewModel extends ViewModel {
   private void loadLikedTheses() {
     ArrayList<ThesisCardItem> thesisCards = new ArrayList<>();
     HashMap<UUID, Thesis> likedTheses = thesisRepository.getThesisMap();
-    for (Thesis thesis : likedTheses.values()) {
-      byte[] byteArray = thesis.getImages().iterator().next().getImage();
-      Bitmap image = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-      ThesisCardItem thesisCardItem =
-              new ThesisCardItem(thesis.getId(), thesis.getName(), thesis.getTask(), image);
-      thesisCards.add(thesisCardItem);
+    if (likedTheses != null && !(likedTheses.isEmpty())) {
+      for (Thesis thesis : likedTheses.values()) {
+        byte[] byteArray = thesis.getImages().iterator().next().getImage();
+        Bitmap image = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        ThesisCardItem thesisCardItem =
+            new ThesisCardItem(thesis.getId(), thesis.getName(), thesis.getTask(), image);
+        thesisCards.add(thesisCardItem);
+      }
     }
+
     this.likedTheses.setValue(thesisCards);
   }
-
 
 
 }
