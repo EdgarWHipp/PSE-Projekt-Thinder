@@ -1,5 +1,7 @@
 package com.hfad.thinder.viewmodels.student;
 
+import android.util.Log;
+
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -162,9 +164,10 @@ public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPic
     List<String> selectedDegrees =
         ((Student) userRepository.getUser()).getDegrees().stream().map(e -> e.getDegree()).collect(
             Collectors.toList());
+   
     ArrayList<CourseOfStudyItem> courseOfStudyItems = new ArrayList<>();
     for (Degree degree : allDegrees) {
-      if (selectedDegrees.contains(degree)) {
+      if (selectedDegrees.contains(degree.getDegree())) {
         courseOfStudyItems.add(new CourseOfStudyItem(degree.getDegree(), degree.getId(), true));
         selectedDegrees.add(degree.getDegree());
       } else {

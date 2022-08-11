@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken;
 import com.hfad.thinder.R;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
+import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
@@ -88,9 +89,10 @@ public class ThesesApiService {
             .put("name", thesis.getName())
             .put("motivation", thesis.getMotivation())
             .put("task", thesis.getTask())
-            .put("questionForm", thesis.getForm())
+            .put("questionForm", thesis.getForm().getQuestions())
             .put("images", byteArrayImages)
             .put("possibleDegrees", degreeUUIDS)
+            .put("id", UserRepository.getInstance().getUser().getId())
             .put("supervisingProfessor", thesis.getSupervisingProfessor());
 
 
