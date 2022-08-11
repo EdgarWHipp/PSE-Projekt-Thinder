@@ -140,6 +140,7 @@ public class SupervisorProfileFragment extends Fragment {
           toast = Toast.makeText(getContext(),
               getResources().getString(R.string.edit_profile_success_message), Toast.LENGTH_LONG);
           toast.show();
+          ((SupervisorActivity) getActivity()).profileCompleted();
         } else if (!editProfileResult.isSuccess()) {
           toast =
               Toast.makeText(getContext(), editProfileResult.getErrorMessage(), Toast.LENGTH_LONG);

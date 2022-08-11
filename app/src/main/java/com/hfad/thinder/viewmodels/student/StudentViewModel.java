@@ -17,7 +17,12 @@ public class StudentViewModel extends ViewModel {
         return profileComplete;
     }
 
+
     private void loadProfileComplete(){
         profileComplete.postValue(userRepository.getUser().isComplete());
+    }
+
+    public void setProfileComplete(boolean b) {
+        getProfileComplete().setValue(b);
     }
 }

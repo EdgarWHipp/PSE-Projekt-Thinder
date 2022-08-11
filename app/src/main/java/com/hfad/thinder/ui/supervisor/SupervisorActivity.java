@@ -66,6 +66,10 @@ public class SupervisorActivity extends AppCompatActivity {
 
     }
 
+    public void profileCompleted(){
+        viewmodel.setProfileComplete(true);
+    }
+
     @Override
     public void onBackPressed(){
         moveTaskToBack(true);

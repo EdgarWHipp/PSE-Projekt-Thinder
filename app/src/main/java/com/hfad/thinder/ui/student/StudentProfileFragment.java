@@ -101,13 +101,14 @@ public class StudentProfileFragment extends Fragment {
     };
 
 
-    final Observer<ViewModelResult> safeResultObserver = new Observer<ViewModelResult>() {
+    final Observer<ViewModelResult> saveResultObserver = new Observer<ViewModelResult>() {
       @Override
       public void onChanged(ViewModelResult viewModelResult) {
         if (viewModelResult.isSuccess()) {
           Toast toast =
               Toast.makeText(getContext(), getText(R.string.save_successful), Toast.LENGTH_LONG);
           toast.show();
+          ((StudentActivity) getActivity()).profileCompleted();
         } else {
           Toast toast =
               Toast.makeText(getContext(), viewModelResult.getErrorMessage(), Toast.LENGTH_LONG);
@@ -159,7 +160,7 @@ public class StudentProfileFragment extends Fragment {
       }
     });
     viewModel.getDeleteResult().observe(getViewLifecycleOwner(), deleteResultObserver);
-    viewModel.getSafeResult().observe(getViewLifecycleOwner(), safeResultObserver);
+    viewModel.getSafeResult().observe(getViewLifecycleOwner(), saveResultObserver);
     binding.etFirstName.addTextChangedListener(afterTextChangedListener);
     binding.etLastName.addTextChangedListener(afterTextChangedListener);
 

@@ -17,6 +17,10 @@ public class SupervisorViewModel extends ViewModel {
         return profileComplete;
     }
 
+    public void setProfileComplete(Boolean isComplete){
+        getProfileComplete().setValue(isComplete);
+    }
+
 
     private void loadProfileComplete() {
         profileComplete.postValue(userRepository.getUser().isComplete());

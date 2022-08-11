@@ -85,6 +85,10 @@ public class StudentActivity extends AppCompatActivity {
         myChildToolbar.setTitle(title);
     }
 
+    public void profileCompleted(){
+        viewmodel.setProfileComplete(true);
+    }
+
     @Override
     public void onBackPressed(){
         moveTaskToBack(true);
