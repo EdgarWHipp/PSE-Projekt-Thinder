@@ -280,13 +280,12 @@ public class SwipeScreenViewModel extends ViewModel {
   private void loadCardDeck() {
     cardDeck = new ArrayList<>();
     addDummyCards(cardDeck);
-    Result result = studentRepository.fetchAllSwipeableThesis();
     ArrayList<Thesis> theses = new ArrayList<>();
-    if (result.getSuccess()) {
       theses = thesisRepository.getAllSwipeableTheses();
-    } else {
+    if (theses == null) {
       //error
     }
+
 
     for (Thesis thesis : theses) {
       ArrayList<Bitmap> bitmaps = convertImagesToBitmaps(thesis.getImages());

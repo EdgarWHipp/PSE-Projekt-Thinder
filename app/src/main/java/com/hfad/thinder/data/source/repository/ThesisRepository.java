@@ -7,6 +7,7 @@ import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.USERTYPE;
+import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.remote.StudentRemoteDataSource;
 import com.hfad.thinder.data.source.remote.SupervisorRemoteDataSource;
 import com.hfad.thinder.data.source.remote.ThesisRemoteDataSource;
@@ -120,8 +121,17 @@ public final class ThesisRepository {
    * @return ArrayList<Thesis>
    */
   public ArrayList<Thesis> getAllSwipeableTheses(){
-
-      return theses;}
+      Result result;
+      if(UserRepository.getInstance().getUser().getRole()==USERTYPE.STUDENT){
+          result=StudentRepository.getInstance().fetchAllSwipeableThesis();
+          if(result.getSuccess()){
+              return this.getAllSwipeableTheses();
+          }
+      }else{
+          return null;
+      }
+    return null;
+  }
 
 
 
