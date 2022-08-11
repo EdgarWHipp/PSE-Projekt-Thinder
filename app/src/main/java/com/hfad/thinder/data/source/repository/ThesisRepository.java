@@ -6,6 +6,7 @@ import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
+import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.source.remote.StudentRemoteDataSource;
 import com.hfad.thinder.data.source.remote.SupervisorRemoteDataSource;
 import com.hfad.thinder.data.source.remote.ThesisRemoteDataSource;
@@ -33,6 +34,7 @@ public final class ThesisRepository {
     private Thesis currentlySelectedThesis;
     private HashMap<UUID,Thesis> thesisMap = new HashMap<>();
     private ArrayList<Thesis> theses = new ArrayList<>();
+    private boolean flag = false;
 
   /**
    * Sets the thesis that the viewmodel identified through the id.
@@ -86,6 +88,26 @@ public final class ThesisRepository {
    * @return HashMap<UUID, Thesis>
    */
     public HashMap<UUID, Thesis> getThesisMap() {
+        Result result;
+        if (UserRepository.getInstance().getUser().getRole()== USERTYPE.STUDENT){
+            result= StudentRepository.getInstance().fetchAllLikedThesis();
+            if(result.getSuccess()){
+                return this.getThesisMap();
+            }else{
+                return null;
+            }
+        }else if (UserRepository.getInstance().getUser().getRole()== USERTYPE.SUPERVISOR){
+            result= SupervisorRepository.getInstance().getAllCreatedTheses();
+            if(result.getSuccess()){
+                return this.getThesisMap();
+            }else{
+                return null;
+            }
+        }
+        else
+        {
+
+        }
         return thesisMap;
     }
 

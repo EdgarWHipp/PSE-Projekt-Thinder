@@ -164,7 +164,7 @@ public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPic
     List<String> selectedDegrees =
         ((Student) userRepository.getUser()).getDegrees().stream().map(e -> e.getDegree()).collect(
             Collectors.toList());
-   
+
     ArrayList<CourseOfStudyItem> courseOfStudyItems = new ArrayList<>();
     for (Degree degree : allDegrees) {
       if (selectedDegrees.contains(degree.getDegree())) {

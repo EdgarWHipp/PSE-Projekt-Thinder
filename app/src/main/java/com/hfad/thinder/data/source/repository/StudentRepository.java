@@ -42,13 +42,6 @@ public class StudentRepository {
     return studentRemoteDataSource.rateThesis(ratings);
   }
 
-  public ArrayList<String> getSelectedDegrees() {
-    //todo remove
-    ArrayList<String> selectedDegrees = new ArrayList<>();
-    selectedDegrees.add("Bachelor Informatik");
-    selectedDegrees.add("Master Mathematik");
-    return selectedDegrees;
-  }
   /**
    * Gets all already liked thesis from the student.
    * @return
