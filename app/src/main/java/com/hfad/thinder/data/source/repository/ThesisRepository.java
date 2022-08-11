@@ -106,9 +106,8 @@ public final class ThesisRepository {
         }
         else
         {
-
+            return null;
         }
-        return thesisMap;
     }
 
     public void setThesisMap(HashMap<UUID, Thesis> thesisMap) {
@@ -177,13 +176,6 @@ public final class ThesisRepository {
         return new Pair<>(1, 99);
     }
 
-    public ArrayList<String> getSelectedDegrees() {
-        //todo remove
-        ArrayList<String> selectedDegrees = new ArrayList<>();
-        selectedDegrees.add("Bachelor Informatik");
-        selectedDegrees.add("Master Mathematik");
-        return selectedDegrees;
-    }
 
 
 
