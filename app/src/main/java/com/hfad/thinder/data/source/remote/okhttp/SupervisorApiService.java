@@ -31,6 +31,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * This class creates all HTTP requests that are relevant for a supervisor.
+ */
 public class SupervisorApiService {
     private static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");

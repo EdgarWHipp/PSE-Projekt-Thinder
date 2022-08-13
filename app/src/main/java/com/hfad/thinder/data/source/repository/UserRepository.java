@@ -1,22 +1,15 @@
 package com.hfad.thinder.data.source.repository;
 
-import android.util.Log;
-
-import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Login;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.model.UserCreation;
-import com.hfad.thinder.data.source.remote.StudentRemoteDataSource;
-import com.hfad.thinder.data.source.remote.SupervisorRemoteDataSource;
 import com.hfad.thinder.data.source.remote.ThesisRemoteDataSource;
 import com.hfad.thinder.data.source.remote.UsersRemoteDataSource;
-import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.data.source.result.Pair;
+import com.hfad.thinder.data.source.result.Result;
 
-import java.util.ArrayList;
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -36,6 +29,23 @@ public final class UserRepository {
     private UUID currentId = null;
     private USERTYPE type = null;
     private User user = null;
+    private Result result = null;
+
+    private UserRepository() {
+    }
+
+    /**
+     * Get an instance of the user repository.
+     *
+     * @return the current singleton instance is returned
+     */
+    public static UserRepository getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new UserRepository();
+        }
+
+        return INSTANCE;
+    }
 
     public Result getResult() {
         return result;
@@ -43,12 +53,6 @@ public final class UserRepository {
 
     public void setResult(Result result) {
         this.result = result;
-    }
-
-    private Result result=null;
-
-
-    private UserRepository() {
     }
 
     public String getPassword() {
@@ -59,12 +63,12 @@ public final class UserRepository {
         this.password = password;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public User getUser() {
         return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public UUID getCurrentUUID() {
@@ -86,20 +90,8 @@ public final class UserRepository {
     public UsersRemoteDataSource getDatasource() {
         return usersDataSource;
     }
-    /**
-     * Get an instance of the user repository.
-     *
-     * @return the current singleton instance is returned
-     */
-    public static UserRepository getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new UserRepository();
-        }
 
-        return INSTANCE;
-    }
-
-    public Pair<Thesis,Result> getUserThesis(UUID thesisId) {
+    public Pair<Thesis, Result> getUserThesis(UUID thesisId) {
         return thesisRemoteDataSource.getNewThesis(thesisId);
 
     }
@@ -126,6 +118,7 @@ public final class UserRepository {
 
         return usersDataSource.verify(token);
     }
+
     /**
      * Adds the given user to the private local users list.
      *
@@ -135,10 +128,8 @@ public final class UserRepository {
      * @param mail
      * @return
      */
-    public Result register(String firstName, String secondName, String password, String mail)  {
+    public Result register(String firstName, String secondName, String password, String mail) {
         return usersDataSource.createNewUser(new UserCreation(firstName, secondName, mail, password));
-
-
 
 
     }
@@ -156,26 +147,25 @@ public final class UserRepository {
     }
 
 
-
-
-
     /**
      * The Backend sends the code that the user needs to reset their email.
+     *
      * @param email
      * @return Result
      */
-    public Result sendRecoveryEmail(String email){
+    public Result sendRecoveryEmail(String email) {
         return usersDataSource.resetPassword(email);
     }
 
     /**
      * Sends the token that was received over the users mail to the backend
      * and changes the password of the user in the DB.
+     *
      * @param token
      * @param newPassword
      * @return Result
      */
-    public Result resetPasswordWithToken(String token, String newPassword){
+    public Result resetPasswordWithToken(String token, String newPassword) {
         return usersDataSource.sendNewPassword(token, newPassword);
     }
 

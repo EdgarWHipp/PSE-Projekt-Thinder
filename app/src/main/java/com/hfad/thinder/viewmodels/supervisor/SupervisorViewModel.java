@@ -11,13 +11,13 @@ public class SupervisorViewModel extends ViewModel {
     private MutableLiveData<Boolean> profileComplete;
 
     public MutableLiveData<Boolean> getProfileComplete() {
-        if(profileComplete == null)
+        if (profileComplete == null)
             profileComplete = new MutableLiveData<>();
-            loadProfileComplete();
+        loadProfileComplete();
         return profileComplete;
     }
 
-    public void setProfileComplete(Boolean isComplete){
+    public void setProfileComplete(Boolean isComplete) {
         getProfileComplete().setValue(isComplete);
     }
 

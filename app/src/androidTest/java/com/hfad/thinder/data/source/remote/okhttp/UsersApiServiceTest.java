@@ -1,17 +1,9 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
 
-
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
-
-import com.hfad.thinder.data.model.Degree;
-import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Login;
 import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Supervisor;
-import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.model.UserCreation;
 import com.hfad.thinder.data.source.repository.UserRepository;
@@ -27,9 +19,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
@@ -48,7 +37,7 @@ public class UsersApiServiceTest extends TestCase {
         server = new MockWebServer();
         login = new Login("mail@gmail.com", "password");
 
-        usersApiService =  new UsersApiService();
+        usersApiService = new UsersApiService();
         usersApiService.setHost(server.getHostName());
         usersApiService.setPort(server.getPort());
     }
@@ -57,7 +46,6 @@ public class UsersApiServiceTest extends TestCase {
     public void tearDown() throws Exception {
         server.shutdown();
     }
-
 
 
     @Test
@@ -146,7 +134,7 @@ public class UsersApiServiceTest extends TestCase {
 
         String url = server.url("/users").toString();
 
-        UserCreation user = new UserCreation("tom", "mu", "x@y.de","asdf");
+        UserCreation user = new UserCreation("tom", "mu", "x@y.de", "asdf");
         CompletableFuture<Result> result = usersApiService.createNewUserFuture(user);
         RecordedRequest request = server.takeRequest();
         assertTrue(result.get().getSuccess());
@@ -160,12 +148,11 @@ public class UsersApiServiceTest extends TestCase {
 
         String url = server.url("/users").toString();
 
-        UserCreation user = new UserCreation("tom", "mu", "x@y.de","asdf");
+        UserCreation user = new UserCreation("tom", "mu", "x@y.de", "asdf");
         CompletableFuture<Result> result = usersApiService.createNewUserFuture(user);
         RecordedRequest request = server.takeRequest();
         assertFalse(result.get().getSuccess());
     }
-
 
 
     @Test
@@ -209,10 +196,10 @@ public class UsersApiServiceTest extends TestCase {
         response.setBody(""); //void returned from backend
         server.enqueue(response);
         CompletableFuture<Result> resultDelete = usersApiService.deleteUserFuture();
-        assertEquals(resultDelete.get().getSuccess(),true);
+        assertEquals(resultDelete.get().getSuccess(), true);
     }
 
-    public void swipeThesisWrite(){
+    public void swipeThesisWrite() {
 
     }
 
@@ -253,11 +240,11 @@ public class UsersApiServiceTest extends TestCase {
         private static JSONObject getUserJson() throws JSONException {
             return new JSONObject()
                     .put("id", id)
-                    .put("firstName",firstName)
+                    .put("firstName", firstName)
                     .put("lastName", lastName)
-                    .put("password",password)
-                    .put("mail",mail)
-                    .put("active",active)
+                    .put("password", password)
+                    .put("mail", mail)
+                    .put("active", active)
                     .put("uni_id", uni_id);
         }
 
@@ -272,7 +259,7 @@ public class UsersApiServiceTest extends TestCase {
                     .put("role", roleSupervisor)
                     .put("degree", academicDegree)
                     .put("officeNumber", officeNumber)
-                    .put("building",building)
+                    .put("building", building)
                     .put("institute", institute)
                     .put("phoneNumber", phoneNumber);
         }

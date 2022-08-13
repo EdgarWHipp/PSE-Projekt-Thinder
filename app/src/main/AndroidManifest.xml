@@ -4,7 +4,7 @@
     package="com.hfad.thinder">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -22,8 +22,8 @@
 
         <activity
             android:name=".ui.student.StudentActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.user.VerifyTokenActivity"
             android:exported="true" />
@@ -65,8 +65,8 @@
 
         <activity
             android:name=".ui.supervisor.SupervisorActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

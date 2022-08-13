@@ -34,7 +34,7 @@ public class ThesisFormState {
         this.professor = professor;
         this.courseOfStudy = courseOfStudy;
         this.isValid = (titleErrorMessage == null && taskErrorMessage == null && motivationErrorMessage == null
-                        && questionsErrorMessage == null && professor == null && courseOfStudy == null);
+                && questionsErrorMessage == null && professor == null && courseOfStudy == null);
         this.hasImages = hasImages;
     }
 

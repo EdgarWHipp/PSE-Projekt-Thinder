@@ -5,8 +5,8 @@ package com.hfad.thinder.viewmodels.user;
  * Used by the XML layout to show the appropriate views and change attributes accordingly.
  */
 public enum VerifyTokenStates {
-  IDLE, // The user has not yet pressed the verify button
-  LOADING, // The verification is currently ongoing
-  SUCCESSFUL, // the verification was successful
-  FAILURE // The verification failed
+    IDLE, // The user has not yet pressed the verify button
+    LOADING, // The verification is currently ongoing
+    SUCCESSFUL, // the verification was successful
+    FAILURE // The verification failed
 }

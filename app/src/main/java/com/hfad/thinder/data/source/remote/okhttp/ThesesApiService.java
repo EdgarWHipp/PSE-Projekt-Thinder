@@ -30,6 +30,10 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * This class created all HTTP request that are relevant for the theses inside the application.
+ * These include the create and delete thesis functionalities in addition to a function that simply returns a specified thesis.
+ */
 public class ThesesApiService {
     private static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");

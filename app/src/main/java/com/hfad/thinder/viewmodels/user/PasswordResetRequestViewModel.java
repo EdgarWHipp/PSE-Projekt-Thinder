@@ -1,7 +1,5 @@
 package com.hfad.thinder.viewmodels.user;
 
-import android.view.View;
-
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 

@@ -4,43 +4,43 @@ import androidx.annotation.Nullable;
 
 public class ForgotPasswordFormState {
 
-  @Nullable
-  private final Integer codeErrorMessage;
+    @Nullable
+    private final Integer codeErrorMessage;
 
-  @Nullable
-  private final Integer newPasswordErrorMessage;
+    @Nullable
+    private final Integer newPasswordErrorMessage;
 
-  @Nullable
-  private final Integer newPasswordConfirmationErrorMessage;
+    @Nullable
+    private final Integer newPasswordConfirmationErrorMessage;
 
-  private final boolean isDataValid;
+    private final boolean isDataValid;
 
-  public ForgotPasswordFormState(@Nullable Integer codeErrorMessage,
-                                 @Nullable Integer newPasswordErrorMessage,
-                                 @Nullable Integer newPasswordConfirmationErrorMessage) {
-    this.codeErrorMessage = codeErrorMessage;
-    this.newPasswordErrorMessage = newPasswordErrorMessage;
-    this.newPasswordConfirmationErrorMessage = newPasswordConfirmationErrorMessage;
-    this.isDataValid = codeErrorMessage == null && newPasswordErrorMessage == null &&
-        newPasswordConfirmationErrorMessage == null;
-  }
+    public ForgotPasswordFormState(@Nullable Integer codeErrorMessage,
+                                   @Nullable Integer newPasswordErrorMessage,
+                                   @Nullable Integer newPasswordConfirmationErrorMessage) {
+        this.codeErrorMessage = codeErrorMessage;
+        this.newPasswordErrorMessage = newPasswordErrorMessage;
+        this.newPasswordConfirmationErrorMessage = newPasswordConfirmationErrorMessage;
+        this.isDataValid = codeErrorMessage == null && newPasswordErrorMessage == null &&
+                newPasswordConfirmationErrorMessage == null;
+    }
 
-  @Nullable
-  public Integer getCodeErrorMessage() {
-    return codeErrorMessage;
-  }
+    @Nullable
+    public Integer getCodeErrorMessage() {
+        return codeErrorMessage;
+    }
 
-  @Nullable
-  public Integer getNewPasswordErrorMessage() {
-    return newPasswordErrorMessage;
-  }
+    @Nullable
+    public Integer getNewPasswordErrorMessage() {
+        return newPasswordErrorMessage;
+    }
 
-  @Nullable
-  public Integer getNewPasswordConfirmationErrorMessage() {
-    return newPasswordConfirmationErrorMessage;
-  }
+    @Nullable
+    public Integer getNewPasswordConfirmationErrorMessage() {
+        return newPasswordConfirmationErrorMessage;
+    }
 
-  public boolean isDataValid() {
-    return isDataValid;
-  }
+    public boolean isDataValid() {
+        return isDataValid;
+    }
 }

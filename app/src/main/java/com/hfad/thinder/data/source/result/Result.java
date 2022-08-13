@@ -6,27 +6,27 @@ import androidx.annotation.Nullable;
  * A result class with an error message and a success value.
  */
 public class Result {
-  @Nullable
-  private final String errorMessage;
+    @Nullable
+    private final String errorMessage;
 
-  private final boolean success;
+    private final boolean success;
 
-  public Result(@Nullable String errorMessage, boolean success) {
-    this.errorMessage = errorMessage;
-    this.success = success;
-  }
+    public Result(@Nullable String errorMessage, boolean success) {
+        this.errorMessage = errorMessage;
+        this.success = success;
+    }
 
-  public Result(boolean success) {
-    this.errorMessage = null;
-    this.success = success;
-  }
+    public Result(boolean success) {
+        this.errorMessage = null;
+        this.success = success;
+    }
 
-  @Nullable
-  public String getErrorMessage() {
-    return this.errorMessage;
-  }
+    @Nullable
+    public String getErrorMessage() {
+        return this.errorMessage;
+    }
 
-  public boolean getSuccess() {
-    return this.success;
-  }
+    public boolean getSuccess() {
+        return this.success;
+    }
 }

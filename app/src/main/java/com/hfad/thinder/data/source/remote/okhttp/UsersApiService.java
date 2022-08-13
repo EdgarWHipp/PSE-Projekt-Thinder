@@ -31,6 +31,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * This class creates all the HTTP requests for the "general" user. This includes functionalities such as the registration, login, forgetting the password etc.
+ */
 public class UsersApiService {
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final OkHttpClient CLIENT = new OkHttpClient();

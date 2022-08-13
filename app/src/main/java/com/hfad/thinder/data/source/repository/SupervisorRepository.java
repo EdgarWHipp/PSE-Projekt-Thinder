@@ -1,18 +1,11 @@
 package com.hfad.thinder.data.source.repository;
 
-import com.hfad.thinder.data.model.Thesis;
-import com.hfad.thinder.data.source.remote.StudentRemoteDataSource;
 import com.hfad.thinder.data.source.remote.SupervisorRemoteDataSource;
 import com.hfad.thinder.data.source.result.Result;
 
-import java.util.HashMap;
-import java.util.UUID;
-
-import okhttp3.Response;
-
 public class SupervisorRepository {
     private static SupervisorRepository INSTANCE;
-    private SupervisorRemoteDataSource supervisorRemoteDataSource =new SupervisorRemoteDataSource();
+    private SupervisorRemoteDataSource supervisorRemoteDataSource = new SupervisorRemoteDataSource();
 
     private SupervisorRepository() {
 
@@ -28,9 +21,10 @@ public class SupervisorRepository {
         return INSTANCE;
     }
 
-    public Result getAllCreatedTheses(){
+    public Result getAllCreatedTheses() {
         return supervisorRemoteDataSource.getCreatedThesisFromSupervisor();
     }
+
     /**
      * Edits the profile of a supervisor (this occurs during the edit profile screen where the user has to input additional information)
      *
@@ -39,7 +33,7 @@ public class SupervisorRepository {
      * @param phoneNumber
      * @return Result
      */
-    public Result editProfilSupervisor(String degree, String officeNumber, String building, String institute, String phoneNumber,String firstName,String lastName) {
-        return supervisorRemoteDataSource.extendUserToSupervisor(degree,officeNumber,building, institute, phoneNumber,firstName,lastName);
+    public Result editProfilSupervisor(String degree, String officeNumber, String building, String institute, String phoneNumber, String firstName, String lastName) {
+        return supervisorRemoteDataSource.extendUserToSupervisor(degree, officeNumber, building, institute, phoneNumber, firstName, lastName);
     }
 }

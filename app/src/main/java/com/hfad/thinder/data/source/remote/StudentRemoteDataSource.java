@@ -1,14 +1,12 @@
 package com.hfad.thinder.data.source.remote;
 
-import com.google.gson.Gson;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.remote.okhttp.StudentApiService;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
-import com.hfad.thinder.data.source.repository.UserRepository;
-import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.data.source.result.Pair;
+import com.hfad.thinder.data.source.result.Result;
 
 import org.json.JSONException;
 
@@ -17,15 +15,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 
 /**
  * This class handles all the errors that occur during HTTP requests that are call on students.

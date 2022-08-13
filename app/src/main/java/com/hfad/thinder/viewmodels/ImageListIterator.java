@@ -22,32 +22,32 @@ public class ImageListIterator<E> implements ListIterator<E> {
 
     @Override
     public E next() {
-        if(hasNext())
+        if (hasNext())
             cursor++;
         return list.get(cursor);
     }
 
-    public E current(){
+    public E current() {
         return list.get(cursor);
     }
 
     @Override
     public E previous() {
-        if(hasPrevious())
+        if (hasPrevious())
             cursor--;
         return this.list.get(cursor);
     }
 
     @Override
     public int nextIndex() {
-        if(hasNext())
+        if (hasNext())
             return cursor++;
         return cursor;
     }
 
     @Override
     public int previousIndex() {
-        if(hasPrevious()){
+        if (hasPrevious()) {
             return cursor - 1;
         }
         return cursor;
