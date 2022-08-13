@@ -9,7 +9,7 @@
         android:id="@+id/studentProfileFragment"
         android:name="com.hfad.thinder.ui.student.StudentProfileFragment"
         android:label="@string/edit_profile"
-        tools:layout="@layout/fragment_student_profile" >
+        tools:layout="@layout/fragment_student_profile">
         <action
             android:id="@+id/action_studentProfileFragment_to_coursesOfStudyStudentFragment"
             app:destination="@id/coursesOfStudyStudentFragment" />
@@ -23,7 +23,7 @@
         android:id="@+id/likedThesesFragment"
         android:name="com.hfad.thinder.ui.student.LikedThesesFragment"
         android:label="@string/liked_theses"
-        tools:layout="@layout/fragment_liked_theses" >
+        tools:layout="@layout/fragment_liked_theses">
         <action
             android:id="@+id/action_likedThesesFragment_to_likedThesisDetailedFragment"
             app:destination="@id/likedThesisDetailedFragment" />
@@ -37,7 +37,7 @@
         android:id="@+id/likedThesisDetailedFragment"
         android:name="com.hfad.thinder.ui.student.LikedThesisDetailedFragment"
         android:label="@string/details"
-        tools:layout="@layout/fragment_liked_thesis_detailed" >
+        tools:layout="@layout/fragment_liked_thesis_detailed">
         <action
             android:id="@+id/action_likedThesisDetailedFragment_to_fillOutFormFragment"
             app:destination="@id/fillOutFormFragment" />

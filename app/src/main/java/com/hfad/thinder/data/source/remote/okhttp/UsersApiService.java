@@ -20,7 +20,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import okhttp3.Call;
@@ -44,10 +43,11 @@ public class UsersApiService {
     /**
      * This function creates the HTTP GET request that firstly makes sure the email, password tuple exists in the database and then fetches a JSON with attributes type and id.
      * Checks if the asynchronous call return fails or responds.
+     *
      * @param login
-     * @returnCompletableFuture<Result>
      * @throws JSONException
      * @throws IOException
+     * @returnCompletableFuture<Result>
      */
     public CompletableFuture<Result> getUserDetails(Login login) throws JSONException, IOException {
         OkHttpClient clientAuth = new OkHttpClient.Builder()
@@ -73,21 +73,22 @@ public class UsersApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result(e.toString(),false));
+                resultCompletableFuture.complete(new Result(e.toString(), false));
             }
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     try {
+                        UserRepository.getInstance().setPassword(login.getPassword());
                         Result valueSettingResult = setUserValues(response.body().string());
-                        resultCompletableFuture.complete(new Result(valueSettingResult.getErrorMessage(),true));
+                        resultCompletableFuture.complete(new Result(valueSettingResult.getErrorMessage(), true));
                     } catch (JSONException e) {
-                        resultCompletableFuture.complete(new Result("user values not correctly received",false));
+                        resultCompletableFuture.complete(new Result("user values not correctly received", false));
                     }
 
-                }else{
-                    resultCompletableFuture.complete(new Result("not successful",false));
+                } else {
+                    resultCompletableFuture.complete(new Result("not successful", false));
                 }
             }
         });
@@ -96,12 +97,11 @@ public class UsersApiService {
     }
 
 
-
-
     /**
      * This function creates the HTTP POST request, tracks if the call was a failure or had a response and
      * if it was successful and returns an appropriate completable future that holds a Result.
      * Checks if the asynchronous call return fails or responds.
+     *
      * @param token
      * @return CompletableFuture
      * @throws JSONException
@@ -111,16 +111,15 @@ public class UsersApiService {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 
 
-
         HttpUrl url = new HttpUrl.Builder()
                 .scheme(scheme)
                 .host(host)
                 .port(port)
                 .addPathSegment("users")
                 .addPathSegment("verify")
-                .addQueryParameter("token",token)
+                .addQueryParameter("token", token)
                 .build();
-        Log.e("",url.toString());
+        Log.e("", url.toString());
         Request request = new Request.Builder()
                 .url(url)
                 .get()
@@ -131,16 +130,16 @@ public class UsersApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result(e.toString(),false));
+                resultCompletableFuture.complete(new Result(e.toString(), false));
             }
 
             @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response)  {
-                if (response.isSuccessful()){
+            public void onResponse(@NonNull Call call, @NonNull Response response) {
+                if (response.isSuccessful()) {
 
                     resultCompletableFuture.complete(new Result(true));
-                }else{
-                    resultCompletableFuture.complete(new Result("not successful",false));
+                } else {
+                    resultCompletableFuture.complete(new Result("not successful", false));
                 }
             }
         });
@@ -151,8 +150,9 @@ public class UsersApiService {
      * This function creates the HTTP POST request and thus, if no error occurs, leads to the creation of a new user in the postgres database.
      * Also already defines the id and type of the registrated user for the UserRepository.
      * Checks if the asynchronous call return fails or responds.
+     *
      * @param user
-     * @return  CompletableFuture<Result>
+     * @return CompletableFuture<Result>
      * @throws JSONException
      */
     public CompletableFuture<Result> createNewUserFuture(UserCreation user) throws JSONException {
@@ -162,12 +162,11 @@ public class UsersApiService {
                 .put("lastName", user.getLastName())
                 .put("password", user.getPassword())
                 .put("mail", user.getMail())
-                .put("type","USER");
+                .put("type", "USER");
         UserRepository.getInstance()
-                .setUser(new User(null,null,false,null,
-                        user.getPassword(),user.getMail(),user.getFirstName(),user.getLastName(),false));
+                .setUser(new User(null, null, false, null,
+                        user.getPassword(), user.getMail(), user.getFirstName(), user.getLastName(), false));
         UserRepository.getInstance().setPassword(user.getPassword());
-
         RequestBody body = RequestBody.create(userJson.toString(), JSON);
 
         HttpUrl url = new HttpUrl.Builder()
@@ -192,7 +191,7 @@ public class UsersApiService {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-                        resultCompletableFuture.complete(new Result(true));
+                    resultCompletableFuture.complete(new Result(true));
                 } else {
 
                     resultCompletableFuture.complete(new Result("not successful", false));
@@ -207,6 +206,7 @@ public class UsersApiService {
     /**
      * This function creates the HTTP DELETE request that removes a user from the database (if successful)
      * Checks if the asynchronous call return fails or responds.
+     *
      * @return CompletableFuture<Result> that is alter evaluated inside the UsersRemoteDataSource class
      * @throws IOException
      */
@@ -224,7 +224,7 @@ public class UsersApiService {
                 .port(port)
                 .addPathSegment("users")
                 .addPathSegment("current").build();
-        Request request= new Request.Builder()
+        Request request = new Request.Builder()
                 .url(url)
                 .delete()
                 .build();
@@ -233,7 +233,7 @@ public class UsersApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result(e.toString(),false));
+                resultCompletableFuture.complete(new Result(e.toString(), false));
             }
 
             @Override
@@ -257,9 +257,10 @@ public class UsersApiService {
      * This function creates the HTTP GET request that makes the backend send
      * a email to the users mail address, which they can then enter in the verify screen
      * to ultimately reset their password.
+     *
      * @return CompletableFuture<Result> that is later evaluated in the UsersRemoteDataSource class
      */
-    public CompletableFuture<Result> resetPassword(String email){
+    public CompletableFuture<Result> resetPassword(String email) {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 
 
@@ -268,7 +269,7 @@ public class UsersApiService {
                 .host(host)
                 .port(port)
                 .addPathSegment("resetPassword")
-                .addQueryParameter("mail",email)
+                .addQueryParameter("mail", email)
                 .build();
         Request request = new Request.Builder()
                 .url(url)
@@ -279,15 +280,15 @@ public class UsersApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result(e.toString(),false));
+                resultCompletableFuture.complete(new Result(e.toString(), false));
             }
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     resultCompletableFuture.complete(new Result(true));
-                }else{
-                    resultCompletableFuture.complete(new Result("not successful",false));
+                } else {
+                    resultCompletableFuture.complete(new Result("not successful", false));
                 }
 
             }
@@ -296,16 +297,17 @@ public class UsersApiService {
     }
 
     /**
-     *  This function creates the actual HTTP POST request that signals a new password for a currently logged in user to the backend.
-     *  The user has a new password after this call.
+     * This function creates the actual HTTP POST request that signals a new password for a currently logged in user to the backend.
+     * The user has a new password after this call.
+     *
      * @param token
      * @param newPassword
      * @return CompletableFuture<Result>
      * @throws JSONException
      */
     public CompletableFuture<Result> postNewPassword(String token, String newPassword) throws JSONException {
-        CompletableFuture<Result> resultCompletableFuture= new CompletableFuture<>();
-        JSONObject passwordJSON = new JSONObject().put("password",newPassword);
+        CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
+        JSONObject passwordJSON = new JSONObject().put("password", newPassword);
 
         RequestBody body = RequestBody.create(passwordJSON.toString(), JSON);
         HttpUrl url = new HttpUrl.Builder()
@@ -313,7 +315,7 @@ public class UsersApiService {
                 .host(host)
                 .port(port)
                 .addPathSegment("resetPassword")
-                .addQueryParameter("token",token)
+                .addQueryParameter("token", token)
                 .build();
 
         Request request = new Request.Builder()
@@ -325,15 +327,15 @@ public class UsersApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result(e.toString(),false));
+                resultCompletableFuture.complete(new Result(e.toString(), false));
             }
 
             @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response){
-                if(response.isSuccessful()){
+            public void onResponse(@NonNull Call call, @NonNull Response response) {
+                if (response.isSuccessful()) {
                     resultCompletableFuture.complete(new Result(true));
-                }else {
-                    resultCompletableFuture.complete(new Result("not successful",false));
+                } else {
+                    resultCompletableFuture.complete(new Result("not successful", false));
                 }
             }
         });
@@ -342,6 +344,7 @@ public class UsersApiService {
 
     /**
      * This function parses the returned JSON from the login HTTP GET request. All necessary user values are set inside the UserRepository.
+     *
      * @param body the response.body().string() that is returned from the getUserDetails function.
      * @return Result
      * @throws JSONException, when the JSON is incorrectly parsed
@@ -350,7 +353,7 @@ public class UsersApiService {
         Gson gson = new Gson();
         UserRepository userRepository = UserRepository.getInstance();
         String role = new JSONObject(body).get("type").toString();
-        switch(role){
+        switch (role) {
             case "STUDENT":
                 Student student;
                 student = gson.fromJson(body, Student.class);
@@ -364,7 +367,7 @@ public class UsersApiService {
                 userRepository.setUser(supervisor);
                 break;
             default:
-                return new Result("User Role not specified.",false);
+                return new Result("User Role not specified.", false);
         }
         return new Result(true);
     }

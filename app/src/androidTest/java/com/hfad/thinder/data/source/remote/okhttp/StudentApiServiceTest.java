@@ -7,11 +7,12 @@ import android.util.Log;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Login;
 import com.hfad.thinder.data.model.Student;
+import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.repository.UserRepository;
+import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.data.source.result.Result;
-import com.hfad.thinder.data.source.result.Tuple;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -62,20 +63,20 @@ public class StudentApiServiceTest {
         MockResponse response = new MockResponse().setResponseCode(200);
         server.enqueue(response);
 
-        Degree degreeInformatik = new Degree("Informatik Bsc");
+        Degree degreeInformatik = new Degree("Informatik Bsc",new UUID(32,32));
         ArrayList<Degree> degreesOld = new ArrayList<>();
         degreesOld.add(degreeInformatik);
 
         Student student = new Student(USERTYPE.STUDENT,
                 new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
                 true, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
-                "password", "mail@gmail.com", "Olf", "Molf", degreesOld);
+                "password", "mail@gmail.com", "Olf", "Molf", degreesOld,true);
 
         UserRepository userRepository = UserRepository.getInstance();
         userRepository.setType(USERTYPE.STUDENT);
         userRepository.setUser(student);
 
-        Degree degreeMathe = new Degree("Mathematik Msc");
+        Degree degreeMathe = new Degree("Mathematik Msc",new UUID(32,32));
         ArrayList<Degree> degreesNew = new ArrayList<>();
         degreesNew.add(degreeMathe);
 
@@ -92,30 +93,24 @@ public class StudentApiServiceTest {
         assertEquals(((Student)UserRepository.getInstance().getUser()).getDegrees(),degreesNew);
         assertEquals(UserRepository.getInstance().getUser().getLastName(),"Müller");
         assertEquals(UserRepository.getInstance().getUser().getFirstName(),"Tom");
-        JSONObject sentBodyJson = new JSONObject()
-                .put("degrees",degreesNew)
-                .put("firstName","Tom")
-                .put("lastName","Müller");
-        String requestBodybody = RequestBody.create(sentBodyJson.toString(), JSON).toString();
-      //  assertEquals(requestBodybody,body); noch nicht ganz geschafft
     }
     @Test
     public void rateThesisFuture() throws JSONException, InterruptedException, ExecutionException {
         //Set current loged in user
-        Degree degreeInformatik = new Degree("Informatik Bsc");
+        Degree degreeInformatik = new Degree("Informatik Bsc",new UUID(32,32));
         ArrayList<Degree> degreesOld = new ArrayList<>();
         degreesOld.add(degreeInformatik);
 
         Student student = new Student(USERTYPE.STUDENT,
                 new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
                 true, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
-                "password", "mail@gmail.com", "Olf", "Molf", degreesOld);
+                "password", "mail@gmail.com", "Olf", "Molf", degreesOld,true);
         // Actual Thesis Rating call
         UserRepository.getInstance().setUser(student);
         MockResponse response = new MockResponse().setResponseCode(200);
         server.enqueue(response);
-        Collection<Tuple<UUID,Boolean>> ratings =  new ArrayList<>();
-        ratings.add(new Tuple<>(new UUID(32,32),true));
+        Collection<Pair<UUID,Boolean>> ratings =  new ArrayList<Pair<UUID,Boolean>>();
+        ratings.add(new Pair<>(new UUID(32,32),true));
         CompletableFuture<Result> result = studentApiService.rateThesisFuture(
                 ratings);
         RecordedRequest request = server.takeRequest();
@@ -128,20 +123,20 @@ public class StudentApiServiceTest {
     @Test
     public void rateThesisFutureFail() throws JSONException, InterruptedException, ExecutionException {
         //Set current loged in user
-        Degree degreeInformatik = new Degree("Informatik Bsc");
+        Degree degreeInformatik = new Degree("Informatik Bsc",new UUID(32,32));
         ArrayList<Degree> degreesOld = new ArrayList<>();
         degreesOld.add(degreeInformatik);
 
         Student student = new Student(USERTYPE.STUDENT,
                 new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
                 true, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
-                "password", "mail@gmail.com", "Olf", "Molf", degreesOld);
+                "password", "mail@gmail.com", "Olf", "Molf", degreesOld,false);
         // Actual Thesis Rating call
         UserRepository.getInstance().setUser(student);
         MockResponse response = new MockResponse().setResponseCode(500);
         server.enqueue(response);
-        Collection<Tuple<UUID,Boolean>> ratings = new ArrayList<>();
-        ratings.add(new Tuple<>(new UUID(32,32),true));
+        Collection<Pair<UUID,Boolean>> ratings = new ArrayList<>();
+        ratings.add(new Pair<>(new UUID(32,32),true));
         CompletableFuture<Result> result = studentApiService.rateThesisFuture(ratings);
         RecordedRequest request = server.takeRequest();
         String authToken = request.getHeader("Authorization");
@@ -153,7 +148,15 @@ public class StudentApiServiceTest {
 
     @Test
     public void getRateableThesis() {
+        MockResponse response = new MockResponse().setResponseCode(200);
+        server.enqueue(response);
+        Pair<CompletableFuture<ArrayList<Thesis>>,CompletableFuture<Result>> values= studentApiService.getAllThesesForTheStudentFuture();
 
+    }
+    @Test
+    public void getRateableThesisFail() {
+        MockResponse response = new MockResponse().setResponseCode(200);
+        server.enqueue(response);
 
     }
 

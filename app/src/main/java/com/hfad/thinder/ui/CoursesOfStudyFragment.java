@@ -1,15 +1,6 @@
 package com.hfad.thinder.ui;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentCoursesOfStudyBinding;
@@ -36,19 +35,15 @@ public abstract class CoursesOfStudyFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    protected CoursesOfStudyPicker viewModel;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     private ArrayList<CourseOfStudyItem> elements;
-
     private RecyclerView mRecyclerView;
     private CoursesOfStudyAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-
     private FragmentCoursesOfStudyBinding binding;
-    protected CoursesOfStudyPicker viewModel;
-
     private View view;
 
     public CoursesOfStudyFragment() {
@@ -78,7 +73,7 @@ public abstract class CoursesOfStudyFragment extends Fragment {
         final Observer<ArrayList<CourseOfStudyItem>> coursesOfStudyItemsObserver = new Observer<ArrayList<CourseOfStudyItem>>() {
             @Override
             public void onChanged(ArrayList<CourseOfStudyItem> courseOfStudyItems) {
-                if(!mRecyclerView.isComputingLayout() && !mRecyclerView.isShown())
+                if (!mRecyclerView.isComputingLayout() && !mRecyclerView.isShown())
                     mAdapter.setElements(viewModel.getCoursesOfStudyList().getValue());
             }
         };
@@ -119,7 +114,7 @@ public abstract class CoursesOfStudyFragment extends Fragment {
         });
     }
 
-    public void save(View view){
+    public void save(View view) {
         Navigation.findNavController(view).popBackStack();
     }
 }

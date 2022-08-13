@@ -1,11 +1,8 @@
 package com.hfad.thinder.data.source.remote;
 
-import android.util.Log;
-
 import com.hfad.thinder.data.model.Login;
 import com.hfad.thinder.data.model.UserCreation;
 import com.hfad.thinder.data.source.remote.okhttp.UsersApiService;
-import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 
 import org.json.JSONException;
@@ -20,8 +17,9 @@ import java.util.concurrent.TimeoutException;
  * This Class handles all errors that the HTTP requests on the /users/ endpoint creates in addition to all necessary functions needed to verify a user/ a change in password.
  */
 public class UsersRemoteDataSource {
-    private final UsersApiService usersApiService = new UsersApiService();
     private final static int TIMEOUT_SECONDS = 10000;
+    private final UsersApiService usersApiService = new UsersApiService();
+
     public UsersApiService getUsersApiService() {
         return usersApiService;
     }
@@ -110,15 +108,15 @@ public class UsersRemoteDataSource {
 
     /**
      * Handles the error messages for the resetPasswordFuture HTTP request.
+     *
      * @param email
      * @return Result that includes a success value and an error message
      */
-    public Result resetPassword(String email){
-        try{
+    public Result resetPassword(String email) {
+        try {
             CompletableFuture<Result> result = usersApiService.resetPassword(email);
             return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
-        }
-        catch (ExecutionException e) {
+        } catch (ExecutionException e) {
             return new Result("not successful", false);
         } catch (InterruptedException e) {
             return new Result("not successful", false);
@@ -129,6 +127,7 @@ public class UsersRemoteDataSource {
 
     /**
      * Handles the error messages for the sendNewPasswordFuture HTTP request.
+     *
      * @param token, newPassword
      * @return Result that includes a success value and an error message
      */

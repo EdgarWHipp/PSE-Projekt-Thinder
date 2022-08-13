@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    card_view:cardUseCompatPadding="true"
-    card_view:cardCornerRadius="10dp"
     card_view:cardBackgroundColor="#E6E6E6"
-    card_view:cardElevation="8dp">
+    card_view:cardCornerRadius="10dp"
+    card_view:cardElevation="8dp"
+    card_view:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,10 +18,10 @@
             android:id="@+id/cbCoursesOfStudy"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAlignment="textStart"
-            android:text="RadioButton"
-            android:layoutDirection="rtl"
             android:layout_margin="@dimen/fab_margin"
+            android:layoutDirection="rtl"
+            android:text="RadioButton"
+            android:textAlignment="textStart"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

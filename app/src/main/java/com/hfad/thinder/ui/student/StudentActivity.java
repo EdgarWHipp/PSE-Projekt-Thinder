@@ -21,7 +21,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.ActivityStudentBinding;
 import com.hfad.thinder.viewmodels.student.StudentViewModel;
-import com.hfad.thinder.viewmodels.supervisor.SupervisorViewModel;
 
 public class StudentActivity extends AppCompatActivity {
 
@@ -50,7 +49,7 @@ public class StudentActivity extends AppCompatActivity {
             @Override
             public void onDestinationChanged(@NonNull NavController controller,
                                              @NonNull NavDestination destination, @Nullable Bundle arguments) {
-                if(destination.getId() == R.id.swipeScreenFragment) {
+                if (destination.getId() == R.id.swipeScreenFragment) {
                     myChildToolbar.setVisibility(View.GONE);
                     mBinding.separator.setVisibility(View.GONE);
                 } else {
@@ -66,11 +65,11 @@ public class StudentActivity extends AppCompatActivity {
             @Override
             public void onChanged(Boolean profileCreated) {
 
-                if(profileCreated){
+                if (profileCreated) {
                     bottomNavigationView.getMenu().findItem(R.id.likedThesesFragment).setEnabled(true);
                     bottomNavigationView.getMenu().findItem(R.id.swipeScreenFragment).setEnabled(true);
                     bottomNavigationView.setSelectedItemId(R.id.likedThesesFragment);
-                }else {
+                } else {
                     bottomNavigationView.getMenu().findItem(R.id.likedThesesFragment).setEnabled(false);
                     bottomNavigationView.getMenu().findItem(R.id.swipeScreenFragment).setEnabled(false);
                 }
@@ -81,19 +80,18 @@ public class StudentActivity extends AppCompatActivity {
         viewmodel.getProfileComplete().observe(this, profileCreatedObserver);
     }
 
-    public void setActionBarTitle(String title){
+    public void setActionBarTitle(String title) {
         myChildToolbar.setTitle(title);
     }
 
-    public void profileCompleted(){
+    public void profileCompleted() {
         viewmodel.setProfileComplete(true);
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         moveTaskToBack(true);
     }
-
 
 
 }

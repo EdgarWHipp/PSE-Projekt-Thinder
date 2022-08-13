@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:clickable="true"
+    android:foreground="?android:selectableItemBackground"
     app:cardCornerRadius="4dp"
     app:cardElevation="8dp"
-    android:clickable="true"
-    card_view:cardUseCompatPadding="true"
-    android:layout_margin="5dp"
-    android:foreground="?android:selectableItemBackground">
+    card_view:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -22,9 +22,9 @@
             style="@style/body_1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
             android:maxLines="1"
             android:text="Laserprozessierung von Dünnschicht Solarzellen"
-            android:ellipsize="end"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivThesisManagerItem"
             app:layout_constraintTop_toTopOf="parent" />
@@ -34,8 +34,8 @@
             style="@style/body_2"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:maxLines="2"
             android:ellipsize="end"
+            android:maxLines="2"
             android:text="Diese Arbeit umfasst die Herstellung und Charakterisierung von Solarzellen und
 dünnen Funktionsschichten sowie insbesondere..."
             app:layout_constraintBottom_toBottomOf="parent"

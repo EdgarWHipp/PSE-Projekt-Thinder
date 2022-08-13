@@ -12,6 +12,7 @@ import com.hfad.thinder.viewmodels.supervisor.NewThesisViewModel;
 
 public class ImageGalleryNewThesisFragment extends ImageGalleryFragment {
     NewThesisViewModel viewModel;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

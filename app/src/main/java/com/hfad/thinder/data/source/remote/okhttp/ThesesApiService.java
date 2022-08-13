@@ -1,19 +1,13 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.hfad.thinder.R;
-import com.hfad.thinder.data.model.Supervisor;
+import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Thesis;
-import com.hfad.thinder.data.model.User;
-import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
-import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.data.source.result.Pair;
+import com.hfad.thinder.data.source.result.Result;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,8 +15,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -37,195 +31,209 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class ThesesApiService {
-  private static final MediaType JSON
-          = MediaType.parse("application/json; charset=utf-8");
-  private String scheme = "http";
-  private String host = "10.0.2.2";
-  private int port = 8080;
-  public String getScheme() {
-    return scheme;
-  }
+    private static final MediaType JSON
+            = MediaType.parse("application/json; charset=utf-8");
+    private String scheme = "http";
+    private String host = "10.0.2.2";
+    private int port = 8080;
 
-  public void setScheme(String scheme) {
-    this.scheme = scheme;
-  }
+    public String getScheme() {
+        return scheme;
+    }
 
-  public String getHost() {
-    return host;
-  }
+    public void setScheme(String scheme) {
+        this.scheme = scheme;
+    }
 
-  public void setHost(String host) {
-    this.host = host;
-  }
+    public String getHost() {
+        return host;
+    }
 
-  public int getPort() {
-    return port;
-  }
+    public void setHost(String host) {
+        this.host = host;
+    }
 
-  public void setPort(int port) {
-    this.port = port;
-  }
+    public int getPort() {
+        return port;
+    }
 
-
-
+    public void setPort(int port) {
+        this.port = port;
+    }
 
 
-  /**
-   * This function creates the actual HTTP POST request to the backend that leads to a created thesis object inside the database.
-   * @param thesis
-   * @return A CompletableFuture<Result> that is later evaluated in the RemoteDataSource classes
-   * @throws JSONException
-   */
-  public CompletableFuture<Result> createNewThesisFuture(Thesis thesis) throws JSONException {
-    OkHttpClient clientAuth = new OkHttpClient.Builder()
-            .addInterceptor(new AuthInterceptor
-                    (UserRepository.getInstance().getUser().getMail(),
-                            UserRepository.getInstance().getPassword()))
-            .build();
-    CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
-    List<byte[]> byteArrayImages = thesis.getImages().stream().map(x->x.getImage()).collect(Collectors.toList());
-    List<UUID> degreeUUIDS = (List<UUID>) thesis.getPossibleDegrees().stream().map(x->x.getId()).collect(Collectors.toList());
-    JSONObject thesisJSON = new JSONObject()
-            .put("name", thesis.getName())
-            .put("motivation", thesis.getMotivation())
-            .put("task", thesis.getTask())
-            .put("questionForm", thesis.getForm().getQuestions())
-            .put("images", byteArrayImages)
-            .put("possibleDegrees", degreeUUIDS)
-            .put("id", UserRepository.getInstance().getUser().getId())
-            .put("supervisingProfessor", thesis.getSupervisingProfessor());
-
-
-    RequestBody body = RequestBody.create(thesisJSON.toString(), JSON);
-
-    HttpUrl url = new HttpUrl.Builder()
-            .scheme(scheme)
-            .host(host)
-            .port(port)
-            .addPathSegment("thesis")
-            .build();
-    Request request = new Request.Builder()
-            .url(url)
-            .post(body)
-            .build();
-    Call call = clientAuth.newCall(request);
-    Log.e("",thesisJSON.toString());
-    call.enqueue(new Callback() {
-      @Override
-      public void onFailure(@NonNull Call call, @NonNull IOException e) {
-        resultCompletableFuture.complete(new Result("failure", false));
-      }
-
-      @Override
-      public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-        if (response.isSuccessful()) {
-          resultCompletableFuture.complete(new Result(true));
-        } else {
-          resultCompletableFuture.complete(new Result("not successful", false));
+    /**
+     * This function creates the actual HTTP POST request to the backend that leads to a created thesis object inside the database.
+     *
+     * @param thesis
+     * @return A CompletableFuture<Result> that is later evaluated in the RemoteDataSource classes
+     * @throws JSONException
+     */
+    public CompletableFuture<Result> createNewThesisFuture(Thesis thesis) throws JSONException {
+        //Add HTTP BASIC authentication
+        OkHttpClient clientAuth = new OkHttpClient.Builder()
+                .addInterceptor(new AuthInterceptor
+                        (UserRepository.getInstance().getUser().getMail(),
+                                UserRepository.getInstance().getPassword()))
+                .build();
+        CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
+        List<byte[]> byteArrayImages = new ArrayList<>();
+        if (thesis.getImages() != null) {
+            byteArrayImages = thesis.getImages().stream().map(x -> x.getImage()).collect(Collectors.toList());
         }
-      }
 
-    });
-    return resultCompletableFuture;
-  }
+        JSONArray possibleDegreeJson = new JSONArray();
+        for (Degree degree : thesis.getPossibleDegrees()) {
+            JSONObject degreeJsoon = new JSONObject();
+            degreeJsoon.put("id", degree.getId());
+            degreeJsoon.put("degree", degree.getDegree());
+            //degreeJsoon.put("university", degree.getUniversityID());
+            possibleDegreeJson.put(degreeJsoon);
+        }
+        List<UUID> degreeUUIDS = (List<UUID>) thesis.getPossibleDegrees().stream().map(x -> x.getId()).collect(Collectors.toList());
+        JSONArray degreeUUIDSArr = new JSONArray(degreeUUIDS);
+        byte[] image = new byte[20];
+        new Random().nextBytes(image);
 
-  /**
-   * This function creates the actual HTTP GET request that returns a specific thesis from the backend.
-   * @param thesisId
-   * @return A Pair of <CompletableFuture<Thesis>,CompletableFuture<Result>
-   */
-  public Pair<CompletableFuture<Thesis>,CompletableFuture<Result>>  getSpecificThesisFuture(UUID thesisId){
-    OkHttpClient clientAuth = new OkHttpClient.Builder()
-            .addInterceptor(new AuthInterceptor
-                    (UserRepository.getInstance().getUser().getMail(),
-                            UserRepository.getInstance().getUser().getPassword()))
-            .build();
-    CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
-    CompletableFuture<Thesis> resultThesis = new CompletableFuture<>();
+        String encodedImage = java.util.Base64.getEncoder().encodeToString(image);
+        JSONArray images = new JSONArray();
+        images.put(encodedImage);
+        JSONObject thesisJSON = new JSONObject()
+                .put("name", thesis.getName())
+                .put("motivation", thesis.getMotivation())
+                .put("task", thesis.getTask())
+                .put("questions", thesis.getForm().getQuestions())
+                .put("images", images)
+                .put("possibleDegrees", possibleDegreeJson)
+                .put("supervisorId", UserRepository.getInstance().getUser().getId())
+                .put("supervisingProfessor", thesis.getSupervisingProfessor());
 
-    HttpUrl url = new HttpUrl.Builder()
-            .scheme(scheme)
-            .host(host)
-            .port(port)
-            .addPathSegment("thesis")
-            .addPathSegment(thesisId.toString()).build();
-    Request request = new Request.Builder()
-            .url(url)
-            .get()
-            .build();
-    Call call = clientAuth.newCall(request);
-    call.enqueue(new Callback() {
-      @Override
-      public void onFailure(@NonNull Call call, @NonNull IOException e) {
-        resultCompletableFuture.complete(new Result("failure",false));
-      }
 
-      @Override
-      public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-            if(response.isSuccessful()){
-              //Parse thesis object from thesis json.
-              Gson gson = new Gson();
-              Thesis thesis = gson.fromJson(response.body().string(), Thesis.class);
-              resultThesis.complete(thesis);
-              resultCompletableFuture.complete(new Result(true));
-            }else {
-              resultCompletableFuture.complete(new Result("not successful",false));
+        RequestBody body = RequestBody.create(thesisJSON.toString(), JSON);
+        HttpUrl url = new HttpUrl.Builder()
+                .scheme(scheme)
+                .host(host)
+                .port(port)
+                .addPathSegment("thesis")
+                .addQueryParameter("ids", degreeUUIDSArr.toString())
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+        Call call = clientAuth.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                resultCompletableFuture.complete(new Result(e.toString(), false));
             }
-      }
-    });
 
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    resultCompletableFuture.complete(new Result(true));
+                } else {
+                    resultCompletableFuture.complete(new Result(response.message(), false));
+                }
+            }
 
+        });
+        return resultCompletableFuture;
+    }
 
+    /**
+     * This function creates the actual HTTP GET request that returns a specific thesis from the backend.
+     *
+     * @param thesisId
+     * @return A Pair of <CompletableFuture<Thesis>,CompletableFuture<Result>
+     */
+    public Pair<CompletableFuture<Thesis>, CompletableFuture<Result>> getSpecificThesisFuture(UUID thesisId) {
+        //Add HTTP BASIC authentication
+        OkHttpClient clientAuth = new OkHttpClient.Builder()
+                .addInterceptor(new AuthInterceptor
+                        (UserRepository.getInstance().getUser().getMail(),
+                                UserRepository.getInstance().getUser().getPassword()))
+                .build();
+        CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
+        CompletableFuture<Thesis> resultThesis = new CompletableFuture<>();
 
-    return new Pair<>(resultThesis,resultCompletableFuture);
-  }
+        HttpUrl url = new HttpUrl.Builder()
+                .scheme(scheme)
+                .host(host)
+                .port(port)
+                .addPathSegment("thesis")
+                .addPathSegment(thesisId.toString()).build();
+        Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .build();
+        Call call = clientAuth.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                resultCompletableFuture.complete(new Result("failure", false));
+            }
 
-  /**
-   * This function creates the actual HTTP DELETE request that deletes a specific thesis.
-   * @param thesisId
-   * @return CompletableFuture<Result>
-   */
-  public CompletableFuture<Result> deleteThesisFuture(final UUID thesisId){
-    OkHttpClient clientAuth = new OkHttpClient.Builder()
-            .addInterceptor(new AuthInterceptor
-                    (UserRepository.getInstance().getUser().getMail(),
-                            UserRepository.getInstance().getUser().getPassword()))
-            .build();
-    CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    Gson gson = new Gson();
+                    Thesis thesis = gson.fromJson(response.body().string(), Thesis.class);
+                    resultThesis.complete(thesis);
+                    resultCompletableFuture.complete(new Result(true));
+                } else {
+                    resultCompletableFuture.complete(new Result("not successful", false));
+                }
+            }
+        });
+        return new Pair<>(resultThesis, resultCompletableFuture);
+    }
 
-    HttpUrl url = new HttpUrl.Builder()
-            .scheme(scheme)
-            .host(host)
-            .port(port)
-            .addPathSegment("thesis")
-            .addPathSegment(thesisId.toString()).build();
+    /**
+     * This function creates the actual HTTP DELETE request that deletes a specific thesis.
+     *
+     * @param thesisId
+     * @return CompletableFuture<Result>
+     */
+    public CompletableFuture<Result> deleteThesisFuture(final UUID thesisId) {
+        //Add HTTP BASIC authentication
+        OkHttpClient clientAuth = new OkHttpClient.Builder()
+                .addInterceptor(new AuthInterceptor
+                        (UserRepository.getInstance().getUser().getMail(),
+                                UserRepository.getInstance().getUser().getPassword()))
+                .build();
+        CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 
-    Request request = new Request.Builder()
-            .url(url)
-            .delete()
-            .build();
+        HttpUrl url = new HttpUrl.Builder()
+                .scheme(scheme)
+                .host(host)
+                .port(port)
+                .addPathSegment("thesis")
+                .addPathSegment(thesisId.toString()).build();
 
-    Call call = clientAuth.newCall(request);
-    call.enqueue(new Callback() {
-      @Override
-      public void onFailure(@NonNull Call call, @NonNull IOException e) {
-        resultCompletableFuture.complete(new Result("error",false));
-      }
+        Request request = new Request.Builder()
+                .url(url)
+                .delete()
+                .build();
 
-      @Override
-      public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-        if (response.isSuccessful()) {
-          resultCompletableFuture.complete(new Result(true));
-        }else{
-          resultCompletableFuture.complete(new Result("not successful",false));
-        }
-      }
-    });
+        Call call = clientAuth.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                resultCompletableFuture.complete(new Result("error", false));
+            }
 
-    return resultCompletableFuture;
-  }
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    resultCompletableFuture.complete(new Result(true));
+                } else {
+                    resultCompletableFuture.complete(new Result("not successful", false));
+                }
+            }
+        });
 
-
-
+        return resultCompletableFuture;
+    }
 
 }

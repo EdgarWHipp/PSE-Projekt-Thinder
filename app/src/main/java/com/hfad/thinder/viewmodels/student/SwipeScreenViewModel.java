@@ -2,6 +2,8 @@ package com.hfad.thinder.viewmodels.student;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.data.model.Degree;
@@ -285,21 +287,23 @@ public class SwipeScreenViewModel extends ViewModel {
     if (theses == null) {
       //error
     }
-
-
-    for (Thesis thesis : theses) {
-      ArrayList<Bitmap> bitmaps = convertImagesToBitmaps(thesis.getImages());
-      ArrayList<String> selectedCoursesOfStudy = getCoursesOfStudyList(thesis.getPossibleDegrees());
-      Supervisor supervisor = thesis.getSupervisor();
-      SwipeScreenCard swipeScreenCard =
-          new SwipeScreenCard(bitmaps, thesis.getId(), thesis.getName(), thesis.getTask(),
-              thesis.getMotivation(), thesis.getSupervisingProfessor(), selectedCoursesOfStudy,
-              supervisor.getFirstName(), supervisor.getLastName(), supervisor.getBuilding(),
-              supervisor.getOfficeNumber(), supervisor.getPhoneNumber(), supervisor.getInstitute(),
-              supervisor.getMail(), supervisor.getAcademicDegree());
-      cardDeck.add(swipeScreenCard);
+    if (theses == null) {
+      Log.e("",new Boolean(studentRepository.fetchAllSwipeableThesis().getSuccess()).toString());
     }
-  }
+      for (Thesis thesis : theses) {
+        ArrayList<Bitmap> bitmaps = convertImagesToBitmaps(thesis.getImages());
+        ArrayList<String> selectedCoursesOfStudy = getCoursesOfStudyList(thesis.getPossibleDegrees());
+        Supervisor supervisor = thesis.getSupervisor();
+        SwipeScreenCard swipeScreenCard =
+                new SwipeScreenCard(bitmaps, thesis.getId(), thesis.getName(), thesis.getTask(),
+                        thesis.getMotivation(), thesis.getSupervisingProfessor(), selectedCoursesOfStudy,
+                        supervisor.getFirstName(), supervisor.getLastName(), supervisor.getBuilding(),
+                        supervisor.getOfficeNumber(), supervisor.getPhoneNumber(), supervisor.getInstitute(),
+                        supervisor.getMail(), supervisor.getAcademicDegree());
+        cardDeck.add(swipeScreenCard);
+      }
+    }
+
 
   private void addDummyCards(ArrayList<SwipeScreenCard> cardDeck) {
 

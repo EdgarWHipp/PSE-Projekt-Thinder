@@ -1,6 +1,8 @@
 package com.hfad.thinder.data.source.repository;
 
 
+import android.util.Log;
+
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Image;
@@ -143,13 +145,14 @@ public final class ThesisRepository {
    * @param name
    * @param motivation
    * @param task
-   * @param form
+   * @param questions
    * @param degrees
    * @param images
    * @return Result class including success value and error message
    */
-    public Result addThesis(String supervisingProf, String name, String motivation, String task, String form, Set<Degree> degrees , Set<Image> images) {
-        return thesisRemoteDataSource.createNewThesis(new Thesis(supervisingProf,name,motivation,task,new Form(form),images,(Supervisor) UserRepository.getInstance().getUser(),degrees));
+    public Result addThesis(String supervisingProf, String name, String motivation, String task, String questions, Set<Degree> degrees , Set<Image> images) {
+        Log.e("","value in repo"+questions);
+        return thesisRemoteDataSource.createNewThesis(new Thesis(supervisingProf,name,motivation,task,new Form(questions),images,(Supervisor) UserRepository.getInstance().getUser(),degrees));
     }
 
 

@@ -1,18 +1,17 @@
 package com.hfad.thinder.ui.student;
 
 import android.os.Bundle;
-
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentFillOutFormBinding;
@@ -30,13 +29,11 @@ public class FillOutFormFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    FragmentFillOutFormBinding binding;
+    FillOutFormViewModel viewModel;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
-    FragmentFillOutFormBinding binding;
-    FillOutFormViewModel viewModel;
 
     public FillOutFormFragment() {
         // Required empty public constructor
@@ -84,7 +81,7 @@ public class FillOutFormFragment extends Fragment {
         final Observer<ViewModelResult> sendResultObserver = new Observer<ViewModelResult>() {
             @Override
             public void onChanged(ViewModelResult viewModelResult) {
-                if(viewModelResult.isSuccess()){
+                if (viewModelResult.isSuccess()) {
                     Toast toast = Toast.makeText(getContext(), getContext().getResources().getString(R.string.send_form_success), Toast.LENGTH_LONG);
                     toast.show();
 
@@ -119,7 +116,7 @@ public class FillOutFormFragment extends Fragment {
         return view;
     }
 
-    public void sendForm(View view){
+    public void sendForm(View view) {
         viewModel.sendForm();
     }
 

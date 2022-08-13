@@ -3,7 +3,7 @@
     <item
         android:id="@+id/swipeScreenFragment"
         android:icon="@drawable/ic_fire"
-        android:title="@string/swipe_screen"/>
+        android:title="@string/swipe_screen" />
     <item
         android:id="@+id/likedThesesFragment"
         android:icon="@drawable/ic_home"

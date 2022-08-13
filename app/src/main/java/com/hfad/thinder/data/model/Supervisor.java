@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.UUID;
 
+/**
+ * This class defines all attributes that a supervisor needs, apart from the already defined attributes in the User class.
+ */
 public class Supervisor extends User {
 
     @SerializedName("academicDegree")
@@ -16,6 +19,15 @@ public class Supervisor extends User {
     private String institute;
     @SerializedName("phoneNumber")
     private String phoneNumber;
+
+    public Supervisor(USERTYPE role, UUID id, boolean active, UUID universityId, String password, String mail, String firstName, String lastName, String academicDegree, String building, String officeNumber, String institute, String phoneNumber, boolean isComplete) {
+        super(role, id, active, universityId, password, mail, firstName, lastName, isComplete);
+        this.academicDegree = academicDegree;
+        this.building = building;
+        this.OfficeNumber = officeNumber;
+        this.institute = institute;
+        this.phoneNumber = phoneNumber;
+    }
 
     public String getBuilding() {
         return building;
@@ -33,16 +45,6 @@ public class Supervisor extends User {
         OfficeNumber = officeNumber;
     }
 
-
-    public Supervisor(USERTYPE role, UUID id, boolean active, UUID universityId, String password, String mail, String firstName, String lastName, String academicDegree, String building, String officeNumber, String institute, String phoneNumber,boolean isComplete) {
-        super(role, id, active, universityId, password, mail, firstName,lastName,isComplete);
-        this.academicDegree = academicDegree;
-        this.building = building;
-        this.OfficeNumber = officeNumber;
-        this.institute = institute;
-        this.phoneNumber = phoneNumber;
-    }
-
     public String getAcademicDegree() {
         return academicDegree;
     }
@@ -50,7 +52,6 @@ public class Supervisor extends User {
     public void setAcademicDegree(String academicDegree) {
         this.academicDegree = academicDegree;
     }
-
 
 
     public String getInstitute() {

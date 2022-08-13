@@ -9,7 +9,16 @@ import java.util.UUID;
  * Model of the User Class, contains all attributes that is required for a user upon registration.
  */
 
+/**
+ * This class holds all the values of a user. This can later be fetched from the UserRepository.
+ */
 public class User {
+    @SerializedName("password")
+    @Expose
+    private final String password;
+    @SerializedName("mail")
+    @Expose
+    private final String mail;
     @SerializedName("role")
     private USERTYPE role;
     @SerializedName("id")
@@ -18,12 +27,6 @@ public class User {
     private boolean active;
     @SerializedName("uni_id")
     private UUID universityId;
-    @SerializedName("password")
-    @Expose
-    private final String password;
-    @SerializedName("mail")
-    @Expose
-    private final String mail;
     @SerializedName("firstName")
     @Expose
     private String firstName;
@@ -35,16 +38,8 @@ public class User {
     @Expose
     private boolean isComplete;
 
-    public boolean isComplete() {
-        return isComplete;
-    }
-
-    public void setComplete(boolean complete) {
-        isComplete = complete;
-    }
-
     public User(USERTYPE role, UUID id, boolean active, UUID universityId, String password,
-                String mail, String firstName, String lastName,boolean isComplete) {
+                String mail, String firstName, String lastName, boolean isComplete) {
         this.role = role;
         this.id = id;
         this.active = active;
@@ -54,6 +49,14 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.isComplete = isComplete;
+    }
+
+    public boolean isComplete() {
+        return isComplete;
+    }
+
+    public void setComplete(boolean complete) {
+        isComplete = complete;
     }
 
     public USERTYPE getRole() {
@@ -88,14 +91,6 @@ public class User {
         this.universityId = universityId;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -108,7 +103,15 @@ public class User {
         return firstName;
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
     public String getLastName() {
         return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

@@ -12,7 +12,7 @@ import com.hfad.thinder.viewmodels.student.EditProfileViewModel;
 
 public class CoursesOfStudyStudentFragment extends CoursesOfStudyFragment {
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(EditProfileViewModel.class);
         return view;

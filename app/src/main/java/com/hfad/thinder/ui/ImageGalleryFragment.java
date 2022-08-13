@@ -1,13 +1,12 @@
 package com.hfad.thinder.ui;
 
 import android.os.Bundle;
-
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentImageGalleryBinding;
@@ -22,12 +21,10 @@ public abstract class ImageGalleryFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    protected FragmentImageGalleryBinding binding;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
-    protected FragmentImageGalleryBinding binding;
 
     public ImageGalleryFragment() {
         // Required empty public constructor

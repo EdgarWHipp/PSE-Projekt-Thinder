@@ -58,30 +58,7 @@ public class UsersApiServiceTest extends TestCase {
         server.shutdown();
     }
 
-    @Test
-    public void testGetUserRoleSuccess() throws ExecutionException, InterruptedException {
-        MockResponse response = new MockResponse().setResponseCode(200);
-        response.setBody("\"STUDENT\"");
-        server.enqueue(response);
 
-        CompletableFuture<Result> result = usersApiService.getUserRole(login);
-
-        RecordedRequest request = server.takeRequest();
-        String authToken = request.getHeader("Authorization");
-
-        assertEquals("Basic bWFpbEBnbWFpbC5jb206cGFzc3dvcmQ=", authToken);
-        assertTrue(result.get().getSuccess());
-    }
-
-    @Test
-    public void testGetUserRoleFailure() throws ExecutionException, InterruptedException {
-        MockResponse response = new MockResponse().setResponseCode(404);
-        server.enqueue(response);
-
-        CompletableFuture<Result> result = usersApiService.getUserRole(login);
-
-        assertFalse(result.get().getSuccess());
-    }
 
     @Test
     public void testLoginSuccessStudent() throws JSONException, InterruptedException,

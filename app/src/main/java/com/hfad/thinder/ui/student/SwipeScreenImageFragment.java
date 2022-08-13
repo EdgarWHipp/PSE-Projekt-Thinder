@@ -1,15 +1,13 @@
 package com.hfad.thinder.ui.student;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentSwipeScreenImageBinding;

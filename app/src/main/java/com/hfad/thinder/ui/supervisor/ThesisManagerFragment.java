@@ -15,9 +15,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -97,7 +95,7 @@ public class ThesisManagerFragment extends Fragment {
         final androidx.lifecycle.Observer<ArrayList<ThesisCardItem>> thesisCardItemObserver = new Observer<ArrayList<ThesisCardItem>>() {
             @Override
             public void onChanged(ArrayList<ThesisCardItem> thesisCardItems) {
-                if(!recyclerView.isComputingLayout()){
+                if (!recyclerView.isComputingLayout()) {
                     ArrayList<ThesisCardItem> elements = viewModel.getThesisCardItems().getValue();
                     adapter.setElements(elements);
                 }
@@ -170,7 +168,7 @@ public class ThesisManagerFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_newFragment:
                 Navigation.findNavController(view).navigate(R.id.action_thesisManagerFragment_to_newThesisFragment);
         }

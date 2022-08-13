@@ -3,7 +3,6 @@ package com.hfad.thinder.ui.student;
 import android.graphics.Bitmap;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class SwipeScreenCard {
 
@@ -92,6 +91,7 @@ public class SwipeScreenCard {
     public java.util.UUID getUUID() {
         return UUID;
     }
+
     public String getEmail() {
         return email;
     }

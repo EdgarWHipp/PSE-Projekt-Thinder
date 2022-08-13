@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="fragment"
             type="com.hfad.thinder.ui.student.LikedThesisDetailedFragment" />
+
         <variable
             name="viewModel"
             type="com.hfad.thinder.viewmodels.student.LikedThesisDetailedViewModel" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -247,10 +251,10 @@
             style="@style/button_small"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:drawableTop="@drawable/ic_remove"
-            android:text="@string/remove"
             android:layout_marginEnd="@dimen/fab_margin"
+            android:drawableTop="@drawable/ic_remove"
             android:onClick="@{(v) -> fragment.deleteThesis(v)}"
+            android:text="@string/remove"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btImages"
             app:layout_constraintHorizontal_bias="0.5"
@@ -263,11 +267,11 @@
             style="@style/button_small"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:drawableTop="@drawable/ic_images"
-            android:text="@string/images"
             android:layout_marginEnd="@dimen/fab_margin"
-            android:onClick="@{(v) -> fragment.goToImageGalleryFragment(v)}"
+            android:drawableTop="@drawable/ic_images"
             android:enabled="@{viewModel.hasImages}"
+            android:onClick="@{(v) -> fragment.goToImageGalleryFragment(v)}"
+            android:text="@string/images"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btForm"
             app:layout_constraintHorizontal_bias="0.5"
@@ -280,10 +284,10 @@
             style="@style/button_small"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:drawableTop="@drawable/ic_form"
-            android:text="@string/form"
             android:layout_marginEnd="@dimen/fab_margin"
+            android:drawableTop="@drawable/ic_form"
             android:onClick="@{(v) -> fragment.goToFillOutFormFragment(v)}"
+            android:text="@string/form"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btContact"
             app:layout_constraintHorizontal_bias="0.5"
@@ -297,8 +301,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:drawableTop="@drawable/ic_mail"
-            android:text="@string/contact"
             android:onClick="@{(v) -> fragment.startEmailClient(v)}"
+            android:text="@string/contact"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

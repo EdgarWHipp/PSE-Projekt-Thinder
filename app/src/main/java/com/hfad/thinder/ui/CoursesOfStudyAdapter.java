@@ -25,17 +25,35 @@ public class CoursesOfStudyAdapter extends RecyclerView.Adapter<CoursesOfStudyAd
     private ArrayList<CourseOfStudyItem> elements;
     private ArrayList<CourseOfStudyItem> elementsFull;
     private CoursesOfStudyPicker viewModel;
+    private Filter elementsFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            ArrayList<CourseOfStudyItem> filteredList = new ArrayList<>();
 
+            if (charSequence == null || charSequence.length() == 0) {
+                filteredList.addAll(elementsFull);
+            } else {
+                String filterPattern = charSequence.toString().toLowerCase().trim();
 
-    public static class CoursesOfStudyViewHolder extends RecyclerView.ViewHolder {
-        public CheckBox mCheckBox;
+                for (CourseOfStudyItem item : elementsFull) {
+                    if (item.getCourseOfStudy().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
 
-        public CoursesOfStudyViewHolder(@NonNull View itemView) {
-            super(itemView);
-            mCheckBox = itemView.findViewById(R.id.cbCoursesOfStudy);
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
         }
 
-    }
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            elements.clear();
+            elements.addAll((ArrayList) filterResults.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public CoursesOfStudyAdapter(CoursesOfStudyPicker viewModel) {
         this.viewModel = viewModel;
@@ -77,38 +95,18 @@ public class CoursesOfStudyAdapter extends RecyclerView.Adapter<CoursesOfStudyAd
         return elementsFilter;
     }
 
-    private Filter elementsFilter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence charSequence) {
-            ArrayList<CourseOfStudyItem> filteredList = new ArrayList<>();
-
-            if (charSequence == null || charSequence.length() == 0) {
-                filteredList.addAll(elementsFull);
-            } else {
-                String filterPattern = charSequence.toString().toLowerCase().trim();
-
-                for (CourseOfStudyItem item : elementsFull) {
-                    if (item.getCourseOfStudy().toLowerCase().contains(filterPattern)) {
-                        filteredList.add(item);
-                    }
-                }
-            }
-
-            FilterResults results = new FilterResults();
-            results.values = filteredList;
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            elements.clear();
-            elements.addAll((ArrayList) filterResults.values);
-            notifyDataSetChanged();
-        }
-    };
-
-    public void setElements(ArrayList<CourseOfStudyItem> elements){
+    public void setElements(ArrayList<CourseOfStudyItem> elements) {
         this.elements = elements;
         notifyDataSetChanged();
+    }
+
+    public static class CoursesOfStudyViewHolder extends RecyclerView.ViewHolder {
+        public CheckBox mCheckBox;
+
+        public CoursesOfStudyViewHolder(@NonNull View itemView) {
+            super(itemView);
+            mCheckBox = itemView.findViewById(R.id.cbCoursesOfStudy);
+        }
+
     }
 }

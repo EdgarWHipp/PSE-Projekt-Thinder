@@ -16,8 +16,6 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.ActivitySupervisorBinding;
-import com.hfad.thinder.viewmodels.ViewModelResult;
-import com.hfad.thinder.viewmodels.ViewModelResultTypes;
 import com.hfad.thinder.viewmodels.supervisor.SupervisorViewModel;
 
 public class SupervisorActivity extends AppCompatActivity {
@@ -40,7 +38,6 @@ public class SupervisorActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
 
-
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.supervisorProfileFragment, R.id.thesisManagerFragment).build();
 
         setSupportActionBar(myChildToolbar);
@@ -52,10 +49,10 @@ public class SupervisorActivity extends AppCompatActivity {
             @Override
             public void onChanged(Boolean profileCreated) {
 
-                if(profileCreated){
+                if (profileCreated) {
                     bottomNavigationView.getMenu().findItem(R.id.thesisManagerFragment).setEnabled(true);
                     bottomNavigationView.setSelectedItemId(R.id.thesisManagerFragment);
-                }else {
+                } else {
                     bottomNavigationView.getMenu().findItem(R.id.thesisManagerFragment).setEnabled(false);
                 }
 
@@ -66,12 +63,12 @@ public class SupervisorActivity extends AppCompatActivity {
 
     }
 
-    public void profileCompleted(){
+    public void profileCompleted() {
         viewmodel.setProfileComplete(true);
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         moveTaskToBack(true);
     }
 

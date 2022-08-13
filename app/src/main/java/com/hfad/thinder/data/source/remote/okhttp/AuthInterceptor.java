@@ -11,17 +11,17 @@ import okhttp3.Response;
  * This class is used to create the authentication client for HTTP basic authentification - in our case the mail and password is used for this process.
  */
 class AuthInterceptor implements Interceptor {
-  private String credentials;
+    private String credentials;
 
-  protected AuthInterceptor(String email, String password) {
-    this.credentials = Credentials.basic(email, password);
-  }
+    protected AuthInterceptor(String email, String password) {
+        this.credentials = Credentials.basic(email, password);
+    }
 
-  @Override
-  public Response intercept(Chain chain) throws IOException {
-    Request request = chain.request();
-    Request authenticatedRequest = request.newBuilder()
-            .header("Authorization", credentials).build();
-    return chain.proceed(authenticatedRequest);
-  }
+    @Override
+    public Response intercept(Chain chain) throws IOException {
+        Request request = chain.request();
+        Request authenticatedRequest = request.newBuilder()
+                .header("Authorization", credentials).build();
+        return chain.proceed(authenticatedRequest);
+    }
 }

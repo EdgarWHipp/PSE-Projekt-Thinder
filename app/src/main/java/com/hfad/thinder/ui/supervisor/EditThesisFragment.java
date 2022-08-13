@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -27,7 +26,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -35,11 +33,9 @@ import androidx.navigation.Navigation;
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentEditThesisBinding;
 import com.hfad.thinder.viewmodels.ViewModelResult;
-import com.hfad.thinder.viewmodels.supervisor.ThesisFormState;
 import com.hfad.thinder.viewmodels.supervisor.EditThesisViewModel;
+import com.hfad.thinder.viewmodels.supervisor.ThesisFormState;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,7 +46,7 @@ import java.util.UUID;
  * Use the {@link EditThesisFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EditThesisFragment extends Fragment{
+public class EditThesisFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -149,7 +145,7 @@ public class EditThesisFragment extends Fragment{
                 if (editThesisFormState.getCourseOfStudy() != null) {
                     //binding.tvCoursesOfStudy.setError(resources.getString(editThesisFormState.getCourseOfStudy())); //todo find fix
                 }
-                if(editThesisFormState.getQuestionsErrorMessage() != null){
+                if (editThesisFormState.getQuestionsErrorMessage() != null) {
                     binding.etInsertQuestions.setError(resources.getString(editThesisFormState.getQuestionsErrorMessage()));
                 }
             }
@@ -199,14 +195,14 @@ public class EditThesisFragment extends Fragment{
      *
      * @param view used to find corresponding NavigationController
      */
-    public void goToStatistics(View view){
+    public void goToStatistics(View view) {
         Navigation.findNavController(view).navigate(R.id.action_editThesisFragment_to_thesisStatisticsFragment);
     }
 
     /**
      * Opens dialog window und calls delete function in viewmodel
      */
-    public void deleteThesis(View view){
+    public void deleteThesis(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setCancelable(true);
         builder.setTitle(getContext().getResources().getString(R.string.remove_thesis));
@@ -228,15 +224,15 @@ public class EditThesisFragment extends Fragment{
         dialog.show();
     }
 
-    public void saveThesis(View view){
+    public void saveThesis(View view) {
         viewModel.save();
     }
 
-    public void goToCoursesOfStudyFragment(View view){
+    public void goToCoursesOfStudyFragment(View view) {
         Navigation.findNavController(view).navigate(R.id.action_editThesisFragment_to_coursesOfStudyEditThesisFragment);
     }
 
-    public void goToImageGalleryFragment(View view){
+    public void goToImageGalleryFragment(View view) {
         Navigation.findNavController(view).navigate(R.id.action_editThesisFragment_to_imageGalleryEditThesisFragment);
     }
 
@@ -260,8 +256,8 @@ public class EditThesisFragment extends Fragment{
         builder.show();
     }
 
-    public void makeImageSelection(){
-        if(ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+    public void makeImageSelection() {
+        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             Intent intent = new Intent();
             intent.setType("image/*");
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
@@ -273,15 +269,15 @@ public class EditThesisFragment extends Fragment{
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(data == null)
+        if (data == null)
             return;
         Context context = getActivity();
 
-        if(requestCode == 10 && resultCode == Activity.RESULT_OK){
+        if (requestCode == 10 && resultCode == Activity.RESULT_OK) {
             ArrayList<Bitmap> images = new ArrayList<Bitmap>();
-            if(data.getData() != null){
+            if (data.getData() != null) {
                 Uri uri = data.getData();
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
@@ -293,9 +289,9 @@ public class EditThesisFragment extends Fragment{
                     e.printStackTrace();
                 }
 
-            } else if(data.getClipData() != null){
+            } else if (data.getClipData() != null) {
                 ClipData mClipData = data.getClipData();
-                for(int i = 0; i < mClipData.getItemCount(); ++i){
+                for (int i = 0; i < mClipData.getItemCount(); ++i) {
                     ClipData.Item item = mClipData.getItemAt(i);
                     Uri uri = item.getUri();
                     try {

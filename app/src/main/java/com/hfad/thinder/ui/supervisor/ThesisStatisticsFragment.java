@@ -2,14 +2,13 @@ package com.hfad.thinder.ui.supervisor;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -88,11 +87,11 @@ public class ThesisStatisticsFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         setPieChart(viewModel.getThesisStatistics());
     }
 
-    private void setPieChart(Pair<Integer, Integer> statistics){
+    private void setPieChart(Pair<Integer, Integer> statistics) {
         ArrayList<PieEntry> entries = new ArrayList<>();
         entries.add(new PieEntry(statistics.getFirst(), getContext().getResources().getString(R.string.likes)));
         entries.add(new PieEntry(statistics.getSecond(), getContext().getResources().getString(R.string.dislikes)));

@@ -1,15 +1,13 @@
 package com.hfad.thinder.ui.student;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentSwipeScreenTextBinding;
@@ -26,13 +24,11 @@ public class SwipeScreenTextFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    FragmentSwipeScreenTextBinding binding;
+    SwipeScreenViewModel viewModel;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
-    FragmentSwipeScreenTextBinding binding;
-    SwipeScreenViewModel viewModel;
 
     public SwipeScreenTextFragment() {
         // Required empty public constructor

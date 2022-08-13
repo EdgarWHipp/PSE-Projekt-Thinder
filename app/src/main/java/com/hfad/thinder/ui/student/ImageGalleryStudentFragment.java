@@ -9,10 +9,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.hfad.thinder.ui.ImageGalleryFragment;
 import com.hfad.thinder.viewmodels.student.LikedThesisDetailedViewModel;
-import com.hfad.thinder.viewmodels.supervisor.NewThesisViewModel;
 
 public class ImageGalleryStudentFragment extends ImageGalleryFragment {
     LikedThesisDetailedViewModel viewModel;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import android.util.Log;
 
 import com.hfad.thinder.data.model.Degree;
+import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Login;
 import com.hfad.thinder.data.model.Student;
@@ -45,7 +46,7 @@ public class ThesesApiServiceTest {
             new UUID(32,32),true,
             new UUID(32,32),
             "Test123","test@kit.edu","max","mustermann","Msc Informatik",
-            "10.20","2","Telematik","0123123123");
+            "10.20","2","Telematik","0123123123",false);
 
     thesisApiService =  new ThesesApiService();
     thesisApiService.setHost(server.getHostName());
@@ -68,9 +69,9 @@ public class ThesesApiServiceTest {
     byte[] bytes= {64,64,64};
     images.add(new Image(bytes));
     Set<Degree> degrees = new HashSet<>();
-    degrees.add(new Degree("Informatik","bsc"));
+    degrees.add(new Degree("Informatik",new UUID(32,32)));
     Thesis thesis = new Thesis("Dr. Prof. Tamim",
-            "testThesis","aaaa","aaa","Frage?",images,
+            "testThesis","aaaa","aaa",new Form("asd"),images,
             supervisor,degrees);
     MockResponse responseUpload = new MockResponse().setResponseCode(200);
     server.enqueue(responseUpload);
@@ -89,9 +90,9 @@ public class ThesesApiServiceTest {
     byte[] bytes= {64,64,64};
     images.add(new Image(bytes));
     Set<Degree> degrees = new HashSet<>();
-    degrees.add(new Degree("Informatik","bsc"));
+    degrees.add(new Degree("Informatik",new UUID(32,32)));
     Thesis thesis = new Thesis("Dr. Prof. Tamim",
-            "testThesis","aaaa","aaa","Frage?",images,
+            "testThesis","aaaa","aaa",new Form("asd"),images,
             supervisor,degrees);
     MockResponse responseUpload = new MockResponse().setResponseCode(500);
     server.enqueue(responseUpload);

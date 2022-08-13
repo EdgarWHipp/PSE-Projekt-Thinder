@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
+
         <variable
             name="viewModel"
             type="com.hfad.thinder.viewmodels.student.SwipeScreenViewModel" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/fab_margin">
+
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivImage"
+            imageBitmap="@{viewModel.getCurrentDetailViewImage}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            imageBitmap="@{viewModel.getCurrentDetailViewImage}"
             android:src="@drawable/index" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

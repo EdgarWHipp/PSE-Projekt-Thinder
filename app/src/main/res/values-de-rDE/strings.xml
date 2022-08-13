@@ -118,7 +118,7 @@
     <string name="edit_profile_success_message">Profildaten wurden erfolgreich geändert</string>
     <string name="no_courses_of_study_error_message">Es muss mindestes ein Studienfach angegeben werden</string>
     <string name="delete_successful">Data was deleted successfully</string>
-    
+
     <!-- Edit Thesis View Model Strings -->
     <string name="no_title_error">Der Name der Thesis muss angegeben werden</string>
     <string name="no_task_description_error">Es muss eine Beschreibung der Arbeit angegeben werden</string>

@@ -38,7 +38,7 @@
         android:id="@+id/editThesisFragment"
         android:name="com.hfad.thinder.ui.supervisor.EditThesisFragment"
         android:label="@string/edit_thesis"
-        tools:layout="@layout/fragment_edit_thesis" >
+        tools:layout="@layout/fragment_edit_thesis">
         <action
             android:id="@+id/action_editThesisFragment_to_thesisStatisticsFragment"
             app:destination="@id/thesisStatisticsFragment" />

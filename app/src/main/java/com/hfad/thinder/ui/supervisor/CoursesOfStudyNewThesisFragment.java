@@ -8,12 +8,11 @@ import android.view.ViewGroup;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.hfad.thinder.ui.CoursesOfStudyFragment;
-import com.hfad.thinder.viewmodels.student.EditProfileViewModel;
 import com.hfad.thinder.viewmodels.supervisor.NewThesisViewModel;
 
 public class CoursesOfStudyNewThesisFragment extends CoursesOfStudyFragment {
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(NewThesisViewModel.class);
         return view;
