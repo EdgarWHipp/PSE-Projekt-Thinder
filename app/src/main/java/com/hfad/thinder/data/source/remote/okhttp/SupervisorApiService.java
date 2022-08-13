@@ -6,7 +6,9 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
+import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.data.source.result.Result;
@@ -91,8 +93,6 @@ public class SupervisorApiService {
 
 
         RequestBody body = RequestBody.create(supervisorJson.toString(), JSON);
-        Log.e("", supervisorJson.toString());
-        Log.e("", scheme);
         HttpUrl url = new HttpUrl.Builder()
                 .scheme(scheme)
                 .host(host)
@@ -115,6 +115,13 @@ public class SupervisorApiService {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     UserRepository.getInstance().login(UserRepository.getInstance().getPassword(), UserRepository.getInstance().getUser().getMail());
+                    UserRepository.getInstance().getUser().setFirstName(firstName);
+                    UserRepository.getInstance().getUser().setLastName(lastName);
+                    ((Supervisor)UserRepository.getInstance().getUser()).setPhoneNumber(phoneNumber);
+                    ((Supervisor)UserRepository.getInstance().getUser()).setBuilding(building);
+                    ((Supervisor)UserRepository.getInstance().getUser()).setOfficeNumber(officeNumber);
+                    ((Supervisor)UserRepository.getInstance().getUser()).setInstitute(institute);
+                    ((Supervisor)UserRepository.getInstance().getUser()).setAcademicDegree(degree);
                     resultCompletableFuture.complete(new Result("success", true));
                 } else {
                     resultCompletableFuture.complete(new Result("error", false));

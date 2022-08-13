@@ -8,7 +8,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Form;
+import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Thesis;
+import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Pair;
@@ -70,7 +72,6 @@ public class StudentApiService {
      * @return CompletableFuture<Result>
      */
     public CompletableFuture<Result> editStudentProfileFuture(ArrayList<Degree> degrees, String firstName, String lastName) throws JSONException, IOException {
-
         //Add HTTP BASIC authentication
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(
@@ -89,9 +90,8 @@ public class StudentApiService {
                 .put("degrees", degreesJsonArray)
                 .put("firstName", firstName)
                 .put("lastName", lastName)
-                .put("type", UserRepository.getInstance().getType().toString());
+                .put("type", UserRepository.getInstance().getUser().getRole().toString());
         RequestBody body = RequestBody.create(studentJson.toString(), JSON);
-        Log.e("", degreesJsonArray.toString());
         HttpUrl url = new HttpUrl.Builder()
                 .scheme(scheme)
                 .host(host)
@@ -103,7 +103,6 @@ public class StudentApiService {
                 .url(url)
                 .put(body)
                 .build();
-        Log.e("", studentJson.toString());
         Call call = clientAuth.newCall(request);
         call.enqueue(new Callback() {
             @Override
@@ -114,7 +113,11 @@ public class StudentApiService {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
+                    Log.e("","worked");
                     UserRepository.getInstance().login(UserRepository.getInstance().getPassword(), UserRepository.getInstance().getUser().getMail());
+                    UserRepository.getInstance().getUser().setFirstName(firstName);
+                    UserRepository.getInstance().getUser().setLastName(lastName);
+                    ((Student)UserRepository.getInstance().getUser()).setDegrees(degrees);
                     resultCompletableFuture.complete(new Result(true));
                 } else {
                     resultCompletableFuture.complete(new Result("not successful", false));
@@ -327,10 +330,8 @@ public class StudentApiService {
                 if (response.isSuccessful()) {
                     Gson gson = new Gson();
                     String body = response.body().string();
-                    Log.e("", body);
                     ArrayList<Thesis> theses = (ArrayList<Thesis>) gson.fromJson(body, new TypeToken<List<Thesis>>() {
                     }.getType());
-                    Log.e("", "THESIS VALUE:" + theses.get(0).toString());
                     ThesisRepository.getInstance().setTheses(theses);
 
                     resultCompletableFuture.complete(new Result(true));

@@ -20,7 +20,7 @@ public class Student extends User {
         return degrees;
     }
 
-    public void setDegrees(ArrayList<Degree> degree) {
+    public void setDegrees(ArrayList<Degree> degrees) {
         this.degrees = degrees;
     }
 }

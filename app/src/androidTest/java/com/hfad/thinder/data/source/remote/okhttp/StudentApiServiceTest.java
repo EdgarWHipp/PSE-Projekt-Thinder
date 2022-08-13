@@ -4,11 +4,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import android.util.Log;
+
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Login;
 import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.USERTYPE;
+import com.hfad.thinder.data.model.User;
+import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.data.source.result.Result;
@@ -68,10 +72,9 @@ public class StudentApiServiceTest {
                 "password", "mail@gmail.com", "Olf", "Molf", degreesOld, true);
 
         UserRepository userRepository = UserRepository.getInstance();
-        userRepository.setType(USERTYPE.STUDENT);
         userRepository.setUser(student);
-
-        Degree degreeMathe = new Degree("Mathematik Msc", new UUID(32, 32));
+        userRepository.setPassword(student.getPassword());
+        Degree degreeMathe = new Degree("Mathematik Msc", new UUID(32, 31));
         ArrayList<Degree> degreesNew = new ArrayList<>();
         degreesNew.add(degreeMathe);
 
@@ -81,18 +84,15 @@ public class StudentApiServiceTest {
         RecordedRequest request = server.takeRequest();
         String authToken = request.getHeader("Authorization");
         String body = request.getBody().toString();
-        System.out.println("This is the returned body:" + body);
         assertTrue(result.get().getSuccess());
         assertEquals("Basic bWFpbEBnbWFpbC5jb206cGFzc3dvcmQ=", authToken);
         assertEquals(UserRepository.getInstance().getUser().getFirstName(), "Tom");
         assertEquals(((Student) UserRepository.getInstance().getUser()).getDegrees(), degreesNew);
         assertEquals(UserRepository.getInstance().getUser().getLastName(), "Müller");
-        assertEquals(UserRepository.getInstance().getUser().getFirstName(), "Tom");
     }
 
     @Test
     public void rateThesisFuture() throws JSONException, InterruptedException, ExecutionException {
-        //Set current loged in user
         Degree degreeInformatik = new Degree("Informatik Bsc", new UUID(32, 32));
         ArrayList<Degree> degreesOld = new ArrayList<>();
         degreesOld.add(degreeInformatik);
@@ -103,6 +103,8 @@ public class StudentApiServiceTest {
                 "password", "mail@gmail.com", "Olf", "Molf", degreesOld, true);
         // Actual Thesis Rating call
         UserRepository.getInstance().setUser(student);
+        //Set Password
+        UserRepository.getInstance().setPassword(student.getPassword());
         MockResponse response = new MockResponse().setResponseCode(200);
         server.enqueue(response);
         Collection<Pair<UUID, Boolean>> ratings = new ArrayList<Pair<UUID, Boolean>>();
@@ -130,6 +132,8 @@ public class StudentApiServiceTest {
                 "password", "mail@gmail.com", "Olf", "Molf", degreesOld, false);
         // Actual Thesis Rating call
         UserRepository.getInstance().setUser(student);
+        //set password
+        UserRepository.getInstance().setPassword(student.getPassword());
         MockResponse response = new MockResponse().setResponseCode(500);
         server.enqueue(response);
         Collection<Pair<UUID, Boolean>> ratings = new ArrayList<>();
@@ -142,18 +146,44 @@ public class StudentApiServiceTest {
         assertFalse(result.get().getSuccess());
         assertEquals("Basic bWFpbEBnbWFpbC5jb206cGFzc3dvcmQ=", authToken);
     }
-
+    //Erst wenn bei den Thesis alles steht!
     @Test
-    public void getRateableThesis() {
+    public void getRateableThesis() throws ExecutionException, InterruptedException {
+        //Set user
+        Student student = new Student(USERTYPE.STUDENT,
+                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                true, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                "password", "mail@gmail.com", "Olf", "Molf", null, false);
+        // Actual Thesis Rating call
+        UserRepository.getInstance().setUser(student);
+        //set password
+        UserRepository.getInstance().setPassword(student.getPassword());
+
+
         MockResponse response = new MockResponse().setResponseCode(200);
         server.enqueue(response);
         Pair<CompletableFuture<ArrayList<Thesis>>, CompletableFuture<Result>> values = studentApiService.getAllThesesForTheStudentFuture();
-
+        ArrayList<Thesis> theses= values.getFirst().get();
+        assertEquals(theses, ThesisRepository.getInstance().getAllSwipeableTheses());
+        Log.e("",ThesisRepository.getInstance().getAllSwipeableTheses().toString());
+        assertTrue(ThesisRepository.getInstance().getAllSwipeableTheses().contains(theses));
+        RecordedRequest request = server.takeRequest();
+        Log.e("",request.getBody().toString());
     }
 
     @Test
     public void getRateableThesisFail() {
-        MockResponse response = new MockResponse().setResponseCode(200);
+        //Set user
+        Student student = new Student(USERTYPE.STUDENT,
+                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                true, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                "password", "mail@gmail.com", "Olf", "Molf", null, false);
+        // Actual Thesis Rating call
+        UserRepository.getInstance().setUser(student);
+        //set password
+        UserRepository.getInstance().setPassword(student.getPassword());
+
+        MockResponse response = new MockResponse().setResponseCode(500);
         server.enqueue(response);
 
     }
