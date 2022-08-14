@@ -96,12 +96,15 @@ public class ThesesApiService {
         }
         List<UUID> degreeUUIDS = (List<UUID>) thesis.getPossibleDegrees().stream().map(x -> x.getId()).collect(Collectors.toList());
         JSONArray degreeUUIDSArr = new JSONArray(degreeUUIDS);
-        byte[] image = new byte[20];
-        new Random().nextBytes(image);
-
-        String encodedImage = java.util.Base64.getEncoder().encodeToString(image);
         JSONArray images = new JSONArray();
-        images.put(encodedImage);
+        String encodedImage= new String();
+        for(byte[] byeArr : byteArrayImages){
+            encodedImage = java.util.Base64.getEncoder().encodeToString(byeArr);
+            images.put(encodedImage);
+        }
+
+
+
         JSONObject thesisJSON = new JSONObject()
                 .put("name", thesis.getName())
                 .put("motivation", thesis.getMotivation())
@@ -204,7 +207,7 @@ public class ThesesApiService {
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor
                         (UserRepository.getInstance().getUser().getMail(),
-                                UserRepository.getInstance().getUser().getPassword()))
+                                UserRepository.getInstance().getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 

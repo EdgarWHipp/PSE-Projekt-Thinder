@@ -8,6 +8,7 @@ import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
+import com.hfad.thinder.data.model.ThesisDTO;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.source.remote.StudentRemoteDataSource;
 import com.hfad.thinder.data.source.remote.SupervisorRemoteDataSource;
@@ -35,6 +36,10 @@ public final class ThesisRepository {
     private boolean flag = false;
 
     private ThesisRepository() {
+    }
+
+    public ArrayList<Thesis> getTheses() {
+        return theses;
     }
 
     /**
@@ -127,7 +132,7 @@ public final class ThesisRepository {
         if (UserRepository.getInstance().getUser().getRole() == USERTYPE.STUDENT) {
             result = StudentRepository.getInstance().fetchAllSwipeableThesis();
             if (result.getSuccess()) {
-                return this.getAllSwipeableTheses();
+                return this.getTheses();
             }
         } else {
             return null;

@@ -3,6 +3,7 @@ package com.hfad.thinder.data.source.remote;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Thesis;
+import com.hfad.thinder.data.model.ThesisDTO;
 import com.hfad.thinder.data.source.remote.okhttp.StudentApiService;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.result.Pair;

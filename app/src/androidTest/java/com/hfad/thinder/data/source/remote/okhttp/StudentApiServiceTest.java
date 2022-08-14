@@ -10,6 +10,7 @@ import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Login;
 import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Thesis;
+import com.hfad.thinder.data.model.ThesisDTO;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
@@ -25,6 +26,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -190,7 +192,39 @@ public class StudentApiServiceTest {
 
 
     @Test
-    public void getLikedThesesFuture() {
+    public void getAllLikedTheses() throws InterruptedException, ExecutionException {
+        //Set user
+        Student student = new Student(USERTYPE.STUDENT,
+                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                true, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                "password", "mail@gmail.com", "Olf", "Molf", null, true);
+        // Actual Thesis Rating call
+        UserRepository.getInstance().setUser(student);
+        //set password
+        UserRepository.getInstance().setPassword(student.getPassword());
+        MockResponse response = new MockResponse().setResponseCode(200);
+        server.enqueue(response);
+        Pair<CompletableFuture<HashMap<UUID,Thesis>>,CompletableFuture<Result>> result = studentApiService.getAllPositiveRatedThesesFuture();
+        assertTrue(result.getSecond().get().getSuccess());
+        RecordedRequest request = server.takeRequest();
 
+    }
+
+    @Test
+    public void getAllLikedThesesFail() throws ExecutionException, InterruptedException {
+        //Set user
+        Student student = new Student(USERTYPE.STUDENT,
+                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                true, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                "password", "mail@gmail.com", "Olf", "Molf", null, true);
+        // Actual Thesis Rating call
+        UserRepository.getInstance().setUser(student);
+        //set password
+        UserRepository.getInstance().setPassword(student.getPassword());
+        MockResponse response = new MockResponse().setResponseCode(500);
+        server.enqueue(response);
+        Pair<CompletableFuture<HashMap<UUID,Thesis>>,CompletableFuture<Result>> result = studentApiService.getAllPositiveRatedThesesFuture();
+        assertTrue(result.getSecond().get().getSuccess());
+        RecordedRequest request = server.takeRequest();
     }
 }

@@ -3,6 +3,7 @@ package com.hfad.thinder.data.source.remote.okhttp;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import android.app.VoiceInteractor;
 import android.util.Log;
 
 import com.hfad.thinder.data.model.Degree;
@@ -60,6 +61,7 @@ public class ThesesApiServiceTest {
 
         //User has to be logged in first:
         UserRepository.getInstance().setUser(supervisor);
+        UserRepository.getInstance().setPassword(supervisor.getPassword());
         //Create actual Thesis post
         Set<Image> images = new HashSet<>();
         byte[] bytes = {64, 64, 64};
@@ -75,6 +77,7 @@ public class ThesesApiServiceTest {
         server.takeRequest();
         assertTrue(resultThesisUpload.get().getSuccess());
 
+
     }
 
     @Test
@@ -82,6 +85,7 @@ public class ThesesApiServiceTest {
 
         //User has to be logged in first:
         UserRepository.getInstance().setUser(supervisor);
+        UserRepository.getInstance().setPassword(supervisor.getPassword());
         //Create actual Thesis post
         Set<Image> images = new HashSet<>();
         byte[] bytes = {64, 64, 64};
@@ -99,15 +103,7 @@ public class ThesesApiServiceTest {
 
     }
 
-    @Test
-    public void getAllLikedTheses() {
 
-    }
-
-    @Test
-    public void getAllLikedThesesFail() {
-
-    }
 
     //Important
     @Test
@@ -135,7 +131,7 @@ public class ThesesApiServiceTest {
 
     @Test
     public void deleteThesisFail() throws InterruptedException, ExecutionException {
-//Set the user
+        //Set the user
         UserRepository.getInstance().setUser(supervisor);
         //actual deleteThesis mock test
         MockResponse response = new MockResponse().setResponseCode(500);
@@ -143,6 +139,31 @@ public class ThesesApiServiceTest {
         CompletableFuture<Result> resultCompletableFuture = thesisApiService.deleteThesisFuture(new UUID(32, 32));
         server.takeRequest();
         assertFalse(resultCompletableFuture.get().getSuccess());
+    }
+
+    @Test
+    public void deleteThesisFuture() throws InterruptedException, ExecutionException {
+        //Set the user
+        UserRepository.getInstance().setUser(supervisor);
+        UserRepository.getInstance().setPassword(supervisor.getPassword());
+        //actual deleteThesis mock test
+        MockResponse response = new MockResponse().setResponseCode(200);
+        server.enqueue(response);
+        CompletableFuture<Result> result = thesisApiService.deleteThesisFuture(new UUID(32,31));
+        server.takeRequest();
+        assertTrue(result.get().getSuccess());
+    }
+    @Test
+    public void deleteThesisFutureFail() throws InterruptedException, ExecutionException {
+        //Set the user
+        UserRepository.getInstance().setUser(supervisor);
+        UserRepository.getInstance().setPassword(supervisor.getPassword());
+        //actual deleteThesis mock test
+        MockResponse response = new MockResponse().setResponseCode(500);
+        server.enqueue(response);
+        CompletableFuture<Result> result = thesisApiService.deleteThesisFuture(new UUID(32,31));
+        server.takeRequest();
+        assertFalse(result.get().getSuccess());
     }
 
 

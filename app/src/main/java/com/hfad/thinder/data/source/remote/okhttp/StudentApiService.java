@@ -8,8 +8,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Form;
+import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Thesis;
+import com.hfad.thinder.data.model.ThesisDTO;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -241,7 +244,7 @@ public class StudentApiService {
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor
                         (UserRepository.getInstance().getUser().getMail(),
-                                UserRepository.getInstance().getUser().getPassword()))
+                                UserRepository.getInstance().getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         CompletableFuture<HashMap<UUID, Thesis>> thesisListFuture = new CompletableFuture<>();
@@ -330,12 +333,34 @@ public class StudentApiService {
                 if (response.isSuccessful()) {
                     Gson gson = new Gson();
                     String body = response.body().string();
-                    ArrayList<Thesis> theses = (ArrayList<Thesis>) gson.fromJson(body, new TypeToken<List<Thesis>>() {
+                    ArrayList<ThesisDTO> theses = (ArrayList<ThesisDTO>) gson.fromJson(body, new TypeToken<List<Thesis>>() {
                     }.getType());
-                    ThesisRepository.getInstance().setTheses(theses);
+                    //convert ThesisDTO to Thesis Does this work mhh?
+                    ArrayList<Thesis> returnTheses = new ArrayList<>();
+                    Thesis thesis=null;
+                    Set<Image> images= null;
+                    Set<Degree> degrees=null;
+                    for(ThesisDTO thesisIter : theses){
+                        thesis.setId(thesisIter.getId());
+                        thesis.setForm(new Form(thesisIter.getQuestions()));
+                        for(Image image : thesis.getImages()){
+                            images.add(image);
+                        }
+                        for(Degree degree : thesis.getPossibleDegrees()){
+                            degrees.add(degree);
+                        }
+                        thesis.setImages(images);
+                        thesis.setMotivation(thesisIter.getMotivation());
+                        thesis.setName(thesisIter.getName());
+                        thesis.setPossibleDegrees(degrees);
+                        thesis.setSupervisingProfessor(thesisIter.getSupervisingProfessor());
+                        thesis.setSupervisor(thesisIter.getSupervisor());
+                        thesis.setTask(thesisIter.getTask());
+                        returnTheses.add(thesis);
+                    }
 
                     resultCompletableFuture.complete(new Result(true));
-                    resultThesisFuture.complete(theses);
+                    resultThesisFuture.complete(returnTheses);
 
 
                 } else {

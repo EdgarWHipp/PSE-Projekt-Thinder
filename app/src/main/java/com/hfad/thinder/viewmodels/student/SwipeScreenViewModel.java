@@ -11,6 +11,7 @@ import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
+import com.hfad.thinder.data.model.ThesisDTO;
 import com.hfad.thinder.data.source.repository.StudentRepository;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.result.Pair;
