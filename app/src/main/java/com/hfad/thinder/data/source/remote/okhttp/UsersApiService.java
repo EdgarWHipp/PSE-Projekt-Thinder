@@ -358,6 +358,7 @@ public class UsersApiService {
         String role = new JSONObject(body).get("type").toString();
         switch (role) {
             case "STUDENT":
+                Log.e("","correct");
                 Student student;
                 student = gson.fromJson(body, Student.class);
                 userRepository.setType(USERTYPE.STUDENT);

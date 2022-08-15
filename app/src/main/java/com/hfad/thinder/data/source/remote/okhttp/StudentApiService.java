@@ -93,7 +93,7 @@ public class StudentApiService {
                 .put("degrees", degreesJsonArray)
                 .put("firstName", firstName)
                 .put("lastName", lastName)
-                .put("type", UserRepository.getInstance().getUser().getRole().toString());
+                .put("type", UserRepository.getInstance().getType().toString());
         RequestBody body = RequestBody.create(studentJson.toString(), JSON);
         HttpUrl url = new HttpUrl.Builder()
                 .scheme(scheme)
