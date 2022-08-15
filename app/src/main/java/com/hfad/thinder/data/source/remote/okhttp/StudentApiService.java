@@ -131,58 +131,6 @@ public class StudentApiService {
     }
 
 
-    /**
-     * Performs the actual HTTP GET Request that
-     * returns a List<Thesis> of all the theses that a student has liked.
-     *
-     * @param id
-     * @return
-     */
-    public Pair<CompletableFuture<List<Thesis>>, CompletableFuture<Result>> getLikedThesesFuture(final UUID id) {
-        //Add HTTP BASIC authentication
-        CompletableFuture<List<Thesis>> listCompletableFuture = new CompletableFuture<>();
-        CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
-        OkHttpClient clientAuth = new OkHttpClient.Builder()
-                .addInterceptor(
-                        new AuthInterceptor(UserRepository.getInstance().
-                                getUser().getMail(), UserRepository.getInstance().
-                                getPassword()))
-                .build();
-
-
-        HttpUrl url = new HttpUrl.Builder()
-                .scheme(scheme)
-                .host(host)
-                .port(port)
-                .addPathSegment(id.toString())
-                .addPathSegment("rated-thesis").build();
-        Request request = new Request.Builder()
-                .url(url)
-                .get()
-                .build();
-        Call call = clientAuth.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result("not successful", false));
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    Gson gson = new Gson();
-
-                    List<Thesis> thesisList = (List<Thesis>) gson.fromJson(response.body().string(), new TypeToken<List<Thesis>>() {
-                    }.getType());
-                    listCompletableFuture.complete(thesisList);
-                    resultCompletableFuture.complete(new Result(true));
-                } else {
-                    resultCompletableFuture.complete(new Result("not successful", false));
-                }
-            }
-        });
-        return new Pair<>(listCompletableFuture, resultCompletableFuture);
-    }
 
 
     /**
@@ -275,9 +223,32 @@ public class StudentApiService {
                 if (response.isSuccessful()) {
                     Gson gson = new Gson();
                     String body = response.body().string();
-                    ArrayList<Thesis> theses = gson.fromJson(body, new TypeToken<List<Thesis>>() {
+                    ArrayList<ThesisDTO> theses = gson.fromJson(body, new TypeToken<List<ThesisDTO>>() {
                     }.getType());
-                    HashMap<UUID, Thesis> thesisHashMap = (HashMap<UUID, Thesis>) theses.stream().collect(Collectors.toMap(v -> v.getId(), v -> v));
+                    //convert ThesisDTO to Thesis Does this work mhh?
+                    ArrayList<Thesis> returnTheses = new ArrayList<>();
+                    Thesis thesis=null;
+                    Set<Image> images= null;
+                    Set<Degree> degrees=null;
+                    for(ThesisDTO thesisIter : theses){
+                        thesis.setId(thesisIter.getId());
+                        thesis.setForm(new Form(thesisIter.getQuestions()));
+                        for(Byte[] image : thesisIter.getImages()){
+                            images.add(new Image(image));
+                        }
+                        for(Degree degree : thesisIter.getPossibleDegrees()){
+                            degrees.add(degree);
+                        }
+                        thesis.setImages(images);
+                        thesis.setMotivation(thesisIter.getMotivation());
+                        thesis.setName(thesisIter.getName());
+                        thesis.setPossibleDegrees(degrees);
+                        thesis.setSupervisingProfessor(thesisIter.getSupervisingProfessor());
+                        thesis.setSupervisor(thesisIter.getSupervisor());
+                        thesis.setTask(thesisIter.getTask());
+                        returnTheses.add(thesis);
+                    }
+                    HashMap<UUID, Thesis> thesisHashMap = (HashMap<UUID, Thesis>) returnTheses.stream().collect(Collectors.toMap(v -> v.getId(), v -> v));
                     resultCompletableFuture.complete(new Result(true));
                     thesisListFuture.complete(thesisHashMap);
                 } else {
@@ -343,10 +314,10 @@ public class StudentApiService {
                     for(ThesisDTO thesisIter : theses){
                         thesis.setId(thesisIter.getId());
                         thesis.setForm(new Form(thesisIter.getQuestions()));
-                        for(Image image : thesis.getImages()){
-                            images.add(image);
+                        for(Byte[] image : thesisIter.getImages()){
+                            images.add(new Image(image));
                         }
-                        for(Degree degree : thesis.getPossibleDegrees()){
+                        for(Degree degree : thesisIter.getPossibleDegrees()){
                             degrees.add(degree);
                         }
                         thesis.setImages(images);

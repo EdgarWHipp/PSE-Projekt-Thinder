@@ -6,8 +6,12 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.hfad.thinder.data.model.Degree;
+import com.hfad.thinder.data.model.Form;
+import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
+import com.hfad.thinder.data.model.ThesisDTO;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Pair;
@@ -20,6 +24,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -227,13 +232,35 @@ public class SupervisorApiService {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-
                     resultCompletableFuture.complete(new Result(true));
                     Gson gson = new Gson();
                     String body = response.body().string();
-                    ArrayList<Thesis> theses = gson.fromJson(body, new TypeToken<List<Thesis>>() {
+                    ArrayList<ThesisDTO> theses = gson.fromJson(body, new TypeToken<List<ThesisDTO>>() {
                     }.getType());
-                    HashMap<UUID, Thesis> thesisHashMap = (HashMap<UUID, Thesis>) theses.stream()
+                    //convert ThesisDTO to Thesis Does this work mhh?
+                    ArrayList<Thesis> returnTheses = new ArrayList<>();
+                    Thesis thesis=null;
+                    Set<Image> images= null;
+                    Set<Degree> degrees=null;
+                    for(ThesisDTO thesisIter : theses){
+                        thesis.setId(thesisIter.getId());
+                        thesis.setForm(new Form(thesisIter.getQuestions()));
+                        for(Byte[] image : thesisIter.getImages()){
+                            images.add(new Image(image));
+                        }
+                        for(Degree degree : thesisIter.getPossibleDegrees()){
+                            degrees.add(degree);
+                        }
+                        thesis.setImages(images);
+                        thesis.setMotivation(thesisIter.getMotivation());
+                        thesis.setName(thesisIter.getName());
+                        thesis.setPossibleDegrees(degrees);
+                        thesis.setSupervisingProfessor(thesisIter.getSupervisingProfessor());
+                        thesis.setSupervisor(thesisIter.getSupervisor());
+                        thesis.setTask(thesisIter.getTask());
+                        returnTheses.add(thesis);
+                    }
+                    HashMap<UUID, Thesis> thesisHashMap = (HashMap<UUID, Thesis>) returnTheses.stream()
                             .collect(Collectors.toMap(v -> v.getId(), v -> v));
                     resultCompletableFuture.complete(new Result(true));
                     thesisHashmap.complete(thesisHashMap);

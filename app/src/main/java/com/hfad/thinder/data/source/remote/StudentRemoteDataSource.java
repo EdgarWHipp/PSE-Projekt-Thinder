@@ -56,21 +56,6 @@ public class StudentRemoteDataSource {
         }
     }
 
-    //useless?
-    public Pair<List<Thesis>, Result> getLikedTheses(final UUID id) {
-        try {
-            Pair<CompletableFuture<List<Thesis>>, CompletableFuture<Result>> result = okHttpService.getLikedThesesFuture(id);
-            return new Pair<>(result.getFirst().get(10000, TimeUnit.SECONDS), result.getSecond().get(10000, TimeUnit.SECONDS));
-
-
-        } catch (ExecutionException e) {
-            return new Pair<>(null, new Result("not successful", false));
-        } catch (InterruptedException e) {
-            return new Pair<>(null, new Result("not successful", false));
-        } catch (TimeoutException e) {
-            return new Pair<>(null, new Result("not successful", false));
-        }
-    }
 
     /**
      * Handles the exceptions for the rateThesisFuture call in the StudentApiService.
