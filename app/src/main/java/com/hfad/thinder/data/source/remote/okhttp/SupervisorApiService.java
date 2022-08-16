@@ -245,7 +245,7 @@ public class SupervisorApiService {
                     for(ThesisDTO thesisIter : theses){
                         thesis.setId(thesisIter.getId());
                         thesis.setForm(new Form(thesisIter.getQuestions()));
-                        for(Byte[] image : thesisIter.getImages()){
+                        for(byte[] image : thesisIter.getImages()){
                             images.add(new Image(image));
                         }
                         for(Degree degree : thesisIter.getPossibleDegrees()){

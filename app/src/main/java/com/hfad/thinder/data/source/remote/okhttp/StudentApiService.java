@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.common.util.ArrayUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hfad.thinder.data.model.Degree;
@@ -233,7 +234,7 @@ public class StudentApiService {
                     for(ThesisDTO thesisIter : theses){
                         thesis.setId(thesisIter.getId());
                         thesis.setForm(new Form(thesisIter.getQuestions()));
-                        for(Byte[] image : thesisIter.getImages()){
+                        for(byte[] image : thesisIter.getImages()){
                             images.add(new Image(image));
                         }
                         for(Degree degree : thesisIter.getPossibleDegrees()){
@@ -314,7 +315,8 @@ public class StudentApiService {
                     for(ThesisDTO thesisIter : theses){
                         thesis.setId(thesisIter.getId());
                         thesis.setForm(new Form(thesisIter.getQuestions()));
-                        for(Byte[] image : thesisIter.getImages()){
+                        for(byte[] image : thesisIter.getImages()){
+
                             images.add(new Image(image));
                         }
                         for(Degree degree : thesisIter.getPossibleDegrees()){
