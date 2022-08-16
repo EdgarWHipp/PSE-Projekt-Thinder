@@ -234,7 +234,8 @@ public class StudentApiService {
                     for(ThesisDTO thesisIter : theses){
                         thesis.setId(thesisIter.getId());
                         thesis.setForm(new Form(thesisIter.getQuestions()));
-                        for(byte[] image : thesisIter.getImages()){
+                        for(String string : thesisIter.getImages()){
+                            byte[] image = java.util.Base64.getDecoder().decode(string);
                             images.add(new Image(image));
                         }
                         for(Degree degree : thesisIter.getPossibleDegrees()){
@@ -315,8 +316,8 @@ public class StudentApiService {
                     for(ThesisDTO thesisIter : theses){
                         thesis.setId(thesisIter.getId());
                         thesis.setForm(new Form(thesisIter.getQuestions()));
-                        for(byte[] image : thesisIter.getImages()){
-
+                        for(String string : thesisIter.getImages()){
+                            byte[] image = java.util.Base64.getDecoder().decode(string);
                             images.add(new Image(image));
                         }
                         for(Degree degree : thesisIter.getPossibleDegrees()){

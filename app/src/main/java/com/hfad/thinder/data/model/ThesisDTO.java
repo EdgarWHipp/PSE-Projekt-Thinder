@@ -18,7 +18,7 @@ public class ThesisDTO {
     private String questions;
     private Supervisor supervisor;
 
-    private List<byte[]> images;
+    private List<String> images;
 
     private List<Degree> possibleDegrees;
 
@@ -78,11 +78,11 @@ public class ThesisDTO {
         this.supervisor = supervisor;
     }
 
-    public List<byte[]> getImages() {
+    public List<String> getImages() {
         return images;
     }
 
-    public void setImages(List<byte[]> images) {
+    public void setImages(List<String> images) {
         this.images = images;
     }
 
@@ -98,7 +98,7 @@ public class ThesisDTO {
     }
 
     public ThesisDTO(String name, String supervisingProfessor, String motivation, String task, String questions
-            , List<byte[]> images, List<Degree> possibleDegrees) {
+            , List<String> images, List<Degree> possibleDegrees) {
         this.name = name;
         this.supervisingProfessor = supervisingProfessor;
         this.motivation = motivation;
