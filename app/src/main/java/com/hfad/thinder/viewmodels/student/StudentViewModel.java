@@ -23,7 +23,9 @@ public class StudentViewModel extends ViewModel {
   }
 
   /**
-   * @param b a boolean that determines if the user has saved a completed profile.
+   * This method must be called when the user has saved his profile data and the {@link com.hfad.thinder.viewmodels.ViewModelResult ViewModelResult} signals a success.
+   *
+   * @param b a boolean that determines whether the user has saved a completed profile.
    */
   public void setProfileComplete(boolean b) {
     getProfileComplete().setValue(b);
