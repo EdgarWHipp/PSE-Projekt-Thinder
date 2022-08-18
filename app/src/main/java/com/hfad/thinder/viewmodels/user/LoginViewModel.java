@@ -3,94 +3,116 @@ package com.hfad.thinder.viewmodels.user;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.viewmodels.ViewModelResultTypes;
 
-
-//Todo: Javadoc schreiben.
+/**
+ * A class providing a {@link ViewModel} for the {@link com.hfad.thinder.ui.user.LoginActivity LoginActivity}.
+ */
 public class LoginViewModel extends ViewModel {
 
-    private MutableLiveData<ViewModelResult> loginResult = new MutableLiveData<>();
-    private UserRepository userRepository = UserRepository.getInstance();
-    private MutableLiveData<Boolean> isDataValid = new MutableLiveData<>();
-    private MutableLiveData<String> email;
-    private MutableLiveData<String> password;
+  private final UserRepository userRepository = UserRepository.getInstance();
+  private MutableLiveData<ViewModelResult> loginResult = new MutableLiveData<>();
+  private MutableLiveData<Boolean> isDataValid = new MutableLiveData<>();
+  private MutableLiveData<String> email;
+  private MutableLiveData<String> password;
 
-    //Ruft die Login Funktion im Repository auf und aktualisiert den Zustand der Anmeldung
-    public void login() {
+  /**
+   * Use this method to login in to an existing user profile, using the corresponding email and password.
+   */
+  public void login() {
 
-        Result result;
-        result = userRepository.login(password.getValue(), email.getValue());
+    Result result;
+    result = userRepository.login(password.getValue(), email.getValue());
 
-        if (!result.getSuccess()) {
-            loginResult.setValue(
-                    new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
-        } else if (result.getSuccess()) {
-            userRepository.setPassword(password.getValue());
-            USERTYPE usertype = userRepository.getType();
-            if (usertype == USERTYPE.STUDENT) {
-                loginResult.setValue(
-                        new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.STUDENT));
-            } else if (usertype == USERTYPE.SUPERVISOR) {
-                loginResult.setValue(
-                        new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.SUPERVISOR));
-            } //Todo: unverified fehlt noch
-
-        }
-
+    if (!result.getSuccess()) {
+      loginResult.setValue(
+          new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
+    } else if (result.getSuccess()) {
+      userRepository.setPassword(password.getValue());
+      USERTYPE usertype = userRepository.getType();
+      if (usertype == USERTYPE.STUDENT) {
+        loginResult.setValue(
+            new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.STUDENT));
+      } else if (usertype == USERTYPE.SUPERVISOR) {
+        loginResult.setValue(
+            new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.SUPERVISOR));
+      } //Todo: unverified fehlt noch
 
     }
 
-    public void loginDataChanged() {
-        isDataValid.setValue(
-                email.getValue() != null && password.getValue() != null &&
-                        !email.getValue().equals("") &&
-                        !password.getValue().equals(""));
+
+  }
+
+  /**
+   * Use this method to check whether the entered data is valid. This method should be called everytime the user edits the data in the ui.
+   */
+  public void loginDataChanged() {
+    isDataValid.setValue(
+        email.getValue() != null && password.getValue() != null &&
+            !email.getValue().equals("") &&
+            !password.getValue().equals(""));
+  }
+
+
+  //----------- getter and setter --------------------------------------
+
+  /**
+   * @return true if the entered data is valid, false otherwise.
+   */
+  public MutableLiveData<Boolean> getIsDataValid() {
+    if (isDataValid == null) {
+      isDataValid = new MutableLiveData<>();
     }
+    return isDataValid;
+  }
 
-
-    //----------- getter and setter --------------------------------------
-
-    public MutableLiveData<Boolean> getIsDataValid() {
-        if (isDataValid == null) {
-            isDataValid = new MutableLiveData<>();
-        }
-        return isDataValid;
+  /**
+   * @return the {@link ViewModelResult} of the {@link #login()} operation.
+   */
+  public MutableLiveData<ViewModelResult> getLoginResult() {
+    if (loginResult == null) {
+      loginResult = new MutableLiveData<>();
     }
+    return this.loginResult;
+  }
 
-    public MutableLiveData<ViewModelResult> getLoginResult() {
-        if (loginResult == null) {
-            loginResult = new MutableLiveData<>();
-        }
-        return this.loginResult;
+  /**
+   * @return the users mail address.
+   */
+  public MutableLiveData<String> getEmail() {
+    if (email == null) {
+      email = new MutableLiveData<String>();
     }
+    return email;
+  }
 
-    public MutableLiveData<String> getEmail() {
-        if (email == null) {
-            email = new MutableLiveData<String>();
-        }
-        return email;
+  /**
+   * @param email the users mail address.
+   */
+  public void setEmail(String email) {
+    this.email.setValue(email);
+  }
+
+  /**
+   * @return the users password.
+   */
+  public MutableLiveData<String> getPassword() {
+    if (password == null) {
+      password = new MutableLiveData<String>();
     }
+    return password;
+  }
 
-    public void setEmail(String email) {
-        this.email.setValue(email);
-    }
-
-
-    public MutableLiveData<String> getPassword() {
-        if (password == null) {
-            password = new MutableLiveData<String>();
-        }
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password.setValue(password);
-    }
+  /**
+   * @param password the users password.
+   */
+  public void setPassword(String password) {
+    this.password.setValue(password);
+  }
 
 
 }

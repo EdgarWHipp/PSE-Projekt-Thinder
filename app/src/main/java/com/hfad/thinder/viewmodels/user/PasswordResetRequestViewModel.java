@@ -2,43 +2,58 @@ package com.hfad.thinder.viewmodels.user;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.viewmodels.ViewModelResultTypes;
 
+/**
+ * A class providing a {@link ViewModel} for the {@link com.hfad.thinder.ui.user.RequestPasswordResetActivity RequestPasswordResetActivity}.
+ */
 public class PasswordResetRequestViewModel extends ViewModel {
-    private static final UserRepository userRepository = UserRepository.getInstance();
-    private MutableLiveData<ViewModelResult> resetRequestResult;
-    private MutableLiveData<String> email;
+  private static final UserRepository userRepository = UserRepository.getInstance();
+  private MutableLiveData<ViewModelResult> resetRequestResult;
+  private MutableLiveData<String> email;
 
-    public void resetRequest() {
-        Result result = userRepository.sendRecoveryEmail(email.getValue());
-        if (result.getSuccess()) {
-            resetRequestResult.setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
-        } else {
-            resetRequestResult.setValue(new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
-        }
+  /**
+   * Use this method to send a request to reset the users password.
+   */
+  public void resetRequest() {
+    Result result = userRepository.sendRecoveryEmail(email.getValue());
+    if (result.getSuccess()) {
+      resetRequestResult.setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
+    } else {
+      resetRequestResult.setValue(
+          new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
     }
+  }
 //----------------getter and setter-----------------------------------
 
 
-    public MutableLiveData<ViewModelResult> getResetRequestResult() {
-        if (resetRequestResult == null) {
-            resetRequestResult = new MutableLiveData<>();
-        }
-        return resetRequestResult;
+  /**
+   * @return the {@link ViewModelResult} of the {@link #resetRequest()} operation
+   */
+  public MutableLiveData<ViewModelResult> getResetRequestResult() {
+    if (resetRequestResult == null) {
+      resetRequestResult = new MutableLiveData<>();
     }
+    return resetRequestResult;
+  }
 
-    public MutableLiveData<String> getEmail() {
-        if (email == null) {
-            email = new MutableLiveData<>();
-        }
-        return email;
+  /**
+   * @return the users mail address.
+   */
+  public MutableLiveData<String> getEmail() {
+    if (email == null) {
+      email = new MutableLiveData<>();
     }
+    return email;
+  }
 
-    public void setEmail(MutableLiveData<String> email) {
-        this.email = email;
-    }
+  /**
+   * @param email the users mail address.
+   */
+  public void setEmail(MutableLiveData<String> email) {
+    this.email = email;
+  }
 }
