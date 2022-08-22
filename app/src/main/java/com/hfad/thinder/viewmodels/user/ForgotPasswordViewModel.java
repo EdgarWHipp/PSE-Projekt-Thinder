@@ -2,135 +2,167 @@ package com.hfad.thinder.viewmodels.user;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 import com.hfad.thinder.R;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.viewmodels.ViewModelResultTypes;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * A class providing a {@link ViewModel} for the {@link com.hfad.thinder.ui.user.ForgotPasswordActivity ForgotPasswordActivity}.
+ */
 public class ForgotPasswordViewModel extends ViewModel {
-    private static final Pattern PASSWORD_PATTERN =
-            Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$");
-    private final UserRepository userRepository = UserRepository.getInstance();
-    private MutableLiveData<ForgotPasswordFormState> formState;
-    private MutableLiveData<ViewModelResult> loginResult;
+  private static final Pattern PASSWORD_PATTERN =
+      Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$");
+  private final UserRepository userRepository = UserRepository.getInstance();
+  private MutableLiveData<ForgotPasswordFormState> formState;
+  private MutableLiveData<ViewModelResult> loginResult;
 
-    private MutableLiveData<String> code;
-    private MutableLiveData<String> newPassword;
-    private MutableLiveData<String> newPasswordConfirmation;
+  private MutableLiveData<String> code;
+  private MutableLiveData<String> newPassword;
+  private MutableLiveData<String> newPasswordConfirmation;
 
-    public void login() {
-        Result result = userRepository.resetPasswordWithToken(code.getValue(), newPassword.getValue());
-        if (!result.getSuccess()) {
-            loginResult.setValue(
-                    new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
-        } else if (result.getSuccess()) {
-            USERTYPE usertype = userRepository.getType();
-            if (usertype == USERTYPE.STUDENT) {
-                loginResult.setValue(
-                        new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.STUDENT));
-            } else if (usertype == USERTYPE.SUPERVISOR) {
-                loginResult.setValue(
-                        new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.SUPERVISOR));
-            }
-        }
-
-    }
-    //Todo: es fehlt noch ein Unverified
-
-
-    public void passwordForgotDataChanged() {
-        getFormState().setValue(
-                new ForgotPasswordFormState(codeConfirmationIsValid(), passwordFormIsValid(),
-                        passwordConfirmationFormIsValid()));
+  /**
+   * Use this method to log in to the users account with the token and a new password.
+   */
+  public void login() {
+    Result result = userRepository.resetPasswordWithToken(code.getValue(), newPassword.getValue());
+    if (!result.getSuccess()) {
+      loginResult.setValue(
+          new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
+    } else if (result.getSuccess()) {
+      USERTYPE usertype = userRepository.getType();
+      if (usertype == USERTYPE.STUDENT) {
+        loginResult.setValue(
+            new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.STUDENT));
+      } else if (usertype == USERTYPE.SUPERVISOR) {
+        loginResult.setValue(
+            new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.SUPERVISOR));
+      }
     }
 
-    public MutableLiveData<ForgotPasswordFormState> getFormState() {
-        if (formState == null) {
-            formState = new MutableLiveData<>();
-        }
-        return formState;
-    }
+  }
+  //Todo: es fehlt noch ein Unverified
 
-    public MutableLiveData<ViewModelResult> getLoginResult() {
-        if (loginResult == null) {
-            loginResult = new MutableLiveData<>();
-        }
-        return loginResult;
-    }
+  /**
+   * Use this method to check whether the entered profile data is valid. This method should be called everytime the user edits the data in the ui.
+   */
+  public void passwordForgotDataChanged() {
+    getFormState().setValue(
+        new ForgotPasswordFormState(codeConfirmationIsValid(), passwordFormIsValid(),
+            passwordConfirmationFormIsValid()));
+  }
 
-    public MutableLiveData<String> getCode() {
-        if (code == null) {
-            code = new MutableLiveData<>();
-        }
-        return code;
-    }
+  //---------------------getter and setter----------------------------------------------------------
 
-    public void setCode(MutableLiveData<String> code) {
-        this.code = code;
+  /**
+   * @return the current {@link ForgotPasswordFormState}.
+   */
+  public MutableLiveData<ForgotPasswordFormState> getFormState() {
+    if (formState == null) {
+      formState = new MutableLiveData<>();
     }
+    return formState;
+  }
 
-    public MutableLiveData<String> getNewPassword() {
-        if (newPassword == null) {
-            newPassword = new MutableLiveData<>();
-        }
-        return newPassword;
+  /**
+   * @return the {@link ViewModelResult} of the {@link #login()} operation.
+   */
+  public MutableLiveData<ViewModelResult> getLoginResult() {
+    if (loginResult == null) {
+      loginResult = new MutableLiveData<>();
     }
+    return loginResult;
+  }
 
-    public void setNewPassword(MutableLiveData<String> newPassword) {
-        this.newPassword = newPassword;
+  /**
+   * @return the token used to change the password
+   */
+  public MutableLiveData<String> getCode() {
+    if (code == null) {
+      code = new MutableLiveData<>();
     }
+    return code;
+  }
 
-    public MutableLiveData<String> getNewPasswordConfirmation() {
-        if (newPasswordConfirmation == null) {
-            newPasswordConfirmation = new MutableLiveData<>();
-        }
-        return newPasswordConfirmation;
+  /**
+   * @param code the token used to change the password
+   */
+  public void setCode(MutableLiveData<String> code) {
+    this.code = code;
+  }
+
+  /**
+   * @return the new password
+   */
+  public MutableLiveData<String> getNewPassword() {
+    if (newPassword == null) {
+      newPassword = new MutableLiveData<>();
     }
+    return newPassword;
+  }
 
-    public void setNewPasswordConfirmation(
-            MutableLiveData<String> newPasswordConfirmation) {
-        this.newPasswordConfirmation = newPasswordConfirmation;
+  /**
+   * @param newPassword the new password
+   */
+  public void setNewPassword(MutableLiveData<String> newPassword) {
+    this.newPassword = newPassword;
+  }
+
+  /**
+   * @return the confirmation of the new password
+   */
+  public MutableLiveData<String> getNewPasswordConfirmation() {
+    if (newPasswordConfirmation == null) {
+      newPasswordConfirmation = new MutableLiveData<>();
     }
+    return newPasswordConfirmation;
+  }
 
-    //--------private methods-------------------------------------------
+  /**
+   * @param newPasswordConfirmation the confirmation of the new password
+   */
+  public void setNewPasswordConfirmation(
+      MutableLiveData<String> newPasswordConfirmation) {
+    this.newPasswordConfirmation = newPasswordConfirmation;
+  }
 
-    private Integer passwordFormIsValid() {
-        if (newPassword.getValue() == null || newPassword.getValue().equals("")) {
-            return R.string.no_password_error;
-        }
-        if (newPassword.getValue().length() < 8) {
-            return R.string.password_to_short_error;
-        }
-        Matcher m = PASSWORD_PATTERN.matcher(newPassword.getValue());
-        if (!m.matches()) {
-            return R.string.password_not_safe_error;
-        }
-        return null;
+  //--------private methods-------------------------------------------
+
+  private Integer passwordFormIsValid() {
+    if (newPassword.getValue() == null || newPassword.getValue().equals("")) {
+      return R.string.no_password_error;
     }
-
-    private Integer passwordConfirmationFormIsValid() {
-        if (newPasswordConfirmation.getValue() == null ||
-                newPasswordConfirmation.getValue().equals("")) {
-            return R.string.no_password_confirmation_error;
-            //Todo: seltsamen Bugg beheben
-        }
-        if (newPassword.getValue() == null ||
-                !newPassword.getValue().equals(newPasswordConfirmation.getValue())) {
-            return R.string.passwords_do_not_match_error;
-        }
-        return null;
+    if (newPassword.getValue().length() < 8) {
+      return R.string.password_to_short_error;
     }
-
-    private Integer codeConfirmationIsValid() {
-        if (code.getValue() == null || code.getValue().equals("")) {
-            return R.string.token_error;
-        }
-        return null;
+    Matcher m = PASSWORD_PATTERN.matcher(newPassword.getValue());
+    if (!m.matches()) {
+      return R.string.password_not_safe_error;
     }
+    return null;
+  }
+
+  private Integer passwordConfirmationFormIsValid() {
+    if (newPasswordConfirmation.getValue() == null ||
+        newPasswordConfirmation.getValue().equals("")) {
+      return R.string.no_password_confirmation_error;
+      //Todo: seltsamen Bugg beheben
+    }
+    if (newPassword.getValue() == null ||
+        !newPassword.getValue().equals(newPasswordConfirmation.getValue())) {
+      return R.string.passwords_do_not_match_error;
+    }
+    return null;
+  }
+
+  private Integer codeConfirmationIsValid() {
+    if (code.getValue() == null || code.getValue().equals("")) {
+      return R.string.token_error;
+    }
+    return null;
+  }
 }

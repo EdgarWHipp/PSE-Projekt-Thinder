@@ -3,15 +3,13 @@ package com.hfad.thinder.viewmodels.supervisor;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
 import androidx.lifecycle.MutableLiveData;
-
+import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
-import com.hfad.thinder.data.source.repository.DegreeRepository;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Pair;
@@ -19,13 +17,14 @@ import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.viewmodels.CourseOfStudyItem;
 import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.viewmodels.ViewModelResultTypes;
-
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * A class providing a {@link ViewModel} for the {@link com.hfad.thinder.ui.supervisor.EditThesisFragment EditThesisFragment}.
+ */
 public class EditThesisViewModel extends ThesisViewModel {
-    private static final DegreeRepository degreeRepository = DegreeRepository.getInstance();
     private static final ThesisRepository thesisRepository = ThesisRepository.getInstance();
     private static final UserRepository userRepository = UserRepository.getInstance();
     private MutableLiveData<String> totalRating;
@@ -38,32 +37,41 @@ public class EditThesisViewModel extends ThesisViewModel {
     public void save() {
         Form form = new Form(getQuestions().getValue());
         Set<Image> imageSet = ThesisUtility.getImageSet(getImages().getValue());
-        Set<Degree> degreeSet = ThesisUtility.getSelectedDegreeSet(getCoursesOfStudyList().getValue());
+        Set<Degree> degreeSet =
+            ThesisUtility.getSelectedDegreeSet(getCoursesOfStudyList().getValue());
         Thesis thesis =
-                new Thesis(getProfessor().getValue(), getTitle().getValue(), getMotivation().getValue(),
-                        getTask().getValue(), form, imageSet, (Supervisor) userRepository.getUser(), degreeSet);
+            new Thesis(getProfessor().getValue(), getTitle().getValue(), getMotivation().getValue(),
+                getTask().getValue(), form, imageSet, (Supervisor) userRepository.getUser(),
+                degreeSet);
         Result result = thesisRepository.editThesis(thesisId, thesis);
         if (result.getSuccess()) {
             getSaveResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
         } else {
             getSaveResult().setValue(
-                    new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
+                new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
         }
     }
 
+    /**
+     * Use this method to delete the thesis from the users profile.
+     */
     public void delete() {
         Result result = thesisRepository.deleteThesis(thesisId);
         if (result.getSuccess()) {
-            getDeleteThesisResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
+            getDeleteThesisResult().setValue(
+                new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
         } else {
             getDeleteThesisResult().setValue(
-                    new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
+                new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
         }
     }
 
 
     //------------------getter and setter-----------------------------------------------------
 
+    /**
+     * @return the total number times this thesis has been rated.
+     */
     public MutableLiveData<String> getTotalRating() {
         if (totalRating == null) {
             totalRating = new MutableLiveData<String>();
@@ -71,7 +79,9 @@ public class EditThesisViewModel extends ThesisViewModel {
         return totalRating;
     }
 
-
+    /**
+     * @param thesisId the {@link UUID} of this thesis.
+     */
     public void setThesisId(UUID thesisId) {
         if (this.thesisId == null || !this.thesisId.equals(thesisId)) {
             this.thesisId = thesisId;
@@ -80,7 +90,9 @@ public class EditThesisViewModel extends ThesisViewModel {
 
     }
 
-
+    /**
+     * @return the {@link ViewModelResult} of the {@link #delete()} operation.
+     */
     public MutableLiveData<ViewModelResult> getDeleteThesisResult() {
         if (deleteThesisResult == null) {
             deleteThesisResult = new MutableLiveData<>();
@@ -107,11 +119,12 @@ public class EditThesisViewModel extends ThesisViewModel {
         getQuestions().setValue(thesis.getForm().getQuestions());
 
         //courses of Study
-        getSelectedCoursesOfStudy().setValue(coursesOfStudyStringAdapter(thesis.getPossibleDegrees()));
+        getSelectedCoursesOfStudy().setValue(
+            coursesOfStudyStringAdapter(thesis.getPossibleDegrees()));
         MutableLiveData<ArrayList<CourseOfStudyItem>> coursesOfStudyList = new MutableLiveData<>();
         ArrayList<Degree> allDegrees = ThesisUtility.DEGREE_REPOSITORY.fetchAllCoursesOfStudy();
         coursesOfStudyList.setValue(
-                coursesOfStudyListAdapter(allDegrees, thesis.getPossibleDegrees()));
+            coursesOfStudyListAdapter(allDegrees, thesis.getPossibleDegrees()));
         setCoursesOfStudyList(coursesOfStudyList);
 
         //images
@@ -119,7 +132,7 @@ public class EditThesisViewModel extends ThesisViewModel {
 
         thesisStatistics = thesisRepository.getThesisStatistics(thesisId);
         getTotalRating().postValue(
-                String.valueOf(thesisStatistics.getFirst() + thesisStatistics.getSecond()));
+            String.valueOf(thesisStatistics.getFirst() + thesisStatistics.getSecond()));
 
     }
 
@@ -132,9 +145,11 @@ public class EditThesisViewModel extends ThesisViewModel {
         ArrayList<CourseOfStudyItem> convertedDegrees = new ArrayList<>();
         for (Degree degree : allDegrees) {
             if (selectedDegreesTypeString.contains(degree)) {
-                convertedDegrees.add(new CourseOfStudyItem(degree.getDegree(), degree.getId(), true));
+                convertedDegrees.add(
+                    new CourseOfStudyItem(degree.getDegree(), degree.getId(), true));
             } else {
-                convertedDegrees.add(new CourseOfStudyItem(degree.getDegree(), degree.getId(), false));
+                convertedDegrees.add(
+                    new CourseOfStudyItem(degree.getDegree(), degree.getId(), false));
             }
         }
         return convertedDegrees;
