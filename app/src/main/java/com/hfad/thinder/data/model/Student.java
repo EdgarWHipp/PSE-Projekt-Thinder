@@ -11,8 +11,8 @@ public class Student extends User {
     private ArrayList<Degree> degrees;
 
 
-    public Student(USERTYPE role, UUID id, boolean active, UUID universityId, String password, String mail, String firstName, String lastName, ArrayList<Degree> degrees, boolean isComplete) {
-        super(role, id, active, universityId, password, mail, firstName, lastName, isComplete);
+    public Student(USERTYPE type, UUID id, boolean active, UUID universityId, String password, String mail, String firstName, String lastName, ArrayList<Degree> degrees, boolean isComplete) {
+        super(type, id, active, universityId, password, mail, firstName, lastName, isComplete);
         this.degrees = degrees;
     }
 

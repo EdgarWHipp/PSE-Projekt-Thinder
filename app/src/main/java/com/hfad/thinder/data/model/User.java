@@ -19,8 +19,8 @@ public class User {
     @SerializedName("mail")
     @Expose
     private final String mail;
-    @SerializedName("role")
-    private USERTYPE role;
+    @SerializedName("type")
+    private USERTYPE type;
     @SerializedName("id")
     private UUID id;
     @SerializedName("active")
@@ -38,9 +38,9 @@ public class User {
     @Expose
     private boolean isComplete;
 
-    public User(USERTYPE role, UUID id, boolean active, UUID universityId, String password,
+    public User(USERTYPE type, UUID id, boolean active, UUID universityId, String password,
                 String mail, String firstName, String lastName, boolean isComplete) {
-        this.role = role;
+        this.type = type;
         this.id = id;
         this.active = active;
         this.universityId = universityId;
@@ -59,12 +59,12 @@ public class User {
         isComplete = complete;
     }
 
-    public USERTYPE getRole() {
-        return role;
+    public USERTYPE getType() {
+        return type;
     }
 
-    public void setRole(USERTYPE role) {
-        this.role = role;
+    public void setType(USERTYPE type) {
+        this.type = type;
     }
 
     public UUID getId() {
