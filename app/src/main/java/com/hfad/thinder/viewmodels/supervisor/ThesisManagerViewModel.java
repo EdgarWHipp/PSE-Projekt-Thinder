@@ -45,8 +45,11 @@ public class ThesisManagerViewModel extends ViewModel {
                   thesisHashMap.values().stream().collect(
                           Collectors.toList());
           for (com.hfad.thinder.data.model.Thesis thesis : thesisList) {
-              byte[] byteArray = thesis.getImages().iterator().next().getImage();
-              Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+              Bitmap bitmap=null;
+              if(!thesis.getImages().isEmpty()) {
+                  byte[] byteArray = thesis.getImages().iterator().next().getImage();
+                  bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+              }
               newThesisList.add(
                       new ThesisCardItem(thesis.getId(), thesis.getName(), thesis.getTask(), bitmap));
           }
