@@ -351,7 +351,6 @@ public class SwipeScreenViewModel extends ViewModel {
 
   private void loadCardDeck() {
     cardDeck = new ArrayList<>();
-    addDummyCards(cardDeck);
     ArrayList<Thesis> theses = new ArrayList<>();
     theses = thesisRepository.getAllSwipeableTheses();
     if (theses == null) {
@@ -371,6 +370,7 @@ public class SwipeScreenViewModel extends ViewModel {
               supervisor.getMail(), supervisor.getAcademicDegree());
       cardDeck.add(swipeScreenCard);
     }
+    addDummyCards(cardDeck);
   }
 
   private void addDummyCards(ArrayList<SwipeScreenCard> cardDeck) {
