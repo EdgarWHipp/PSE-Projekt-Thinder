@@ -1,5 +1,6 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
+import android.util.ArraySet;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -49,10 +50,12 @@ import okhttp3.Response;
 public class StudentApiService {
     private final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
-
+    private String liveScheme="https";
+    private String liveHost = "thinder-staging.herokuapp.com";
     private String scheme = "http";
     private String host = "10.0.2.2";
     private int port = 8080;
+    private boolean liveSetup = true;
 
     public void setScheme(String scheme) {
         this.scheme = scheme;
@@ -62,6 +65,9 @@ public class StudentApiService {
         this.host = host;
     }
 
+    public void setLiveSetup(boolean liveSetup) {
+        this.liveSetup = liveSetup;
+    }
 
     public void setPort(int port) {
         this.port = port;
@@ -96,13 +102,23 @@ public class StudentApiService {
                 .put("lastName", lastName)
                 .put("type", UserRepository.getInstance().getType().toString());
         RequestBody body = RequestBody.create(studentJson.toString(), JSON);
-        HttpUrl url = new HttpUrl.Builder()
-                .scheme(scheme)
-                .host(host)
-                .port(port)
-                .addPathSegment("users")
-                .addPathSegment("current")
-                .build();
+        HttpUrl url;
+        if(!liveSetup) {
+            url = new HttpUrl.Builder()
+                    .scheme(scheme)
+                    .host(host)
+                    .port(port)
+                    .addPathSegment("users")
+                    .addPathSegment("current")
+                    .build();
+        }else{
+            url = new HttpUrl.Builder()
+                    .scheme(liveScheme)
+                    .host(liveHost)
+                    .addPathSegment("users")
+                    .addPathSegment("current")
+                    .build();
+        }
         Request request = new Request.Builder()
                 .url(url)
                 .put(body)
@@ -153,12 +169,21 @@ public class StudentApiService {
         String json = new Gson().toJson(ratings);
         RequestBody body = RequestBody.create(json, JSON);
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
-        HttpUrl url = new HttpUrl.Builder()
-                .scheme(scheme)
-                .host(host)
-                .port(port)
-                .addPathSegment("students")
-                .addPathSegment("rated-theses").build();
+        HttpUrl url;
+        if (!liveSetup){
+            url = new HttpUrl.Builder()
+                    .scheme(scheme)
+                    .host(host)
+                    .port(port)
+                    .addPathSegment("students")
+                    .addPathSegment("rated-theses").build();
+        }else{
+            url = new HttpUrl.Builder()
+                    .scheme(liveScheme)
+                    .host(liveHost)
+                    .addPathSegment("students")
+                    .addPathSegment("rated-theses").build();
+        }
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
@@ -197,14 +222,24 @@ public class StudentApiService {
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         CompletableFuture<HashMap<UUID, Thesis>> thesisListFuture = new CompletableFuture<>();
+        HttpUrl url;
+        if (!liveSetup) {
+            url = new HttpUrl.Builder()
+                    .scheme(scheme)
+                    .host(host)
+                    .port(port)
+                    .addPathSegment("students")
+                    .addPathSegment("rated-theses")
+                    .build();
+        }else{
+            url = new HttpUrl.Builder()
+                    .scheme(liveScheme)
+                    .host(liveHost)
+                    .addPathSegment("students")
+                    .addPathSegment("rated-theses")
+                    .build();
+        }
 
-        HttpUrl url = new HttpUrl.Builder()
-                .scheme(scheme)
-                .host(host)
-                .port(port)
-                .addPathSegment("students")
-                .addPathSegment("rated-theses")
-                .build();
 
         Request request = new Request.Builder()
                 .url(url)
@@ -228,9 +263,9 @@ public class StudentApiService {
                     }.getType());
                     //convert ThesisDTO to Thesis Does this work mhh?
                     ArrayList<Thesis> returnTheses = new ArrayList<>();
-                    Thesis thesis=null;
-                    Set<Image> images= null;
-                    Set<Degree> degrees=null;
+                    Thesis thesis=new Thesis();
+                    Set<Image> images= new ArraySet<>();
+                    Set<Degree> degrees= new ArraySet<>();
                     for(ThesisDTO thesisIter : theses){
                         thesis.setId(thesisIter.getId());
                         thesis.setForm(new Form(thesisIter.getQuestions()));
@@ -280,14 +315,26 @@ public class StudentApiService {
 
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         CompletableFuture<ArrayList<Thesis>> resultThesisFuture = new CompletableFuture<>();
-        HttpUrl url = new HttpUrl.Builder()
-                .scheme(scheme)
-                .host(host)
-                .port(port)
-                .addPathSegment("students")
-                .addPathSegment("theses")
-                .addPathSegment("get-swipe-theses")
-                .build();
+        HttpUrl url;
+        if(!liveSetup){
+            url = new HttpUrl.Builder()
+                    .scheme(scheme)
+                    .host(host)
+                    .port(port)
+                    .addPathSegment("students")
+                    .addPathSegment("theses")
+                    .addPathSegment("get-swipe-theses")
+                    .build();
+        }else{
+            url = new HttpUrl.Builder()
+                    .scheme(liveScheme)
+                    .host(liveHost)
+                    .addPathSegment("students")
+                    .addPathSegment("theses")
+                    .addPathSegment("get-swipe-theses")
+                    .build();
+        }
+
         Request request = new Request.Builder()
                 .url(url)
                 .get()
@@ -306,19 +353,21 @@ public class StudentApiService {
                 if (response.isSuccessful()) {
                     Gson gson = new Gson();
                     String body = response.body().string();
-                    ArrayList<ThesisDTO> theses = (ArrayList<ThesisDTO>) gson.fromJson(body, new TypeToken<List<Thesis>>() {
+                    ArrayList<ThesisDTO> theses = (ArrayList<ThesisDTO>) gson.fromJson(body, new TypeToken<List<ThesisDTO>>() {
                     }.getType());
                     //convert ThesisDTO to Thesis Does this work mhh?
                     ArrayList<Thesis> returnTheses = new ArrayList<>();
-                    Thesis thesis=null;
-                    Set<Image> images= null;
-                    Set<Degree> degrees=null;
+
+                    Thesis thesis=new Thesis();
+                    Set<Image> images= new ArraySet<>();
+                    Set<Degree> degrees=new ArraySet<>();
                     for(ThesisDTO thesisIter : theses){
                         thesis.setId(thesisIter.getId());
                         thesis.setForm(new Form(thesisIter.getQuestions()));
                         for(String string : thesisIter.getImages()){
                             byte[] image = java.util.Base64.getDecoder().decode(string);
                             images.add(new Image(image));
+
                         }
                         for(Degree degree : thesisIter.getPossibleDegrees()){
                             degrees.add(degree);
@@ -328,6 +377,8 @@ public class StudentApiService {
                         thesis.setName(thesisIter.getName());
                         thesis.setPossibleDegrees(degrees);
                         thesis.setSupervisingProfessor(thesisIter.getSupervisingProfessor());
+
+
                         thesis.setSupervisor(thesisIter.getSupervisor());
                         thesis.setTask(thesisIter.getTask());
                         returnTheses.add(thesis);
@@ -369,15 +420,29 @@ public class StudentApiService {
         formJson = new JSONObject().put("answers", form.getAnswers()).put("questions", form.getQuestions());
         String jsonBodyString = formJson.toString();
         RequestBody body = RequestBody.create(jsonBodyString, JSON);
-        HttpUrl url = new HttpUrl.Builder()
-                .scheme(scheme)
-                .host(host)
-                .port(port)
-                .addPathSegment("students")
-                .addPathSegment("rated-theses")
-                .addPathSegment(thesisId.toString())
-                .addPathSegment("form")
-                .build();
+        HttpUrl url;
+        if(!liveSetup){
+            url = new HttpUrl.Builder()
+                    .scheme(scheme)
+                    .host(host)
+                    .port(port)
+                    .addPathSegment("students")
+                    .addPathSegment("rated-theses")
+                    .addPathSegment(thesisId.toString())
+                    .addPathSegment("form")
+                    .build();
+        }else{
+            url = new HttpUrl.Builder()
+                    .scheme(liveScheme)
+                    .host(liveHost)
+                    .addPathSegment("students")
+                    .addPathSegment("rated-theses")
+                    .addPathSegment(thesisId.toString())
+                    .addPathSegment("form")
+                    .build();
+        }
+
+
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
@@ -418,15 +483,27 @@ public class StudentApiService {
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         RequestBody body = RequestBody.create(null, new byte[]{});
-        HttpUrl url = new HttpUrl.Builder()
-                .scheme(scheme)
-                .host(host)
-                .port(port)
-                .addPathSegment("students")
-                .addPathSegment("rated-theses")
-                .addPathSegment(thesisId.toString())
-                .addPathSegment("remove")
-                .build();
+        HttpUrl url;
+        if(!liveSetup) {
+            url = new HttpUrl.Builder()
+                    .scheme(scheme)
+                    .host(host)
+                    .port(port)
+                    .addPathSegment("students")
+                    .addPathSegment("rated-theses")
+                    .addPathSegment(thesisId.toString())
+                    .addPathSegment("remove")
+                    .build();
+        }else{
+            url = new HttpUrl.Builder()
+                    .scheme(liveScheme)
+                    .host(liveHost)
+                    .addPathSegment("students")
+                    .addPathSegment("rated-theses")
+                    .addPathSegment(thesisId.toString())
+                    .addPathSegment("remove")
+                    .build();
+        }
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)

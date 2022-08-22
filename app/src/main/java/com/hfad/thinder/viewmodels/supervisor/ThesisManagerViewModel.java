@@ -2,6 +2,7 @@ package com.hfad.thinder.viewmodels.supervisor;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -36,15 +37,21 @@ public class ThesisManagerViewModel extends ViewModel {
     }
 
     private void loadThesisManagerItems() {
-        HashMap<UUID, Thesis> thesisHashMap = thesisRepository.getThesisMap();
+        Log.e("","frontend calls function");
+        HashMap<UUID, Thesis> thesisHashMap = thesisRepository.getThesisMap(true);
+        Log.e("",thesisHashMap.toString());
         ArrayList<ThesisCardItem> newThesisList = new ArrayList<>();
         if (!(thesisHashMap == null) && !(thesisHashMap.isEmpty())) {
             List<Thesis> thesisList =
                     thesisHashMap.values().stream().collect(
                             Collectors.toList());
             for (com.hfad.thinder.data.model.Thesis thesis : thesisList) {
-                byte[] byteArray = thesis.getImages().iterator().next().getImage();
-                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                Bitmap bitmap=null;
+                if (!thesis.getImages().isEmpty()) {
+                    byte[] byteArray = thesis.getImages().iterator().next().getImage();
+                    bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                }
+
                 newThesisList.add(
                         new ThesisCardItem(thesis.getId(), thesis.getName(), thesis.getTask(), bitmap));
             }

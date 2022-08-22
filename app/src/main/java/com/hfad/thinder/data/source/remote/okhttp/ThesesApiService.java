@@ -40,9 +40,15 @@ public class ThesesApiService {
     private String scheme = "http";
     private String host = "10.0.2.2";
     private int port = 8080;
-
+    private boolean liveSetup = true;
+    private String liveScheme = "https";
+    private String liveHost =  "thinder-staging.herokuapp.com";
     public String getScheme() {
         return scheme;
+    }
+
+    public void setLiveSetup(boolean liveSetup) {
+        this.liveSetup = liveSetup;
     }
 
     public void setScheme(String scheme) {
@@ -117,13 +123,23 @@ public class ThesesApiService {
 
 
         RequestBody body = RequestBody.create(thesisJSON.toString(), JSON);
-        HttpUrl url = new HttpUrl.Builder()
-                .scheme(scheme)
-                .host(host)
-                .port(port)
-                .addPathSegment("thesis")
-                .addQueryParameter("ids", degreeUUIDSArr.toString())
-                .build();
+        HttpUrl url;
+        if(!liveSetup) {
+            url = new HttpUrl.Builder()
+                    .scheme(scheme)
+                    .host(host)
+                    .port(port)
+                    .addPathSegment("thesis")
+                    .addQueryParameter("ids", degreeUUIDSArr.toString())
+                    .build();
+        }else{
+            url = new HttpUrl.Builder()
+                    .scheme(liveScheme)
+                    .host(liveHost)
+                    .addPathSegment("thesis")
+                    .addQueryParameter("ids", degreeUUIDSArr.toString())
+                    .build();
+        }
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
@@ -163,13 +179,21 @@ public class ThesesApiService {
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         CompletableFuture<Thesis> resultThesis = new CompletableFuture<>();
-
-        HttpUrl url = new HttpUrl.Builder()
-                .scheme(scheme)
-                .host(host)
-                .port(port)
-                .addPathSegment("thesis")
-                .addPathSegment(thesisId.toString()).build();
+        HttpUrl url;
+        if(!liveSetup) {
+           url = new HttpUrl.Builder()
+                    .scheme(scheme)
+                    .host(host)
+                    .port(port)
+                    .addPathSegment("thesis")
+                    .addPathSegment(thesisId.toString()).build();
+        }else{
+            url = new HttpUrl.Builder()
+                    .scheme(liveScheme)
+                    .host(liveHost)
+                    .addPathSegment("thesis")
+                    .addPathSegment(thesisId.toString()).build();
+        }
         Request request = new Request.Builder()
                 .url(url)
                 .get()
@@ -210,13 +234,21 @@ public class ThesesApiService {
                                 UserRepository.getInstance().getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
-
-        HttpUrl url = new HttpUrl.Builder()
-                .scheme(scheme)
-                .host(host)
-                .port(port)
-                .addPathSegment("thesis")
-                .addPathSegment(thesisId.toString()).build();
+        HttpUrl url;
+        if(!liveSetup) {
+            url = new HttpUrl.Builder()
+                    .scheme(scheme)
+                    .host(host)
+                    .port(port)
+                    .addPathSegment("thesis")
+                    .addPathSegment(thesisId.toString()).build();
+        }else{
+            url = new HttpUrl.Builder()
+                    .scheme(liveScheme)
+                    .host(liveHost)
+                    .addPathSegment("thesis")
+                    .addPathSegment(thesisId.toString()).build();
+        }
 
         Request request = new Request.Builder()
                 .url(url)

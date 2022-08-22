@@ -31,6 +31,9 @@ public class DegreeApiService {
     private String host = "10.0.2.2";
     private String scheme = "http";
     private int port = 8080;
+    private boolean liveSetup = true;
+    private String liveHost= "thinder-staging.herokuapp.com";
+    private String liveScheme="https";
 
     public void setHost(String host) {
         this.host = host;
@@ -42,6 +45,10 @@ public class DegreeApiService {
 
     public void setPort(int port) {
         this.port = port;
+    }
+
+    public void setLiveSetup(boolean liveSetup) {
+        this.liveSetup = liveSetup;
     }
 
     /**
@@ -58,14 +65,26 @@ public class DegreeApiService {
                         new AuthInterceptor(UserRepository.getInstance().
                                 getUser().getMail(), UserRepository.getInstance().getPassword()))
                 .build();
-        HttpUrl url = new HttpUrl.Builder()
-                .scheme(scheme)
-                .host(host)
-                .port(port)
-                .addPathSegment("university")
-                .addPathSegment(UserRepository.getInstance().getUser().getUniversityId().toString())
-                .addPathSegment("degrees")
-                .build();
+        HttpUrl url;
+        if(!liveSetup) {
+            url = new HttpUrl.Builder()
+                    .scheme(scheme)
+                    .host(host)
+                    .port(port)
+                    .addPathSegment("university")
+                    .addPathSegment(UserRepository.getInstance().getUser().getUniversityId().toString())
+                    .addPathSegment("degrees")
+                    .build();
+        }else{
+            url = new HttpUrl.Builder()
+                    .scheme(liveScheme)
+                    .host(liveHost)
+                    .addPathSegment("university")
+                    .addPathSegment(UserRepository.getInstance().getUser().getUniversityId().toString())
+                    .addPathSegment("degrees")
+                    .build();
+        }
+
         Request request = new Request.Builder()
                 .url(url)
                 .get()

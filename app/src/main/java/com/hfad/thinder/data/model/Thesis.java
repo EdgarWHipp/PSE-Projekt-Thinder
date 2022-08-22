@@ -79,6 +79,10 @@ public class Thesis {
         return supervisor;
     }
 
+    public Thesis() {
+
+    }
+
     public void setSupervisor(Supervisor supervisor) {
         this.supervisor = supervisor;
     }

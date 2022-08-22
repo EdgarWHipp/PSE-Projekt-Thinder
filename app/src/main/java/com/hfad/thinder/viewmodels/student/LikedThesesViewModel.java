@@ -2,6 +2,7 @@ package com.hfad.thinder.viewmodels.student;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -35,7 +36,10 @@ public class LikedThesesViewModel extends ViewModel {
     //----------------private methods--------------------------
     private void loadLikedTheses() {
         ArrayList<ThesisCardItem> thesisCards = new ArrayList<>();
-        HashMap<UUID, Thesis> likedTheses = thesisRepository.getThesisMap();
+        Log.e("","how often is this called");
+        //HashMap<UUID, Thesis> likedTheses = thesisRepository.getThesisMap();
+        HashMap<UUID, Thesis> likedTheses =null;
+        Log.e("","call done");
         if (likedTheses != null && !(likedTheses.isEmpty())) {
             for (Thesis thesis : likedTheses.values()) {
                 byte[] byteArray = thesis.getImages().iterator().next().getImage();

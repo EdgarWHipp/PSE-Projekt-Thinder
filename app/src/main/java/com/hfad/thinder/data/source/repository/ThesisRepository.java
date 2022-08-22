@@ -10,6 +10,7 @@ import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.ThesisDTO;
 import com.hfad.thinder.data.model.USERTYPE;
+import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.remote.StudentRemoteDataSource;
 import com.hfad.thinder.data.source.remote.SupervisorRemoteDataSource;
 import com.hfad.thinder.data.source.remote.ThesisRemoteDataSource;
@@ -91,29 +92,41 @@ public final class ThesisRepository {
         }
     }
 
+    public HashMap<UUID, Thesis> returnThesisMap() {
+        return thesisMap;
+    }
+
     /**
      * Returns a hashmap of all theses that the currently active student has liked.
      *
      * @return HashMap<UUID, Thesis>
      */
-    public HashMap<UUID, Thesis> getThesisMap() {
-        Result result;
-        if (UserRepository.getInstance().getUser().getRole() == USERTYPE.STUDENT) {
-            result = StudentRepository.getInstance().fetchAllLikedThesis();
-            if (result.getSuccess()) {
-                return this.getThesisMap();
+    public HashMap<UUID, Thesis> getThesisMap(boolean flag) {
+        if(flag) {
+            Result result;
+            if (UserRepository.getInstance().getType() == USERTYPE.STUDENT) {
+                result = StudentRepository.getInstance().fetchAllLikedThesis();
+                if (result.getSuccess()) {
+                    Log.e("", "successful and thesis map returned");
+                    return this.getThesisMap(false);
+                } else {
+                    return null;
+                }
+            } else if (UserRepository.getInstance().getType() == USERTYPE.SUPERVISOR) {
+                Log.e("", "correct way");
+                result = SupervisorRepository.getInstance().getAllCreatedTheses();
+                if (result.getSuccess()) {
+                    Log.e("", "successful yeye");
+                    return this.getThesisMap(false);
+                } else {
+                    Log.e("", "not successful");
+                    return null;
+                }
             } else {
                 return null;
             }
-        } else if (UserRepository.getInstance().getUser().getRole() == USERTYPE.SUPERVISOR) {
-            result = SupervisorRepository.getInstance().getAllCreatedTheses();
-            if (result.getSuccess()) {
-                return this.getThesisMap();
-            } else {
-                return null;
-            }
-        } else {
-            return null;
+        }else{
+            return returnThesisMap();
         }
     }
 
@@ -129,7 +142,7 @@ public final class ThesisRepository {
      */
     public ArrayList<Thesis> getAllSwipeableTheses() {
         Result result;
-        if (UserRepository.getInstance().getUser().getRole() == USERTYPE.STUDENT) {
+        if (UserRepository.getInstance().getType() == USERTYPE.STUDENT) {
             result = StudentRepository.getInstance().fetchAllSwipeableThesis();
             if (result.getSuccess()) {
                 return this.getTheses();

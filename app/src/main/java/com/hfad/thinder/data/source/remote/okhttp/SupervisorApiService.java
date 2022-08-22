@@ -1,5 +1,6 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
+import android.util.ArraySet;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -44,10 +45,16 @@ import okhttp3.Response;
 public class SupervisorApiService {
     private static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
+    private boolean liveSetup = true;
     private String host = "10.0.2.2";
     private String scheme = "http";
     private int port = 8080;
+    private String liveScheme =  "https";
+    private String liveHost = "thinder-staging.herokuapp.com";
 
+    public void setLiveSetup(boolean liveSetup) {
+        this.liveSetup = liveSetup;
+    }
 
     public void setHost(String host) {
         this.host = host;
@@ -98,13 +105,23 @@ public class SupervisorApiService {
 
 
         RequestBody body = RequestBody.create(supervisorJson.toString(), JSON);
-        HttpUrl url = new HttpUrl.Builder()
-                .scheme(scheme)
-                .host(host)
-                .port(port)
-                .addPathSegment("users")
-                .addPathSegment("current")
-                .build();
+        HttpUrl url;
+        if(!liveSetup) {
+            url = new HttpUrl.Builder()
+                    .scheme(scheme)
+                    .host(host)
+                    .port(port)
+                    .addPathSegment("users")
+                    .addPathSegment("current")
+                    .build();
+        }else{
+            url = new HttpUrl.Builder()
+                    .scheme(liveScheme)
+                    .host(liveHost)
+                    .addPathSegment("users")
+                    .addPathSegment("current")
+                    .build();
+        }
         Request request = new Request.Builder()
                 .url(url)
                 .put(body)
@@ -163,13 +180,21 @@ public class SupervisorApiService {
                 .put("possibleDegrees", thesis.getPossibleDegrees())
                 .put("supervisor", UserRepository.getInstance().getUser())
                 .put("supervisingProfessor", thesis.getSupervisingProfessor());
-
-        HttpUrl url = new HttpUrl.Builder()
-                .scheme(scheme)
-                .host(host)
-                .port(port)
-                .addPathSegment("thesis")
-                .addPathSegment(thesisId.toString()).build();
+        HttpUrl url;
+        if(!liveSetup) {
+            url = new HttpUrl.Builder()
+                    .scheme(scheme)
+                    .host(host)
+                    .port(port)
+                    .addPathSegment("thesis")
+                    .addPathSegment(thesisId.toString()).build();
+        }else{
+            url = new HttpUrl.Builder()
+                    .scheme(liveScheme)
+                    .host(liveHost)
+                    .addPathSegment("thesis")
+                    .addPathSegment(thesisId.toString()).build();
+        }
 
         RequestBody body = RequestBody.create(thesisJSON.toString(), JSON);
         Request request = new Request.Builder()
@@ -210,12 +235,22 @@ public class SupervisorApiService {
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         CompletableFuture<HashMap<UUID, Thesis>> thesisHashmap = new CompletableFuture<>();
+        HttpUrl url;
+        Log.e("","getCreated thesis called");
+        if(!liveSetup) {
 
-        HttpUrl url = new HttpUrl.Builder()
-                .scheme(scheme)
-                .host(host)
-                .port(port)
-                .addPathSegment("theses").build();
+            url = new HttpUrl.Builder()
+                    .scheme(scheme)
+                    .host(host)
+                    .port(port)
+                    .addPathSegment("thesis").build();
+        }else{
+            url = new HttpUrl.Builder()
+                    .scheme(liveScheme)
+                    .host(liveHost)
+                    .addPathSegment("thesis").build();
+            Log.e("",url.toString());
+        }
 
         Request request = new Request.Builder()
                 .url(url)
@@ -232,16 +267,17 @@ public class SupervisorApiService {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    resultCompletableFuture.complete(new Result(true));
+                    Log.e("","call successful");
                     Gson gson = new Gson();
                     String body = response.body().string();
                     ArrayList<ThesisDTO> theses = gson.fromJson(body, new TypeToken<List<ThesisDTO>>() {
                     }.getType());
                     //convert ThesisDTO to Thesis Does this work mhh?
                     ArrayList<Thesis> returnTheses = new ArrayList<>();
-                    Thesis thesis=null;
-                    Set<Image> images= null;
-                    Set<Degree> degrees=null;
+                    Thesis thesis = new Thesis();
+                    Set<Image> images= new ArraySet<>();
+                    Set<Degree> degrees=new ArraySet<>();
+
                     for(ThesisDTO thesisIter : theses){
                         thesis.setId(thesisIter.getId());
                         thesis.setForm(new Form(thesisIter.getQuestions()));
@@ -264,8 +300,10 @@ public class SupervisorApiService {
                     HashMap<UUID, Thesis> thesisHashMap = (HashMap<UUID, Thesis>) returnTheses.stream()
                             .collect(Collectors.toMap(v -> v.getId(), v -> v));
                     resultCompletableFuture.complete(new Result(true));
+                    Log.e("",thesisHashMap.get(theses.get(0).getId()).toString());
                     thesisHashmap.complete(thesisHashMap);
                 } else {
+                    Log.e("",new String(String.valueOf(response.code())));
                     resultCompletableFuture.complete(new Result("not successful", false));
                 }
             }

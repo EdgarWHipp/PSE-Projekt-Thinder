@@ -1,5 +1,7 @@
 package com.hfad.thinder.data.source.remote;
 
+import android.util.Log;
+
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Thesis;
@@ -89,9 +91,13 @@ public class StudentRemoteDataSource {
     public Result getAllLikedThesesFromAStudent() {
         try {
             Pair<CompletableFuture<HashMap<UUID, Thesis>>, CompletableFuture<Result>> result = okHttpService.getAllPositiveRatedThesesFuture();
-            if (result.getSecond().get().getSuccess()) {
-                ThesisRepository.getInstance().setThesisMap(result.getFirst().get());
-                return result.getSecond().get();
+            Result resultValue = result.getSecond().get();
+            HashMap<UUID,Thesis> map= result.getFirst().get();
+            if (resultValue.getSuccess()) {
+                Log.e("","thesismap is set");
+                ThesisRepository.getInstance().setThesisMap(map);
+                Log.e("",String.valueOf(resultValue.getSuccess()));
+                return resultValue;
             } else {
                 return new Result("not successful", false);
             }
@@ -111,9 +117,11 @@ public class StudentRemoteDataSource {
     public Result getAllThesisForAStudent() {
         try {
             Pair<CompletableFuture<ArrayList<Thesis>>, CompletableFuture<Result>> result = okHttpService.getAllThesesForTheStudentFuture();
-            if (result.getSecond().get().getSuccess()) {
-                ThesisRepository.getInstance().setTheses(result.getFirst().get());
-                return result.getSecond().get();
+            Result resultValue = result.getSecond().get();
+            ArrayList<Thesis> list = result.getFirst().get();
+            if (resultValue.getSuccess()) {
+                ThesisRepository.getInstance().setTheses(list);
+                return resultValue;
             } else {
                 return new Result("not successful", false);
             }

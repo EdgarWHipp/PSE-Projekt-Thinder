@@ -1,5 +1,7 @@
 package com.hfad.thinder.data.source.remote;
 
+import android.util.Log;
+
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.remote.okhttp.SupervisorApiService;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
@@ -84,6 +86,7 @@ public class SupervisorRemoteDataSource {
         try {
             Pair<CompletableFuture<HashMap<UUID, Thesis>>, CompletableFuture<Result>> result = supervisorApiService.getCreatedThesisFromSupervisorFuture();
             if (result.getSecond().get().getSuccess()) {
+                Log.e("","call successful");
                 ThesisRepository.getInstance().setThesisMap(result.getFirst().get());
                 return result.getSecond().get();
             } else {
