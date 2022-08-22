@@ -97,7 +97,6 @@ public class ThesesApiService {
             JSONObject degreeJsoon = new JSONObject();
             degreeJsoon.put("id", degree.getId());
             degreeJsoon.put("degree", degree.getDegree());
-            //degreeJsoon.put("university", degree.getUniversityID());
             possibleDegreeJson.put(degreeJsoon);
         }
         List<UUID> degreeUUIDS = (List<UUID>) thesis.getPossibleDegrees().stream().map(x -> x.getId()).collect(Collectors.toList());
@@ -109,7 +108,9 @@ public class ThesesApiService {
             images.put(encodedImage);
         }
 
-
+        JSONObject supervisorJson = new JSONObject();
+        supervisorJson.put("id", UserRepository.getInstance().getUser().getId());
+        supervisorJson.put("type", "SUPERVISOR");
 
         JSONObject thesisJSON = new JSONObject()
                 .put("name", thesis.getName())
@@ -118,7 +119,7 @@ public class ThesesApiService {
                 .put("questions", thesis.getForm().getQuestions())
                 .put("images", images)
                 .put("possibleDegrees", possibleDegreeJson)
-                .put("supervisorId", UserRepository.getInstance().getUser().getId())
+                .put("supervisor", supervisorJson)
                 .put("supervisingProfessor", thesis.getSupervisingProfessor());
 
 
