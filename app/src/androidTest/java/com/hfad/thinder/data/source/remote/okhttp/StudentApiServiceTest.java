@@ -65,9 +65,9 @@ public class StudentApiServiceTest {
         MockResponse response = new MockResponse().setResponseCode(200);
         server.enqueue(response);
 
-        Degree degreeInformatik = new Degree("Informatik Bsc", new UUID(32, 32));
+        Degree degreeCS = new Degree("Informatik Bsc", new UUID(32, 32));
         ArrayList<Degree> degreesOld = new ArrayList<>();
-        degreesOld.add(degreeInformatik);
+        degreesOld.add(degreeCS);
 
         Student student = new Student(USERTYPE.STUDENT,
                 new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),

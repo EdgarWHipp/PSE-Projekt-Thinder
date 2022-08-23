@@ -39,9 +39,12 @@ public class UsersApiServiceTest {
         server = new MockWebServer();
 
         usersApiService = new UsersApiService();
-        usersApiService.setScheme("http");
-        usersApiService.setHost(server.getHostName());
-        usersApiService.setPort(server.getPort());
+
+        ApiUtils apiUtils = ApiUtils.getInstance();
+        apiUtils.setLiveSetup(false);
+        apiUtils.setScheme("http");
+        apiUtils.setHost(server.getHostName());
+        apiUtils.setPort(server.getPort());
     }
 
     @After

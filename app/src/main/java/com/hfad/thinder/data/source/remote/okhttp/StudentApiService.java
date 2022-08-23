@@ -7,7 +7,6 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.gms.common.util.ArrayUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hfad.thinder.data.model.Degree;
@@ -16,8 +15,6 @@ import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.ThesisDTO;
-import com.hfad.thinder.data.model.User;
-import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.data.source.result.Result;
