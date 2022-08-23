@@ -1,5 +1,7 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
+import static android.content.ContentValues.TAG;
+
 import android.util.ArraySet;
 import android.util.Log;
 
@@ -296,6 +298,9 @@ public class SupervisorApiService {
                         thesis.setSupervisor(thesisIter.getSupervisor());
                         thesis.setTask(thesisIter.getTask());
                         returnTheses.add(thesis);
+                        thesis = new Thesis();
+                        images = new ArraySet<>();
+                        degrees = new ArraySet<>();
                     }
                     HashMap<UUID, Thesis> thesisHashMap = (HashMap<UUID, Thesis>) returnTheses.stream()
                             .collect(Collectors.toMap(v -> v.getId(), v -> v));
