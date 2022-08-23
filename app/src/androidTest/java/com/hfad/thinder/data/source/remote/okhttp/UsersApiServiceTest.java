@@ -4,7 +4,9 @@ import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.model.UserCreation;
-import com.hfad.thinder.data.source.remote.okhttp.Utils.UserUtils;
+import com.hfad.thinder.data.source.remote.okhttp.Utils.SampleStudent;
+import com.hfad.thinder.data.source.remote.okhttp.Utils.SampleSupervisor;
+import com.hfad.thinder.data.source.remote.okhttp.Utils.SampleUser;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 
@@ -51,16 +53,16 @@ public class UsersApiServiceTest {
     public void testLoginSuccessStudent() throws JSONException, InterruptedException,
             ExecutionException, IOException {
         MockResponse response = new MockResponse().setResponseCode(200);
-        response.setBody(UserUtils.getStudentJson().toString());
+        response.setBody(SampleStudent.getStudentJson().toString());
         server.enqueue(response);
 
-        CompletableFuture<Result> result = usersApiService.getUserDetails(UserUtils.getLogin());
+        CompletableFuture<Result> result = usersApiService.getUserDetails(SampleUser.getLogin());
 
         RecordedRequest request = server.takeRequest();
         String authToken = request.getHeader("Authorization");
 
         // Correct auth header set in request
-        Assert.assertEquals(UserUtils.authHeader(), authToken);
+        Assert.assertEquals(SampleUser.authHeader(), authToken);
 
         Assert.assertTrue(result.get().getSuccess());
 
@@ -73,33 +75,33 @@ public class UsersApiServiceTest {
         // User data
         Assert.assertEquals(USERTYPE.STUDENT, student.getType());
         Assert.assertTrue(student.isActive());
-        Assert.assertEquals(UserUtils.id.toString(), student.getId().toString());
-        Assert.assertEquals(UserUtils.firstName, student.getFirstName());
-        Assert.assertEquals(UserUtils.lastName, student.getLastName());
-        Assert.assertEquals(UserUtils.mail, student.getMail());
-        Assert.assertEquals(UserUtils.uni_id.toString(), student.getUniversityId().toString());
+        Assert.assertEquals(SampleUser.id.toString(), student.getId().toString());
+        Assert.assertEquals(SampleUser.firstName, student.getFirstName());
+        Assert.assertEquals(SampleUser.lastName, student.getLastName());
+        Assert.assertEquals(SampleUser.mail, student.getMail());
+        Assert.assertEquals(SampleUser.uni_id.toString(), student.getUniversityId().toString());
 
         // Student data
-        Assert.assertEquals(UserUtils.degrees, student.getDegrees());
+        Assert.assertEquals(SampleStudent.degrees, student.getDegrees());
     }
 
     @Test
     public void testLoginSuccessSupervisor() throws JSONException, InterruptedException,
             ExecutionException, IOException {
         MockResponse response = new MockResponse().setResponseCode(200);
-        response.setBody(UserUtils.getSupervisorJson().toString());
+        response.setBody(SampleSupervisor.getSupervisorJson().toString());
         server.enqueue(response);
 
         UserRepository userRepository = UserRepository.getInstance();
         userRepository.setType(USERTYPE.SUPERVISOR);
 
-        CompletableFuture<Result> result = usersApiService.getUserDetails(UserUtils.getLogin());
+        CompletableFuture<Result> result = usersApiService.getUserDetails(SampleUser.getLogin());
 
         RecordedRequest request = server.takeRequest();
         String authToken = request.getHeader("Authorization");
 
         // Correct auth header set in request
-        Assert.assertEquals(UserUtils.authHeader(), authToken);
+        Assert.assertEquals(SampleUser.authHeader(), authToken);
 
         Assert.assertTrue(result.get().getSuccess());
 
@@ -110,18 +112,18 @@ public class UsersApiServiceTest {
         // User data
         Assert.assertEquals(USERTYPE.SUPERVISOR, supervisor.getType());
         Assert.assertTrue(supervisor.isActive());
-        Assert.assertEquals(UserUtils.id.toString(), supervisor.getId().toString());
-        Assert.assertEquals(UserUtils.firstName, supervisor.getFirstName());
-        Assert.assertEquals(UserUtils.lastName, supervisor.getLastName());
-        Assert.assertEquals(UserUtils.mail, supervisor.getMail());
-        Assert.assertEquals(UserUtils.uni_id.toString(), supervisor.getUniversityId().toString());
+        Assert.assertEquals(SampleUser.id.toString(), supervisor.getId().toString());
+        Assert.assertEquals(SampleUser.firstName, supervisor.getFirstName());
+        Assert.assertEquals(SampleUser.lastName, supervisor.getLastName());
+        Assert.assertEquals(SampleUser.mail, supervisor.getMail());
+        Assert.assertEquals(SampleUser.uni_id.toString(), supervisor.getUniversityId().toString());
 
         // Supervisor data
-        Assert.assertEquals(UserUtils.academicDegree, supervisor.getAcademicDegree());
-        Assert.assertEquals(UserUtils.building, supervisor.getBuilding());
-        Assert.assertEquals(UserUtils.officeNumber, supervisor.getOfficeNumber());
-        Assert.assertEquals(UserUtils.institute, supervisor.getInstitute());
-        Assert.assertEquals(UserUtils.phoneNumber, supervisor.getPhoneNumber());
+        Assert.assertEquals(SampleSupervisor.academicDegree, supervisor.getAcademicDegree());
+        Assert.assertEquals(SampleSupervisor.building, supervisor.getBuilding());
+        Assert.assertEquals(SampleSupervisor.officeNumber, supervisor.getOfficeNumber());
+        Assert.assertEquals(SampleSupervisor.institute, supervisor.getInstitute());
+        Assert.assertEquals(SampleSupervisor.phoneNumber, supervisor.getPhoneNumber());
     }
 
     @Test
@@ -145,7 +147,7 @@ public class UsersApiServiceTest {
         MockResponse response = new MockResponse().setResponseCode(200);
         server.enqueue(response);
 
-        UserCreation newUser = UserUtils.userCreation();
+        UserCreation newUser = SampleUser.userCreation();
 
         CompletableFuture<Result> result = usersApiService.createNewUserFuture(newUser);
 
@@ -159,10 +161,10 @@ public class UsersApiServiceTest {
         Assert.assertTrue(result.get().getSuccess());
 
         // Check request body parameters
-        Assert.assertEquals(UserUtils.firstName, newUserJson.get("firstName").toString());
-        Assert.assertEquals(UserUtils.lastName, newUserJson.get("lastName").toString());
-        Assert.assertEquals(UserUtils.mail, newUserJson.get("mail").toString());
-        Assert.assertEquals(UserUtils.password, newUserJson.get("password").toString());
+        Assert.assertEquals(SampleUser.firstName, newUserJson.get("firstName").toString());
+        Assert.assertEquals(SampleUser.lastName, newUserJson.get("lastName").toString());
+        Assert.assertEquals(SampleUser.mail, newUserJson.get("mail").toString());
+        Assert.assertEquals(SampleUser.password, newUserJson.get("password").toString());
     }
 
     @Test
@@ -170,7 +172,7 @@ public class UsersApiServiceTest {
         MockResponse response = new MockResponse().setResponseCode(500);
         server.enqueue(response);
 
-        UserCreation newUser = UserUtils.userCreation();
+        UserCreation newUser = SampleUser.userCreation();
 
         CompletableFuture<Result> result = usersApiService.createNewUserFuture(newUser);
 
@@ -185,8 +187,8 @@ public class UsersApiServiceTest {
         server.enqueue(response);
 
         UserRepository userRepository = UserRepository.getInstance();
-        userRepository.setUser(UserUtils.studentObject());
-        userRepository.setPassword(UserUtils.password);
+        userRepository.setUser(SampleStudent.studentObject());
+        userRepository.setPassword(SampleUser.password);
 
 
         CompletableFuture<Result> result = usersApiService.deleteUserFuture();
@@ -196,7 +198,7 @@ public class UsersApiServiceTest {
         String authToken = request.getHeader("Authorization");
 
         // Correct auth header set in request
-        Assert.assertEquals(UserUtils.authHeader(), authToken);
+        Assert.assertEquals(SampleUser.authHeader(), authToken);
 
         // Check if status 200 response is handled properly
         Assert.assertTrue(result.get().getSuccess());
