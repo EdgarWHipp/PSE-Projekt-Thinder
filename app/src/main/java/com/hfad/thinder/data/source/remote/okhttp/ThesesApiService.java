@@ -131,14 +131,12 @@ public class ThesesApiService {
                     .host(host)
                     .port(port)
                     .addPathSegment("thesis")
-                    .addQueryParameter("ids", degreeUUIDSArr.toString())
                     .build();
         }else{
             url = new HttpUrl.Builder()
                     .scheme(liveScheme)
                     .host(liveHost)
                     .addPathSegment("thesis")
-                    .addQueryParameter("ids", degreeUUIDSArr.toString())
                     .build();
         }
         Request request = new Request.Builder()

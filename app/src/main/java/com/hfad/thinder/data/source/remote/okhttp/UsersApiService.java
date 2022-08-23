@@ -246,11 +246,11 @@ public class UsersApiService {
      * @throws IOException
      */
     public CompletableFuture<Result> deleteUserFuture() throws IOException {
-        CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<Result>();
+        CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor(
                         UserRepository.getInstance().getUser().getMail(),
-                        UserRepository.getInstance().getUser().getPassword()))
+                        UserRepository.getInstance().getPassword()))
                 .build();
         HttpUrl url;
         if(!liveSetup) {
