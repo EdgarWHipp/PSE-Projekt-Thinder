@@ -1,7 +1,5 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
-import static android.content.ContentValues.TAG;
-
 import android.util.ArraySet;
 import android.util.Log;
 
@@ -15,7 +13,6 @@ import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.ThesisDTO;
-import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.data.source.result.Result;
@@ -47,28 +44,29 @@ import okhttp3.Response;
 public class SupervisorApiService {
     private static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
-    private boolean liveSetup = true;
-    private String host = "10.0.2.2";
-    private String scheme = "http";
-    private int port = 8080;
-    private String liveScheme =  "https";
-    private String liveHost = "thinder-staging.herokuapp.com";
-
-    public void setLiveSetup(boolean liveSetup) {
-        this.liveSetup = liveSetup;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    public void setScheme(String scheme) {
-        this.scheme = scheme;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
+    private static final ApiUtils apiUtils = ApiUtils.getInstance();
+//    private boolean liveSetup = true;
+//    private String host = "10.0.2.2";
+//    private String scheme = "http";
+//    private int port = 8080;
+//    private String liveScheme =  "https";
+//    private String liveHost = "thinder-staging.herokuapp.com";
+//
+//    public void setLiveSetup(boolean liveSetup) {
+//        this.liveSetup = liveSetup;
+//    }
+//
+//    public void setHost(String host) {
+//        this.host = host;
+//    }
+//
+//    public void setScheme(String scheme) {
+//        this.scheme = scheme;
+//    }
+//
+//    public void setPort(int port) {
+//        this.port = port;
+//    }
 
     /**
      * This function creates the HTTP PUT request that completes the user profile by extending the profile through either the additional attributes from the supervisor.
@@ -107,23 +105,28 @@ public class SupervisorApiService {
 
 
         RequestBody body = RequestBody.create(supervisorJson.toString(), JSON);
-        HttpUrl url;
-        if(!liveSetup) {
-            url = new HttpUrl.Builder()
-                    .scheme(scheme)
-                    .host(host)
-                    .port(port)
-                    .addPathSegment("users")
-                    .addPathSegment("current")
-                    .build();
-        }else{
-            url = new HttpUrl.Builder()
-                    .scheme(liveScheme)
-                    .host(liveHost)
-                    .addPathSegment("users")
-                    .addPathSegment("current")
-                    .build();
-        }
+
+        HttpUrl url = apiUtils.getHttpUrlBuilder()
+                .addPathSegment("users")
+                .addPathSegment("current")
+                .build();
+//        if(!liveSetup) {
+//            url = new HttpUrl.Builder()
+//                    .scheme(scheme)
+//                    .host(host)
+//                    .port(port)
+//                    .addPathSegment("users")
+//                    .addPathSegment("current")
+//                    .build();
+//        }else{
+//            url = new HttpUrl.Builder()
+//                    .scheme(liveScheme)
+//                    .host(liveHost)
+//                    .addPathSegment("users")
+//                    .addPathSegment("current")
+//                    .build();
+//        }
+
         Request request = new Request.Builder()
                 .url(url)
                 .put(body)
@@ -182,21 +185,24 @@ public class SupervisorApiService {
                 .put("possibleDegrees", thesis.getPossibleDegrees())
                 .put("supervisor", UserRepository.getInstance().getUser())
                 .put("supervisingProfessor", thesis.getSupervisingProfessor());
-        HttpUrl url;
-        if(!liveSetup) {
-            url = new HttpUrl.Builder()
-                    .scheme(scheme)
-                    .host(host)
-                    .port(port)
-                    .addPathSegment("thesis")
-                    .addPathSegment(thesisId.toString()).build();
-        }else{
-            url = new HttpUrl.Builder()
-                    .scheme(liveScheme)
-                    .host(liveHost)
-                    .addPathSegment("thesis")
-                    .addPathSegment(thesisId.toString()).build();
-        }
+
+        HttpUrl url = apiUtils.getHttpUrlBuilder()
+                .addPathSegment("thesis")
+                .addPathSegment(thesisId.toString()).build();
+//        if(!liveSetup) {
+//            url = new HttpUrl.Builder()
+//                    .scheme(scheme)
+//                    .host(host)
+//                    .port(port)
+//                    .addPathSegment("thesis")
+//                    .addPathSegment(thesisId.toString()).build();
+//        }else{
+//            url = new HttpUrl.Builder()
+//                    .scheme(liveScheme)
+//                    .host(liveHost)
+//                    .addPathSegment("thesis")
+//                    .addPathSegment(thesisId.toString()).build();
+//        }
 
         RequestBody body = RequestBody.create(thesisJSON.toString(), JSON);
         Request request = new Request.Builder()
@@ -237,22 +243,9 @@ public class SupervisorApiService {
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         CompletableFuture<HashMap<UUID, Thesis>> thesisHashmap = new CompletableFuture<>();
-        HttpUrl url;
-        Log.e("","getCreated thesis called");
-        if(!liveSetup) {
 
-            url = new HttpUrl.Builder()
-                    .scheme(scheme)
-                    .host(host)
-                    .port(port)
-                    .addPathSegment("thesis").build();
-        }else{
-            url = new HttpUrl.Builder()
-                    .scheme(liveScheme)
-                    .host(liveHost)
-                    .addPathSegment("thesis").build();
-            Log.e("",url.toString());
-        }
+        HttpUrl url = apiUtils.getHttpUrlBuilder()
+                .addPathSegment("thesis").build();
 
         Request request = new Request.Builder()
                 .url(url)

@@ -1,7 +1,5 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
@@ -334,7 +332,7 @@ public class UsersApiService {
      * @return Result
      * @throws JSONException, when the JSON is incorrectly parsed
      */
-    private Result setUserValues(String body) throws JSONException {
+    private Result setUserValues(String body) throws JSONException { // TODO refactor whole method
         Gson gson = new Gson();
         UserRepository userRepository = UserRepository.getInstance();
         String type = new JSONObject(body).get("type").toString();

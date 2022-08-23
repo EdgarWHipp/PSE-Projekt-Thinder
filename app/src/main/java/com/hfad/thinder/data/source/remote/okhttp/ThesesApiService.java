@@ -16,7 +16,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -37,40 +36,7 @@ import okhttp3.Response;
 public class ThesesApiService {
     private static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
-    private String scheme = "http";
-    private String host = "10.0.2.2";
-    private int port = 8080;
-    private boolean liveSetup = true;
-    private String liveScheme = "https";
-    private String liveHost =  "thinder-staging.herokuapp.com";
-    public String getScheme() {
-        return scheme;
-    }
-
-    public void setLiveSetup(boolean liveSetup) {
-        this.liveSetup = liveSetup;
-    }
-
-    public void setScheme(String scheme) {
-        this.scheme = scheme;
-    }
-
-    public String getHost() {
-        return host;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
-
+    private static final ApiUtils apiUtils = ApiUtils.getInstance();
 
     /**
      * This function creates the actual HTTP POST request to the backend that leads to a created thesis object inside the database.
@@ -124,21 +90,11 @@ public class ThesesApiService {
 
 
         RequestBody body = RequestBody.create(thesisJSON.toString(), JSON);
-        HttpUrl url;
-        if(!liveSetup) {
-            url = new HttpUrl.Builder()
-                    .scheme(scheme)
-                    .host(host)
-                    .port(port)
-                    .addPathSegment("thesis")
-                    .build();
-        }else{
-            url = new HttpUrl.Builder()
-                    .scheme(liveScheme)
-                    .host(liveHost)
-                    .addPathSegment("thesis")
-                    .build();
-        }
+
+        HttpUrl url = apiUtils.getHttpUrlBuilder()
+                .addPathSegment("thesis")
+                .build();
+
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
@@ -178,21 +134,11 @@ public class ThesesApiService {
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         CompletableFuture<Thesis> resultThesis = new CompletableFuture<>();
-        HttpUrl url;
-        if(!liveSetup) {
-           url = new HttpUrl.Builder()
-                    .scheme(scheme)
-                    .host(host)
-                    .port(port)
-                    .addPathSegment("thesis")
-                    .addPathSegment(thesisId.toString()).build();
-        }else{
-            url = new HttpUrl.Builder()
-                    .scheme(liveScheme)
-                    .host(liveHost)
-                    .addPathSegment("thesis")
-                    .addPathSegment(thesisId.toString()).build();
-        }
+
+        HttpUrl url = apiUtils.getHttpUrlBuilder()
+                .addPathSegment("thesis")
+                .addPathSegment(thesisId.toString()).build();
+
         Request request = new Request.Builder()
                 .url(url)
                 .get()
@@ -233,21 +179,10 @@ public class ThesesApiService {
                                 UserRepository.getInstance().getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
-        HttpUrl url;
-        if(!liveSetup) {
-            url = new HttpUrl.Builder()
-                    .scheme(scheme)
-                    .host(host)
-                    .port(port)
-                    .addPathSegment("thesis")
-                    .addPathSegment(thesisId.toString()).build();
-        }else{
-            url = new HttpUrl.Builder()
-                    .scheme(liveScheme)
-                    .host(liveHost)
-                    .addPathSegment("thesis")
-                    .addPathSegment(thesisId.toString()).build();
-        }
+
+        HttpUrl url = apiUtils.getHttpUrlBuilder()
+                .addPathSegment("thesis")
+                .addPathSegment(thesisId.toString()).build();
 
         Request request = new Request.Builder()
                 .url(url)

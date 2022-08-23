@@ -7,7 +7,6 @@ import static org.junit.Assert.assertFalse;
 import android.util.Log;
 
 import com.hfad.thinder.data.model.Degree;
-import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.source.repository.UserRepository;
@@ -32,13 +31,17 @@ import okhttp3.mockwebserver.RecordedRequest;
 public class SupervisorApiServiceTest {
     private MockWebServer server;
     private SupervisorApiService supervisorApiService;
+    private ApiUtils apiUtils;
 
     @Before
     public void setUp() throws Exception {
         server = new MockWebServer();
         supervisorApiService = new SupervisorApiService();
-        supervisorApiService.setHost(server.getHostName());
-        supervisorApiService.setPort(server.getPort());
+        apiUtils = ApiUtils.getInstance();
+        apiUtils.setLiveSetup(false);
+        apiUtils.setScheme("http");
+        apiUtils.setHost(server.getHostName());
+        apiUtils.setPort(server.getPort());
     }
 
     @After

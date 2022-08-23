@@ -3,7 +3,6 @@ package com.hfad.thinder.data.source.remote.okhttp;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import android.app.VoiceInteractor;
 import android.util.Log;
 
 import com.hfad.thinder.data.model.Degree;
@@ -35,6 +34,7 @@ public class ThesesApiServiceTest {
     private MockWebServer server;
     private ThesesApiService thesisApiService;
     private Supervisor supervisor;
+    private ApiUtils apiUtils;
 
     @Before
     public void setUp() throws Exception {
@@ -46,8 +46,11 @@ public class ThesesApiServiceTest {
                 "10.20", "2", "Telematik", "0123123123", false);
 
         thesisApiService = new ThesesApiService();
-        thesisApiService.setHost(server.getHostName());
-        thesisApiService.setPort(server.getPort());
+        apiUtils = ApiUtils.getInstance();
+        apiUtils.setLiveSetup(false);
+        apiUtils.setScheme("http");
+        apiUtils.setHost(server.getHostName());
+        apiUtils.setPort(server.getPort());
     }
 
     @After

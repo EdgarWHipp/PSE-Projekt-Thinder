@@ -7,12 +7,9 @@ import static org.junit.Assert.assertTrue;
 import android.util.Log;
 
 import com.hfad.thinder.data.model.Degree;
-import com.hfad.thinder.data.model.Login;
 import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Thesis;
-import com.hfad.thinder.data.model.ThesisDTO;
 import com.hfad.thinder.data.model.USERTYPE;
-import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Pair;
@@ -41,17 +38,19 @@ public class StudentApiServiceTest {
             = MediaType.parse("application/json; charset=utf-8");
     private MockWebServer server;
     private StudentApiService studentApiService;
-    private Login login;
+    private ApiUtils apiUtils;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         server = new MockWebServer();
-        login = new Login("mail@gmail.com", "password");
 
         studentApiService = new StudentApiService();
-        studentApiService.setHost(server.getHostName());
-        studentApiService.setPort(server.getPort());
-        studentApiService.setLiveSetup(false);
+        apiUtils = ApiUtils.getInstance();
+
+        apiUtils.setLiveSetup(false);
+        apiUtils.setScheme("http");
+        apiUtils.setHost(server.getHostName());
+        apiUtils.setPort(server.getPort());
     }
 
     @After

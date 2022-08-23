@@ -1,8 +1,5 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
-
-import com.hfad.thinder.data.model.Degree;
-import com.hfad.thinder.data.model.Login;
 import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.USERTYPE;
@@ -11,7 +8,6 @@ import com.hfad.thinder.data.source.remote.okhttp.Utils.UserUtils;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.After;
@@ -20,9 +16,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
@@ -34,6 +27,7 @@ import okhttp3.mockwebserver.RecordedRequest;
 public class UsersApiServiceTest {
     private MockWebServer server;
     private UsersApiService usersApiService;
+    private ApiUtils apiUtils;
 
     @Before
     public void setUp() {
@@ -41,7 +35,7 @@ public class UsersApiServiceTest {
 
         usersApiService = new UsersApiService();
 
-        ApiUtils apiUtils = ApiUtils.getInstance();
+        apiUtils = ApiUtils.getInstance();
         apiUtils.setLiveSetup(false);
         apiUtils.setScheme("http");
         apiUtils.setHost(server.getHostName());
