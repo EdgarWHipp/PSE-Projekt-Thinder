@@ -1,6 +1,7 @@
 package com.hfad.thinder.data.model;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -22,5 +23,15 @@ public class Student extends User {
 
     public void setDegrees(ArrayList<Degree> degrees) {
         this.degrees = degrees;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Student)) {
+            return false;
+        }
+        Student student = (Student) obj;
+        return Objects.equals(this.degrees, student.degrees)
+                && super.equals(student);
     }
 }

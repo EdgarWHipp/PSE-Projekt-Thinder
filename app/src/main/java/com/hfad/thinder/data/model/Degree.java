@@ -1,5 +1,6 @@
 package com.hfad.thinder.data.model;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -8,7 +9,7 @@ import java.util.UUID;
 public class Degree {
     private String degree;
     private UUID id;
-    private UUID universityID;
+    private UUID university_id;
 
     public Degree(String degree, UUID id) {
         this.degree = degree;
@@ -17,11 +18,11 @@ public class Degree {
     }
 
     public UUID getUniversityID() {
-        return universityID;
+        return university_id;
     }
 
     public void setUniversityID(UUID universityID) {
-        this.universityID = universityID;
+        this.university_id = universityID;
     }
 
     public UUID getId() {
@@ -40,5 +41,14 @@ public class Degree {
         this.degree = degree;
     }
 
-
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Degree)) {
+            return false;
+        }
+        Degree degree = (Degree) obj;
+        return Objects.equals(degree.degree, this.degree)
+                && Objects.equals(degree.id.toString(), this.id.toString())
+                && Objects.equals(degree.university_id.toString(), this.university_id.toString());
+    }
 }

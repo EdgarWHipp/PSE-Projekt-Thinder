@@ -3,6 +3,7 @@ package com.hfad.thinder.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -113,5 +114,22 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof User)) {
+            return false;
+        }
+        User user = (User) obj;
+        return Objects.equals(firstName, user.firstName)
+                && Objects.equals(lastName, user.lastName)
+                && Objects.equals(password, user.password)
+                && Objects.equals(mail, user.mail)
+                && Objects.equals(type, user.type)
+                && Objects.equals(id, user.id)
+                && Objects.equals(active, user.active)
+                && Objects.equals(universityId, user.universityId)
+                && Objects.equals(isComplete, user.isComplete);
     }
 }
