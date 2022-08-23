@@ -7,6 +7,7 @@ import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.model.UserCreation;
+import com.hfad.thinder.data.source.remote.okhttp.Utils.UserUtils;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 
@@ -221,86 +222,5 @@ public class UsersApiServiceTest {
 
     @Test
     public void testGetUserThesisResponse() {
-    }
-
-    private static class UserUtils {
-        private static final String typeStudent = "STUDENT";
-        private static final String typeSupervisor = "SUPERVISOR";
-        private static final UUID id =
-                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L);
-        private static final String firstName = "Olf";
-        private static final String lastName = "Rieffel";
-        private static final String password = "password";
-        private static final String mail = "mail@gmail.com";
-        private static final Boolean active = true;
-        private static final UUID uni_id =
-                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L);
-        private static final Boolean complete = true;
-
-        private static final String degreeName = "M. Sc. Informatik";
-        private static final UUID degreeId =
-                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4d314L);
-
-        private static final Degree degree = new Degree(degreeName, degreeId);
-        private static final ArrayList<Degree> degrees =
-                new ArrayList<>(Collections.singletonList(degree));
-
-        // Supervisor
-        private static final String academicDegree = "M. Sc.";
-        private static final String officeNumber = "Room 102";
-        private static final String building = "Building 50.34";
-        private static final String institute = "Telematik";
-        private static final String phoneNumber = "0173 1234567";
-
-        // Auth header
-        private static final String authHeader = "Basic bWFpbEBnbWFpbC5jb206cGFzc3dvcmQ=";
-
-        private static JSONObject getUserJson() throws JSONException {
-            return new JSONObject()
-                    .put("id", id)
-                    .put("firstName", firstName)
-                    .put("lastName", lastName)
-                    .put("mail", mail)
-                    .put("active", active)
-                    .put("uni_id", uni_id);
-        }
-
-        private static Student studentObject() {
-            return new Student(USERTYPE.STUDENT, id, active, uni_id, null, mail, firstName,
-                    lastName, degrees, complete);
-        }
-
-        private static UserCreation userCreation() {
-            return new UserCreation(firstName, lastName, mail, password);
-        }
-
-        private static JSONObject getStudentJson() throws JSONException {
-            degrees.get(0).setUniversityID(uni_id);
-            return getUserJson()
-                    .put("type", typeStudent)
-                    .put("degrees", new JSONArray().put(new JSONObject()
-                            .put("id", degreeId.toString())
-                            .put("degree", degreeName)
-                            .put("university_id", uni_id)
-                    ));
-        }
-
-        private static JSONObject getSupervisorJson() throws JSONException {
-            return getUserJson()
-                    .put("type", typeSupervisor)
-                    .put("academicDegree", academicDegree)
-                    .put("officeNumber", officeNumber)
-                    .put("building", building)
-                    .put("institute", institute)
-                    .put("phoneNumber", phoneNumber);
-        }
-
-        private static String authHeader() {
-            return authHeader;
-        }
-
-        private static Login getLogin() {
-            return new Login(mail, password);
-        }
     }
 }

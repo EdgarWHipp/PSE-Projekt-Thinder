@@ -30,7 +30,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import retrofit2.http.HTTP;
 
 /**
  * This class creates all the HTTP requests for the "general" user. This includes functionalities such as the registration, login, forgetting the password etc.
@@ -38,13 +37,7 @@ import retrofit2.http.HTTP;
 public class UsersApiService {
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final OkHttpClient CLIENT = new OkHttpClient();
-
-//    private String scheme = "http";
-//    private String host = "10.0.2.2";
-//    private int port = 8080;
-//    private boolean liveSetup=false;
-//    private String liveScheme= "https";
-//    private  String liveHost =  "thinder-staging.herokuapp.com";
+    private static final ApiUtils API_UTILS = ApiUtils.getInstance();
 
     /**
      * This function creates the HTTP GET request that firstly makes sure the email, password tuple exists in the database and then fetches a JSON with attributes type and id.
@@ -61,26 +54,7 @@ public class UsersApiService {
                 .build();
 
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
-        HttpUrl url;
-//        if(!liveSetup) {
-//            url = new HttpUrl.Builder()
-//                    .scheme(scheme)
-//                    .host(host)
-//                    .port(port)
-//                    .addPathSegment("users")
-//                    .addPathSegment("current")
-//                    .build();
-//        }else{
-//            url = new HttpUrl.Builder()
-//                    .scheme(liveScheme)
-//                    .host(liveHost)
-//                    .addPathSegment("users")
-//                    .addPathSegment("current")
-//                    .build();
-//            Log.e("",url.toString());
-//        }
-
-        url = ApiUtils.getInstance().getHttpUrlBuilder()
+        HttpUrl url = API_UTILS.getHttpUrlBuilder()
                 .addPathSegment("users").addPathSegment("current").build();
 
         Request request = new Request.Builder()
@@ -101,6 +75,9 @@ public class UsersApiService {
                     try {
                         UserRepository.getInstance().setPassword(login.getPassword());
                         Result valueSettingResult = setUserValues(response.body().string());
+                        if (!valueSettingResult.getSuccess()) {
+                            resultCompletableFuture.complete(valueSettingResult);
+                        }
                         resultCompletableFuture.complete(new Result(true));
                     } catch (JSONException e) {
                         resultCompletableFuture.complete(new Result("user values not correctly received", false));
@@ -129,33 +106,12 @@ public class UsersApiService {
     public CompletableFuture<Result> verifyUser(String token) throws JSONException, IOException, ExecutionException, InterruptedException, TimeoutException {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 
-        HttpUrl url;
-//        if(!liveSetup) {
-//            url = new HttpUrl.Builder()
-//                    .scheme(scheme)
-//                    .host(host)
-//                    .port(port)
-//                    .addPathSegment("users")
-//                    .addPathSegment("verify")
-//                    .addQueryParameter("token", token)
-//                    .build();
-//        }else{
-//            url = new HttpUrl.Builder()
-//                    .scheme(liveScheme)
-//                    .host(liveHost)
-//                    .addPathSegment("users")
-//                    .addPathSegment("verify")
-//                    .addQueryParameter("token", token)
-//                    .build();
-//        }
-
-        url = ApiUtils.getInstance().getHttpUrlBuilder()
+        HttpUrl url = API_UTILS.getHttpUrlBuilder()
                 .addPathSegment("users")
                 .addPathSegment("verify")
                 .addQueryParameter("token", token)
                 .build();
 
-        Log.e("", url.toString());
         Request request = new Request.Builder()
                 .url(url)
                 .get()
@@ -204,24 +160,8 @@ public class UsersApiService {
                         user.getPassword(), user.getMail(), user.getFirstName(), user.getLastName(), false));
         UserRepository.getInstance().setPassword(user.getPassword());
         RequestBody body = RequestBody.create(userJson.toString(), JSON);
-        HttpUrl url;
-//        if(!liveSetup) {
-//            url = new HttpUrl.Builder()
-//                    .scheme(scheme)
-//                    .host(host)
-//                    .port(port)
-//                    .addPathSegment("users")
-//                    .build();
-//        }else{
-//            url = new HttpUrl.Builder()
-//                    .scheme(liveScheme)
-//                    .host(liveHost)
-//                    .addPathSegment("users")
-//                    .build();
-//            Log.e("",url.toString());
-//        }
 
-        url = ApiUtils.getInstance().getHttpUrlBuilder()
+        HttpUrl url = API_UTILS.getHttpUrlBuilder()
                 .addPathSegment("users")
                 .build();
 
@@ -267,23 +207,8 @@ public class UsersApiService {
                         UserRepository.getInstance().getUser().getMail(),
                         UserRepository.getInstance().getPassword()))
                 .build();
-        HttpUrl url;
-//        if(!liveSetup) {
-//           url = new HttpUrl.Builder()
-//                    .scheme(scheme)
-//                    .host(host)
-//                    .port(port)
-//                    .addPathSegment("users")
-//                    .addPathSegment("current").build();
-//        }else{
-//            url = new HttpUrl.Builder()
-//                    .scheme(liveScheme)
-//                    .host(liveHost)
-//                    .addPathSegment("users")
-//                    .addPathSegment("current").build();
-//        }
 
-        url = ApiUtils.getInstance().getHttpUrlBuilder()
+        HttpUrl url = API_UTILS.getHttpUrlBuilder()
                 .addPathSegment("users")
                 .addPathSegment("current").build();
 
@@ -326,25 +251,7 @@ public class UsersApiService {
     public CompletableFuture<Result> resetPassword(String email) {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 
-        HttpUrl url;
-//        if(!liveSetup) {
-//            url = new HttpUrl.Builder()
-//                    .scheme(scheme)
-//                    .host(host)
-//                    .port(port)
-//                    .addPathSegment("resetPassword")
-//                    .addQueryParameter("mail", email)
-//                    .build();
-//        }else{
-//            url = new HttpUrl.Builder()
-//                    .scheme(liveScheme)
-//                    .host(liveHost)
-//                    .addPathSegment("resetPassword")
-//                    .addQueryParameter("mail", email)
-//                    .build();
-//        }
-
-        url = ApiUtils.getInstance().getHttpUrlBuilder()
+        HttpUrl url = API_UTILS.getHttpUrlBuilder()
                 .addPathSegment("resetPassword")
                 .addQueryParameter("mail", email)
                 .build();
@@ -389,25 +296,9 @@ public class UsersApiService {
         JSONObject passwordJSON = new JSONObject().put("password", newPassword);
 
         RequestBody body = RequestBody.create(passwordJSON.toString(), JSON);
-        HttpUrl url;
-//        if(!liveSetup){
-//            url = new HttpUrl.Builder()
-//                    .scheme(scheme)
-//                    .host(host)
-//                    .port(port)
-//                    .addPathSegment("resetPassword")
-//                    .addQueryParameter("token", token)
-//                    .build();
-//        }else{
-//            url = new HttpUrl.Builder()
-//                    .scheme(liveScheme)
-//                    .host(liveHost)
-//                    .addPathSegment("resetPassword")
-//                    .addQueryParameter("token", token)
-//                    .build();
-//        }
 
-        url = ApiUtils.getInstance().getHttpUrlBuilder()
+        HttpUrl url;
+        url = API_UTILS.getHttpUrlBuilder()
                 .addPathSegment("resetPassword")
                 .addQueryParameter("token", token)
                 .build();
@@ -446,19 +337,15 @@ public class UsersApiService {
     private Result setUserValues(String body) throws JSONException {
         Gson gson = new Gson();
         UserRepository userRepository = UserRepository.getInstance();
-        String role = new JSONObject(body).get("type").toString();
-        Log.e("",role);
-        switch (role) {
+        String type = new JSONObject(body).get("type").toString();
+        switch (type) {
             case "STUDENT":
-                Log.e("","correct");
-                Student student;
-                student = gson.fromJson(body, Student.class);
+                Student student = gson.fromJson(body, Student.class);
                 userRepository.setType(USERTYPE.STUDENT);
                 userRepository.setUser(student);
                 break;
             case "SUPERVISOR":
-                Supervisor supervisor;
-                supervisor = gson.fromJson(body, Supervisor.class);
+                Supervisor supervisor = gson.fromJson(body, Supervisor.class);
                 userRepository.setType(USERTYPE.SUPERVISOR);
                 userRepository.setUser(supervisor);
                 break;
@@ -467,21 +354,6 @@ public class UsersApiService {
         }
         return new Result(true);
     }
-
-
-//    public void setScheme(String scheme) {
-//        this.scheme = scheme;
-//    }
-//
-//    public void setHost(String host) {
-//        this.host = host;
-//    }
-//
-//    public void setPort(int port) {
-//        this.port = port;
-//    }
-
-
 }
 
 
