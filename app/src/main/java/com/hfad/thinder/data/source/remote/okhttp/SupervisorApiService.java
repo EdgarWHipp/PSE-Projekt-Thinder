@@ -45,28 +45,6 @@ public class SupervisorApiService {
     private static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
     private static final ApiUtils apiUtils = ApiUtils.getInstance();
-//    private boolean liveSetup = true;
-//    private String host = "10.0.2.2";
-//    private String scheme = "http";
-//    private int port = 8080;
-//    private String liveScheme =  "https";
-//    private String liveHost = "thinder-staging.herokuapp.com";
-//
-//    public void setLiveSetup(boolean liveSetup) {
-//        this.liveSetup = liveSetup;
-//    }
-//
-//    public void setHost(String host) {
-//        this.host = host;
-//    }
-//
-//    public void setScheme(String scheme) {
-//        this.scheme = scheme;
-//    }
-//
-//    public void setPort(int port) {
-//        this.port = port;
-//    }
 
     /**
      * This function creates the HTTP PUT request that completes the user profile by extending the profile through either the additional attributes from the supervisor.
@@ -110,22 +88,6 @@ public class SupervisorApiService {
                 .addPathSegment("users")
                 .addPathSegment("current")
                 .build();
-//        if(!liveSetup) {
-//            url = new HttpUrl.Builder()
-//                    .scheme(scheme)
-//                    .host(host)
-//                    .port(port)
-//                    .addPathSegment("users")
-//                    .addPathSegment("current")
-//                    .build();
-//        }else{
-//            url = new HttpUrl.Builder()
-//                    .scheme(liveScheme)
-//                    .host(liveHost)
-//                    .addPathSegment("users")
-//                    .addPathSegment("current")
-//                    .build();
-//        }
 
         Request request = new Request.Builder()
                 .url(url)
@@ -189,20 +151,6 @@ public class SupervisorApiService {
         HttpUrl url = apiUtils.getHttpUrlBuilder()
                 .addPathSegment("thesis")
                 .addPathSegment(thesisId.toString()).build();
-//        if(!liveSetup) {
-//            url = new HttpUrl.Builder()
-//                    .scheme(scheme)
-//                    .host(host)
-//                    .port(port)
-//                    .addPathSegment("thesis")
-//                    .addPathSegment(thesisId.toString()).build();
-//        }else{
-//            url = new HttpUrl.Builder()
-//                    .scheme(liveScheme)
-//                    .host(liveHost)
-//                    .addPathSegment("thesis")
-//                    .addPathSegment(thesisId.toString()).build();
-//        }
 
         RequestBody body = RequestBody.create(thesisJSON.toString(), JSON);
         Request request = new Request.Builder()
