@@ -57,6 +57,7 @@ public class SwipeScreenViewModel extends ViewModel {
     SwipeScreenCard currentCard = cardDeck.get(getCurrentDeckPosition().getValue());
     ratings.push(new Pair<>(currentCard.getUUID(), true));
     incrementCurrentDeckPosition();
+    thesisRepository.setThesesDirty(true);
   }
 
   /**

@@ -2,9 +2,6 @@ package com.hfad.thinder.viewmodels.supervisor;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
-import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.data.model.Thesis;
@@ -30,36 +27,33 @@ public class ThesisManagerViewModel extends ViewModel {
    * @return all thesis created by the supervisor.
    */
   public MutableLiveData<ArrayList<ThesisCardItem>> getThesisCardItems() {
-    if (thesisCardItems == null) {
+    if (thesisCardItems == null || thesisRepository.isThesesDirty()) {
       thesisCardItems = new MutableLiveData<>();
       loadThesisManagerItems();
+      thesisRepository.setThesesDirty(false);
     }
     return thesisCardItems;
   }
 
   public void loadThesisManagerItems() {
-      HashMap<UUID, Thesis> thesisHashMap = thesisRepository.getThesisMap(true);
-      ArrayList<ThesisCardItem> newThesisList = new ArrayList<>();
-      if (!(thesisHashMap == null) && !(thesisHashMap.isEmpty())) {
-          List<Thesis> thesisList =
-                  thesisHashMap.values().stream().collect(
-                          Collectors.toList());
-          for (com.hfad.thinder.data.model.Thesis thesis : thesisList) {
-              Bitmap bitmap=null;
-              if(!thesis.getImages().isEmpty()) {
-                  byte[] byteArray = thesis.getImages().iterator().next().getImage();
-                  bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-              }
-              newThesisList.add(
-                      new ThesisCardItem(thesis.getId(), thesis.getName(), thesis.getTask(), bitmap));
-          }
-          thesisCardItems.setValue(newThesisList);
+    HashMap<UUID, Thesis> thesisHashMap = thesisRepository.getThesisMap(true);
+    ArrayList<ThesisCardItem> newThesisList = new ArrayList<>();
+    if (!(thesisHashMap == null) && !(thesisHashMap.isEmpty())) {
+      List<Thesis> thesisList =
+          thesisHashMap.values().stream().collect(
+              Collectors.toList());
+      for (com.hfad.thinder.data.model.Thesis thesis : thesisList) {
+        Bitmap bitmap = null;
+        if (!thesis.getImages().isEmpty()) {
+          byte[] byteArray = thesis.getImages().iterator().next().getImage();
+          bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        }
+        newThesisList.add(
+            new ThesisCardItem(thesis.getId(), thesis.getName(), thesis.getTask(), bitmap));
       }
+      thesisCardItems.setValue(newThesisList);
+    }
   }
-
-
-
-
 
 
 }

@@ -56,6 +56,7 @@ public class LikedThesisDetailedViewModel extends ViewModel implements ImageGall
       getDeleteResult().setValue(
           new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
     }
+    thesisRepository.setThesesDirty(true);
   }
 
 

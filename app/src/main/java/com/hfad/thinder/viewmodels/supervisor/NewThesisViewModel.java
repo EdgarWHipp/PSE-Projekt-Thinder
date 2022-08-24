@@ -23,6 +23,7 @@ public class NewThesisViewModel extends ThesisViewModel {
             imageSet);
     if (result.getSuccess()) {
       getSaveResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
+      ThesisUtility.THESIS_REPOSITORY.setThesesDirty(true);
     } else {
       getSaveResult().setValue(
           new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
