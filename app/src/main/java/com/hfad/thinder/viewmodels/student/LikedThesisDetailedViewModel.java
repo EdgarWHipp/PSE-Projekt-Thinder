@@ -199,7 +199,7 @@ public class LikedThesisDetailedViewModel extends ViewModel implements ImageGall
   //-----------------------private methods--------------------------------
 
   private void loadThesis() {//Todo in kleinere Methoden unterteilen
-    Thesis thesis = thesisRepository.getThesis(thesisId).getFirst();
+    Thesis thesis = thesisRepository.getThesisMap(false).get(thesisId);
     Supervisor supervisor = thesis.getSupervisor();
     images = convertImages(thesis.getImages());
     iterator = new ImageListIterator<>(images);
