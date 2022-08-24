@@ -50,6 +50,7 @@ public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPic
             lastName.getValue());
     if (result.getSuccess()) {
       getSafeResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
+      getSafeResult().setValue(null);
     } else {
       getSafeResult().setValue(
           new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));

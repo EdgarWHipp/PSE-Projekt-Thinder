@@ -68,12 +68,11 @@ public class StudentActivity extends AppCompatActivity {
                 if (profileCreated) {
                     bottomNavigationView.getMenu().findItem(R.id.likedThesesFragment).setEnabled(true);
                     bottomNavigationView.getMenu().findItem(R.id.swipeScreenFragment).setEnabled(true);
-                    bottomNavigationView.setSelectedItemId(R.id.likedThesesFragment);
+                    bottomNavigationView.setSelectedItemId(R.id.swipeScreenFragment);
                 } else {
                     bottomNavigationView.getMenu().findItem(R.id.likedThesesFragment).setEnabled(false);
                     bottomNavigationView.getMenu().findItem(R.id.swipeScreenFragment).setEnabled(false);
                 }
-
             }
         };
 

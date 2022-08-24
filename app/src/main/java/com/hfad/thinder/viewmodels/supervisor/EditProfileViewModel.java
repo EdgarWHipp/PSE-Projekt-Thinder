@@ -55,6 +55,7 @@ public class EditProfileViewModel extends ViewModel {
     if (result.getSuccess()) {
       safeResult.setValue(
           new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.SUCCESSFUL));
+      safeResult.setValue(null);
     } else {
       safeResult.setValue(
           new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));

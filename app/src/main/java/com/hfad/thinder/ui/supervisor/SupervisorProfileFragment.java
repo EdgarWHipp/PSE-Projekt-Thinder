@@ -136,6 +136,8 @@ public class SupervisorProfileFragment extends Fragment {
         final Observer<ViewModelResult> saveResultObserver = new Observer<ViewModelResult>() {
             @Override
             public void onChanged(ViewModelResult editProfileResult) {
+                if(editProfileResult == null)
+                    return;
                 Toast toast;
                 if (editProfileResult.isSuccess()) {
                     toast = Toast.makeText(getContext(),
