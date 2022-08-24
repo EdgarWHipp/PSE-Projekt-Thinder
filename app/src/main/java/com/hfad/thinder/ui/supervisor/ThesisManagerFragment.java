@@ -1,6 +1,9 @@
 package com.hfad.thinder.ui.supervisor;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentThesisManagerBinding;
@@ -33,7 +37,7 @@ import java.util.UUID;
  * Use the {@link ThesisManagerFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ThesisManagerFragment extends Fragment {
+public class ThesisManagerFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,6 +54,7 @@ public class ThesisManagerFragment extends Fragment {
     private RecyclerView recyclerView;
     private ThesisCardAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    private SwipeRefreshLayout refreshLayout;
 
     private View view;
 
@@ -99,6 +104,7 @@ public class ThesisManagerFragment extends Fragment {
                     ArrayList<ThesisCardItem> elements = viewModel.getThesisCardItems().getValue();
                     adapter.setElements(elements);
                 }
+                refreshLayout.setRefreshing(false);
             }
         };
 
@@ -106,6 +112,8 @@ public class ThesisManagerFragment extends Fragment {
     }
 
     private void buildRecyclerView(View view, ArrayList<ThesisCardItem> elements) {
+        refreshLayout = binding.refreshLayout;
+        refreshLayout.setOnRefreshListener(this);
         recyclerView = binding.recyclerView;
         layoutManager = new LinearLayoutManager(view.getContext());
         adapter = new ThesisCardAdapter(elements);
@@ -116,16 +124,18 @@ public class ThesisManagerFragment extends Fragment {
         adapter.setOnItemClickListener(new ThesisCardAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+
                 UUID UUID = viewModel.getThesisCardItems().getValue().get(position).getThesisUUID();
                 String thesisTitle = viewModel.getThesisCardItems().getValue().get(position).getTitle();
                 Bundle bundle = new Bundle();
                 bundle.putString("thesisUUID", UUID.toString());
                 bundle.putString("thesisTitle", thesisTitle);
                 Navigation.findNavController(view).navigate(R.id.action_thesisManagerFragment_to_editThesisFragment, bundle);
-
             }
         });
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -137,6 +147,10 @@ public class ThesisManagerFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onRefresh() {
+        loadRecyclerViewData();
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -171,8 +185,18 @@ public class ThesisManagerFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_newFragment:
                 Navigation.findNavController(view).navigate(R.id.action_thesisManagerFragment_to_newThesisFragment);
+                break;
+            case R.id.menu_refresh:
+                loadRecyclerViewData();
+                break;
+
         }
         return true;
+    }
+
+    private void loadRecyclerViewData(){
+        refreshLayout.setRefreshing(true);
+        refreshLayout.setRefreshing(false);
     }
 
 }

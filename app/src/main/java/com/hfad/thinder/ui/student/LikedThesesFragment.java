@@ -106,9 +106,10 @@ public class LikedThesesFragment extends Fragment implements SwipeRefreshLayout.
 
     private void buildRecyclerView(ArrayList<ThesisCardItem> elements, View view) {
         refreshLayout = binding.refreshLayout;
-        recyclerView = binding.recyclerView;
+        refreshLayout.setOnRefreshListener(this);
         layoutManager = new LinearLayoutManager(view.getContext());
         adapter = new ThesisCardAdapter(elements);
+        recyclerView = binding.recyclerView;
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -129,9 +130,7 @@ public class LikedThesesFragment extends Fragment implements SwipeRefreshLayout.
 
     @Override
     public void onRefresh() {
-        Log.e(TAG, "onRefresh: ");
-        viewModel.loadLikedTheses();
-        refreshLayout.setRefreshing(false);
+        loadRecyclerViewData();
     }
 
     @Override
@@ -146,7 +145,7 @@ public class LikedThesesFragment extends Fragment implements SwipeRefreshLayout.
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.search_menu, menu);
+        inflater.inflate(R.menu.liked_theses_menu, menu);
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
@@ -165,5 +164,22 @@ public class LikedThesesFragment extends Fragment implements SwipeRefreshLayout.
                 return false;
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_refresh:
+                loadRecyclerViewData();
+                break;
+
+        }
+        return true;
+    }
+
+    private void loadRecyclerViewData(){
+        refreshLayout.setRefreshing(true);
+        viewModel.loadLikedTheses();
+        refreshLayout.setRefreshing(false);
     }
 }

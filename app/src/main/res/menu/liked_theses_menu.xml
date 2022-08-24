@@ -10,12 +10,6 @@
         app:showAsAction="ifRoom|collapseActionView"/>
 
     <item
-        android:id="@+id/action_newFragment"
-        android:icon="@drawable/ic_add"
-        android:title="@string/action_add"
-        app:showAsAction="ifRoom" />
-
-    <item
         android:id="@+id/menu_refresh"
         app:showAsAction="ifRoom|collapseActionView"
         android:icon="@drawable/ic_refresh"

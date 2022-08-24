@@ -101,8 +101,8 @@ public final class ThesisRepository {
      *
      * @return HashMap<UUID, Thesis>
      */
-    public HashMap<UUID, Thesis> getThesisMap(boolean flag) {
-        if(flag) {
+    public HashMap<UUID, Thesis> getThesisMap(boolean fromBackend) {
+        if(fromBackend) {
             Result result;
             if (UserRepository.getInstance().getType() == USERTYPE.STUDENT) {
                 result = StudentRepository.getInstance().fetchAllLikedThesis();

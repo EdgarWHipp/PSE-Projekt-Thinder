@@ -69,6 +69,7 @@
     <string name="likes">Likes</string>
     <string name="dislikes">Dislikes</string>
     <string name="total_rating_number">Gesamtanzahl der Bewertungen:</string>
+    <string name="refresh">Aktualisieren</string>
 
     <!-- student strings -->
     <string name="swipe_screen">Swipe Seite</string>
