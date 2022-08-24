@@ -117,6 +117,7 @@ public class EditThesisViewModel extends ThesisViewModel {
     getTask().setValue(thesis.getTask());
     getMotivation().setValue(thesis.getMotivation());
     getQuestions().setValue(thesis.getForm().getQuestions());
+    getProfessor().setValue(thesis.getSupervisingProfessor());
 
     //courses of Study
     getSelectedCoursesOfStudy().setValue(
