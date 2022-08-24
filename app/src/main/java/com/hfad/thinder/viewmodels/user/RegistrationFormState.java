@@ -8,44 +8,44 @@ import androidx.annotation.Nullable;
 public class RegistrationFormState {
 
   @Nullable
-  private final Integer passwordErrorMessageResourceId;
+  private final Integer passwordErrorMessage;
 
   @Nullable
-  private final Integer passwordConfirmationErrorMessageResourceId;
+  private final Integer passwordConfirmationErrorMessage;
 
   @Nullable
-  private final Integer emailErrorMessageResourceId;
+  private final Integer emailErrorMessage;
 
   @Nullable
-  private final Integer firstNameErrorMessageResourceId;
+  private final Integer firstNameErrorMessage;
 
   @Nullable
-  private final Integer lastNameErrorMessageResourceId;
+  private final Integer lastNameErrorMessage;
 
 
   private final boolean isValid;
 
 
   /**
-   * @param emailErrorMessageResourceId      android string resource id for an error message, should be null if there is no error
-   * @param firstNameErrorMessageResourceId  android string resource id for an error message, should be null if there is no error
-   * @param lastNameErrorMessageResourceId   android string resource id for an error message, should be null if there is no error
+   * @param emailErrorMessage                android string resource id for an error message, should be null if there is no error
+   * @param firstNameErrorMessage            android string resource id for an error message, should be null if there is no error
+   * @param lastNameErrorMessage             android string resource id for an error message, should be null if there is no error
    * @param passwordErrorMessage             android string resource id for an error message, should be null if there is no error
    * @param passwordConfirmationErrorMessage android string resource id for an error message, should be null if there is no error
    */
-  public RegistrationFormState(@Nullable Integer emailErrorMessageResourceId,
-                               @Nullable Integer firstNameErrorMessageResourceId,
-                               @Nullable Integer lastNameErrorMessageResourceId,
+  public RegistrationFormState(@Nullable Integer emailErrorMessage,
+                               @Nullable Integer firstNameErrorMessage,
+                               @Nullable Integer lastNameErrorMessage,
                                @Nullable Integer passwordErrorMessage,
                                @Nullable Integer passwordConfirmationErrorMessage) {
-    this.emailErrorMessageResourceId = emailErrorMessageResourceId;
-    this.passwordErrorMessageResourceId = passwordErrorMessage;
-    this.firstNameErrorMessageResourceId = firstNameErrorMessageResourceId;
-    this.lastNameErrorMessageResourceId = lastNameErrorMessageResourceId;
-    this.passwordConfirmationErrorMessageResourceId = passwordConfirmationErrorMessage;
+    this.emailErrorMessage = emailErrorMessage;
+    this.passwordErrorMessage = passwordErrorMessage;
+    this.firstNameErrorMessage = firstNameErrorMessage;
+    this.lastNameErrorMessage = lastNameErrorMessage;
+    this.passwordConfirmationErrorMessage = passwordConfirmationErrorMessage;
     this.isValid =
-        (emailErrorMessageResourceId == null && firstNameErrorMessageResourceId == null &&
-            lastNameErrorMessageResourceId == null && passwordErrorMessage == null &&
+        (emailErrorMessage == null && firstNameErrorMessage == null &&
+            lastNameErrorMessage == null && passwordErrorMessage == null &&
             passwordConfirmationErrorMessage == null);
   }
 
@@ -60,40 +60,40 @@ public class RegistrationFormState {
    * @return a resource id for a android string resource.
    */
   @Nullable
-  public Integer getEmailErrorMessageResourceId() {
-    return this.emailErrorMessageResourceId;
+  public Integer getEmailErrorMessage() {
+    return this.emailErrorMessage;
   }
 
   /**
    * @return a resource id for a android string resource.
    */
   @Nullable
-  public Integer getFirstNameErrorMessageResourceId() {
-    return this.firstNameErrorMessageResourceId;
+  public Integer getFirstNameErrorMessage() {
+    return this.firstNameErrorMessage;
   }
 
   /**
    * @return a resource id for a android string resource.
    */
   @Nullable
-  public Integer getLastNameErrorMessageResourceId() {
-    return this.lastNameErrorMessageResourceId;
+  public Integer getLastNameErrorMessage() {
+    return this.lastNameErrorMessage;
   }
 
   /**
    * @return a resource id for a android string resource.
    */
   @Nullable
-  public Integer getPasswordErrorMessageResourceId() {
-    return passwordErrorMessageResourceId;
+  public Integer getPasswordErrorMessage() {
+    return passwordErrorMessage;
   }
 
   /**
    * @return a resource id for a android string resource.
    */
   @Nullable
-  public Integer getPasswordConfirmationErrorMessageResourceId() {
-    return this.passwordConfirmationErrorMessageResourceId;
+  public Integer getPasswordConfirmationErrorMessage() {
+    return this.passwordConfirmationErrorMessage;
   }
 
 

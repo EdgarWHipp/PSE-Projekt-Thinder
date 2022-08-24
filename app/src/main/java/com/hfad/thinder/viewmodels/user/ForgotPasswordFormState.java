@@ -8,11 +8,14 @@ import androidx.annotation.Nullable;
  */
 public class ForgotPasswordFormState {
 
+
   @Nullable
   private final Integer codeErrorMessage;
 
+
   @Nullable
   private final Integer newPasswordErrorMessage;
+
 
   @Nullable
   private final Integer newPasswordConfirmationErrorMessage;
@@ -33,6 +36,32 @@ public class ForgotPasswordFormState {
     this.isDataValid = codeErrorMessage == null && newPasswordErrorMessage == null &&
         newPasswordConfirmationErrorMessage == null;
   }
+  //Todo: beobachter in der View für errorMessages + getter für errors
+
+  /**
+   * @return android string resource id for an error message
+   */
+  @Nullable
+  public Integer getCodeErrorMessage() {
+    return codeErrorMessage;
+  }
+
+  /**
+   * @return android string resource id for an error message
+   */
+  @Nullable
+  public Integer getNewPasswordErrorMessage() {
+    return newPasswordErrorMessage;
+  }
+
+  /**
+   * @return android string resource id for an error message
+   */
+  @Nullable
+  public Integer getNewPasswordConfirmationErrorMessage() {
+    return newPasswordConfirmationErrorMessage;
+  }
+
 
   /**
    * @return true if all error messages are null, false otherwise

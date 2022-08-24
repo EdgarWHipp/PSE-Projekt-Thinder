@@ -20,37 +20,39 @@ public class ThesisFormState {
   private final Integer questionsErrorMessage;
 
   @Nullable
-  private final Integer professor;
+  private final Integer professorErrorMessage;
 
   @Nullable
-  private final Integer courseOfStudy;
+  private final Integer courseOfStudyErrorMessage;
 
   private final boolean isValid;
 
   private final boolean hasImages;
 
   /**
-   * @param titleErrorMessage      android string resource id for an error message, should be null if there is no error
-   * @param taskErrorMessage       android string resource id for an error message, should be null if there is no error
-   * @param motivationErrorMessage android string resource id for an error message, should be null if there is no error
-   * @param questionsErrorMessage  android string resource id for an error message, should be null if there is no error
-   * @param professor              android string resource id for an error message, should be null if there is no error
-   * @param courseOfStudy          android string resource id for an error message, should be null if there is no error
-   * @param hasImages              android string resource id for an error message, should be null if there is no error
+   * @param titleErrorMessage         android string resource id for an error message, should be null if there is no error
+   * @param taskErrorMessage          android string resource id for an error message, should be null if there is no error
+   * @param motivationErrorMessage    android string resource id for an error message, should be null if there is no error
+   * @param questionsErrorMessage     android string resource id for an error message, should be null if there is no error
+   * @param professorErrorMessage     android string resource id for an error message, should be null if there is no error
+   * @param courseOfStudyErrorMessage android string resource id for an error message, should be null if there is no error
+   * @param hasImages                 android string resource id for an error message, should be null if there is no error
    */
   public ThesisFormState(@Nullable Integer titleErrorMessage, @Nullable Integer taskErrorMessage,
                          @Nullable Integer motivationErrorMessage,
-                         @Nullable Integer questionsErrorMessage, @Nullable Integer professor,
-                         @Nullable Integer courseOfStudy, boolean hasImages) {
+                         @Nullable Integer questionsErrorMessage,
+                         @Nullable Integer professorErrorMessage,
+                         @Nullable Integer courseOfStudyErrorMessage, boolean hasImages) {
     this.titleErrorMessage = titleErrorMessage;
     this.taskErrorMessage = taskErrorMessage;
     this.motivationErrorMessage = motivationErrorMessage;
     this.questionsErrorMessage = questionsErrorMessage;
-    this.professor = professor;
-    this.courseOfStudy = courseOfStudy;
+    this.professorErrorMessage = professorErrorMessage;
+    this.courseOfStudyErrorMessage = courseOfStudyErrorMessage;
     this.isValid =
         (titleErrorMessage == null && taskErrorMessage == null && motivationErrorMessage == null
-            && questionsErrorMessage == null && professor == null && courseOfStudy == null);
+            && questionsErrorMessage == null && professorErrorMessage == null &&
+            courseOfStudyErrorMessage == null);
     this.hasImages = hasImages;
   }
 
@@ -90,16 +92,16 @@ public class ThesisFormState {
    * @return a resource id for a android string resource.
    */
   @Nullable
-  public Integer getProfessor() {
-    return professor;
+  public Integer getProfessorErrorMessage() {
+    return professorErrorMessage;
   }
 
   /**
    * @return a resource id for a android string resource.
    */
   @Nullable
-  public Integer getCourseOfStudy() {
-    return courseOfStudy;
+  public Integer getCourseOfStudyErrorMessage() {
+    return courseOfStudyErrorMessage;
   }
 
   /**
