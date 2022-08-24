@@ -154,7 +154,7 @@ public class UsersApiService {
                 .put("mail", userCreation.getMail())
                 .put("type", "USER");
         UserRepository.getInstance()
-                .setUser(new User(null, null, false, null,
+                .setUser(new User(null, null, false, null, userCreation.getPassword(),
                         userCreation.getMail(), userCreation.getFirstName(),
                         userCreation.getLastName(), false));
         UserRepository.getInstance().setPassword(userCreation.getPassword());
