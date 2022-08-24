@@ -128,7 +128,9 @@ public class EditThesisViewModel extends ThesisViewModel {
     setCoursesOfStudyList(coursesOfStudyList);
 
     //images
-    getImages().setValue(convertImages(thesis.getImages()));
+    if (!thesis.getImages().isEmpty()) {
+      getImages().setValue(convertImages(thesis.getImages()));
+    }
 
     thesisStatistics = thesisRepository.getThesisStatistics(thesisId);
     getTotalRating().postValue(
