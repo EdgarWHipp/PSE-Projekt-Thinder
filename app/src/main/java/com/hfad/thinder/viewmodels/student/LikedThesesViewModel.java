@@ -34,9 +34,9 @@ public class LikedThesesViewModel extends ViewModel {
         return likedTheses;
     }
 
-    //----------------private methods-----------------------------------------------------------------
+    //----------------public methods-----------------------------------------------------------------
 
-    private void loadLikedTheses() {
+    public void loadLikedTheses() {
         ArrayList<ThesisCardItem> thesisCards = new ArrayList<>();
         HashMap<UUID, Thesis> likedTheses = thesisRepository.getThesisMap(true);
         if (likedTheses != null && !(likedTheses.isEmpty())) {
@@ -51,6 +51,7 @@ public class LikedThesesViewModel extends ViewModel {
                 thesisCards.add(thesisCardItem);
             }
         }
+        getLikedTheses().setValue(thesisCards);
 
 
     }

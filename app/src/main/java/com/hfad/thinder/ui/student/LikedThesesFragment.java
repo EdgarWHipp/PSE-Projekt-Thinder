@@ -1,6 +1,9 @@
 package com.hfad.thinder.ui.student;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentLikedThesesBinding;
@@ -32,7 +36,7 @@ import java.util.UUID;
  * Use the {@link LikedThesesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LikedThesesFragment extends Fragment {
+public class LikedThesesFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -49,6 +53,7 @@ public class LikedThesesFragment extends Fragment {
 
 
     private RecyclerView recyclerView;
+    private SwipeRefreshLayout refreshLayout;
     private ThesisCardAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
@@ -92,6 +97,7 @@ public class LikedThesesFragment extends Fragment {
             @Override
             public void onChanged(ArrayList<ThesisCardItem> thesisCardItems) {
                 adapter.setElements(viewModel.getLikedTheses().getValue());
+                refreshLayout.setRefreshing(false);
             }
         };
         viewModel.getLikedTheses().observe(getViewLifecycleOwner(), likedThesesObserver);
@@ -99,6 +105,7 @@ public class LikedThesesFragment extends Fragment {
     }
 
     private void buildRecyclerView(ArrayList<ThesisCardItem> elements, View view) {
+        refreshLayout = binding.refreshLayout;
         recyclerView = binding.recyclerView;
         layoutManager = new LinearLayoutManager(view.getContext());
         adapter = new ThesisCardAdapter(elements);
@@ -118,6 +125,13 @@ public class LikedThesesFragment extends Fragment {
                 Navigation.findNavController(view).navigate(R.id.action_likedThesesFragment_to_likedThesisDetailedFragment, bundle);
             }
         });
+    }
+
+    @Override
+    public void onRefresh() {
+        Log.e(TAG, "onRefresh: ");
+        viewModel.loadLikedTheses();
+        refreshLayout.setRefreshing(false);
     }
 
     @Override
