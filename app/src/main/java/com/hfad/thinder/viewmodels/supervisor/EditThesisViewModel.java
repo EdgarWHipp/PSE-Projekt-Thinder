@@ -45,6 +45,7 @@ public class EditThesisViewModel extends ThesisViewModel {
             degreeSet);
     Result result = thesisRepository.editThesis(thesisId, thesis);
     if (result.getSuccess()) {
+      thesisRepository.setThesesDirty(true);
       getSaveResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
     } else {
       getSaveResult().setValue(
@@ -58,6 +59,7 @@ public class EditThesisViewModel extends ThesisViewModel {
   public void delete() {
     Result result = thesisRepository.deleteThesis(thesisId);
     if (result.getSuccess()) {
+      thesisRepository.setThesesDirty(true);
       getDeleteThesisResult().setValue(
           new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
     } else {
@@ -147,7 +149,7 @@ public class EditThesisViewModel extends ThesisViewModel {
     }
     ArrayList<CourseOfStudyItem> convertedDegrees = new ArrayList<>();
     for (Degree degree : allDegrees) {
-      if (selectedDegreesTypeString.contains(degree)) {
+      if (selectedDegreesTypeString.contains(degree.getDegree())) {
         convertedDegrees.add(
             new CourseOfStudyItem(degree.getDegree(), degree.getId(), true));
       } else {
