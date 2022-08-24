@@ -25,6 +25,6 @@ public class RegistrationViewModelUnitTest {
   public void validMailTest() {
     registrationViewModel.registrationDataChanged();
     Assert.assertNull(registrationViewModel.getRegistrationFormState().getValue()
-        .getEmailErrorMessageResourceId());
+        .getEmailErrorMessage());
   }
 }
