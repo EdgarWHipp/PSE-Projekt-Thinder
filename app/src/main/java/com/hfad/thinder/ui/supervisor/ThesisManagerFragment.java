@@ -196,6 +196,7 @@ public class ThesisManagerFragment extends Fragment implements SwipeRefreshLayou
 
     private void loadRecyclerViewData(){
         refreshLayout.setRefreshing(true);
+        viewModel.loadThesisManagerItems();
         refreshLayout.setRefreshing(false);
     }
 

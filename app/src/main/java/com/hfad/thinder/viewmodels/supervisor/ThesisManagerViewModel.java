@@ -37,7 +37,7 @@ public class ThesisManagerViewModel extends ViewModel {
     return thesisCardItems;
   }
 
-  private void loadThesisManagerItems() {
+  public void loadThesisManagerItems() {
       HashMap<UUID, Thesis> thesisHashMap = thesisRepository.getThesisMap(true);
       ArrayList<ThesisCardItem> newThesisList = new ArrayList<>();
       if (!(thesisHashMap == null) && !(thesisHashMap.isEmpty())) {
