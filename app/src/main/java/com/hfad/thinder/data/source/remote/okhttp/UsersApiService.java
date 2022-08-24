@@ -141,22 +141,23 @@ public class UsersApiService {
      * Also already defines the id and type of the registrated user for the UserRepository.
      * Checks if the asynchronous call return fails or responds.
      *
-     * @param user
+     * @param userCreation
      * @return CompletableFuture<Result>
      * @throws JSONException
      */
-    public CompletableFuture<Result> createNewUserFuture(UserCreation user) throws JSONException {
+    public CompletableFuture<Result> createNewUserFuture(UserCreation userCreation) throws JSONException {
 
         JSONObject userJson = new JSONObject()
-                .put("firstName", user.getFirstName())
-                .put("lastName", user.getLastName())
-                .put("password", user.getPassword())
-                .put("mail", user.getMail())
+                .put("firstName", userCreation.getFirstName())
+                .put("lastName", userCreation.getLastName())
+                .put("password", userCreation.getPassword())
+                .put("mail", userCreation.getMail())
                 .put("type", "USER");
         UserRepository.getInstance()
                 .setUser(new User(null, null, false, null,
-                        user.getPassword(), user.getMail(), user.getFirstName(), user.getLastName(), false));
-        UserRepository.getInstance().setPassword(user.getPassword());
+                        userCreation.getMail(), userCreation.getFirstName(),
+                        userCreation.getLastName(), false));
+        UserRepository.getInstance().setPassword(userCreation.getPassword());
         RequestBody body = RequestBody.create(userJson.toString(), JSON);
 
         HttpUrl url = API_UTILS.getHttpUrlBuilder()

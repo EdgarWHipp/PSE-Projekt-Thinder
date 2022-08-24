@@ -349,7 +349,7 @@ public class StudentApiService {
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor
                         (UserRepository.getInstance().getUser().getMail(),
-                                UserRepository.getInstance().getUser().getPassword()))
+                                UserRepository.getInstance().getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         JSONObject formJson = null;
