@@ -19,15 +19,16 @@ public class LoginViewModel extends ViewModel {
   private MutableLiveData<Boolean> isDataValid = new MutableLiveData<>();
   private MutableLiveData<String> email;
   private MutableLiveData<String> password;
+  private MutableLiveData<Boolean> isLoading;
 
   /**
    * Use this method to login in to an existing user profile, using the corresponding email and password.
    */
   public void login() {
-
+    isLoading.setValue(true);
     Result result;
     result = userRepository.login(password.getValue(), email.getValue());
-
+    isLoading.setValue(false);
     if (!result.getSuccess()) {
       loginResult.setValue(
           new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
@@ -115,4 +116,15 @@ public class LoginViewModel extends ViewModel {
   }
 
 
+  public MutableLiveData<Boolean> getIsLoading() {
+    if(isLoading == null) {
+      isLoading = new MutableLiveData<>();
+      isLoading.setValue(false);
+    }
+    return isLoading;
+  }
+
+  public void setIsLoading(MutableLiveData<Boolean> isLoading) {
+    this.isLoading = isLoading;
+  }
 }
