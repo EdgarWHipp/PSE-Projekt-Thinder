@@ -172,6 +172,10 @@ public final class ThesisRepository {
             (Supervisor) UserRepository.getInstance().getUser(), degrees));
   }
 
+  public Result addThesis(Thesis thesis){
+    return thesisRemoteDataSource.createNewThesis(thesis);
+  }
+
 
   public Pair<Thesis, Result> getThesis(final UUID id) {
     return thesisRemoteDataSource.getNewThesis(id);

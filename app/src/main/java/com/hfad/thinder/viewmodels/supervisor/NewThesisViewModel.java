@@ -1,8 +1,14 @@
 package com.hfad.thinder.viewmodels.supervisor;
 
+import android.os.AsyncTask;
+
 import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.data.model.Degree;
+import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Image;
+import com.hfad.thinder.data.model.Supervisor;
+import com.hfad.thinder.data.model.Thesis;
+import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.viewmodels.ViewModelResultTypes;
@@ -17,18 +23,27 @@ public class NewThesisViewModel extends ThesisViewModel {
   public void save() {
     Set<Image> imageSet = ThesisUtility.getImageSet(getImages().getValue());
     Set<Degree> degreeSet = ThesisUtility.getSelectedDegreeSet(getCoursesOfStudyList().getValue());
-    Result result =
-        ThesisUtility.THESIS_REPOSITORY.addThesis(getProfessor().getValue(), getTitle().getValue(),
-            getMotivation().getValue(), getTask().getValue(), getQuestions().getValue(), degreeSet,
-            imageSet);
-    if (result.getSuccess()) {
-      getSaveResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
-      ThesisUtility.THESIS_REPOSITORY.setThesesDirty(true);
-    } else {
-      getSaveResult().setValue(
-          new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
-    }
+    Thesis thesis = new Thesis(getProfessor().getValue(), getTitle().getValue(), getMotivation().getValue(), getTask().getValue(), new Form(getQuestions().getValue()), imageSet, (Supervisor) UserRepository.getInstance().getUser(), degreeSet);
+    new SaveTask().execute(thesis);
+
   }
 
+  private class SaveTask extends AsyncTask<Thesis, Void, Result> {
 
+    @Override
+    protected Result doInBackground(Thesis... theses) {
+      return ThesisUtility.THESIS_REPOSITORY.addThesis(theses[0]);
+    }
+
+    @Override
+    protected void onPostExecute(Result result) {
+      if (result.getSuccess()) {
+        getSaveResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
+        ThesisUtility.THESIS_REPOSITORY.setThesesDirty(true);
+      } else {
+        getSaveResult().setValue(
+                new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
+      }
+    }
+  }
 }
