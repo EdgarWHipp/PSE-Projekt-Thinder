@@ -318,6 +318,9 @@ public class StudentApiService {
                         thesis.setSupervisor(thesisIter.getSupervisor());
                         thesis.setTask(thesisIter.getTask());
                         returnTheses.add(thesis);
+                        thesis = new Thesis();
+                        images = new ArraySet<>();
+                        degrees = new ArraySet<>();
                     }
 
                     resultCompletableFuture.complete(new Result(true));
