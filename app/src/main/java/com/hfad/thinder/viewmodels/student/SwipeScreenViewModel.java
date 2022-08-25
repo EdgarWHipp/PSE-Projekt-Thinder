@@ -356,6 +356,7 @@ public class SwipeScreenViewModel extends ViewModel {
   private void loadCardDeck() {
     cardDeck = new ArrayList<>();
     new LoadCardDeckTask().execute();
+    addDummyCards(cardDeck);
   }
 
   private void addDummyCards(ArrayList<SwipeScreenCard> cardDeck) {
@@ -450,7 +451,6 @@ public class SwipeScreenViewModel extends ViewModel {
           cardDeck.add(swipeScreenCard);
         }
       }
-      addDummyCards(cardDeck);
     }
   }
 
