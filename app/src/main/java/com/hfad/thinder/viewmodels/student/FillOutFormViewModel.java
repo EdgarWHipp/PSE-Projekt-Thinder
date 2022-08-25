@@ -1,11 +1,13 @@
 package com.hfad.thinder.viewmodels.student;
 
 
+import android.os.AsyncTask;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.source.repository.StudentRepository;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
+import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.viewmodels.ViewModelResult;
 import java.util.UUID;
 
@@ -28,7 +30,7 @@ public class FillOutFormViewModel extends ViewModel {
   public void sendForm() {
     Form form = new Form(getQuestions().getValue());
     form.setAnswers(getAnswers().getValue());
-    studentRepository.sendForm(form, thesisId);
+    new SendTask().execute(form);
   }
 
   /**
@@ -110,5 +112,14 @@ public class FillOutFormViewModel extends ViewModel {
     String questions = thesisRepository.getThesis(thesisId).getFirst().getForm().getQuestions();
     getQuestions().setValue(questions);
     formDataChanged();
+  }
+
+  private class SendTask extends AsyncTask<Form, Void, Result> {
+
+    @Override
+    protected Result doInBackground(Form... forms) {
+      return studentRepository.sendForm(forms[0], thesisId);
+    }
+
   }
 }

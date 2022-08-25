@@ -1,6 +1,7 @@
 package com.hfad.thinder.viewmodels.student;
 
 
+import android.os.AsyncTask;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -46,17 +47,7 @@ public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPic
    * courses of study, the first name and last name values must be set.
    */
   public void save() {
-    Result result =
-        studentRepository.editProfileStudent(getSelectedSet(), firstName.getValue(),
-            lastName.getValue());
-    if (result.getSuccess()) {
-      thesisRepository.setSwipeDirty(true);
-      getSafeResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
-      getSafeResult().setValue(null);
-    } else {
-      getSafeResult().setValue(
-          new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
-    }
+    new SaveTask(getSelectedSet(), firstName.getValue(), lastName.getValue()).execute();
   }
 
   /**
@@ -270,6 +261,37 @@ public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPic
       }
     }
     selectedCoursesOfStudy.setValue(String.join(", ", selectedCourses));
+  }
+
+  private class SaveTask extends AsyncTask<String, Void, Result> {
+    ArrayList<Degree> degrees;
+    String firstName;
+    String lastName;
+
+    SaveTask(ArrayList<Degree> degrees, String firstName, String lastName) {
+      this.degrees = degrees;
+      this.firstName = firstName;
+      this.lastName = lastName;
+    }
+
+    @Override
+    protected Result doInBackground(String... strings) {
+      return
+          studentRepository.editProfileStudent(degrees, firstName,
+              lastName);
+    }
+
+    @Override
+    protected void onPostExecute(Result result) {
+      if (result.getSuccess()) {
+        thesisRepository.setSwipeDirty(true);
+        getSafeResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
+        getSafeResult().setValue(null);
+      } else {
+        getSafeResult().setValue(
+            new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
+      }
+    }
   }
 
 }

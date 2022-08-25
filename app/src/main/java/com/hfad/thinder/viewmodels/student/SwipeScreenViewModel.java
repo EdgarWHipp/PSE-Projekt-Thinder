@@ -1,11 +1,8 @@
 package com.hfad.thinder.viewmodels.student;
 
-import static android.content.ContentValues.TAG;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
-
+import android.os.AsyncTask;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.data.model.Degree;
@@ -15,6 +12,7 @@ import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.repository.StudentRepository;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.result.Pair;
+import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.ui.student.SwipeScreenCard;
 import com.hfad.thinder.ui.student.SwipeScreenFragment;
 import java.util.ArrayList;
@@ -90,7 +88,7 @@ public class SwipeScreenViewModel extends ViewModel {
    */
   public void pushRatings() {
     if (ratings.size() != 0) {
-      studentRepository.rateThesis(ratings);
+      new PushRatingsTask().execute(ratings);
     }
   }
 
@@ -357,25 +355,7 @@ public class SwipeScreenViewModel extends ViewModel {
 
   private void loadCardDeck() {
     cardDeck = new ArrayList<>();
-    ArrayList<Thesis> theses = new ArrayList<>();
-    theses = thesisRepository.getAllSwipeableTheses();
-
-    if (theses != null) {
-      for (Thesis thesis : theses) {
-        ArrayList<Bitmap> bitmaps = convertImagesToBitmaps(thesis.getImages());
-        ArrayList<String> selectedCoursesOfStudy = getCoursesOfStudyList(thesis.getPossibleDegrees());
-        Supervisor supervisor = thesis.getSupervisor();
-        SwipeScreenCard swipeScreenCard =
-                new SwipeScreenCard(bitmaps, thesis.getId(), thesis.getName(), thesis.getTask(),
-                        thesis.getMotivation(), thesis.getSupervisingProfessor(), selectedCoursesOfStudy,
-                        supervisor.getFirstName(), supervisor.getLastName(), supervisor.getBuilding(),
-                        supervisor.getOfficeNumber(), supervisor.getPhoneNumber(), supervisor.getInstitute(),
-                        supervisor.getMail(), supervisor.getAcademicDegree());
-        cardDeck.add(swipeScreenCard);
-      }
-    }
-
-    addDummyCards(cardDeck);
+    new LoadCardDeckTask().execute();
   }
 
   private void addDummyCards(ArrayList<SwipeScreenCard> cardDeck) {
@@ -435,6 +415,43 @@ public class SwipeScreenViewModel extends ViewModel {
     }
     detailViewOrder.add(SwipeScreenFragment.DetailViewStates.TEXT);
     detailViewOrder.add(SwipeScreenFragment.DetailViewStates.INFO);
+  }
+
+  private class PushRatingsTask extends AsyncTask<Stack<Pair<UUID, Boolean>>, Void, Result> {
+
+    @Override
+    protected Result doInBackground(Stack<Pair<UUID, Boolean>>... stacks) {
+      return studentRepository.rateThesis(stacks[0]);
+    }
+  }
+
+  private class LoadCardDeckTask extends AsyncTask<Void, Void, ArrayList<Thesis>> {
+
+    @Override
+    protected ArrayList<Thesis> doInBackground(Void... voids) {
+      return thesisRepository.getAllSwipeableTheses();
+    }
+
+    @Override
+    protected void onPostExecute(ArrayList<Thesis> theses) {
+      if (theses != null) {
+        for (Thesis thesis : theses) {
+          ArrayList<Bitmap> bitmaps = convertImagesToBitmaps(thesis.getImages());
+          ArrayList<String> selectedCoursesOfStudy =
+              getCoursesOfStudyList(thesis.getPossibleDegrees());
+          Supervisor supervisor = thesis.getSupervisor();
+          SwipeScreenCard swipeScreenCard =
+              new SwipeScreenCard(bitmaps, thesis.getId(), thesis.getName(), thesis.getTask(),
+                  thesis.getMotivation(), thesis.getSupervisingProfessor(), selectedCoursesOfStudy,
+                  supervisor.getFirstName(), supervisor.getLastName(), supervisor.getBuilding(),
+                  supervisor.getOfficeNumber(), supervisor.getPhoneNumber(),
+                  supervisor.getInstitute(),
+                  supervisor.getMail(), supervisor.getAcademicDegree());
+          cardDeck.add(swipeScreenCard);
+        }
+      }
+      addDummyCards(cardDeck);
+    }
   }
 
 
