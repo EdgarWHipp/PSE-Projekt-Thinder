@@ -32,6 +32,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_forgot_password);
         viewmodel = new ViewModelProvider(this).get(ForgotPasswordViewModel.class);
+        binding.setViewmodel(viewmodel);
 
         // my_child_toolbar is defined in the layout file
         Toolbar myChildToolbar = binding.toolbar;

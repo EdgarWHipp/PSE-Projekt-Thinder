@@ -10,6 +10,7 @@ import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.repository.DegreeRepository;
 import com.hfad.thinder.data.source.repository.StudentRepository;
+import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.viewmodels.CourseOfStudyItem;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
  * A class providing a {@link ViewModel} for the {@link com.hfad.thinder.ui.student.StudentProfileFragment StudentProgileFragment}.
  */
 public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPicker {
-
+  private static final ThesisRepository thesisRepository = ThesisRepository.getInstance();
   private final static UserRepository userRepository = UserRepository.getInstance();
   private final static DegreeRepository degreeRepository = DegreeRepository.getInstance();
   private final static StudentRepository studentRepository = StudentRepository.getInstance();
@@ -49,6 +50,7 @@ public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPic
         studentRepository.editProfileStudent(getSelectedSet(), firstName.getValue(),
             lastName.getValue());
     if (result.getSuccess()) {
+      thesisRepository.setSwipeDirty(true);
       getSafeResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
       getSafeResult().setValue(null);
     } else {

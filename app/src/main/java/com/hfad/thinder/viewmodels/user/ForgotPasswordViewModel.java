@@ -1,5 +1,7 @@
 package com.hfad.thinder.viewmodels.user;
 
+import android.os.AsyncTask;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.R;
@@ -29,20 +31,7 @@ public class ForgotPasswordViewModel extends ViewModel {
    * Use this method to log in to the users account with the token and a new password.
    */
   public void login() {
-    Result result = userRepository.resetPasswordWithToken(code.getValue(), newPassword.getValue());
-    if (!result.getSuccess()) {
-      loginResult.setValue(
-          new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
-    } else if (result.getSuccess()) {
-      USERTYPE usertype = userRepository.getType();
-      if (usertype == USERTYPE.STUDENT) {
-        loginResult.setValue(
-            new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.STUDENT));
-      } else if (usertype == USERTYPE.SUPERVISOR) {
-        loginResult.setValue(
-            new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.SUPERVISOR));
-      }
-    }
+    new LoginTask().execute(code.getValue(), newPassword.getValue());
 
   }
   //Todo: es fehlt noch ein Unverified
@@ -164,5 +153,29 @@ public class ForgotPasswordViewModel extends ViewModel {
       return R.string.token_error;
     }
     return null;
+  }
+  
+  private class LoginTask extends AsyncTask<String, Void, Result> {
+    @Override
+    protected void onPostExecute(Result result) {
+      if (!result.getSuccess()) {
+        loginResult.setValue(
+                new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
+      } else if (result.getSuccess()) {
+        USERTYPE usertype = userRepository.getType();
+        if (usertype == USERTYPE.STUDENT) {
+          loginResult.setValue(
+                  new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.STUDENT));
+        } else if (usertype == USERTYPE.SUPERVISOR) {
+          loginResult.setValue(
+                  new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.SUPERVISOR));
+        }
+      }
+    }
+
+    @Override
+    protected Result doInBackground(String... strings) {
+      return userRepository.resetPasswordWithToken(strings[0], strings[1]);
+    }
   }
 }

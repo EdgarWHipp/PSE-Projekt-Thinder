@@ -348,8 +348,9 @@ public class SwipeScreenViewModel extends ViewModel {
   }
 
   private ArrayList<SwipeScreenCard> getCardDeck() {
-    if (cardDeck == null) {
+    if (cardDeck == null || thesisRepository.isSwipeDirty()) {
       loadCardDeck();
+      thesisRepository.setSwipeDirty(false);
     }
     return cardDeck;
   }
@@ -359,23 +360,21 @@ public class SwipeScreenViewModel extends ViewModel {
     ArrayList<Thesis> theses = new ArrayList<>();
     theses = thesisRepository.getAllSwipeableTheses();
 
-    if (theses == null) {
-      //error
+    if (theses != null) {
+      for (Thesis thesis : theses) {
+        ArrayList<Bitmap> bitmaps = convertImagesToBitmaps(thesis.getImages());
+        ArrayList<String> selectedCoursesOfStudy = getCoursesOfStudyList(thesis.getPossibleDegrees());
+        Supervisor supervisor = thesis.getSupervisor();
+        SwipeScreenCard swipeScreenCard =
+                new SwipeScreenCard(bitmaps, thesis.getId(), thesis.getName(), thesis.getTask(),
+                        thesis.getMotivation(), thesis.getSupervisingProfessor(), selectedCoursesOfStudy,
+                        supervisor.getFirstName(), supervisor.getLastName(), supervisor.getBuilding(),
+                        supervisor.getOfficeNumber(), supervisor.getPhoneNumber(), supervisor.getInstitute(),
+                        supervisor.getMail(), supervisor.getAcademicDegree());
+        cardDeck.add(swipeScreenCard);
+      }
     }
 
-
-    for (Thesis thesis : theses) {
-      ArrayList<Bitmap> bitmaps = convertImagesToBitmaps(thesis.getImages());
-      ArrayList<String> selectedCoursesOfStudy = getCoursesOfStudyList(thesis.getPossibleDegrees());
-      Supervisor supervisor = thesis.getSupervisor();
-      SwipeScreenCard swipeScreenCard =
-          new SwipeScreenCard(bitmaps, thesis.getId(), thesis.getName(), thesis.getTask(),
-              thesis.getMotivation(), thesis.getSupervisingProfessor(), selectedCoursesOfStudy,
-              supervisor.getFirstName(), supervisor.getLastName(), supervisor.getBuilding(),
-              supervisor.getOfficeNumber(), supervisor.getPhoneNumber(), supervisor.getInstitute(),
-              supervisor.getMail(), supervisor.getAcademicDegree());
-      cardDeck.add(swipeScreenCard);
-    }
     addDummyCards(cardDeck);
   }
 

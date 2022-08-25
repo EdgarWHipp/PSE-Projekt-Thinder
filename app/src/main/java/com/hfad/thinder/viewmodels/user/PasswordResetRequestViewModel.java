@@ -1,5 +1,10 @@
 package com.hfad.thinder.viewmodels.user;
 
+import static android.content.ContentValues.TAG;
+
+import android.os.AsyncTask;
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.data.source.repository.UserRepository;
@@ -19,13 +24,9 @@ public class PasswordResetRequestViewModel extends ViewModel {
    * Use this method to send a request to reset the users password.
    */
   public void resetRequest() {
-    Result result = userRepository.sendRecoveryEmail(email.getValue());
-    if (result.getSuccess()) {
-      resetRequestResult.setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
-    } else {
-      resetRequestResult.setValue(
-          new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
-    }
+    Log.e(TAG, "resetRequest: ");
+    new ResetRequestTask().execute(getEmail().getValue());
+
   }
 //----------------getter and setter-----------------------------------
 
@@ -55,5 +56,22 @@ public class PasswordResetRequestViewModel extends ViewModel {
    */
   public void setEmail(MutableLiveData<String> email) {
     this.email = email;
+  }
+
+  private class ResetRequestTask extends AsyncTask<String, Void, Result> {
+    @Override
+    protected Result doInBackground(String... strings) {
+      return userRepository.sendRecoveryEmail(strings[0]);
+    }
+
+    @Override
+    protected void onPostExecute(Result result) {
+      if (result.getSuccess()) {
+        resetRequestResult.setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
+      } else {
+        resetRequestResult.setValue(
+                new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
+      }
+    }
   }
 }

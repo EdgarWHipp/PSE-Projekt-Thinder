@@ -1,6 +1,8 @@
 package com.hfad.thinder.viewmodels.user;
 
 
+import android.os.AsyncTask;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.R;
@@ -35,17 +37,8 @@ public class RegistrationViewModel extends ViewModel {
    * Use this method to register a new user.
    */
   public void register() {
-    Result result =
-        userRepository.register(firstName.getValue(), lastName.getValue(), password.getValue(),
+    new RegisterTask().execute(firstName.getValue(), lastName.getValue(), password.getValue(),
             email.getValue());
-
-    if (!result.getSuccess()) {
-      registrationResult.setValue(new ViewModelResult(result.getErrorMessage(),
-          ViewModelResultTypes.ERROR));
-    } else {
-      registrationResult.setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
-    }
-
   }
 
   /**
@@ -218,4 +211,21 @@ public class RegistrationViewModel extends ViewModel {
     return null;
   }
 
+  private class RegisterTask extends AsyncTask<String, Void, Result>{
+    @Override
+    protected Result doInBackground(String... strings) {
+      return userRepository.register(strings[0], strings[1], strings[2],
+              strings[3]);
+    }
+
+    @Override
+    protected void onPostExecute(Result result) {
+      if (!result.getSuccess()) {
+        registrationResult.setValue(new ViewModelResult(result.getErrorMessage(),
+                ViewModelResultTypes.ERROR));
+      } else {
+        registrationResult.setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
+      }
+    }
+  }
 }

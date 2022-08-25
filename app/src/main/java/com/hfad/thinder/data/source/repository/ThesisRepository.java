@@ -33,6 +33,7 @@ public final class ThesisRepository {
   private HashMap<UUID, Thesis> thesisMap = new HashMap<>();
   private ArrayList<Thesis> theses = new ArrayList<>();
   private boolean thesesDirty;
+  private boolean swipeDirty;
 
   private ThesisRepository() {
   }
@@ -217,5 +218,13 @@ public final class ThesisRepository {
 
   public void setThesesDirty(boolean thesesDirty) {
     this.thesesDirty = thesesDirty;
+  }
+
+  public boolean isSwipeDirty() {
+    return swipeDirty;
+  }
+
+  public void setSwipeDirty(boolean swipeDirty) {
+    this.swipeDirty = swipeDirty;
   }
 }
