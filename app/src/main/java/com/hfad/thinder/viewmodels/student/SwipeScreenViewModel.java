@@ -1,7 +1,11 @@
 package com.hfad.thinder.viewmodels.student;
 
+import static android.content.ContentValues.TAG;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.data.model.Degree;
@@ -354,6 +358,7 @@ public class SwipeScreenViewModel extends ViewModel {
     cardDeck = new ArrayList<>();
     ArrayList<Thesis> theses = new ArrayList<>();
     theses = thesisRepository.getAllSwipeableTheses();
+
     if (theses == null) {
       //error
     }

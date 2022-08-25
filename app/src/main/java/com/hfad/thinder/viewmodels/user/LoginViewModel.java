@@ -1,6 +1,9 @@
 package com.hfad.thinder.viewmodels.user;
 
 
+import android.os.Handler;
+import android.os.Looper;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.data.model.USERTYPE;
@@ -26,24 +29,31 @@ public class LoginViewModel extends ViewModel {
    */
   public void login() {
     isLoading.setValue(true);
-    Result result;
-    result = userRepository.login(password.getValue(), email.getValue());
-    isLoading.setValue(false);
-    if (!result.getSuccess()) {
-      loginResult.setValue(
-          new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
-    } else if (result.getSuccess()) {
-      userRepository.setPassword(password.getValue());
-      USERTYPE usertype = userRepository.getType();
-      if (usertype == USERTYPE.STUDENT) {
-        loginResult.setValue(
-            new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.STUDENT));
-      } else if (usertype == USERTYPE.SUPERVISOR) {
-        loginResult.setValue(
-            new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.SUPERVISOR));
-      } //Todo: unverified fehlt noch
+    Handler mainHandler = new Handler(Looper.getMainLooper());
 
-    }
+    Runnable myRunnable = new Runnable() {
+      @Override
+      public void run() {Result result;
+        result = userRepository.login(password.getValue(), email.getValue());
+        isLoading.setValue(false);
+        if (!result.getSuccess()) {
+          loginResult.setValue(
+                  new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
+        } else if (result.getSuccess()) {
+          userRepository.setPassword(password.getValue());
+          USERTYPE usertype = userRepository.getType();
+          if (usertype == USERTYPE.STUDENT) {
+            loginResult.setValue(
+                    new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.STUDENT));
+          } else if (usertype == USERTYPE.SUPERVISOR) {
+            loginResult.setValue(
+                    new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.SUPERVISOR));
+          } //Todo: unverified fehlt noch
+
+        }} // This is your code
+    };
+    mainHandler.post(myRunnable);
+
 
 
   }

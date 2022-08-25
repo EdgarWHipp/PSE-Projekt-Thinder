@@ -3,6 +3,8 @@ package com.hfad.thinder.ui.student;
 import static android.content.ContentValues.TAG;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,9 +25,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.hfad.thinder.R;
+import com.hfad.thinder.data.model.USERTYPE;
+import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.databinding.FragmentLikedThesesBinding;
 import com.hfad.thinder.ui.ThesisCardAdapter;
 import com.hfad.thinder.viewmodels.ThesisCardItem;
+import com.hfad.thinder.viewmodels.ViewModelResult;
+import com.hfad.thinder.viewmodels.ViewModelResultTypes;
 import com.hfad.thinder.viewmodels.student.LikedThesesViewModel;
 
 import java.util.ArrayList;
@@ -179,7 +185,14 @@ public class LikedThesesFragment extends Fragment implements SwipeRefreshLayout.
 
     private void loadRecyclerViewData(){
         refreshLayout.setRefreshing(true);
-        viewModel.loadLikedTheses();
-        refreshLayout.setRefreshing(false);
+        Handler mainHandler = new Handler(Looper.getMainLooper());
+        Runnable myRunnable = new Runnable() {
+            @Override
+            public void run() {
+                viewModel.loadLikedTheses();
+                refreshLayout.setRefreshing(false);}
+        };
+        mainHandler.post(myRunnable);
+
     }
 }
