@@ -7,6 +7,9 @@
         <variable
             name="viewmodel"
             type="com.hfad.thinder.viewmodels.user.LoginViewModel" />
+        <variable
+            name="activity"
+            type="com.hfad.thinder.ui.user.LoginActivity" />
     </data>
 
     <FrameLayout
@@ -125,7 +128,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="@{viewmodel.isDataValid.booleanValue()}"
-                android:onClick="@{() -> viewmodel.login()}"
+                android:onClick="@{() -> activity.login()}"
                 android:text="@string/login"
                 app:layout_constraintBottom_toTopOf="@+id/btRegister" />
 
