@@ -2,6 +2,7 @@ package com.hfad.thinder.ui.user;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,6 +15,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.hfad.thinder.R;
+import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.databinding.ActivityLoginBinding;
 import com.hfad.thinder.ui.student.StudentActivity;
 import com.hfad.thinder.ui.supervisor.SupervisorActivity;
