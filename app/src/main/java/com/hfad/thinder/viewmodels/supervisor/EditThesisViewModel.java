@@ -3,8 +3,12 @@ package com.hfad.thinder.viewmodels.supervisor;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.loader.content.AsyncTaskLoader;
+
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Image;
@@ -35,37 +39,18 @@ public class EditThesisViewModel extends ThesisViewModel {
 
 
   public void save() {
-    Form form = new Form(getQuestions().getValue());
-    Set<Image> imageSet = ThesisUtility.getImageSet(getImages().getValue());
-    Set<Degree> degreeSet =
-        ThesisUtility.getSelectedDegreeSet(getCoursesOfStudyList().getValue());
     Thesis thesis =
         new Thesis(getProfessor().getValue(), getTitle().getValue(), getMotivation().getValue(),
-            getTask().getValue(), form, imageSet, (Supervisor) userRepository.getUser(),
-            degreeSet);
-    Result result = thesisRepository.editThesis(thesisId, thesis);
-    if (result.getSuccess()) {
-      thesisRepository.setThesesDirty(true);
-      getSaveResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
-    } else {
-      getSaveResult().setValue(
-          new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
-    }
+            getTask().getValue(), null, null, (Supervisor) userRepository.getUser(),
+                null);
+    new SaveTask().execute(thesisId, thesis, getCoursesOfStudyList().getValue());
   }
 
   /**
    * Use this method to delete the thesis from the users profile.
    */
   public void delete() {
-    Result result = thesisRepository.deleteThesis(thesisId);
-    if (result.getSuccess()) {
-      thesisRepository.setThesesDirty(true);
-      getDeleteThesisResult().setValue(
-          new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
-    } else {
-      getDeleteThesisResult().setValue(
-          new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
-    }
+    new DeleteTask().execute(thesisId);
   }
 
 
@@ -112,33 +97,7 @@ public class EditThesisViewModel extends ThesisViewModel {
 
 
   private void loadThesis() {
-    Thesis thesis = thesisRepository.getThesisMap(false).get(thesisId);
-
-
-    getTitle().setValue(thesis.getName());
-    getTask().setValue(thesis.getTask());
-    getMotivation().setValue(thesis.getMotivation());
-    getQuestions().setValue(thesis.getForm().getQuestions());
-    getProfessor().setValue(thesis.getSupervisingProfessor());
-
-    //courses of Study
-    getSelectedCoursesOfStudy().setValue(
-        coursesOfStudyStringAdapter(thesis.getPossibleDegrees()));
-    MutableLiveData<ArrayList<CourseOfStudyItem>> coursesOfStudyList = new MutableLiveData<>();
-    ArrayList<Degree> allDegrees = ThesisUtility.DEGREE_REPOSITORY.fetchAllCoursesOfStudy();
-    coursesOfStudyList.setValue(
-        coursesOfStudyListAdapter(allDegrees, thesis.getPossibleDegrees()));
-    setCoursesOfStudyList(coursesOfStudyList);
-
-    //images
-    if (!thesis.getImages().isEmpty()) {
-      getImages().setValue(convertImages(thesis.getImages()));
-    }
-
-    thesisStatistics = thesisRepository.getThesisStatistics(thesisId);
-    getTotalRating().postValue(
-        String.valueOf(thesisStatistics.getFirst() + thesisStatistics.getSecond()));
-
+    new LoadThesisTask().execute(thesisId);
   }
 
   private ArrayList<CourseOfStudyItem> coursesOfStudyListAdapter(ArrayList<Degree> allDegrees,
@@ -179,6 +138,95 @@ public class EditThesisViewModel extends ThesisViewModel {
       convertedImages.add(bitmap);
     }
     return convertedImages;
+  }
+
+  private class LoadThesisTask extends AsyncTask<UUID, Void, Pair<Thesis, Pair<Integer, Integer>>>{
+
+
+    @Override
+    protected Pair<Thesis, Pair<Integer, Integer>> doInBackground(UUID... uuids) {
+      Thesis thesis = thesisRepository.getThesisMap(false).get(uuids[0]);
+      Pair<Integer, Integer> thesisStatistics = thesisRepository.getThesisStatistics(thesisId);
+      return new Pair<>(thesis, thesisStatistics);
+    }
+
+    @Override
+    protected void onPostExecute(Pair<Thesis, Pair<Integer, Integer>> thesisStatisticsPair) {
+      Thesis thesis = thesisStatisticsPair.getFirst();
+
+      getTitle().setValue(thesis.getName());
+      getTask().setValue(thesis.getTask());
+      getMotivation().setValue(thesis.getMotivation());
+      getQuestions().setValue(thesis.getForm().getQuestions());
+      getProfessor().setValue(thesis.getSupervisingProfessor());
+
+      //courses of Study
+      getSelectedCoursesOfStudy().setValue(
+              coursesOfStudyStringAdapter(thesis.getPossibleDegrees()));
+      MutableLiveData<ArrayList<CourseOfStudyItem>> coursesOfStudyList = new MutableLiveData<>();
+      ArrayList<Degree> allDegrees = ThesisUtility.DEGREE_REPOSITORY.fetchAllCoursesOfStudy();
+      coursesOfStudyList.setValue(
+              coursesOfStudyListAdapter(allDegrees, thesis.getPossibleDegrees()));
+      setCoursesOfStudyList(coursesOfStudyList);
+
+      //images
+      if (!thesis.getImages().isEmpty()) {
+        getImages().setValue(convertImages(thesis.getImages()));
+      }
+
+      // ratings
+
+      thesisStatistics = thesisStatisticsPair.getSecond();
+
+      getTotalRating().postValue(
+              String.valueOf(thesisStatistics.getFirst() + thesisStatistics.getSecond()));
+    }
+  }
+
+  private class SaveTask extends AsyncTask<Object, Void, Result>{
+
+    @Override
+    protected Result doInBackground(Object... objects) {
+      Form form = new Form(getQuestions().getValue());
+      Set<Image> imageSet = ThesisUtility.getImageSet(getImages().getValue());
+      Set<Degree> degreeSet =
+              ThesisUtility.getSelectedDegreeSet((ArrayList<CourseOfStudyItem>)objects[2]);
+      Thesis thesis = (Thesis) objects[1];
+      thesis.setForm(form);
+      thesis.setPossibleDegrees(degreeSet);
+      thesis.setImages(imageSet);
+      return thesisRepository.editThesis((UUID) objects[0], thesis);
+    }
+
+    @Override
+    protected void onPostExecute(Result result) {
+      if (result.getSuccess()) {
+        thesisRepository.setThesesDirty(true);
+        getSaveResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
+      } else {
+        getSaveResult().setValue(
+                new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
+      }
+    }
+  }
+
+  private class DeleteTask extends AsyncTask<UUID, Void, Result>{
+    @Override
+    protected Result doInBackground(UUID... uuids) {
+      return thesisRepository.deleteThesis(uuids[0]);
+    }
+
+    @Override
+    protected void onPostExecute(Result result) {
+      if (result.getSuccess()) {
+        thesisRepository.setThesesDirty(true);
+        getDeleteThesisResult().setValue(
+                new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
+      } else {
+        getDeleteThesisResult().setValue(
+                new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
+      }
+    }
   }
 
 }

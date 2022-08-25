@@ -1,5 +1,7 @@
 package com.hfad.thinder.viewmodels.supervisor;
 
+import android.os.AsyncTask;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.R;
@@ -41,26 +43,16 @@ public class EditProfileViewModel extends ViewModel {
    * Use this method to save the changes to the profile data.
    */
   public void save() {
-    String degree = academicTitles.getValue().get(selectedAcademicTitlePosition.getValue());
+    String degree = academicTitles.getValue().get(getSelectedAcademicTitlePosition().getValue());
     String buildingString = building.getValue();
     String officeNumber = room.getValue();
     String institute = getInstitute().getValue();
     String phoneNumber = getPhoneNumber().getValue();
     String firstName = getFirstName().getValue();
     String lastName = getLastName().getValue();
-    Result result =
-        supervisorRepository.editProfilSupervisor(degree, officeNumber, buildingString, institute,
+    new SaveTask().execute(degree, officeNumber, buildingString, institute,
             phoneNumber, firstName,
             lastName);
-    if (result.getSuccess()) {
-      safeResult.setValue(
-          new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.SUCCESSFUL));
-      safeResult.setValue(null);
-    } else {
-      safeResult.setValue(
-          new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
-    }
-
   }
 
   /**
@@ -373,4 +365,27 @@ public class EditProfileViewModel extends ViewModel {
     }
     return null;
   }
+
+  private class SaveTask extends AsyncTask<String, Void, Result>{
+
+    @Override
+    protected Result doInBackground(String... strings) {
+      return supervisorRepository.editProfilSupervisor(strings[0], strings[1], strings[2], strings[3],
+              strings[4], strings[5],
+              strings[6]);
+    }
+
+    @Override
+    protected void onPostExecute(Result result) {
+      if (result.getSuccess()) {
+        safeResult.setValue(
+                new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.SUCCESSFUL));
+        safeResult.setValue(null);
+      } else {
+        safeResult.setValue(
+                new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
+      }
+    }
+  }
+
 }

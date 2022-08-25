@@ -4,6 +4,7 @@ package com.hfad.thinder.viewmodels.supervisor;
 import static android.content.ContentValues.TAG;
 
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -226,13 +227,7 @@ public abstract class ThesisViewModel extends ViewModel
    */
   public void setImages(
       ArrayList<Bitmap> images) {
-    ArrayList<Bitmap> compressedImages = new ArrayList<>();
-    for (Bitmap image : images) {
-      compressedImages.add(getResizedBitmap(image, COMPRESSION_SIZE));
-    }
-    iterator = new ImageListIterator<>(compressedImages);
-    getCurrentImage().setValue(iterator.current());
-    getImages().setValue(compressedImages);
+    new SetImagesTask().execute(images);
   }
 
   /**
@@ -349,6 +344,28 @@ public abstract class ThesisViewModel extends ViewModel
       width = (int) (height * bitmapRatio);
     }
     return Bitmap.createScaledBitmap(image, width, height, true);
+  }
+
+  private class SetImagesTask extends AsyncTask<ArrayList<Bitmap>, Void, ArrayList<Bitmap>>
+
+  {
+
+    @Override
+    protected ArrayList<Bitmap> doInBackground(ArrayList<Bitmap>... arrayLists) {
+      ArrayList<Bitmap> compressedImages = new ArrayList<>();
+      for (Bitmap image : arrayLists[0]) {
+        compressedImages.add(getResizedBitmap(image, COMPRESSION_SIZE));
+      }
+      return compressedImages;
+    }
+
+    @Override
+    protected void onPostExecute(ArrayList<Bitmap> bitmaps) {
+      ArrayList<Bitmap> compressedImages = bitmaps;
+      iterator = new ImageListIterator<>(compressedImages);
+      getCurrentImage().setValue(iterator.current());
+      getImages().setValue(compressedImages);
+    }
   }
 }
 
