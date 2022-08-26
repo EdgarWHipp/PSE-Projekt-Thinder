@@ -4,6 +4,7 @@ package com.hfad.thinder.viewmodels.supervisor;
 import static android.content.ContentValues.TAG;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
@@ -15,6 +16,8 @@ import com.hfad.thinder.viewmodels.CoursesOfStudyPicker;
 import com.hfad.thinder.viewmodels.ImageGalleryPicker;
 import com.hfad.thinder.viewmodels.ImageListIterator;
 import com.hfad.thinder.viewmodels.ViewModelResult;
+
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 /**
@@ -24,6 +27,7 @@ import java.util.ArrayList;
 public abstract class ThesisViewModel extends ViewModel
     implements CoursesOfStudyPicker, ImageGalleryPicker {
   private static final int COMPRESSION_SIZE = 1000;
+  public static final int QUALITY = 80;
   private MutableLiveData<String> title;
   private MutableLiveData<String> task;
   private MutableLiveData<String> motivation;
@@ -36,7 +40,7 @@ public abstract class ThesisViewModel extends ViewModel
   private MutableLiveData<ArrayList<CourseOfStudyItem>> coursesOfStudyList;
   private MutableLiveData<ThesisFormState> formState;
   private MutableLiveData<ViewModelResult> saveResult;
-
+  private MutableLiveData<Boolean> isLoading;
   /**
    * Use this method to save a new thesis or the changes to an existing thesis.
    */
@@ -261,6 +265,14 @@ public abstract class ThesisViewModel extends ViewModel
     return saveResult;
   }
 
+  public MutableLiveData<Boolean> getIsLoading() {
+    if(isLoading == null){
+      isLoading = new MutableLiveData<>();
+      isLoading.setValue(false);
+    }
+    return isLoading;
+  }
+
   //-----------------------------private methods---------------------------------------------------------------
 
   private void loadCoursesOfStudy() {
@@ -343,11 +355,17 @@ public abstract class ThesisViewModel extends ViewModel
       height = maxSize;
       width = (int) (height * bitmapRatio);
     }
-    return Bitmap.createScaledBitmap(image, width, height, true);
+
+    Bitmap resizedBitmap = Bitmap.createScaledBitmap(image, width, height, true);
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    // quality is ignored for PNGs
+    resizedBitmap.compress(Bitmap.CompressFormat.JPEG, QUALITY, out);
+    byte[] compressedBitmap = out.toByteArray();
+
+    return BitmapFactory.decodeByteArray(compressedBitmap, 0, compressedBitmap.length);
   }
 
   private class SetImagesTask extends AsyncTask<ArrayList<Bitmap>, Void, ArrayList<Bitmap>>
-
   {
 
     @Override

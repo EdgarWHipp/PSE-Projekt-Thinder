@@ -142,6 +142,10 @@ public class EditThesisViewModel extends ThesisViewModel {
 
   private class LoadThesisTask extends AsyncTask<UUID, Void, Pair<Thesis, Pair<Integer, Integer>>>{
 
+    @Override
+    protected void onPreExecute() {
+      getIsLoading().setValue(true);
+    }
 
     @Override
     protected Pair<Thesis, Pair<Integer, Integer>> doInBackground(UUID... uuids) {
@@ -180,6 +184,7 @@ public class EditThesisViewModel extends ThesisViewModel {
 
       getTotalRating().postValue(
               String.valueOf(thesisStatistics.getFirst() + thesisStatistics.getSecond()));
+      getIsLoading().setValue(false);
     }
   }
 
@@ -207,6 +212,7 @@ public class EditThesisViewModel extends ThesisViewModel {
         getSaveResult().setValue(
                 new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
       }
+      getSaveResult().setValue(null);
     }
   }
 
@@ -226,6 +232,7 @@ public class EditThesisViewModel extends ThesisViewModel {
         getDeleteThesisResult().setValue(
                 new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
       }
+      getDeleteThesisResult().setValue(null);
     }
   }
 
