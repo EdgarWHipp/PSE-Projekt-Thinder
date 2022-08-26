@@ -259,9 +259,6 @@ public abstract class ThesisViewModel extends ViewModel
     if (saveResult == null) {
       saveResult = new MutableLiveData<>();
     }
-    if (saveResult.getValue() != null) {
-      Log.i(TAG, saveResult.getValue().getErrorMessage());
-    }
     return saveResult;
   }
 
