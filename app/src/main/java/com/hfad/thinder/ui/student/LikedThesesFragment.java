@@ -185,14 +185,7 @@ public class LikedThesesFragment extends Fragment implements SwipeRefreshLayout.
 
     private void loadRecyclerViewData(){
         refreshLayout.setRefreshing(true);
-        Handler mainHandler = new Handler(Looper.getMainLooper());
-        Runnable myRunnable = new Runnable() {
-            @Override
-            public void run() {
-                viewModel.loadLikedTheses();
-                refreshLayout.setRefreshing(false);}
-        };
-        mainHandler.post(myRunnable);
-
+        viewModel.loadLikedTheses();
+        refreshLayout.setRefreshing(false);
     }
 }
