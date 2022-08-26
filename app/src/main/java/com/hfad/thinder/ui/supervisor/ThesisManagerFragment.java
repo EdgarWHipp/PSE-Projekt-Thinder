@@ -96,7 +96,7 @@ public class ThesisManagerFragment extends Fragment implements SwipeRefreshLayou
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
         viewModel = new ViewModelProvider(this).get(ThesisManagerViewModel.class);
-        buildRecyclerView(view, viewModel.getThesisCardItems().getValue());
+        buildRecyclerView(view, );
         final androidx.lifecycle.Observer<ArrayList<ThesisCardItem>> thesisCardItemObserver = new Observer<ArrayList<ThesisCardItem>>() {
             @Override
             public void onChanged(ArrayList<ThesisCardItem> thesisCardItems) {
@@ -118,12 +118,12 @@ public class ThesisManagerFragment extends Fragment implements SwipeRefreshLayou
         viewModel.getIsLoading().observe(getViewLifecycleOwner(), isLoadingObserver);
     }
 
-    private void buildRecyclerView(View view, ArrayList<ThesisCardItem> elements) {
+    private void buildRecyclerView(View view) {
         refreshLayout = binding.refreshLayout;
         refreshLayout.setOnRefreshListener(this);
         recyclerView = binding.recyclerView;
         layoutManager = new LinearLayoutManager(view.getContext());
-        adapter = new ThesisCardAdapter(elements);
+        adapter = new ThesisCardAdapter(viewModel.getThesisCardItems().getValue());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -131,9 +131,9 @@ public class ThesisManagerFragment extends Fragment implements SwipeRefreshLayou
         adapter.setOnItemClickListener(new ThesisCardAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-
-                UUID UUID = viewModel.getThesisCardItems().getValue().get(position).getThesisUUID();
-                String thesisTitle = viewModel.getThesisCardItems().getValue().get(position).getTitle();
+                ThesisCardItem thesisCardItem = viewModel.getThesisCardItems().getValue().get(position);
+                UUID UUID = thesisCardItem.getThesisUUID();
+                String thesisTitle = thesisCardItem.getTitle();
                 Bundle bundle = new Bundle();
                 bundle.putString("thesisUUID", UUID.toString());
                 bundle.putString("thesisTitle", thesisTitle);
