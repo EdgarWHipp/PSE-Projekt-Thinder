@@ -32,7 +32,9 @@ public class Thesis {
     @SerializedName("possibleDegrees")
     private Set<Degree> possibleDegrees;
 
-    public Thesis(String supervisingProfessor, String name, String motivation, String task, Form form, @Nullable Set<Image> images, Supervisor supervisor, Set<Degree> possibleDegrees) {
+    public Thesis(String supervisingProfessor, String name, String motivation, String task
+            , Form form, @Nullable Set<Image> images, Supervisor supervisor
+            , Set<Degree> possibleDegrees) {
         this.name = name;
         this.motivation = motivation;
         this.task = task;
