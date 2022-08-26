@@ -1,8 +1,12 @@
 package com.hfad.thinder.viewmodels.student;
 
+import static android.content.ContentValues.TAG;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.data.model.Degree;
@@ -467,6 +471,8 @@ public class SwipeScreenViewModel extends ViewModel {
         }
       }
       addDummyCards(cardDeck);
+      // force card refresh by setting deck position value observed in fragment
+      getCurrentDeckPosition().setValue(0);
       isLoading.setValue(false);
     }
   }
