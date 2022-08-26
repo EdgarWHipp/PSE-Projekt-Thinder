@@ -379,10 +379,9 @@ public abstract class ThesisViewModel extends ViewModel
 
     @Override
     protected void onPostExecute(ArrayList<Bitmap> bitmaps) {
-      ArrayList<Bitmap> compressedImages = bitmaps;
-      iterator = new ImageListIterator<>(compressedImages);
+      iterator = new ImageListIterator<>(bitmaps);
       getCurrentImage().setValue(iterator.current());
-      getImages().setValue(compressedImages);
+      getImages().setValue(bitmaps);
     }
   }
 }
