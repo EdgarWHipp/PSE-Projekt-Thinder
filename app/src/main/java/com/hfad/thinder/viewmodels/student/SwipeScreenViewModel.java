@@ -48,6 +48,8 @@ public class SwipeScreenViewModel extends ViewModel {
   private MutableLiveData<String> currentTask;
   private MutableLiveData<String> currentMotivation;
 
+  private MutableLiveData<Boolean> isLoading;
+
 
   /**
    * Use this method to like the current thesis.
@@ -326,6 +328,13 @@ public class SwipeScreenViewModel extends ViewModel {
     return currentMotivation;
   }
 
+  public MutableLiveData<Boolean> getIsLoading() {
+    if(isLoading == null){
+      isLoading = new MutableLiveData<>();
+      isLoading.setValue(true);
+    }
+    return isLoading;
+  }
 
   //----------------private methods-----------------------------------
 
@@ -355,8 +364,8 @@ public class SwipeScreenViewModel extends ViewModel {
 
   private void loadCardDeck() {
     cardDeck = new ArrayList<>();
-    new LoadCardDeckTask().execute();
     addDummyCards(cardDeck);
+    new LoadCardDeckTask().execute();
   }
 
   private void addDummyCards(ArrayList<SwipeScreenCard> cardDeck) {
@@ -429,12 +438,18 @@ public class SwipeScreenViewModel extends ViewModel {
   private class LoadCardDeckTask extends AsyncTask<Void, Void, ArrayList<Thesis>> {
 
     @Override
+    protected void onPreExecute() {
+      getIsLoading().setValue(true);
+    }
+
+    @Override
     protected ArrayList<Thesis> doInBackground(Void... voids) {
       return thesisRepository.getAllSwipeableTheses();
     }
 
     @Override
     protected void onPostExecute(ArrayList<Thesis> theses) {
+      cardDeck = new ArrayList<>();
       if (theses != null) {
         for (Thesis thesis : theses) {
           ArrayList<Bitmap> bitmaps = convertImagesToBitmaps(thesis.getImages());
@@ -451,6 +466,8 @@ public class SwipeScreenViewModel extends ViewModel {
           cardDeck.add(swipeScreenCard);
         }
       }
+      addDummyCards(cardDeck);
+      isLoading.setValue(false);
     }
   }
 
