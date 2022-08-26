@@ -246,7 +246,6 @@ public class SupervisorApiService {
                     HashMap<UUID, Thesis> thesisHashMap = (HashMap<UUID, Thesis>) returnTheses.stream()
                             .collect(Collectors.toMap(v -> v.getId(), v -> v));
                     resultCompletableFuture.complete(new Result(true));
-                    Log.e("",thesisHashMap.get(theses.get(0).getId()).toString());
                     thesisHashmap.complete(thesisHashMap);
                 } else {
                     Log.e("",new String(String.valueOf(response.code())));
