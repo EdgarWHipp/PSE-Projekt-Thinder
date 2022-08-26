@@ -106,19 +106,15 @@ public final class ThesisRepository {
       if (UserRepository.getInstance().getType() == USERTYPE.STUDENT) {
         result = StudentRepository.getInstance().fetchAllLikedThesis();
         if (result.getSuccess()) {
-          Log.e("", "successful and thesis map returned");
           return this.getThesisMap(false);
         } else {
           return null;
         }
       } else if (UserRepository.getInstance().getType() == USERTYPE.SUPERVISOR) {
-        Log.e("", "correct way");
         result = SupervisorRepository.getInstance().getAllCreatedTheses();
         if (result.getSuccess()) {
-          Log.e("", "successful yeye");
           return this.getThesisMap(false);
         } else {
-          Log.e("", "not successful");
           return null;
         }
       } else {

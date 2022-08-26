@@ -1,5 +1,9 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
+import static android.content.ContentValues.TAG;
+
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
@@ -117,6 +121,7 @@ public class ThesesApiService {
                 if (response.isSuccessful()) {
                     resultCompletableFuture.complete(new Result(true));
                 } else {
+                    Log.e(TAG, "onResponse: " + response.body().toString() + response.message());
                     resultCompletableFuture.complete(new Result(response.message(), false));
                 }
             }
@@ -216,7 +221,7 @@ public class ThesesApiService {
     }
 
     private Thesis parseDTOtoThesis(ThesisDTO dtoObject){
-        Set<Image> images = new HashSet<>(); //todo Is a set prone to errors if a thesis has duplicate images?
+        Set<Image> images = new HashSet<>();
         for (String encdoedImage : dtoObject.getImages()){
             images.add(new Image(Base64.getDecoder().decode(encdoedImage)));
         }

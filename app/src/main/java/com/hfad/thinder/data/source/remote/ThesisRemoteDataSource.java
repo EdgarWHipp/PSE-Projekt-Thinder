@@ -30,9 +30,8 @@ public class ThesisRemoteDataSource {
     public Result createNewThesis(final Thesis thesis) {
 
         try {
-            Log.e("", "values in datasource" + thesis.getForm().getQuestions());
             CompletableFuture<Result> result = okHttpService.createNewThesisFuture(thesis);
-            return result.get(100, TimeUnit.SECONDS);
+            return result.get(10000, TimeUnit.SECONDS);
         } catch (JSONException e) {
             return new Result("not successful", false);
         } catch (ExecutionException e) {
@@ -42,8 +41,6 @@ public class ThesisRemoteDataSource {
         } catch (TimeoutException e) {
             return new Result("not successful", false);
         }
-
-
     }
 
     /**
@@ -85,6 +82,4 @@ public class ThesisRemoteDataSource {
             return new Result("not successful", false);
         }
     }
-
-
 }
