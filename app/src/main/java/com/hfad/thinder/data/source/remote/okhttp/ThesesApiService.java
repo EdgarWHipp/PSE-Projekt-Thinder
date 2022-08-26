@@ -4,7 +4,10 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.hfad.thinder.data.model.Degree;
+import com.hfad.thinder.data.model.Form;
+import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Thesis;
+import com.hfad.thinder.data.model.ThesisDTO;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.data.source.result.Result;
@@ -15,7 +18,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -154,8 +160,8 @@ public class ThesesApiService {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     Gson gson = new Gson();
-                    Thesis thesis = gson.fromJson(response.body().string(), Thesis.class);
-                    resultThesis.complete(thesis);
+                    ThesisDTO thesis = gson.fromJson(response.body().string(), ThesisDTO.class);
+                    resultThesis.complete(parseDTOtoThesis(thesis));
                     resultCompletableFuture.complete(new Result(true));
                 } else {
                     resultCompletableFuture.complete(new Result("not successful", false));
@@ -207,6 +213,17 @@ public class ThesesApiService {
         });
 
         return resultCompletableFuture;
+    }
+
+    private Thesis parseDTOtoThesis(ThesisDTO dtoObject){
+        Set<Image> images = new HashSet<>(); //todo Is a set prone to errors if a thesis has duplicate images?
+        for (String encdoedImage : dtoObject.getImages()){
+            images.add(new Image(Base64.getDecoder().decode(encdoedImage)));
+        }
+        Set<Degree> possibleDegrees = new HashSet<>(dtoObject.getPossibleDegrees());
+        return new Thesis(dtoObject.getSupervisingProfessor(), dtoObject.getName()
+                , dtoObject.getMotivation(), dtoObject.getTask(), new Form(dtoObject.getQuestions())
+                , images, dtoObject.getSupervisor(), possibleDegrees);
     }
 
 }
