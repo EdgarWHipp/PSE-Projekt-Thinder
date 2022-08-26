@@ -103,11 +103,17 @@ public class LikedThesesFragment extends Fragment implements SwipeRefreshLayout.
             @Override
             public void onChanged(ArrayList<ThesisCardItem> thesisCardItems) {
                 adapter.setElements(viewModel.getLikedTheses().getValue());
-                refreshLayout.setRefreshing(false);
             }
         };
         viewModel.getLikedTheses().observe(getViewLifecycleOwner(), likedThesesObserver);
+        final Observer<Boolean> isLoadingObserver = new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                refreshLayout.setRefreshing(aBoolean);
+            }
+        };
 
+        viewModel.getIsLoading().observe(getViewLifecycleOwner(), isLoadingObserver);
     }
 
     private void buildRecyclerView(ArrayList<ThesisCardItem> elements, View view) {
@@ -184,8 +190,6 @@ public class LikedThesesFragment extends Fragment implements SwipeRefreshLayout.
     }
 
     private void loadRecyclerViewData(){
-        refreshLayout.setRefreshing(true);
         viewModel.loadLikedTheses();
-        refreshLayout.setRefreshing(false);
     }
 }

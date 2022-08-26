@@ -24,6 +24,7 @@ public class ThesisManagerViewModel extends ViewModel {
 
     private static final ThesisRepository thesisRepository = ThesisRepository.getInstance();
     private MutableLiveData<ArrayList<ThesisCardItem>> thesisCardItems;
+    private MutableLiveData<Boolean> isLoading;
 
     //-------------------getter and setter-----------------------------
 
@@ -39,11 +40,25 @@ public class ThesisManagerViewModel extends ViewModel {
         return thesisCardItems;
     }
 
+    public MutableLiveData<Boolean> getIsLoading() {
+        if(isLoading == null){
+            isLoading = new MutableLiveData<>();
+            isLoading.setValue(false);
+        }
+
+        return isLoading;
+    }
+
     public void loadThesisManagerItems() {
         new LoadThesisManagerItemsTask().execute();
     }
 
     private class LoadThesisManagerItemsTask extends AsyncTask<Void, Void, ArrayList<ThesisCardItem>> {
+
+        @Override
+        protected void onPreExecute() {
+            getIsLoading().setValue(true);
+        }
 
         @Override
         protected ArrayList<ThesisCardItem> doInBackground(Void... voids) {
@@ -71,6 +86,7 @@ public class ThesisManagerViewModel extends ViewModel {
         protected void onPostExecute(ArrayList<ThesisCardItem> thesisCardItems) {
             if (thesisCardItems != null)
                 getThesisCardItems().setValue(thesisCardItems);
+            isLoading.setValue(false);
         }
     }
 

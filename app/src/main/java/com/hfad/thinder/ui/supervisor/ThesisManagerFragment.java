@@ -104,11 +104,18 @@ public class ThesisManagerFragment extends Fragment implements SwipeRefreshLayou
                     ArrayList<ThesisCardItem> elements = viewModel.getThesisCardItems().getValue();
                     adapter.setElements(elements);
                 }
-                refreshLayout.setRefreshing(false);
             }
         };
 
         viewModel.getThesisCardItems().observe(getViewLifecycleOwner(), thesisCardItemObserver);
+
+        final Observer<Boolean> isLoadingObserver = new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                refreshLayout.setRefreshing(aBoolean);
+            }
+        };
+        viewModel.getIsLoading().observe(getViewLifecycleOwner(), isLoadingObserver);
     }
 
     private void buildRecyclerView(View view, ArrayList<ThesisCardItem> elements) {
@@ -195,9 +202,7 @@ public class ThesisManagerFragment extends Fragment implements SwipeRefreshLayou
     }
 
     private void loadRecyclerViewData(){
-        refreshLayout.setRefreshing(true);
         viewModel.loadThesisManagerItems();
-        refreshLayout.setRefreshing(false);
     }
 
 }
