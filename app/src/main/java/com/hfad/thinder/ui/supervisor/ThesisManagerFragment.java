@@ -96,7 +96,7 @@ public class ThesisManagerFragment extends Fragment implements SwipeRefreshLayou
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
         viewModel = new ViewModelProvider(this).get(ThesisManagerViewModel.class);
-        buildRecyclerView(view, );
+        buildRecyclerView(view);
         final androidx.lifecycle.Observer<ArrayList<ThesisCardItem>> thesisCardItemObserver = new Observer<ArrayList<ThesisCardItem>>() {
             @Override
             public void onChanged(ArrayList<ThesisCardItem> thesisCardItems) {
