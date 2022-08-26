@@ -3,48 +3,33 @@ package com.hfad.thinder.data.source.remote.okhttp;
 import okhttp3.HttpUrl;
 
 public class ApiUtils {
-    private static ApiUtils instance;
+    private static final String HTTPS = "https";
+    private static final boolean liveSetup = true;
 
-    private boolean liveSetup = true;
+    private static final String HTTP = "http";
+    private static final String REMOTE_HOST = "thinder-staging.herokuapp.com";
+    private static final String LOCALHOST = "127.0.0.1";
 
-    private String scheme = "http";
-    private String host = "thinder-staging.herokuapp.com";
+    private static int port = 8080;
 
-    private int port = 8080;
 
-    public HttpUrl.Builder getHttpUrlBuilder() {
+    /**
+     * Private utility default constructor
+     */
+    private ApiUtils(){
+
+    }
+
+    public static HttpUrl.Builder getHttpUrlBuilder() {
         if (liveSetup) {
             return new HttpUrl.Builder()
-                    .scheme("https")
-                    .host(host);
+                    .scheme(HTTPS)
+                    .host(REMOTE_HOST);
         } else {
             return new HttpUrl.Builder()
-                    .scheme(scheme)
-                    .host(host)
+                    .scheme(HTTP)
+                    .host(LOCALHOST)
                     .port(port);
         }
-    }
-
-    public void setScheme(String scheme) {
-        this.scheme = scheme;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
-
-    public void setLiveSetup(boolean liveSetup) {
-        this.liveSetup = liveSetup;
-    }
-
-    public static ApiUtils getInstance() {
-        if (instance == null) {
-            instance = new ApiUtils();
-        }
-        return instance;
     }
 }

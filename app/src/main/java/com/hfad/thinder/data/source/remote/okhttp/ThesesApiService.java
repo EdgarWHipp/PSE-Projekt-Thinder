@@ -46,7 +46,6 @@ import okhttp3.Response;
 public class ThesesApiService {
     private static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
-    private static final ApiUtils apiUtils = ApiUtils.getInstance();
 
     /**
      * This function creates the actual HTTP POST request to the backend that leads to a created thesis object inside the database.
@@ -101,7 +100,7 @@ public class ThesesApiService {
 
         RequestBody body = RequestBody.create(thesisJSON.toString(), JSON);
 
-        HttpUrl url = apiUtils.getHttpUrlBuilder()
+        HttpUrl url = ApiUtils.getHttpUrlBuilder()
                 .addPathSegment("thesis")
                 .build();
 
@@ -146,7 +145,7 @@ public class ThesesApiService {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         CompletableFuture<Thesis> resultThesis = new CompletableFuture<>();
 
-        HttpUrl url = apiUtils.getHttpUrlBuilder()
+        HttpUrl url = ApiUtils.getHttpUrlBuilder()
                 .addPathSegment("thesis")
                 .addPathSegment(thesisId.toString()).build();
 
@@ -191,7 +190,7 @@ public class ThesesApiService {
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 
-        HttpUrl url = apiUtils.getHttpUrlBuilder()
+        HttpUrl url = ApiUtils.getHttpUrlBuilder()
                 .addPathSegment("thesis")
                 .addPathSegment(thesisId.toString()).build();
 

@@ -49,7 +49,6 @@ import okhttp3.Response;
 public class StudentApiService {
     private final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
-    private static final ApiUtils apiUtils = ApiUtils.getInstance();
 
     /**
      * This function creates the HTTP PUT request that completes the user profile by extending the profile through either the additional attributes from the student.
@@ -80,7 +79,7 @@ public class StudentApiService {
                 .put("type", UserRepository.getInstance().getType().toString());
         RequestBody body = RequestBody.create(studentJson.toString(), JSON);
 
-        HttpUrl url = apiUtils.getHttpUrlBuilder()
+        HttpUrl url = ApiUtils.getHttpUrlBuilder()
                 .addPathSegment("users")
                 .addPathSegment("current")
                 .build();
@@ -136,7 +135,7 @@ public class StudentApiService {
         RequestBody body = RequestBody.create(json, JSON);
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 
-        HttpUrl url = apiUtils.getHttpUrlBuilder()
+        HttpUrl url = ApiUtils.getHttpUrlBuilder()
                 .addPathSegment("students")
                 .addPathSegment("rated-theses").build();
 
@@ -179,7 +178,7 @@ public class StudentApiService {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         CompletableFuture<HashMap<UUID, Thesis>> thesisListFuture = new CompletableFuture<>();
 
-        HttpUrl url = apiUtils.getHttpUrlBuilder()
+        HttpUrl url = ApiUtils.getHttpUrlBuilder()
                 .addPathSegment("students")
                 .addPathSegment("rated-theses")
                 .build();
@@ -265,7 +264,7 @@ public class StudentApiService {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         CompletableFuture<ArrayList<Thesis>> resultThesisFuture = new CompletableFuture<>();
 
-        HttpUrl url = apiUtils.getHttpUrlBuilder()
+        HttpUrl url = ApiUtils.getHttpUrlBuilder()
                 .addPathSegment("students")
                 .addPathSegment("theses")
                 .addPathSegment("get-swipe-theses")
@@ -360,7 +359,7 @@ public class StudentApiService {
         String jsonBodyString = formJson.toString();
         RequestBody body = RequestBody.create(jsonBodyString, JSON);
 
-        HttpUrl url = apiUtils.getHttpUrlBuilder()
+        HttpUrl url = ApiUtils.getHttpUrlBuilder()
                 .addPathSegment("students")
                 .addPathSegment("rated-theses")
                 .addPathSegment(thesisId.toString())
@@ -408,7 +407,7 @@ public class StudentApiService {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         RequestBody body = RequestBody.create(null, new byte[]{});
 
-        HttpUrl url = apiUtils.getHttpUrlBuilder()
+        HttpUrl url = ApiUtils.getHttpUrlBuilder()
                 .addPathSegment("students")
                 .addPathSegment("rated-theses")
                 .addPathSegment(thesisId.toString())
