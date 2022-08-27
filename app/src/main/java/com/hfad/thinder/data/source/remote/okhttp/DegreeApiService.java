@@ -28,6 +28,7 @@ import okhttp3.Response;
 public class DegreeApiService {
     private static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
+    private static final ApiUtils apiUtils = ApiUtils.getInstance();
 
     /**
      * Implements the actual HTTP GET request that fetches all courses of study for the users university.
@@ -44,7 +45,7 @@ public class DegreeApiService {
                                 getUser().getMail(), UserRepository.getInstance().getPassword()))
                 .build();
 
-        HttpUrl url = ApiUtils.getHttpUrlBuilder()
+        HttpUrl url = apiUtils.getHttpUrlBuilder()
                 .addPathSegment("university")
                 .addPathSegment(UserRepository.getInstance().getUser().getUniversityId().toString())
                 .addPathSegment("degrees")

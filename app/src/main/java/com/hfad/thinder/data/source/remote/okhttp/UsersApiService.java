@@ -35,6 +35,7 @@ import okhttp3.Response;
 public class UsersApiService {
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final OkHttpClient CLIENT = new OkHttpClient();
+    private static final ApiUtils API_UTILS = ApiUtils.getInstance();
 
     /**
      * This function creates the HTTP GET request that firstly makes sure the email, password tuple exists in the database and then fetches a JSON with attributes type and id.
@@ -51,7 +52,7 @@ public class UsersApiService {
                 .build();
 
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
-        HttpUrl url = ApiUtils.getHttpUrlBuilder()
+        HttpUrl url = API_UTILS.getHttpUrlBuilder()
                 .addPathSegment("users").addPathSegment("current").build();
 
         Request request = new Request.Builder()
@@ -103,7 +104,7 @@ public class UsersApiService {
     public CompletableFuture<Result> verifyUser(String token) throws JSONException, IOException, ExecutionException, InterruptedException, TimeoutException {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 
-        HttpUrl url = ApiUtils.getHttpUrlBuilder()
+        HttpUrl url = API_UTILS.getHttpUrlBuilder()
                 .addPathSegment("users")
                 .addPathSegment("verify")
                 .addQueryParameter("token", token)
@@ -159,7 +160,7 @@ public class UsersApiService {
         UserRepository.getInstance().setPassword(userCreation.getPassword());
         RequestBody body = RequestBody.create(userJson.toString(), JSON);
 
-        HttpUrl url = ApiUtils.getHttpUrlBuilder()
+        HttpUrl url = API_UTILS.getHttpUrlBuilder()
                 .addPathSegment("users")
                 .build();
 
@@ -206,7 +207,7 @@ public class UsersApiService {
                         UserRepository.getInstance().getPassword()))
                 .build();
 
-        HttpUrl url = ApiUtils.getHttpUrlBuilder()
+        HttpUrl url = API_UTILS.getHttpUrlBuilder()
                 .addPathSegment("users")
                 .addPathSegment("current").build();
 
@@ -249,7 +250,7 @@ public class UsersApiService {
     public CompletableFuture<Result> resetPassword(String email) {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 
-        HttpUrl url = ApiUtils.getHttpUrlBuilder()
+        HttpUrl url = API_UTILS.getHttpUrlBuilder()
                 .addPathSegment("resetPassword")
                 .addQueryParameter("mail", email)
                 .build();
@@ -296,7 +297,7 @@ public class UsersApiService {
         RequestBody body = RequestBody.create(passwordJSON.toString(), JSON);
 
         HttpUrl url;
-        url = ApiUtils.getHttpUrlBuilder()
+        url = API_UTILS.getHttpUrlBuilder()
                 .addPathSegment("resetPassword")
                 .addQueryParameter("token", token)
                 .build();

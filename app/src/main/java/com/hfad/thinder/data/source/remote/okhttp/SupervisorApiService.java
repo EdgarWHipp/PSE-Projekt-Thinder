@@ -44,6 +44,7 @@ import okhttp3.Response;
 public class SupervisorApiService {
     private static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
+    private static final ApiUtils apiUtils = ApiUtils.getInstance();
 
     /**
      * This function creates the HTTP PUT request that completes the user profile by extending the profile through either the additional attributes from the supervisor.
@@ -83,7 +84,7 @@ public class SupervisorApiService {
 
         RequestBody body = RequestBody.create(supervisorJson.toString(), JSON);
 
-        HttpUrl url = ApiUtils.getHttpUrlBuilder()
+        HttpUrl url = apiUtils.getHttpUrlBuilder()
                 .addPathSegment("users")
                 .addPathSegment("current")
                 .build();
@@ -147,7 +148,7 @@ public class SupervisorApiService {
                 .put("supervisor", UserRepository.getInstance().getUser())
                 .put("supervisingProfessor", thesis.getSupervisingProfessor());
 
-        HttpUrl url = ApiUtils.getHttpUrlBuilder()
+        HttpUrl url = apiUtils.getHttpUrlBuilder()
                 .addPathSegment("thesis")
                 .addPathSegment(thesisId.toString()).build();
 
@@ -191,7 +192,7 @@ public class SupervisorApiService {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         CompletableFuture<HashMap<UUID, Thesis>> thesisHashmap = new CompletableFuture<>();
 
-        HttpUrl url = ApiUtils.getHttpUrlBuilder()
+        HttpUrl url = apiUtils.getHttpUrlBuilder()
                 .addPathSegment("thesis").build();
 
         Request request = new Request.Builder()
