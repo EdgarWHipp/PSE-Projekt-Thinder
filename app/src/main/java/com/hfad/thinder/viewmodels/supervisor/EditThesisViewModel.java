@@ -176,6 +176,7 @@ public class EditThesisViewModel extends ThesisViewModel {
       //images
       if (!thesis.getImages().isEmpty()) {
         getImages().setValue(convertImages(thesis.getImages()));
+        setImages(getImages().getValue());
       }
 
       // ratings
