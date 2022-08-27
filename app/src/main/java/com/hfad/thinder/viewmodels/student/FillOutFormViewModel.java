@@ -9,6 +9,7 @@ import com.hfad.thinder.data.source.repository.StudentRepository;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.viewmodels.ViewModelResult;
+import com.hfad.thinder.viewmodels.ViewModelResultTypes;
 import java.util.UUID;
 
 /**
@@ -121,5 +122,14 @@ public class FillOutFormViewModel extends ViewModel {
       return studentRepository.sendForm(forms[0], thesisId);
     }
 
+    @Override
+    protected void onPostExecute(Result result) {
+      if (result.getSuccess()) {
+        getSendResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
+      } else {
+        getSendResult().setValue(
+            new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
+      }
+    }
   }
 }
