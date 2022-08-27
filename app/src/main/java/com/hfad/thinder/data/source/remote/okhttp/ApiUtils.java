@@ -20,8 +20,8 @@ public class ApiUtils {
         } else {
             return new HttpUrl.Builder()
                     .scheme("http")
-                    .host("localhost")
-                    .port(5432);
+                    .host("10.0.2.2")
+                    .port(port);
         }
     }
 
