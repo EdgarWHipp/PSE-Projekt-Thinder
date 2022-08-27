@@ -109,7 +109,7 @@ public class FillOutFormViewModel extends ViewModel {
   //---------------------private methods------------------------------------------------------------
 
   private void loadQuestions() {
-    String questions = thesisRepository.getThesis(thesisId).getFirst().getForm().getQuestions();
+    String questions = thesisRepository.getThesisMap(false).get(thesisId).getForm().getQuestions();
     getQuestions().setValue(questions);
     formDataChanged();
   }
