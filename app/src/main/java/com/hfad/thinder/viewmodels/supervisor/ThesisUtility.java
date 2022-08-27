@@ -7,7 +7,7 @@ import com.hfad.thinder.data.source.repository.DegreeRepository;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.viewmodels.CourseOfStudyItem;
-import java.nio.ByteBuffer;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -46,14 +46,10 @@ public class ThesisUtility {
     HashSet<Image> images = new HashSet<>();
     if (bitmaps != null) {
       for (Bitmap bitmap : bitmaps) {
-        int size = bitmap.getRowBytes() * bitmap.getHeight();
-        ByteBuffer byteBuffer = ByteBuffer.allocate(size);
-        bitmap.copyPixelsToBuffer(byteBuffer);
-        byte[] byteArray;
-        byteArray = byteBuffer.array();
-
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
         images.add(new Image(byteArray));
-
       }
     }
 
