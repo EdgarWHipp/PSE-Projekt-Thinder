@@ -179,6 +179,7 @@ public class NewThesisFragment extends Fragment {
           Toast toast =
               Toast.makeText(getActivity(), getText(R.string.save_successful), Toast.LENGTH_LONG);
           toast.show();
+          Navigation.findNavController(view).popBackStack();
         } else {
           Toast toast =
               Toast.makeText(getActivity(), viewModelResult.getErrorMessage(), Toast.LENGTH_LONG);
@@ -206,7 +207,6 @@ public class NewThesisFragment extends Fragment {
 
 
   public void openImagePicker(View view) {
-    Log.i(TAG, "openImagePicker: ");
     makeImageSelection();
   }
 
