@@ -216,9 +216,9 @@ public class ThesesApiService {
     }
 
     private Thesis parseDTOtoThesis(ThesisDTO dtoObject){
-        Set<Image> images = new HashSet<>(); //todo Is a set prone to errors if a thesis has duplicate images?
-        for (String encdoedImage : dtoObject.getImages()){
-            images.add(new Image(Base64.getDecoder().decode(encdoedImage)));
+        Set<Image> images = new HashSet<>();
+        for (String encodedImage : dtoObject.getImages()){
+            images.add(new Image(Base64.getDecoder().decode(encodedImage)));
         }
         Set<Degree> possibleDegrees = new HashSet<>(dtoObject.getPossibleDegrees());
         return new Thesis(dtoObject.getSupervisingProfessor(), dtoObject.getName()
