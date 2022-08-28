@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Form;
@@ -19,9 +20,11 @@ import com.hfad.thinder.data.source.result.Result;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONArray;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -138,15 +141,7 @@ public class SupervisorApiService {
                                 UserRepository.getInstance().getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
-        JSONObject thesisJSON = new JSONObject()
-                .put("name", thesis.getName())
-                .put("motivation", thesis.getMotivation())
-                .put("task", thesis.getTask())
-                .put("questionForm", thesis.getForm())
-                .put("images", thesis.getImages())
-                .put("possibleDegrees", thesis.getPossibleDegrees())
-                .put("supervisor", UserRepository.getInstance().getUser())
-                .put("supervisingProfessor", thesis.getSupervisingProfessor());
+        JSONObject thesisJSON = thesisToThesisDtoJson(thesis);
 
         HttpUrl url = apiUtils.getHttpUrlBuilder()
                 .addPathSegment("thesis")
@@ -175,6 +170,34 @@ public class SupervisorApiService {
             }
         });
         return resultCompletableFuture;
+    }
+
+    private JSONObject thesisToThesisDtoJson(Thesis thesis) throws JSONException {
+        JSONArray possibleDegreeJson = new JSONArray();
+        for(Degree degree : thesis.getPossibleDegrees()){
+            JSONObject newDegree = new JSONObject();
+            newDegree.put("id", degree.getId());
+            newDegree. put("degree", degree.getDegree());
+            possibleDegreeJson.put(newDegree);
+        }
+        JSONArray imagesJson = new JSONArray();
+        for(Image image : thesis.getImages()){
+            imagesJson.put(Base64.getEncoder().encodeToString(image.getImage()));
+        }
+        JSONObject supervisorJson = new JSONObject();
+        supervisorJson.put("id", UserRepository.getInstance().getUser().getId());
+        supervisorJson.put("type", "SUPERVISOR");
+
+        JSONObject thesisDTOJson = new JSONObject();
+        thesisDTOJson.put("name", thesis.getName());
+        thesisDTOJson.put("supervisingProfessor", thesis.getSupervisingProfessor());
+        thesisDTOJson.put("motivation", thesis.getMotivation());
+        thesisDTOJson.put("task", thesis.getTask());
+        thesisDTOJson.put("questions", thesis.getForm().getQuestions());
+        thesisDTOJson.put("supervisor", supervisorJson);
+        thesisDTOJson.put("possibleDegrees", possibleDegreeJson);
+        thesisDTOJson.put("images", imagesJson);
+        return thesisDTOJson;
     }
 
     /**
