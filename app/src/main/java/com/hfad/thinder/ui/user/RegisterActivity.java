@@ -1,9 +1,12 @@
 package com.hfad.thinder.ui.user;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.inputmethod.InputMethodManager;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     // Inflate view and obtain an instance of the binding class
     mBinding = DataBindingUtil.setContentView(this, R.layout.activity_register);
+    mBinding.setActivity(this);
     // obtain the viewmodel component
     viewmodel = new ViewModelProvider(this).get(RegistrationViewModel.class);
     // assign the component to a property in the binding class
@@ -113,5 +117,14 @@ public class RegisterActivity extends AppCompatActivity {
   private void goToVerifyTokenActivity() {
     Intent intent = new Intent(this, VerifyTokenActivity.class);
     startActivity(intent);
+  }
+
+  public void register(){
+    InputMethodManager inputManager = (InputMethodManager)
+            getSystemService(Context.INPUT_METHOD_SERVICE);
+
+    inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+            InputMethodManager.HIDE_NOT_ALWAYS);
+    viewmodel.register();
   }
 }

@@ -2,6 +2,8 @@ package com.hfad.thinder.viewmodels.student;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.data.model.Thesis;
@@ -17,6 +19,7 @@ import java.util.UUID;
 public class LikedThesesViewModel extends ViewModel {
   private static final ThesisRepository thesisRepository = ThesisRepository.getInstance();
   private MutableLiveData<ArrayList<ThesisCardItem>> likedTheses;
+  private MutableLiveData<Boolean> isLoading;
 
 
   //--------------------getter and setter-----------------------------------------------------------
@@ -34,24 +37,50 @@ public class LikedThesesViewModel extends ViewModel {
     return likedTheses;
   }
 
-  //----------------public methods-----------------------------------------------------------------
+  public MutableLiveData<Boolean> getIsLoading() {
+    if(isLoading == null){
+      isLoading = new MutableLiveData<>();
+      isLoading.setValue(true);
+    }
+    return isLoading;
+  }
+
+//----------------public methods-----------------------------------------------------------------
 
   public void loadLikedTheses() {
-    ArrayList<ThesisCardItem> thesisCards = new ArrayList<>();
-    HashMap<UUID, Thesis> likedTheses = thesisRepository.getThesisMap(true);
-    if (likedTheses != null && !(likedTheses.isEmpty())) {
-      for (Thesis thesis : likedTheses.values()) {
-        Bitmap image = null;
-        if (thesis.getImages().iterator().hasNext()) {
-          byte[] byteArray = thesis.getImages().iterator().next().getImage();
-          image = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-        }
-        ThesisCardItem thesisCardItem =
-            new ThesisCardItem(thesis.getId(), thesis.getName(), thesis.getTask(), image);
-        thesisCards.add(thesisCardItem);
-      }
+    new LoadLikedThesesTask().execute();
+  }
+
+  private class LoadLikedThesesTask extends AsyncTask<Void, Void, ArrayList<ThesisCardItem>> {
+    @Override
+    protected void onPreExecute() {
+      getIsLoading().setValue(true);
     }
-    getLikedTheses().setValue(thesisCards);
+
+    @Override
+    protected ArrayList<ThesisCardItem> doInBackground(Void... voids) {
+      ArrayList<ThesisCardItem> thesisCards = new ArrayList<>();
+      HashMap<UUID, Thesis> likedTheses = thesisRepository.getThesisMap(true);
+      if (likedTheses != null && !(likedTheses.isEmpty())) {
+        for (Thesis thesis : likedTheses.values()) {
+          Bitmap image = null;
+          if (thesis.getImages().iterator().hasNext()) {
+            byte[] byteArray = thesis.getImages().iterator().next().getImage();
+            image = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+          }
+          ThesisCardItem thesisCardItem =
+                  new ThesisCardItem(thesis.getId(), thesis.getName(), thesis.getTask(), image);
+          thesisCards.add(thesisCardItem);
+        }
+      }
+      return thesisCards;
+    }
+
+    @Override
+    protected void onPostExecute(ArrayList<ThesisCardItem> thesisCardItems) {
+      getLikedTheses().setValue(thesisCardItems);
+      isLoading.setValue(false);
+    }
 
 
   }

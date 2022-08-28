@@ -173,6 +173,8 @@ public class NewThesisFragment extends Fragment {
     final Observer<ViewModelResult> saveResultObserver = new Observer<ViewModelResult>() {
       @Override
       public void onChanged(ViewModelResult viewModelResult) {
+        if(viewModelResult==null)
+          return;
         if (viewModelResult.isSuccess()) {
           Toast toast =
               Toast.makeText(getActivity(), getText(R.string.save_successful), Toast.LENGTH_LONG);

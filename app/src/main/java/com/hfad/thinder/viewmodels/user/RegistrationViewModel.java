@@ -32,6 +32,8 @@ public class RegistrationViewModel extends ViewModel {
   private MutableLiveData<String> password;
   private MutableLiveData<String> passwordConfirmation;
 
+  private MutableLiveData<Boolean> isLoading;
+
 
   /**
    * Use this method to register a new user.
@@ -157,6 +159,14 @@ public class RegistrationViewModel extends ViewModel {
     this.passwordConfirmation = passwordConfirmation;
   }
 
+  public MutableLiveData<Boolean> getIsLoading() {
+    if(isLoading == null){
+      isLoading = new MutableLiveData<>();
+      isLoading.setValue(false);
+    }
+    return isLoading;
+  }
+
   //---------private methods---------------------------------------------------------------------
 
 
@@ -212,6 +222,12 @@ public class RegistrationViewModel extends ViewModel {
   }
 
   private class RegisterTask extends AsyncTask<String, Void, Result>{
+
+    @Override
+    protected void onPreExecute() {
+      getIsLoading().setValue(true);
+    }
+
     @Override
     protected Result doInBackground(String... strings) {
       return userRepository.register(strings[0], strings[1], strings[2],
@@ -226,6 +242,7 @@ public class RegistrationViewModel extends ViewModel {
       } else {
         registrationResult.setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
       }
+      isLoading.setValue(false);
     }
   }
 }

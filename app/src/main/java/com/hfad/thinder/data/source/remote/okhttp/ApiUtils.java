@@ -19,8 +19,8 @@ public class ApiUtils {
                     .host(host);
         } else {
             return new HttpUrl.Builder()
-                    .scheme(scheme)
-                    .host(host)
+                    .scheme("http")
+                    .host("10.0.2.2")
                     .port(port);
         }
     }

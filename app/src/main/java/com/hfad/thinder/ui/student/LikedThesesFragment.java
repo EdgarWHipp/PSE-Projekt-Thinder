@@ -98,23 +98,29 @@ public class LikedThesesFragment extends Fragment implements SwipeRefreshLayout.
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
-        buildRecyclerView(viewModel.getLikedTheses().getValue(), view);
+        buildRecyclerView(view);
         final Observer<ArrayList<ThesisCardItem>> likedThesesObserver = new Observer<ArrayList<ThesisCardItem>>() {
             @Override
             public void onChanged(ArrayList<ThesisCardItem> thesisCardItems) {
                 adapter.setElements(viewModel.getLikedTheses().getValue());
-                refreshLayout.setRefreshing(false);
             }
         };
         viewModel.getLikedTheses().observe(getViewLifecycleOwner(), likedThesesObserver);
+        final Observer<Boolean> isLoadingObserver = new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                refreshLayout.setRefreshing(aBoolean);
+            }
+        };
 
+        viewModel.getIsLoading().observe(getViewLifecycleOwner(), isLoadingObserver);
     }
 
-    private void buildRecyclerView(ArrayList<ThesisCardItem> elements, View view) {
+    private void buildRecyclerView(View view) {
         refreshLayout = binding.refreshLayout;
         refreshLayout.setOnRefreshListener(this);
         layoutManager = new LinearLayoutManager(view.getContext());
-        adapter = new ThesisCardAdapter(elements);
+        adapter = new ThesisCardAdapter(viewModel.getLikedTheses().getValue());
         recyclerView = binding.recyclerView;
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
@@ -124,8 +130,9 @@ public class LikedThesesFragment extends Fragment implements SwipeRefreshLayout.
             @Override
             public void onItemClick(int position) {
                 // Handle click events
-                UUID UUID = elements.get(position).getThesisUUID();
-                String thesisTitle = elements.get(position).getTitle();
+                ThesisCardItem thesisCardItem = viewModel.getLikedTheses().getValue().get(position);
+                UUID UUID = thesisCardItem.getThesisUUID();
+                String thesisTitle = thesisCardItem.getTitle();
                 Bundle bundle = new Bundle();
                 bundle.putString("thesisUUID", UUID.toString());
                 bundle.putString("thesisTitle", thesisTitle);
@@ -184,15 +191,6 @@ public class LikedThesesFragment extends Fragment implements SwipeRefreshLayout.
     }
 
     private void loadRecyclerViewData(){
-        refreshLayout.setRefreshing(true);
-        Handler mainHandler = new Handler(Looper.getMainLooper());
-        Runnable myRunnable = new Runnable() {
-            @Override
-            public void run() {
-                viewModel.loadLikedTheses();
-                refreshLayout.setRefreshing(false);}
-        };
-        mainHandler.post(myRunnable);
-
+        viewModel.loadLikedTheses();
     }
 }

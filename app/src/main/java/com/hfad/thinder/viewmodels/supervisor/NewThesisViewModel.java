@@ -31,19 +31,41 @@ public class NewThesisViewModel extends ThesisViewModel {
   private class SaveTask extends AsyncTask<Thesis, Void, Result> {
 
     @Override
+    protected void onPreExecute() {
+      getIsLoading().setValue(true);
+    }
+
+    @Override
     protected Result doInBackground(Thesis... theses) {
       return ThesisUtility.THESIS_REPOSITORY.addThesis(theses[0]);
     }
 
     @Override
     protected void onPostExecute(Result result) {
+      getIsLoading().setValue(false);
       if (result.getSuccess()) {
         getSaveResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
         ThesisUtility.THESIS_REPOSITORY.setThesesDirty(true);
+        resetAllFields();
       } else {
         getSaveResult().setValue(
                 new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
       }
+      getSaveResult().setValue(null);
     }
+  }
+
+  /**
+   * all Fields
+   */
+  private void resetAllFields(){
+    getTitle().setValue("");
+    getMotivation().setValue("");
+    getTask().setValue("");
+    getProfessor().setValue("");
+    getQuestions().setValue("");
+    getSaveResult().setValue(null);
+    getImages().setValue(null);
+    getSelectedCoursesOfStudy().setValue("");
   }
 }

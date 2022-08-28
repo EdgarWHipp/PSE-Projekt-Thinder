@@ -96,7 +96,7 @@
                         android:text="@={viewModel.task}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvTask"></EditText>
+                        app:layout_constraintTop_toBottomOf="@+id/tvTask" />
 
                     <TextView
                         android:id="@+id/tvMotivation"
@@ -106,7 +106,7 @@
                         android:text="@string/motivation"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/etInsertTask"></TextView>
+                        app:layout_constraintTop_toBottomOf="@+id/etInsertTask" />
 
                     <EditText
                         android:id="@+id/etInsertMotivation"
@@ -124,7 +124,7 @@
                         android:text="@={viewModel.motivation}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvMotivation"></EditText>
+                        app:layout_constraintTop_toBottomOf="@+id/tvMotivation" />
 
                     <TextView
                         android:id="@+id/tvQuestions"
@@ -134,7 +134,7 @@
                         android:text="@string/student_questions"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/etInsertMotivation"></TextView>
+                        app:layout_constraintTop_toBottomOf="@+id/etInsertMotivation" />
 
                     <EditText
                         android:id="@+id/etInsertQuestions"
@@ -152,7 +152,7 @@
                         android:text="@={viewModel.questions}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvQuestions"></EditText>
+                        app:layout_constraintTop_toBottomOf="@+id/tvQuestions" />
 
                     <TextView
                         android:id="@+id/tvSupervisingProf"
@@ -162,7 +162,7 @@
                         android:text="@string/supervising_professor"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/etInsertQuestions"></TextView>
+                        app:layout_constraintTop_toBottomOf="@id/etInsertQuestions" />
 
                     <EditText
                         android:id="@+id/etInsertSupervisingProf"
@@ -173,7 +173,7 @@
                         android:text="@={viewModel.professor}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvSupervisingProf"></EditText>
+                        app:layout_constraintTop_toBottomOf="@+id/tvSupervisingProf" />
 
                     <Button
                         android:id="@+id/btPickCoursesOfStudy"
@@ -184,7 +184,7 @@
                         android:text="@string/add_courses_of_study"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/etInsertSupervisingProf"></Button>
+                        app:layout_constraintTop_toBottomOf="@id/etInsertSupervisingProf" />
 
                     <TextView
                         android:id="@+id/tvCoursesOfStudy"
@@ -211,20 +211,34 @@
                         android:text="@string/add_images_from_gallery"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvCoursesOfStudy"></Button>
+                        app:layout_constraintTop_toBottomOf="@id/tvCoursesOfStudy" />
 
                     <Button
                         android:id="@+id/btShowImageSelection"
                         style="@style/button"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:drawableEnd="@drawable/ic_images"
                         android:enabled="@{viewModel.formState.hasImages()}"
                         android:onClick="@{(v) -> fragment.goToImageGalleryFragment(v)}"
                         android:text="@string/show_image_selection"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/btAddImages"></Button>
+                        android:layout_marginRight="5dp"
+                        app:layout_constraintEnd_toStartOf="@+id/btDeleteImages"
+                        app:layout_constraintHorizontal_chainStyle="spread"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/btAddImages" />
+
+                    <Button
+                        android:id="@+id/btDeleteImages"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:drawableTop="@drawable/ic_remove"
+                        android:enabled="@{viewModel.formState.hasImages()}"
+                        android:onClick="@{() -> viewModel.deleteImages()}"
+                        app:layout_constraintBottom_toBottomOf="@+id/btShowImageSelection"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/btShowImageSelection"
+                        app:layout_constraintTop_toBottomOf="@id/btAddImages" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -246,5 +260,28 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <RelativeLayout
+            android:id="@+id/loadingPanel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:translationZ="@dimen/fab_margin"
+            android:goneUnless="@{viewModel.isLoading}">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#00555555" />
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:indeterminate="true" />
+
+
+        </RelativeLayout>
+
     </FrameLayout>
+
 </layout>
