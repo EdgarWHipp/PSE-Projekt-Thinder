@@ -108,6 +108,12 @@ public abstract class ThesisViewModel extends ViewModel
     currentImage.setValue(iterator.previous());
   }
 
+  public void deleteImages(){
+    iterator = null;
+    getCurrentImage().setValue(null);
+    getImages().setValue(null);
+  }
+
 
   /**
    * @return the current {@link ThesisFormState}.
