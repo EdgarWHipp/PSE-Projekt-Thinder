@@ -406,7 +406,6 @@ public class StudentApiService {
                                 UserRepository.getInstance().getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
-        RequestBody body = RequestBody.create(null, new byte[]{});
 
         HttpUrl url = apiUtils.getHttpUrlBuilder()
                 .addPathSegment("students")
@@ -417,7 +416,7 @@ public class StudentApiService {
 
         Request request = new Request.Builder()
                 .url(url)
-                .post(body)
+                .get()
                 .build();
 
         Call call = clientAuth.newCall(request);
