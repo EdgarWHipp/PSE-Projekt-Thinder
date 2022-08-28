@@ -267,7 +267,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@id/btStatistics"></Button>
+                app:layout_constraintStart_toEndOf="@id/btStatistics"/>
 
             <Button
                 android:id="@+id/btStatistics"
@@ -279,7 +279,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/btRemoveThesis"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@id/btSave"></Button>
+                app:layout_constraintStart_toEndOf="@id/btSave"/>
 
             <Button
                 android:id="@+id/btRemoveThesis"
@@ -291,7 +291,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/btStatistics"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"></Button>
+                app:layout_constraintStart_toStartOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
