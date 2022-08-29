@@ -1,5 +1,7 @@
 package com.hfad.thinder.data.util;
 
+import android.util.ArraySet;
+
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Image;
@@ -51,15 +53,27 @@ public class ParseUtils {
     }
 
     public static Thesis parseDTOtoThesis(ThesisDTO dtoObject) {
-        Set<Image> images = new HashSet<>();
-        for (String encodedImage : dtoObject.getImages()) {
-            images.add(new Image(Base64.getDecoder().decode(encodedImage)));
+        Thesis thesis = new Thesis();
+        Set<Image> images= new ArraySet<>();
+        Set<Degree> degrees=new ArraySet<>();
+
+        thesis.setId(dtoObject.getId());
+        thesis.setForm(new Form(dtoObject.getQuestions()));
+        for(String string : dtoObject.getImages()){
+            byte[] image = java.util.Base64.getDecoder().decode(string);
+            images.add(new Image(image));
         }
-        Set<Degree> possibleDegrees = new HashSet<>(dtoObject.getPossibleDegrees());
-        Thesis thesis = new Thesis(dtoObject.getSupervisingProfessor(), dtoObject.getName()
-                , dtoObject.getMotivation(), dtoObject.getTask(), new Form(dtoObject.getQuestions())
-                , images, dtoObject.getSupervisor(), possibleDegrees);
-        thesis.setRatings(new Pair<>(dtoObject.getPositivelyRatedNum(), dtoObject.getNegativelyRatedNum()));
+        for(Degree degree : dtoObject.getPossibleDegrees()){
+            degrees.add(degree);
+        }
+        thesis.setImages(images);
+        thesis.setMotivation(dtoObject.getMotivation());
+        thesis.setName(dtoObject.getName());
+        thesis.setPossibleDegrees(degrees);
+        thesis.setSupervisingProfessor(dtoObject.getSupervisingProfessor());
+        thesis.setSupervisor(dtoObject.getSupervisor());
+        thesis.setTask(dtoObject.getTask());
+        thesis.setRatings(new Pair(dtoObject.getNumPositiveRated(), dtoObject.getNumNegativeRated()));
         return thesis;
     }
 }

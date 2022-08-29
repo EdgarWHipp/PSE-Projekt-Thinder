@@ -207,39 +207,15 @@ public class SupervisorApiService {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    Log.e("","call successful");
                     Gson gson = new Gson();
                     String body = response.body().string();
                     ArrayList<ThesisDTO> theses = gson.fromJson(body, new TypeToken<List<ThesisDTO>>() {
                     }.getType());
-                    //convert ThesisDTO to Thesis Does this work mhh?
-                    ArrayList<Thesis> returnTheses = new ArrayList<>();
-                    Thesis thesis = new Thesis();
-                    Set<Image> images= new ArraySet<>();
-                    Set<Degree> degrees=new ArraySet<>();
 
-                    for(ThesisDTO thesisIter : theses){
-                        thesis.setId(thesisIter.getId());
-                        thesis.setForm(new Form(thesisIter.getQuestions()));
-                        for(String string : thesisIter.getImages()){
-                            byte[] image = java.util.Base64.getDecoder().decode(string);
-                            images.add(new Image(image));
-                        }
-                        for(Degree degree : thesisIter.getPossibleDegrees()){
-                            degrees.add(degree);
-                        }
-                        thesis.setImages(images);
-                        thesis.setMotivation(thesisIter.getMotivation());
-                        thesis.setName(thesisIter.getName());
-                        thesis.setPossibleDegrees(degrees);
-                        thesis.setSupervisingProfessor(thesisIter.getSupervisingProfessor());
-                        thesis.setSupervisor(thesisIter.getSupervisor());
-                        thesis.setTask(thesisIter.getTask());
-                        thesis.setRatings(new Pair(thesisIter.getPositivelyRatedNum(), thesisIter.getNegativelyRatedNum()));
-                        returnTheses.add(thesis);
-                        thesis = new Thesis();
-                        images = new ArraySet<>();
-                        degrees = new ArraySet<>();
+                    ArrayList<Thesis> returnTheses = new ArrayList<>();
+
+                    for(ThesisDTO thesisDTO : theses){
+                        returnTheses.add(ParseUtils.parseDTOtoThesis(thesisDTO));
                     }
                     HashMap<UUID, Thesis> thesisHashMap = (HashMap<UUID, Thesis>) returnTheses.stream()
                             .collect(Collectors.toMap(v -> v.getId(), v -> v));
