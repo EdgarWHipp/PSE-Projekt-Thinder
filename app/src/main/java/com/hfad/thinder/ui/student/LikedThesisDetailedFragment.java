@@ -98,9 +98,12 @@ public class LikedThesisDetailedFragment extends Fragment {
         final Observer<ViewModelResult> deleteResultObserver = new Observer<ViewModelResult>() {
             @Override
             public void onChanged(ViewModelResult viewModelResult) {
+                if(viewModelResult == null)
+                    return;
                 if (viewModelResult.isSuccess()) {
                     Toast toast = Toast.makeText(getContext(), getText(R.string.delete_successful), Toast.LENGTH_LONG);
                     toast.show();
+                    Navigation.findNavController(binding.getRoot()).popBackStack();
                 } else if (!viewModelResult.isSuccess()) {
                     Toast toast = Toast.makeText(getContext(), viewModelResult.getErrorMessage(), Toast.LENGTH_LONG);
                     toast.show();
