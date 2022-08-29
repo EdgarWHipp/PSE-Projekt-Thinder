@@ -17,6 +17,7 @@ import com.hfad.thinder.data.model.ThesisDTO;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.data.source.result.Result;
+import com.hfad.thinder.data.util.ParseUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -141,7 +142,7 @@ public class SupervisorApiService {
                                 UserRepository.getInstance().getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
-        JSONObject thesisJSON = thesisToThesisDtoJson(thesis);
+        JSONObject thesisJSON = ParseUtils.thesisToThesisDtoJson(thesis);
 
         HttpUrl url = apiUtils.getHttpUrlBuilder()
                 .addPathSegment("thesis")
@@ -172,33 +173,6 @@ public class SupervisorApiService {
         return resultCompletableFuture;
     }
 
-    private JSONObject thesisToThesisDtoJson(Thesis thesis) throws JSONException {
-        JSONArray possibleDegreeJson = new JSONArray();
-        for(Degree degree : thesis.getPossibleDegrees()){
-            JSONObject newDegree = new JSONObject();
-            newDegree.put("id", degree.getId());
-            newDegree. put("degree", degree.getDegree());
-            possibleDegreeJson.put(newDegree);
-        }
-        JSONArray imagesJson = new JSONArray();
-        for(Image image : thesis.getImages()){
-            imagesJson.put(Base64.getEncoder().encodeToString(image.getImage()));
-        }
-        JSONObject supervisorJson = new JSONObject();
-        supervisorJson.put("id", UserRepository.getInstance().getUser().getId());
-        supervisorJson.put("type", "SUPERVISOR");
-
-        JSONObject thesisDTOJson = new JSONObject();
-        thesisDTOJson.put("name", thesis.getName());
-        thesisDTOJson.put("supervisingProfessor", thesis.getSupervisingProfessor());
-        thesisDTOJson.put("motivation", thesis.getMotivation());
-        thesisDTOJson.put("task", thesis.getTask());
-        thesisDTOJson.put("questions", thesis.getForm().getQuestions());
-        thesisDTOJson.put("supervisor", supervisorJson);
-        thesisDTOJson.put("possibleDegrees", possibleDegreeJson);
-        thesisDTOJson.put("images", imagesJson);
-        return thesisDTOJson;
-    }
 
     /**
      * Performs the actual HTTP GET request that gets all already created theses from a supervisor.
@@ -261,6 +235,7 @@ public class SupervisorApiService {
                         thesis.setSupervisingProfessor(thesisIter.getSupervisingProfessor());
                         thesis.setSupervisor(thesisIter.getSupervisor());
                         thesis.setTask(thesisIter.getTask());
+                        thesis.setRatings(new Pair(thesisIter.getPositivelyRatedNum(), thesisIter.getNegativelyRatedNum()));
                         returnTheses.add(thesis);
                         thesis = new Thesis();
                         images = new ArraySet<>();

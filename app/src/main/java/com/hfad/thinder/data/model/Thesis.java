@@ -4,6 +4,7 @@ package com.hfad.thinder.data.model;
 import androidx.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
+import com.hfad.thinder.data.source.result.Pair;
 
 import java.util.Set;
 import java.util.UUID;
@@ -31,6 +32,8 @@ public class Thesis {
     private Supervisor supervisor;
     @SerializedName("possibleDegrees")
     private Set<Degree> possibleDegrees;
+    @SerializedName("ratings")
+    private Pair<Integer, Integer> ratings;
 
     public Thesis(String supervisingProfessor, String name, String motivation, String task
             , Form form, @Nullable Set<Image> images, Supervisor supervisor
@@ -121,5 +124,13 @@ public class Thesis {
 
     public void setImages(@Nullable Set<Image> images) {
         this.images = images;
+    }
+
+    public Pair<Integer, Integer> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Pair<Integer, Integer> ratings) {
+        this.ratings = ratings;
     }
 }

@@ -150,7 +150,7 @@ public class EditThesisViewModel extends ThesisViewModel {
     @Override
     protected Pair<Thesis, Pair<Integer, Integer>> doInBackground(UUID... uuids) {
       Thesis thesis = thesisRepository.getThesisMap(false).get(uuids[0]);
-      Pair<Integer, Integer> thesisStatistics = thesisRepository.getThesisStatistics(thesisId);
+      Pair<Integer, Integer> thesisStatistics = thesis.getRatings();
       return new Pair<>(thesis, thesisStatistics);
     }
 

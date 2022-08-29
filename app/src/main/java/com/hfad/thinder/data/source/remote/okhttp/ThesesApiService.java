@@ -2,6 +2,8 @@ package com.hfad.thinder.data.source.remote.okhttp;
 
 import static android.content.ContentValues.TAG;
 
+import static com.hfad.thinder.data.util.ParseUtils.parseDTOtoThesis;
+
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -15,6 +17,7 @@ import com.hfad.thinder.data.model.ThesisDTO;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.data.source.result.Result;
+import com.hfad.thinder.data.util.ParseUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -63,42 +66,8 @@ public class ThesesApiService {
                                 UserRepository.getInstance().getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
-        List<byte[]> byteArrayImages = new ArrayList<>();
-        if (thesis.getImages() != null) {
-            byteArrayImages = thesis.getImages().stream().map(x -> x.getImage()).collect(Collectors.toList());
-        }
 
-        JSONArray possibleDegreeJson = new JSONArray();
-        for (Degree degree : thesis.getPossibleDegrees()) {
-            JSONObject degreeJsoon = new JSONObject();
-            degreeJsoon.put("id", degree.getId());
-            degreeJsoon.put("degree", degree.getDegree());
-            possibleDegreeJson.put(degreeJsoon);
-        }
-        List<UUID> degreeUUIDS = (List<UUID>) thesis.getPossibleDegrees().stream().map(x -> x.getId()).collect(Collectors.toList());
-        JSONArray degreeUUIDSArr = new JSONArray(degreeUUIDS);
-        JSONArray images = new JSONArray();
-        String encodedImage= new String();
-        for(byte[] byeArr : byteArrayImages){
-            encodedImage = java.util.Base64.getEncoder().encodeToString(byeArr);
-            images.put(encodedImage);
-        }
-
-        JSONObject supervisorJson = new JSONObject();
-        supervisorJson.put("id", UserRepository.getInstance().getUser().getId());
-        supervisorJson.put("type", "SUPERVISOR");
-
-        JSONObject thesisJSON = new JSONObject()
-                .put("name", thesis.getName())
-                .put("motivation", thesis.getMotivation())
-                .put("task", thesis.getTask())
-                .put("questions", thesis.getForm().getQuestions())
-                .put("images", images)
-                .put("possibleDegrees", possibleDegreeJson)
-                .put("supervisor", supervisorJson)
-                .put("supervisingProfessor", thesis.getSupervisingProfessor());
-
-
+        JSONObject thesisJSON = ParseUtils.thesisToThesisDtoJson(thesis);
         RequestBody body = RequestBody.create(thesisJSON.toString(), JSON);
 
         HttpUrl url = apiUtils.getHttpUrlBuilder()
@@ -219,16 +188,4 @@ public class ThesesApiService {
 
         return resultCompletableFuture;
     }
-
-    private Thesis parseDTOtoThesis(ThesisDTO dtoObject){
-        Set<Image> images = new HashSet<>();
-        for (String encodedImage : dtoObject.getImages()){
-            images.add(new Image(Base64.getDecoder().decode(encodedImage)));
-        }
-        Set<Degree> possibleDegrees = new HashSet<>(dtoObject.getPossibleDegrees());
-        return new Thesis(dtoObject.getSupervisingProfessor(), dtoObject.getName()
-                , dtoObject.getMotivation(), dtoObject.getTask(), new Form(dtoObject.getQuestions())
-                , images, dtoObject.getSupervisor(), possibleDegrees);
-    }
-
 }

@@ -203,11 +203,6 @@ public final class ThesisRepository {
     return thesisRemoteDataSource.deleteThesis(thesisId);
   }
 
-
-  public Pair<Integer, Integer> getThesisStatistics(UUID thesisId) {
-    return new Pair<>(1, 99);
-  }
-
   public boolean isThesesDirty() {
     return thesesDirty;
   }

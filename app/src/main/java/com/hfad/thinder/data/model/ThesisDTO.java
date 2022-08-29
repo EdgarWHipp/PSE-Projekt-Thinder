@@ -22,6 +22,9 @@ public class ThesisDTO {
 
     private List<Degree> possibleDegrees;
 
+    private int positivelyRatedNum;
+    private int negativelyRatedNum;
+
     public UUID getId() {
         return id;
     }
@@ -88,6 +91,22 @@ public class ThesisDTO {
 
     public List<Degree> getPossibleDegrees() {
         return possibleDegrees;
+    }
+
+    public int getPositivelyRatedNum() {
+        return positivelyRatedNum;
+    }
+
+    public void setPositivelyRatedNum(int positivelyRatedNum) {
+        this.positivelyRatedNum = positivelyRatedNum;
+    }
+
+    public int getNegativelyRatedNum() {
+        return negativelyRatedNum;
+    }
+
+    public void setNegativelyRatedNum(int negativelyRatedNum) {
+        this.negativelyRatedNum = negativelyRatedNum;
     }
 
     public void setPossibleDegrees(List<Degree> possibleDegrees) {
