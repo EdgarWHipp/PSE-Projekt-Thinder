@@ -137,6 +137,12 @@ public class SwipeScreenFragment extends Fragment {
                             viewmodel.dislike();
                         }
                         break;
+                    case R.id.detail:
+                        dislike.setBackground(getContext().getResources().getDrawable(R.drawable.round_button));
+                        break;
+                    case R.id.start:
+                        dislike.setBackground(getContext().getResources().getDrawable(R.drawable.round_button_red));
+                        break;
                 }
             }
 
