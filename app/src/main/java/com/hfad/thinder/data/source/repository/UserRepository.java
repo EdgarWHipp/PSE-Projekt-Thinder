@@ -30,6 +30,7 @@ public final class UserRepository {
     private USERTYPE type = null;
     private User user = null;
     private Result result = null;
+    private String mail = null;
 
     private UserRepository() {
     }
@@ -45,6 +46,14 @@ public final class UserRepository {
         }
 
         return INSTANCE;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public String getMail() {
+        return this.mail;
     }
 
     public Result getResult() {
@@ -154,7 +163,11 @@ public final class UserRepository {
      * @return Result
      */
     public Result sendRecoveryEmail(String email) {
-        return usersDataSource.resetPassword(email);
+        Result result = usersDataSource.resetPassword(email);
+        if (result.getSuccess()) {
+            UserRepository.getInstance().setMail(email);
+        }
+        return result;
     }
 
     /**
@@ -166,7 +179,11 @@ public final class UserRepository {
      * @return Result
      */
     public Result resetPasswordWithToken(String token, String newPassword) {
-        return usersDataSource.sendNewPassword(token, newPassword);
+        Result result = usersDataSource.sendNewPassword(token, newPassword);
+        if (result.getSuccess()) {
+            login(newPassword, UserRepository.getInstance().getMail());
+        }
+        return result;
     }
 
 }
