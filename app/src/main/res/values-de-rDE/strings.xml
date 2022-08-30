@@ -62,7 +62,7 @@
     <string name="verify_token">Token verifizieren</string>
     <string name="insert_token">Token eingeben</string>
     <string name="token">Token</string>
-    <string name="request_password_reset">Geben Sie ihre E-Mail ein und drücken Sie auf den Knopf, um eine Anfrage zum Zurücksetzen Ihres Passwortes zu stellen.</string>
+    <string name="request_password_reset">Geben Sie Ihre E-Mail ein. Drücken Sie daraufhin auf den untenstehenden Knopf, um eine Anfrage zum Zurücksetzen Ihres Passworts zu stellen.</string>
     <string name="send_request">Anfrage stellen</string>
     <string name="statistics">Statistik</string>
     <string name="like_dislike_ratio">Like/Dislike-Verhältnis</string>
@@ -72,7 +72,7 @@
     <string name="refresh">Aktualisieren</string>
 
     <!-- student strings -->
-    <string name="swipe_screen">Swipe Seite</string>
+    <string name="swipe_screen">Swipe-Seite</string>
     <string name="fill_out_form">Formular ausfüllen</string>
     <string name="liked_theses">Positiv bewertete Abschlussarbeiten</string>
     <string name="details">Details</string>
@@ -84,7 +84,7 @@
     <string name="images">Bilder</string>
     <string name="insert_answers">Antworten eingeben</string>
     <string name="send_form">Formular senden</string>
-    <string name="account_remove_text">Sind Sie sich sicher, dass Sie ihr Konto löschen wollen?</string>
+    <string name="account_remove_text">Sind Sie sich sicher, dass Sie Ihr Konto löschen wollen?</string>
     <string name="account_remove">Konto löschen</string>
     <string name="save_successful">Daten wurden erfolgreich gespeichert.</string>
     <string name="remove_thesis">Abschlussarbeit löschen</string>
@@ -95,18 +95,18 @@
     <string name="open">Öffnen</string>
     <string name="your_image_selection">Ihre Bildauswahl</string>
     <string name="card_stack_empty">Kartenstapel leer</string>
-    <string name="no_cards_available_for_swipe">Es gibt keine Karten mehr zum Swipen. Sobald passende neue Karten verfügbar sind, werden sie auf dem Stapel angezeigt.</string>
+    <string name="no_cards_available_for_swipe">Es gibt keine Karten mehr zum Swipen. Sobald passende neue Karten verfügbar sind, werden Sie auf dem Stapel angezeigt.</string>
 
 
     <!-- Registration View Model Strings -->
     <string name="no_password_error">Passwortfeld darf nicht leer sein</string>
-    <string name="password_to_short_error">Password ist zu kurz</string>
+    <string name="password_to_short_error">Passwort ist zu kurz</string>
     <string name="password_not_safe_error">Passwort muss mindestens eine Zahl und einen Großbuchstaben enthalten</string>
     <string name="no_password_confirmation_error">Passwort muss bestätigt werden</string>
     <string name="passwords_do_not_match_error">Passwörter stimmen nicht überein</string>
     <string name="no_email_error">E-Mail muss angegeben werden</string>
-    <string name="invalid_email_error">Invalide E-Mail Adresse</string>
-    <string name="no_first_name_error">Vorname Muss angegeben werden</string>
+    <string name="invalid_email_error">Invalide E-Mail-Adresse</string>
+    <string name="no_first_name_error">Vorname muss angegeben werden</string>
     <string name="no_last_name_error">Nachname muss angegeben werden</string>
 
 
@@ -118,16 +118,16 @@
     <string name="no_institute_error">Institut muss angegeben werden</string>
     <string name="edit_profile_success_message">Profildaten wurden erfolgreich geändert</string>
     <string name="no_courses_of_study_error_message">Es muss mindestes ein Studienfach angegeben werden</string>
-    <string name="delete_successful">Data was deleted successfully</string>
+    <string name="delete_successful">Daten wurden erfolgreich entfernt</string>
 
     <!-- Edit Thesis View Model Strings -->
-    <string name="no_title_error">Der Name der Thesis muss angegeben werden</string>
+    <string name="no_title_error">Der Name der Arbeit muss angegeben werden</string>
     <string name="no_task_description_error">Es muss eine Beschreibung der Arbeit angegeben werden</string>
     <string name="no_motivation_error">Die Motivation für die Arbeit muss angegeben werden</string>
     <string name="no_questions_error">Es müssen Fragen für den Studenten angegeben werden</string>
     <string name="no_professor_error">Es muss ein Professor angegeben werden</string>
     <string name="no_courses_of_study_error">Es müssen Studiengänge angegeben werden</string>
-    <string name="save_thesis_successfully">Thesis was saved successfully</string>
+    <string name="save_thesis_successfully">Arbeit wurde erfolgreich gespeichert</string>
 
     <string name="send_form_success">Senden erfolgreich</string>
 </resources>
