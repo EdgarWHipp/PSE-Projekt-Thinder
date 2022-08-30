@@ -71,11 +71,11 @@ public class StudentApiServiceTest {
         Student student = new Student(USERTYPE.STUDENT,
                 new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
                 true, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
-                "password", "mail@gmail.com", "Olf", "Molf", degreesOld, true);
+                "mail@gmail.com", "Olf", "Molf", degreesOld, true);
 
         UserRepository userRepository = UserRepository.getInstance();
         userRepository.setUser(student);
-        userRepository.setPassword(student.getPassword());
+        userRepository.setPassword("password");
         Degree degreeMathe = new Degree("Mathematik Msc", new UUID(32, 31));
         ArrayList<Degree> degreesNew = new ArrayList<>();
         degreesNew.add(degreeMathe);
@@ -102,11 +102,11 @@ public class StudentApiServiceTest {
         Student student = new Student(USERTYPE.STUDENT,
                 new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
                 true, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
-                "password", "mail@gmail.com", "Olf", "Molf", degreesOld, true);
+                 "mail@gmail.com", "Olf", "Molf", degreesOld, true);
         // Actual Thesis Rating call
         UserRepository.getInstance().setUser(student);
         //Set Password
-        UserRepository.getInstance().setPassword(student.getPassword());
+        UserRepository.getInstance().setPassword("password");
         MockResponse response = new MockResponse().setResponseCode(200);
         server.enqueue(response);
         Collection<Pair<UUID, Boolean>> ratings = new ArrayList<Pair<UUID, Boolean>>();
@@ -131,11 +131,11 @@ public class StudentApiServiceTest {
         Student student = new Student(USERTYPE.STUDENT,
                 new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
                 true, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
-                "password", "mail@gmail.com", "Olf", "Molf", degreesOld, false);
+                 "mail@gmail.com", "Olf", "Molf", degreesOld, false);
         // Actual Thesis Rating call
         UserRepository.getInstance().setUser(student);
         //set password
-        UserRepository.getInstance().setPassword(student.getPassword());
+        UserRepository.getInstance().setPassword("password");
         MockResponse response = new MockResponse().setResponseCode(500);
         server.enqueue(response);
         Collection<Pair<UUID, Boolean>> ratings = new ArrayList<>();
@@ -155,11 +155,11 @@ public class StudentApiServiceTest {
         Student student = new Student(USERTYPE.STUDENT,
                 new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
                 true, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
-                "password", "mail@gmail.com", "Olf", "Molf", null, false);
+                 "mail@gmail.com", "Olf", "Molf", null, false);
         // Actual Thesis Rating call
         UserRepository.getInstance().setUser(student);
         //set password
-        UserRepository.getInstance().setPassword(student.getPassword());
+        UserRepository.getInstance().setPassword("password");
 
 
         MockResponse response = new MockResponse().setResponseCode(200);
@@ -179,11 +179,11 @@ public class StudentApiServiceTest {
         Student student = new Student(USERTYPE.STUDENT,
                 new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
                 true, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
-                "password", "mail@gmail.com", "Olf", "Molf", null, false);
+                 "mail@gmail.com", "Olf", "Molf", null, false);
         // Actual Thesis Rating call
         UserRepository.getInstance().setUser(student);
         //set password
-        UserRepository.getInstance().setPassword(student.getPassword());
+        UserRepository.getInstance().setPassword("password");
 
         MockResponse response = new MockResponse().setResponseCode(500);
         server.enqueue(response);
@@ -197,11 +197,11 @@ public class StudentApiServiceTest {
         Student student = new Student(USERTYPE.STUDENT,
                 new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
                 true, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
-                "password", "mail@gmail.com", "Olf", "Molf", null, true);
+                "mail@gmail.com", "Olf", "Molf", null, true);
         // Actual Thesis Rating call
         UserRepository.getInstance().setUser(student);
         //set password
-        UserRepository.getInstance().setPassword(student.getPassword());
+        UserRepository.getInstance().setPassword("password");
         MockResponse response = new MockResponse().setResponseCode(200);
         server.enqueue(response);
         Pair<CompletableFuture<HashMap<UUID,Thesis>>,CompletableFuture<Result>> result = studentApiService.getAllPositiveRatedThesesFuture();
@@ -216,11 +216,11 @@ public class StudentApiServiceTest {
         Student student = new Student(USERTYPE.STUDENT,
                 new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
                 true, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
-                "password", "mail@gmail.com", "Olf", "Molf", null, true);
+                 "mail@gmail.com", "Olf", "Molf", null, true);
         // Actual Thesis Rating call
         UserRepository.getInstance().setUser(student);
         //set password
-        UserRepository.getInstance().setPassword(student.getPassword());
+        UserRepository.getInstance().setPassword("password");
         MockResponse response = new MockResponse().setResponseCode(500);
         server.enqueue(response);
         Pair<CompletableFuture<HashMap<UUID,Thesis>>,CompletableFuture<Result>> result = studentApiService.getAllPositiveRatedThesesFuture();
