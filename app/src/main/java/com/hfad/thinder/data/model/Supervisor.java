@@ -20,8 +20,11 @@ public class Supervisor extends User {
     @SerializedName("phoneNumber")
     private String phoneNumber;
 
-    public Supervisor(USERTYPE type, UUID id, boolean active, UUID universityId, String password, String mail, String firstName, String lastName, String academicDegree, String building, String officeNumber, String institute, String phoneNumber, boolean isComplete) {
-        super(type, id, active, universityId, password, mail, firstName, lastName, isComplete);
+    public Supervisor(USERTYPE type, UUID id, boolean active, UUID universityId, String mail,
+                      String firstName, String lastName, String academicDegree, String building,
+                      String officeNumber, String institute, String phoneNumber,
+                      boolean isComplete) {
+        super(type, id, active, universityId, mail, firstName, lastName, isComplete);
         this.academicDegree = academicDegree;
         this.building = building;
         this.OfficeNumber = officeNumber;

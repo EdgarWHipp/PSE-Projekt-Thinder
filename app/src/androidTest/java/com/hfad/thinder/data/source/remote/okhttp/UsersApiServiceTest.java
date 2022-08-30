@@ -18,6 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
@@ -39,7 +40,6 @@ public class UsersApiServiceTest {
 
         apiUtils = ApiUtils.getInstance();
         apiUtils.setLiveSetup(false);
-        apiUtils.setScheme("http");
         apiUtils.setHost(server.getHostName());
         apiUtils.setPort(server.getPort());
     }
@@ -71,6 +71,8 @@ public class UsersApiServiceTest {
 
         // TODO
         //Assert.assertEquals(UserJson.studentObject(), student);
+
+
 
         // User data
         Assert.assertEquals(USERTYPE.STUDENT, student.getType());
@@ -188,7 +190,7 @@ public class UsersApiServiceTest {
 
         UserRepository userRepository = UserRepository.getInstance();
         userRepository.setUser(SampleStudent.studentObject());
-        userRepository.setPassword(SampleUser.password);
+        userRepository.setPassword(SampleStudent.password);
 
 
         CompletableFuture<Result> result = usersApiService.deleteUserFuture();
@@ -205,18 +207,43 @@ public class UsersApiServiceTest {
     }
 
     @Test
-    public void testResetPasswordFuture() {
+    public void testResetPassword() throws InterruptedException, ExecutionException {
+        MockResponse response = new MockResponse().setResponseCode(200);
+        server.enqueue(response);
+
+        CompletableFuture<Result> result = usersApiService.resetPassword(SampleUser.mail);
+
+        RecordedRequest request = server.takeRequest();
+
+        String mail = Objects.requireNonNull(request.getRequestUrl()).queryParameter("mail");
+
+        // Correct mail set
+        Assert.assertEquals(SampleUser.mail, mail);
+
+        // Check if status 200 response is handled properly
+        Assert.assertTrue(result.get().getSuccess());
     }
 
     @Test
-    public void testSendNewPasswordFuture() {
-    }
+    public void testPostNewPassword() throws JSONException, InterruptedException,
+            ExecutionException {
+        MockResponse response = new MockResponse().setResponseCode(200);
+        server.enqueue(response);
 
-    @Test
-    public void testDeleteUserThesisCall() {
-    }
+        CompletableFuture<Result> result = usersApiService.postNewPassword("xyztoken",
+                SampleUser.password);
 
-    @Test
-    public void testGetUserThesisResponse() {
+        RecordedRequest request = server.takeRequest();
+
+        String requestBody = request.getBody().readUtf8();
+        JSONObject requestBodyJson = new JSONObject(requestBody);
+
+        // Correct mail set
+        Assert.assertEquals(SampleUser.password, requestBodyJson.get("newPassword"));
+        Assert.assertEquals("xyztoken", requestBodyJson.get("token"));
+
+
+        // Check if status 200 response is handled properly
+        Assert.assertTrue(result.get().getSuccess());
     }
 }

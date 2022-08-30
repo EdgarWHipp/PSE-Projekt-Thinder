@@ -14,9 +14,6 @@ import java.util.UUID;
  * This class holds all the values of a user. This can later be fetched from the UserRepository.
  */
 public class User {
-    @SerializedName("password")
-    @Expose
-    private final String password;
     @SerializedName("mail")
     @Expose
     private final String mail;
@@ -39,13 +36,12 @@ public class User {
     @Expose
     private boolean isComplete;
 
-    public User(USERTYPE type, UUID id, boolean active, UUID universityId, String password,
+    public User(USERTYPE type, UUID id, boolean active, UUID universityId,
                 String mail, String firstName, String lastName, boolean isComplete) {
         this.type = type;
         this.id = id;
         this.active = active;
         this.universityId = universityId;
-        this.password = password;
         this.mail = mail;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -92,10 +88,6 @@ public class User {
         this.universityId = universityId;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public String getMail() {
         return mail;
     }
@@ -124,7 +116,6 @@ public class User {
         User user = (User) obj;
         return Objects.equals(firstName, user.firstName)
                 && Objects.equals(lastName, user.lastName)
-                && Objects.equals(password, user.password)
                 && Objects.equals(mail, user.mail)
                 && Objects.equals(type, user.type)
                 && Objects.equals(id, user.id)
