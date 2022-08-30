@@ -82,7 +82,7 @@ public class ThesesApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result(e.toString(), false));
+                resultCompletableFuture.complete(new Result("failed HTTP request", false));
             }
 
             @Override
@@ -90,8 +90,7 @@ public class ThesesApiService {
                 if (response.isSuccessful()) {
                     resultCompletableFuture.complete(new Result(true));
                 } else {
-                    Log.e(TAG, "onResponse: " + response.body().toString() + response.message());
-                    resultCompletableFuture.complete(new Result(response.message(), false));
+                    resultCompletableFuture.complete(new Result("unsuccessful server response", false));
                 }
             }
 
@@ -127,7 +126,7 @@ public class ThesesApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result("failure", false));
+                resultCompletableFuture.complete(new Result("failed HTTP request", false));
             }
 
             @Override
@@ -138,7 +137,7 @@ public class ThesesApiService {
                     resultThesis.complete(parseDTOtoThesis(thesis));
                     resultCompletableFuture.complete(new Result(true));
                 } else {
-                    resultCompletableFuture.complete(new Result("not successful", false));
+                    resultCompletableFuture.complete(new Result("unsuccessful server response", false));
                 }
             }
         });
@@ -173,7 +172,7 @@ public class ThesesApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result("error", false));
+                resultCompletableFuture.complete(new Result("failed HTTP request", false));
             }
 
             @Override
@@ -181,7 +180,7 @@ public class ThesesApiService {
                 if (response.isSuccessful()) {
                     resultCompletableFuture.complete(new Result(true));
                 } else {
-                    resultCompletableFuture.complete(new Result("not successful", false));
+                    resultCompletableFuture.complete(new Result("unsuccessful server response", false));
                 }
             }
         });

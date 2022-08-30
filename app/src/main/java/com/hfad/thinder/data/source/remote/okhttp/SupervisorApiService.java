@@ -101,7 +101,7 @@ public class SupervisorApiService {
         callSupervisor.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result(e.toString(), false));
+                resultCompletableFuture.complete(new Result("failed HTTP request", false));
             }
 
             @Override
@@ -115,9 +115,9 @@ public class SupervisorApiService {
                     ((Supervisor)UserRepository.getInstance().getUser()).setOfficeNumber(officeNumber);
                     ((Supervisor)UserRepository.getInstance().getUser()).setInstitute(institute);
                     ((Supervisor)UserRepository.getInstance().getUser()).setAcademicDegree(degree);
-                    resultCompletableFuture.complete(new Result("success", true));
+                    resultCompletableFuture.complete(new Result(true));
                 } else {
-                    resultCompletableFuture.complete(new Result("error", false));
+                    resultCompletableFuture.complete(new Result("unsuccessful server response", false));
                 }
             }
         });
@@ -157,7 +157,7 @@ public class SupervisorApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result("error", false));
+                resultCompletableFuture.complete(new Result("failed HTTP request", false));
             }
 
             @Override
@@ -165,7 +165,7 @@ public class SupervisorApiService {
                 if (response.isSuccessful()) {
                     resultCompletableFuture.complete(new Result(true));
                 } else {
-                    resultCompletableFuture.complete(new Result("not successful", false));
+                    resultCompletableFuture.complete(new Result("unsuccessful server response", false));
                 }
 
             }
@@ -200,7 +200,7 @@ public class SupervisorApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result("not successful", false));
+                resultCompletableFuture.complete(new Result("failed HTTP request", false));
 
             }
 
@@ -223,7 +223,7 @@ public class SupervisorApiService {
                     thesisHashmap.complete(thesisHashMap);
                 } else {
                     Log.e("",new String(String.valueOf(response.code())));
-                    resultCompletableFuture.complete(new Result("not successful", false));
+                    resultCompletableFuture.complete(new Result("unsuccessful server response", false));
                 }
             }
         });

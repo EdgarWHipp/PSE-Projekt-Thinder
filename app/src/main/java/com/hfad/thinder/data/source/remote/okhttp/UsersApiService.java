@@ -64,7 +64,7 @@ public class UsersApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result(e.toString(), false));
+                resultCompletableFuture.complete(new Result("failed HTTP request", false));
             }
 
             @Override
@@ -82,7 +82,7 @@ public class UsersApiService {
                     }
 
                 } else {
-                    resultCompletableFuture.complete(new Result("not successful", false));
+                    resultCompletableFuture.complete(new Result("unsuccessful server response", false));
                 }
             }
         });
@@ -120,7 +120,7 @@ public class UsersApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result(e.toString(), false));
+                resultCompletableFuture.complete(new Result("failed HTTP request", false));
             }
 
             @Override
@@ -129,7 +129,7 @@ public class UsersApiService {
 
                     resultCompletableFuture.complete(new Result(true));
                 } else {
-                    resultCompletableFuture.complete(new Result("not successful", false));
+                    resultCompletableFuture.complete(new Result("unsuccessful server response", false));
                 }
             }
         });
@@ -174,7 +174,7 @@ public class UsersApiService {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
 
-                resultCompletableFuture.complete(new Result(e.toString(), false));
+                resultCompletableFuture.complete(new Result("failed HTTP request", false));
             }
 
             @Override
@@ -183,7 +183,7 @@ public class UsersApiService {
                     resultCompletableFuture.complete(new Result(true));
                 } else {
 
-                    resultCompletableFuture.complete(new Result("not successful", false));
+                    resultCompletableFuture.complete(new Result("unsuccessful server response", false));
                 }
 
             }
@@ -220,7 +220,7 @@ public class UsersApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result(e.toString(), false));
+                resultCompletableFuture.complete(new Result("failed HTTP request", false));
             }
 
             @Override
@@ -230,7 +230,7 @@ public class UsersApiService {
 
                     resultCompletableFuture.complete(new Result(true));
                 } else {
-                    resultCompletableFuture.complete(new Result("not successful", false));
+                    resultCompletableFuture.complete(new Result("unsuccessful server response", false));
                 }
 
             }
@@ -266,7 +266,7 @@ public class UsersApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result(e.toString(), false));
+                resultCompletableFuture.complete(new Result("failed HTTP request", false));
             }
 
             @Override
@@ -274,7 +274,7 @@ public class UsersApiService {
                 if (response.isSuccessful()) {
                     resultCompletableFuture.complete(new Result(true));
                 } else {
-                    resultCompletableFuture.complete(new Result("not successful", false));
+                    resultCompletableFuture.complete(new Result("unsuccessful server response", false));
                 }
 
             }
@@ -314,7 +314,7 @@ public class UsersApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result(e.toString(), false));
+                resultCompletableFuture.complete(new Result("failed HTTP request", false));
             }
 
             @Override
@@ -322,7 +322,7 @@ public class UsersApiService {
                 if (response.isSuccessful()) {
                     resultCompletableFuture.complete(new Result(true));
                 } else {
-                    resultCompletableFuture.complete(new Result("not successful", false));
+                    resultCompletableFuture.complete(new Result("unsuccessful server response", false));
                 }
             }
         });
