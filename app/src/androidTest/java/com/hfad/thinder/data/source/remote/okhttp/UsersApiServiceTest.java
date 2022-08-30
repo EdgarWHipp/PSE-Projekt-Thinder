@@ -18,6 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
@@ -70,6 +71,8 @@ public class UsersApiServiceTest {
 
         // TODO
         //Assert.assertEquals(UserJson.studentObject(), student);
+
+
 
         // User data
         Assert.assertEquals(USERTYPE.STUDENT, student.getType());
@@ -212,7 +215,7 @@ public class UsersApiServiceTest {
 
         RecordedRequest request = server.takeRequest();
 
-        String mail = request.getRequestUrl().queryParameterValue(0);
+        String mail = Objects.requireNonNull(request.getRequestUrl()).queryParameter("mail");
 
         // Correct mail set
         Assert.assertEquals(SampleUser.mail, mail);
@@ -222,15 +225,25 @@ public class UsersApiServiceTest {
     }
 
     @Test
-    public void testPostNewPassword() {
+    public void testPostNewPassword() throws JSONException, InterruptedException,
+            ExecutionException {
+        MockResponse response = new MockResponse().setResponseCode(200);
+        server.enqueue(response);
 
-    }
+        CompletableFuture<Result> result = usersApiService.postNewPassword("xyztoken",
+                SampleUser.password);
 
-    @Test
-    public void testDeleteUserThesisCall() {
-    }
+        RecordedRequest request = server.takeRequest();
 
-    @Test
-    public void testGetUserThesisResponse() {
+        String requestBody = request.getBody().readUtf8();
+        JSONObject requestBodyJson = new JSONObject(requestBody);
+
+        // Correct mail set
+        Assert.assertEquals(SampleUser.password, requestBodyJson.get("newPassword"));
+        Assert.assertEquals("xyztoken", requestBodyJson.get("token"));
+
+
+        // Check if status 200 response is handled properly
+        Assert.assertTrue(result.get().getSuccess());
     }
 }

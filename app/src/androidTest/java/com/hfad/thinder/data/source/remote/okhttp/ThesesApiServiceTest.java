@@ -27,11 +27,13 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+import okhttp3.Request;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
@@ -85,30 +87,27 @@ public class ThesesApiServiceTest {
 //        assertEquals(SampleStudent.degrees, newThesisJson.get("degrees"));
 //        assertEquals(SampleThesis.images.stream().toArray()[0],
 //                newThesisJson.getJSONArray("images").getJSONArray(0).toString());
+
+        assertEquals(SampleSupervisor.authHeader, request.getHeader("Authorization"));
     }
 
-//    @Test
-//    public void uploadThesisTestFail() throws JSONException, InterruptedException, IOException, ExecutionException {
-//
-//        //User has to be logged in first:
-//        UserRepository.getInstance().setUser(SampleSupervisor.supervisorObject());
-//        UserRepository.getInstance().setPassword(SampleSupervisor.password);
-//        //Create actual Thesis post
-//        Set<Image> images = new HashSet<>();
-//        byte[] bytes = {64, 64, 64};
-//        images.add(new Image(bytes));
-//        Set<Degree> degrees = new HashSet<>();
-//        degrees.add(new Degree("Informatik", new UUID(32, 32)));
-//        Thesis thesis = new Thesis("Dr. Prof. Tamim",
-//                "testThesis", "aaaa", "aaa", new Form("asd"), images,
-//                supervisor, degrees);
-//        MockResponse responseUpload = new MockResponse().setResponseCode(500);
-//        server.enqueue(responseUpload);
-//        CompletableFuture<Result> resultThesisUpload = thesisApiService.createNewThesisFuture(thesis);
-//        server.takeRequest();
-//        assertFalse(resultThesisUpload.get().getSuccess());
-//
-//    }
+    @Test
+    public void uploadThesisTestFail() throws JSONException, InterruptedException,
+            ExecutionException {
+        MockResponse responseUpload = new MockResponse().setResponseCode(500);
+        server.enqueue(responseUpload);
+
+        // Set current user
+        UserRepository.getInstance().setUser(SampleSupervisor.supervisorObject());
+        UserRepository.getInstance().setPassword(SampleSupervisor.password);
+
+        Thesis thesis = SampleThesis.thesisObject();
+
+        CompletableFuture<Result> resultThesisUpload =
+                thesisApiService.createNewThesisFuture(thesis);
+
+        assertFalse(resultThesisUpload.get().getSuccess());
+    }
 //
 //
 //
@@ -123,18 +122,26 @@ public class ThesesApiServiceTest {
 //
 //    }
 //
-//    @Test
-//    public void deleteThesis() throws InterruptedException, ExecutionException {
-//        //Set the user
-//        UserRepository.getInstance().setUser(supervisor);
-//        //actual deleteThesis mock test
-//        MockResponse response = new MockResponse().setResponseCode(200);
-//        server.enqueue(response);
-//        CompletableFuture<Result> resultCompletableFuture = thesisApiService.deleteThesisFuture(new UUID(32, 32));
-//        RecordedRequest request = server.takeRequest();
-//        Log.e("", request.getBody().toString());
-//        assertTrue(resultCompletableFuture.get().getSuccess());
-//    }
+    @Test
+    public void deleteThesis() throws InterruptedException, ExecutionException {
+        MockResponse response = new MockResponse().setResponseCode(200);
+        server.enqueue(response);
+
+        UserRepository.getInstance().setUser(SampleSupervisor.supervisorObject());
+        UserRepository.getInstance().setPassword(SampleSupervisor.password);
+
+        CompletableFuture<Result> resultCompletableFuture =
+                thesisApiService.deleteThesisFuture(SampleThesis.id);
+
+        RecordedRequest request = server.takeRequest();
+
+        assertEquals(SampleThesis.id.toString(),
+                Objects.requireNonNull(request.getRequestUrl()).encodedPathSegments().get(1));
+        assertTrue(resultCompletableFuture.get().getSuccess());
+
+
+        assertEquals(SampleSupervisor.authHeader, request.getHeader("Authorization"));
+    }
 //
 //    @Test
 //    public void deleteThesisFail() throws InterruptedException, ExecutionException {

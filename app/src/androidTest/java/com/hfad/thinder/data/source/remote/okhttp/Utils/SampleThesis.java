@@ -8,6 +8,7 @@ import com.hfad.thinder.data.model.Thesis;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 public class SampleThesis {
     public static byte[] bytes = {64, 64, 64};
@@ -20,6 +21,7 @@ public class SampleThesis {
     public static String name = "Lasercoating";
     public static String motivation = "Current topic.";
     public static String task = "Very complex.";
+    public static UUID id = new UUID(0x8a3a5503cd414a9aL, 0xa86eaa2d64c4d314L);
 
     public static Thesis thesisObject() {
         return new Thesis(supervisingProfessor, name, motivation, task, form, images,
