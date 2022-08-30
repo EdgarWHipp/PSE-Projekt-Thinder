@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.UUID;
 
-public class SampleStudent {
+public class SampleStudent extends SampleUser {
 
     public static final String typeStudent = "STUDENT";
 
@@ -26,7 +26,7 @@ public class SampleStudent {
 
     public static Student studentObject() {
         return new Student(USERTYPE.STUDENT, SampleUser.id, SampleUser.active, SampleUser.uni_id,
-                null, SampleUser.mail, SampleUser.firstName, SampleUser.lastName,
+                SampleUser.mail, SampleUser.firstName, SampleUser.lastName,
                 degrees, SampleUser.complete);
     }
 

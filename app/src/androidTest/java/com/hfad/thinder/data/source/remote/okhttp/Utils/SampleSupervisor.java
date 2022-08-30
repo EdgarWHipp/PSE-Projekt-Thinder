@@ -1,9 +1,13 @@
 package com.hfad.thinder.data.source.remote.okhttp.Utils;
 
+import com.hfad.thinder.data.model.Student;
+import com.hfad.thinder.data.model.Supervisor;
+import com.hfad.thinder.data.model.USERTYPE;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class SampleSupervisor {
+public class SampleSupervisor extends SampleUser {
 
     public static final String typeSupervisor = "SUPERVISOR";
 
@@ -21,5 +25,12 @@ public class SampleSupervisor {
                 .put("building", building)
                 .put("institute", institute)
                 .put("phoneNumber", phoneNumber);
+    }
+
+    public static Supervisor supervisorObject() {
+        return new Supervisor(USERTYPE.SUPERVISOR, SampleUser.id, SampleUser.active,
+                SampleUser.uni_id, SampleUser.mail, SampleUser.firstName, SampleUser.lastName,
+                academicDegree, building, officeNumber, institute, phoneNumber,
+                SampleUser.complete);
     }
 }
