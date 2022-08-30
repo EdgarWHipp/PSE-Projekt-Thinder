@@ -48,7 +48,6 @@ public class StudentApiServiceTest {
         apiUtils = ApiUtils.getInstance();
 
         apiUtils.setLiveSetup(false);
-        apiUtils.setScheme("http");
         apiUtils.setHost(server.getHostName());
         apiUtils.setPort(server.getPort());
     }

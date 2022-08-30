@@ -39,7 +39,6 @@ public class SupervisorApiServiceTest {
         supervisorApiService = new SupervisorApiService();
         apiUtils = ApiUtils.getInstance();
         apiUtils.setLiveSetup(false);
-        apiUtils.setScheme("http");
         apiUtils.setHost(server.getHostName());
         apiUtils.setPort(server.getPort());
     }
@@ -60,11 +59,11 @@ public class SupervisorApiServiceTest {
 
         Supervisor supervisor = new Supervisor(USERTYPE.SUPERVISOR, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),false,
                 new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
-                "hello!","edasd@kit.edu","Olf", "Molf" ,"Dr","101","1092","Telematik","0123123",false);
+                "edasd@kit.edu","Olf", "Molf" ,"Dr","101","1092","Telematik","0123123",false);
 
         UserRepository userRepository = UserRepository.getInstance();
         userRepository.setUser(supervisor);
-        userRepository.setPassword(supervisor.getPassword());
+        userRepository.setPassword("password");
         Degree degreeMathe = new Degree("Mathematik Msc", new UUID(32, 32));
         ArrayList<Degree> degreesNew = new ArrayList<>();
         degreesNew.add(degreeMathe);
@@ -98,11 +97,11 @@ public class SupervisorApiServiceTest {
 
         Supervisor supervisor = new Supervisor(USERTYPE.SUPERVISOR, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),false,
                 new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
-                "hello!","edasd@kit.edu","Olf", "Molf" ,"Dr","101","1092","Telematik","0123123",false);
+                "edasd@kit.edu","Olf", "Molf" ,"Dr","101","1092","Telematik","0123123",false);
 
         UserRepository userRepository = UserRepository.getInstance();
         userRepository.setUser(supervisor);
-        userRepository.setPassword(supervisor.getPassword());
+        userRepository.setPassword("hello!");
         Degree degreeMathe = new Degree("Mathematik Msc", new UUID(32, 32));
         ArrayList<Degree> degreesNew = new ArrayList<>();
         degreesNew.add(degreeMathe);

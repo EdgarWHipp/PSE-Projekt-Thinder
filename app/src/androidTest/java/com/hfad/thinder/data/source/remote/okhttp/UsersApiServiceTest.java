@@ -39,7 +39,6 @@ public class UsersApiServiceTest {
 
         apiUtils = ApiUtils.getInstance();
         apiUtils.setLiveSetup(false);
-        apiUtils.setScheme("http");
         apiUtils.setHost(server.getHostName());
         apiUtils.setPort(server.getPort());
     }
@@ -188,7 +187,7 @@ public class UsersApiServiceTest {
 
         UserRepository userRepository = UserRepository.getInstance();
         userRepository.setUser(SampleStudent.studentObject());
-        userRepository.setPassword(SampleUser.password);
+        userRepository.setPassword(SampleStudent.password);
 
 
         CompletableFuture<Result> result = usersApiService.deleteUserFuture();
@@ -205,11 +204,26 @@ public class UsersApiServiceTest {
     }
 
     @Test
-    public void testResetPasswordFuture() {
+    public void testResetPassword() throws InterruptedException, ExecutionException {
+        MockResponse response = new MockResponse().setResponseCode(200);
+        server.enqueue(response);
+
+        CompletableFuture<Result> result = usersApiService.resetPassword(SampleUser.mail);
+
+        RecordedRequest request = server.takeRequest();
+
+        String mail = request.getRequestUrl().queryParameterValue(0);
+
+        // Correct mail set
+        Assert.assertEquals(SampleUser.mail, mail);
+
+        // Check if status 200 response is handled properly
+        Assert.assertTrue(result.get().getSuccess());
     }
 
     @Test
-    public void testSendNewPasswordFuture() {
+    public void testPostNewPassword() {
+
     }
 
     @Test
