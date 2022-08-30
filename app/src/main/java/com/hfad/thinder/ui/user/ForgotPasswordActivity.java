@@ -1,6 +1,7 @@
 package com.hfad.thinder.ui.user;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,6 +19,7 @@ import com.hfad.thinder.ui.student.StudentActivity;
 import com.hfad.thinder.ui.supervisor.SupervisorActivity;
 import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.viewmodels.ViewModelResultTypes;
+import com.hfad.thinder.viewmodels.user.ForgotPasswordFormState;
 import com.hfad.thinder.viewmodels.user.ForgotPasswordViewModel;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
@@ -33,6 +35,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_forgot_password);
         viewmodel = new ViewModelProvider(this).get(ForgotPasswordViewModel.class);
         binding.setViewmodel(viewmodel);
+        binding.setLifecycleOwner(this);
 
         // my_child_toolbar is defined in the layout file
         Toolbar myChildToolbar = binding.toolbar;
@@ -60,6 +63,19 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 viewmodel.passwordForgotDataChanged();
             }
         };
+
+        viewmodel.getFormState().observe(this, new Observer<ForgotPasswordFormState>() {
+            @Override
+            public void onChanged(ForgotPasswordFormState forgotPasswordFormState) {
+                Resources resources = getResources();
+                if(forgotPasswordFormState.getCodeErrorMessage() != null)
+                    binding.etcode.setError(resources.getString(forgotPasswordFormState.getCodeErrorMessage()));
+                if(forgotPasswordFormState.getNewPasswordErrorMessage()!=null)
+                    binding.etLoginPassword.setError(resources.getString(forgotPasswordFormState.getNewPasswordErrorMessage()));
+                if(forgotPasswordFormState.getNewPasswordConfirmationErrorMessage() != null)
+                    binding.etconfirmpassword.setError(resources.getString(forgotPasswordFormState.getNewPasswordConfirmationErrorMessage()));
+            }
+        });
 
         final Observer<ViewModelResult> resultObserver = new Observer<ViewModelResult>() {
             @Override

@@ -1,4 +1,4 @@
-package com.hfad.thinder.util;
+package com.hfad.thinder.ui.util;
 
 import android.graphics.Bitmap;
 import android.view.View;
