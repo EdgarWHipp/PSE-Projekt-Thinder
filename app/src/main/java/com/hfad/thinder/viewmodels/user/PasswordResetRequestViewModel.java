@@ -19,6 +19,7 @@ public class PasswordResetRequestViewModel extends ViewModel {
   private static final UserRepository userRepository = UserRepository.getInstance();
   private MutableLiveData<ViewModelResult> resetRequestResult;
   private MutableLiveData<String> email;
+  private MutableLiveData<Boolean> isLoading;
 
   /**
    * Use this method to send a request to reset the users password.
@@ -58,7 +59,21 @@ public class PasswordResetRequestViewModel extends ViewModel {
     this.email = email;
   }
 
+  public MutableLiveData<Boolean> getIsLoading() {
+    if(isLoading == null) {
+      isLoading = new MutableLiveData<>();
+      isLoading.setValue(false);
+    }
+    return isLoading;
+  }
+
   private class ResetRequestTask extends AsyncTask<String, Void, Result> {
+
+    @Override
+    protected void onPreExecute() {
+      getIsLoading().setValue(true);
+    }
+
     @Override
     protected Result doInBackground(String... strings) {
       return userRepository.sendRecoveryEmail(strings[0]);
@@ -72,6 +87,7 @@ public class PasswordResetRequestViewModel extends ViewModel {
         resetRequestResult.setValue(
                 new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
       }
+      isLoading.setValue(false);
     }
   }
 }

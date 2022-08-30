@@ -28,6 +28,8 @@ public class RequestPasswordResetActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_request_password_reset);
         viewmodel = new ViewModelProvider(this).get(PasswordResetRequestViewModel.class);
         binding.setViewmodel(viewmodel);
+        binding.setLifecycleOwner(this);
+
         // my_child_toolbar is defined in the layout file
         Toolbar myChildToolbar = binding.toolbar;
         setSupportActionBar(myChildToolbar);

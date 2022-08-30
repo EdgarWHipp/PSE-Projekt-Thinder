@@ -251,6 +251,7 @@ public class UsersApiService {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 
         HttpUrl url = API_UTILS.getHttpUrlBuilder()
+                .addPathSegment("users")
                 .addPathSegment("resetPassword")
                 .addQueryParameter("mail", email)
                 .build();
@@ -292,14 +293,16 @@ public class UsersApiService {
      */
     public CompletableFuture<Result> postNewPassword(String token, String newPassword) throws JSONException {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
-        JSONObject passwordJSON = new JSONObject().put("password", newPassword);
+        JSONObject passwordResetDTOJSON = new JSONObject();
+        passwordResetDTOJSON.put("newPassword", newPassword);
+        passwordResetDTOJSON.put("token", token);
 
-        RequestBody body = RequestBody.create(passwordJSON.toString(), JSON);
+        RequestBody body = RequestBody.create(passwordResetDTOJSON.toString(), JSON);
 
         HttpUrl url;
         url = API_UTILS.getHttpUrlBuilder()
+                .addPathSegment("users")
                 .addPathSegment("resetPassword")
-                .addQueryParameter("token", token)
                 .build();
 
         Request request = new Request.Builder()

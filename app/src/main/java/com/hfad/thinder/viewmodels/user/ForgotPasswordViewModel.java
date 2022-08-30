@@ -26,6 +26,7 @@ public class ForgotPasswordViewModel extends ViewModel {
   private MutableLiveData<String> code;
   private MutableLiveData<String> newPassword;
   private MutableLiveData<String> newPasswordConfirmation;
+  private MutableLiveData<Boolean> isLoading;
 
   /**
    * Use this method to log in to the users account with the token and a new password.
@@ -119,6 +120,14 @@ public class ForgotPasswordViewModel extends ViewModel {
     this.newPasswordConfirmation = newPasswordConfirmation;
   }
 
+  public MutableLiveData<Boolean> getIsLoading() {
+    if(isLoading == null){
+      isLoading = new MutableLiveData<>();
+      isLoading.setValue(false);
+    }
+    return isLoading;
+  }
+
   //--------private methods-------------------------------------------
 
   private Integer passwordFormIsValid() {
@@ -157,6 +166,16 @@ public class ForgotPasswordViewModel extends ViewModel {
   
   private class LoginTask extends AsyncTask<String, Void, Result> {
     @Override
+    protected void onPreExecute() {
+      getIsLoading().setValue(true);
+    }
+
+    @Override
+    protected Result doInBackground(String... strings) {
+      return userRepository.resetPasswordWithToken(strings[0], strings[1]);
+    }
+
+    @Override
     protected void onPostExecute(Result result) {
       if (!result.getSuccess()) {
         loginResult.setValue(
@@ -171,11 +190,7 @@ public class ForgotPasswordViewModel extends ViewModel {
                   new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.SUPERVISOR));
         }
       }
-    }
-
-    @Override
-    protected Result doInBackground(String... strings) {
-      return userRepository.resetPasswordWithToken(strings[0], strings[1]);
+      isLoading.setValue(false);
     }
   }
 }
