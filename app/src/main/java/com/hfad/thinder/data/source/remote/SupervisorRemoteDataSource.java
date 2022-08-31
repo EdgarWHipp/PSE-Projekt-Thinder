@@ -2,6 +2,7 @@ package com.hfad.thinder.data.source.remote;
 
 import android.util.Log;
 
+import com.hfad.thinder.R;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.remote.okhttp.SupervisorApiService;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
@@ -11,6 +12,7 @@ import com.hfad.thinder.data.source.result.Result;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.sql.Time;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -22,6 +24,7 @@ import java.util.concurrent.TimeoutException;
  * This class handles all the errors that occur during HTTP requests that are call on supervisors.
  */
 public class SupervisorRemoteDataSource {
+    private final int TIMEOUT_SECONDS = 1;
     private final SupervisorApiService supervisorApiService = new SupervisorApiService();
 
 
@@ -39,17 +42,9 @@ public class SupervisorRemoteDataSource {
         try {
 
             CompletableFuture<Result> result = supervisorApiService.editSupervisorProfileFuture(degree, officeNumber, building, institute, phoneNumber, firstName, lastName);
-            return result.get(10000, TimeUnit.SECONDS);
-        } catch (JSONException j) {
-            return new Result("not successful", false);
-        } catch (IOException i) {
-            return new Result("not successful", false);
-        } catch (ExecutionException e) {
-            return new Result("not successful", false);
-        } catch (InterruptedException e) {
-            return new Result("not successful", false);
-        } catch (TimeoutException e) {
-            return new Result("not successful", false);
+            return result.get(TIMEOUT_SECONDS,TimeUnit.SECONDS);
+        } catch (JSONException | IOException | ExecutionException | InterruptedException | TimeoutException j) {
+            return new Result(R.string.exception_during_HTTP_call, false);
         }
 
     }
@@ -64,15 +59,9 @@ public class SupervisorRemoteDataSource {
     public Result editThesis(final UUID thesisId, final Thesis thesis) {
         try {
             CompletableFuture<Result> result = supervisorApiService.editThesisFuture(thesisId, thesis);
-            return result.get(100, TimeUnit.SECONDS);
-        } catch (ExecutionException e) {
-            return new Result("not successful", false);
-        } catch (InterruptedException e) {
-            return new Result("not successful", false);
-        } catch (TimeoutException e) {
-            return new Result("not successful", false);
-        } catch (JSONException e) {
-            return new Result("not successful", false);
+            return result.get(TIMEOUT_SECONDS,TimeUnit.SECONDS);
+        } catch (ExecutionException | InterruptedException | JSONException | TimeoutException e) {
+            return new Result(R.string.exception_during_HTTP_call, false);
         }
 
     }
@@ -85,18 +74,15 @@ public class SupervisorRemoteDataSource {
     public Result getCreatedThesisFromSupervisor() {
         try {
             Pair<CompletableFuture<HashMap<UUID, Thesis>>, CompletableFuture<Result>> result = supervisorApiService.getCreatedThesisFromSupervisorFuture();
-            if (result.getSecond().get().getSuccess()) {
-                Log.e("","call successful");
+            if (result.getSecond().get(TIMEOUT_SECONDS,TimeUnit.SECONDS).getSuccess()) {
                 ThesisRepository.getInstance().setThesisMap(result.getFirst().get());
                 return result.getSecond().get();
             } else {
-                return new Result("not successful", false);
+                return new Result(R.string.unsuccessful_response, false);
             }
 
-        } catch (ExecutionException e) {
-            return new Result("not successful", false);
-        } catch (InterruptedException e) {
-            return new Result("not successful", false);
+        } catch (ExecutionException | InterruptedException | TimeoutException e) {
+            return new Result(R.string.exception_during_HTTP_call, false);
         }
     }
 }

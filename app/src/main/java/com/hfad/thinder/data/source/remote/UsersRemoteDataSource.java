@@ -1,5 +1,6 @@
 package com.hfad.thinder.data.source.remote;
 
+import com.hfad.thinder.R;
 import com.hfad.thinder.data.model.Login;
 import com.hfad.thinder.data.model.UserCreation;
 import com.hfad.thinder.data.source.remote.okhttp.UsersApiService;
@@ -17,7 +18,7 @@ import java.util.concurrent.TimeoutException;
  * This Class handles all errors that the HTTP requests on the /users/ endpoint creates in addition to all necessary functions needed to verify a user/ a change in password.
  */
 public class UsersRemoteDataSource {
-    private final static int TIMEOUT_SECONDS = 10000;
+    private final int TIMEOUT_SECONDS = 1;
     private final UsersApiService usersApiService = new UsersApiService();
 
     public UsersApiService getUsersApiService() {
@@ -35,16 +36,8 @@ public class UsersRemoteDataSource {
         try {
             CompletableFuture<Result> result = usersApiService.verifyUser(token);
             return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
-        } catch (JSONException j) {
-            return new Result("not successful", false);
-        } catch (IOException i) {
-            return new Result("not successful", false);
-        } catch (ExecutionException e) {
-            return new Result("not successful", false);
-        } catch (InterruptedException ie) {
-            return new Result("not successful", false);
-        } catch (TimeoutException t) {
-            return new Result("not successful", false);
+        } catch (JSONException | IOException | TimeoutException | InterruptedException | ExecutionException j) {
+            return new Result(R.string.exception_during_HTTP_call, false);
         }
 
 
@@ -63,7 +56,7 @@ public class UsersRemoteDataSource {
             return resultFuture.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
         } catch (IOException | JSONException | ExecutionException
                 | TimeoutException | InterruptedException e) {
-            return new Result("not successful", false);
+            return new Result(R.string.exception_during_HTTP_call, false);
         }
     }
 
@@ -77,12 +70,8 @@ public class UsersRemoteDataSource {
         try {
             CompletableFuture<Result> result = usersApiService.createNewUserFuture(user);
             return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
-        } catch (JSONException e) {
-            return new Result("not successful", false);
-        } catch (ExecutionException e) {
-            return new Result("not successful", false);
-        } catch (InterruptedException | TimeoutException e) {
-            return new Result("not successful", false);
+        } catch (JSONException | InterruptedException | TimeoutException | ExecutionException e) {
+            return new Result(R.string.exception_during_HTTP_call, false);
         }
     }
 
@@ -95,14 +84,8 @@ public class UsersRemoteDataSource {
         try {
             CompletableFuture<Result> result = usersApiService.deleteUserFuture();
             return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
-        } catch (IOException e) {
-            return new Result("not successful", false);
-        } catch (ExecutionException e) {
-            return new Result("not successful", false);
-        } catch (InterruptedException e) {
-            return new Result("not successful", false);
-        } catch (TimeoutException e) {
-            return new Result("not successful", false);
+        } catch (IOException | ExecutionException | InterruptedException | TimeoutException e) {
+            return new Result(R.string.exception_during_HTTP_call, false);
         }
     }
 
@@ -116,12 +99,8 @@ public class UsersRemoteDataSource {
         try {
             CompletableFuture<Result> result = usersApiService.resetPassword(email);
             return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
-        } catch (ExecutionException e) {
-            return new Result("not successful", false);
-        } catch (InterruptedException e) {
-            return new Result("not successful", false);
-        } catch (TimeoutException e) {
-            return new Result("not successful", false);
+        } catch (ExecutionException | InterruptedException | TimeoutException e) {
+            return new Result(R.string.exception_during_HTTP_call, false);
         }
     }
 
@@ -135,14 +114,8 @@ public class UsersRemoteDataSource {
         try {
             CompletableFuture<Result> result = usersApiService.postNewPassword(token, newPassword);
             return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
-        } catch (JSONException e) {
-            return new Result("not successful", false);
-        } catch (ExecutionException e) {
-            return new Result("not successful", false);
-        } catch (InterruptedException e) {
-            return new Result("not successful", false);
-        } catch (TimeoutException e) {
-            return new Result("not successful", false);
+        } catch (JSONException | ExecutionException | InterruptedException | TimeoutException e) {
+            return new Result(R.string.exception_during_HTTP_call, false);
         }
     }
 

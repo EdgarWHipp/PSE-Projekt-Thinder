@@ -129,5 +129,8 @@
     <string name="save_thesis_successfully">Thesis was saved successfully</string>
 
     <string name="send_form_success">Sending successful</string>
-
+    <!-- Model Return Strings -->
+    <string name="failure_on_call">Failed HTTP request</string>
+    <string name="unsuccessful_response">Unsuccessful server response</string>
+    <string name="exception_during_HTTP_call">Internal error, please try again or restart the application</string>
 </resources>

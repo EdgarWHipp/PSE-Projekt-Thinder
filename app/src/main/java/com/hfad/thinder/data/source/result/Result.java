@@ -7,22 +7,22 @@ import androidx.annotation.Nullable;
  */
 public class Result {
     @Nullable
-    private final String errorMessage;
+    private final int errorMessage;
 
     private final boolean success;
 
-    public Result(@Nullable String errorMessage, boolean success) {
+    public Result(@Nullable int errorMessage, boolean success) {
         this.errorMessage = errorMessage;
         this.success = success;
     }
 
     public Result(boolean success) {
-        this.errorMessage = null;
+        this.errorMessage = Integer.parseInt(null);
         this.success = success;
     }
 
     @Nullable
-    public String getErrorMessage() {
+    public int getErrorMessage() {
         return this.errorMessage;
     }
 
