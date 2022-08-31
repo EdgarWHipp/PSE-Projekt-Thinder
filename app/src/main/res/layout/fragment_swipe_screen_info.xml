@@ -21,21 +21,12 @@
             android:layout_height="wrap_content"
             android:text="@string/further_information"
             android:textStyle="bold"
+            android:ellipsize="end"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tvCoursesOfStudy"
-            style="@style/body_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/fab_margin"
-            android:text="@string/courses_of_study"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/tvCoursesOfStudyContent"
-            app:layout_constraintTop_toBottomOf="@id/tvFurtherInformation" />
+
 
         <TextView
             android:id="@+id/tvCoursesOfStudyContent"
@@ -45,6 +36,7 @@
             android:layout_marginTop="@dimen/fab_margin"
             android:text="@{viewModel.coursesOfStudy}"
             android:textAlignment="textEnd"
+            android:maxLines="5"
             app:layout_constraintLeft_toRightOf="@id/tvCoursesOfStudy"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvFurtherInformation" />
@@ -192,6 +184,18 @@
             app:layout_constraintLeft_toRightOf="@id/tvInstitute"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvSupervisingProfContent" />
+
+        <TextView
+            android:id="@+id/tvCoursesOfStudy"
+            style="@style/body_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/fab_margin"
+            android:text="@string/courses_of_study"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/tvCoursesOfStudyContent"
+            app:layout_constraintTop_toBottomOf="@id/tvFurtherInformation" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
