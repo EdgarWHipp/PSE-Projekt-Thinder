@@ -93,20 +93,19 @@ public class StudentApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result(e.toString(), false));
+                resultCompletableFuture.complete(new Result("failed HTTP request", false));
             }
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    Log.e("","worked");
                     UserRepository.getInstance().login(UserRepository.getInstance().getPassword(), UserRepository.getInstance().getUser().getMail());
                     UserRepository.getInstance().getUser().setFirstName(firstName);
                     UserRepository.getInstance().getUser().setLastName(lastName);
                     ((Student)UserRepository.getInstance().getUser()).setDegrees(degrees);
                     resultCompletableFuture.complete(new Result(true));
                 } else {
-                    resultCompletableFuture.complete(new Result("not successful", false));
+                    resultCompletableFuture.complete(new Result("unsuccessful server response", false));
                 }
             }
         });
@@ -149,7 +148,7 @@ public class StudentApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result("not successful", false));
+                resultCompletableFuture.complete(new Result("failed HTTP request", false));
             }
 
             @Override
@@ -157,7 +156,7 @@ public class StudentApiService {
                 if (response.isSuccessful()) {
                     resultCompletableFuture.complete(new Result(true));
                 } else {
-                    resultCompletableFuture.complete(new Result("not successful", false));
+                    resultCompletableFuture.complete(new Result("unsuccessful server response", false));
                 }
             }
         });
@@ -193,7 +192,7 @@ public class StudentApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result(e.toString(), false));
+                resultCompletableFuture.complete(new Result("failed HTTP request", false));
                 thesisListFuture.complete(null);
             }
 
@@ -204,7 +203,6 @@ public class StudentApiService {
                     String body = response.body().string();
                     ArrayList<ThesisDTO> theses = gson.fromJson(body, new TypeToken<List<ThesisDTO>>() {
                     }.getType());
-                    //convert ThesisDTO to Thesis Does this work mhh?
                     ArrayList<Thesis> returnTheses = new ArrayList<>();
                     Thesis thesis=new Thesis();
                     Set<Image> images= new ArraySet<>();
@@ -231,14 +229,11 @@ public class StudentApiService {
                         images = new ArraySet<>();
                         degrees = new ArraySet<>();
                     }
-                    for (Thesis thesis1 : returnTheses){
-                        Log.e(TAG, "onResponse: " + thesis1.getId());
-                    }
                     HashMap<UUID, Thesis> thesisHashMap = (HashMap<UUID, Thesis>) returnTheses.stream().collect(Collectors.toMap(v -> v.getId(), v -> v));
                     resultCompletableFuture.complete(new Result(true));
                     thesisListFuture.complete(thesisHashMap);
                 } else {
-                    resultCompletableFuture.complete(new Result("not successful", false));
+                    resultCompletableFuture.complete(new Result("unsuccessful server response", false));
                     thesisListFuture.complete(null);
                 }
             }
@@ -280,7 +275,7 @@ public class StudentApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result("error", false));
+                resultCompletableFuture.complete(new Result("failed HTTP request", false));
                 resultThesisFuture.complete(null);
             }
 
@@ -291,7 +286,7 @@ public class StudentApiService {
                     String body = response.body().string();
                     ArrayList<ThesisDTO> theses = (ArrayList<ThesisDTO>) gson.fromJson(body, new TypeToken<List<ThesisDTO>>() {
                     }.getType());
-                    //convert ThesisDTO to Thesis Does this work mhh?
+
                     ArrayList<Thesis> returnTheses = new ArrayList<>();
 
                     Thesis thesis=new Thesis();
@@ -328,7 +323,7 @@ public class StudentApiService {
 
 
                 } else {
-                    resultCompletableFuture.complete(new Result("error", false));
+                    resultCompletableFuture.complete(new Result("unsuccessful server response", false));
                     resultThesisFuture.complete(null);
                 }
 
@@ -375,7 +370,7 @@ public class StudentApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result("not successful", false));
+                resultCompletableFuture.complete(new Result("failed HTTP request", false));
             }
 
             @Override
@@ -383,7 +378,7 @@ public class StudentApiService {
                 if (response.isSuccessful()) {
                     resultCompletableFuture.complete(new Result(true));
                 } else {
-                    resultCompletableFuture.complete(new Result("not successful", false));
+                    resultCompletableFuture.complete(new Result("unsuccessful server response", false));
                 }
             }
         });
@@ -423,7 +418,7 @@ public class StudentApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result("error", false));
+                resultCompletableFuture.complete(new Result("failed HTTP request", false));
             }
 
             @Override
@@ -431,7 +426,7 @@ public class StudentApiService {
                 if (response.isSuccessful()) {
                     resultCompletableFuture.complete(new Result(true));
                 } else {
-                    resultCompletableFuture.complete(new Result("error", false));
+                    resultCompletableFuture.complete(new Result("unsuccessful server response", false));
                 }
 
             }

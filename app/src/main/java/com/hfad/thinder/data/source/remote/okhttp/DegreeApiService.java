@@ -59,7 +59,7 @@ public class DegreeApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-
+                resultCompletableFuture.complete(new Result("failed HTTP request",false));
             }
 
             @Override
@@ -74,7 +74,7 @@ public class DegreeApiService {
                     ArrayList<Degree> list = gson.fromJson(body, listType);
                     degrees.complete(list);
                 } else {
-                    resultCompletableFuture.complete(new Result("not successful", false));
+                    resultCompletableFuture.complete(new Result("unsuccessful server response", false));
                 }
 
             }
