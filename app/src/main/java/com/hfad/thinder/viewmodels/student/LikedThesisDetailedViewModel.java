@@ -191,9 +191,9 @@ public class LikedThesisDetailedViewModel extends ViewModel implements ImageGall
     if (hasImages == null) {
       hasImages = new MutableLiveData<>();
       hasImages.setValue(false);
-      if (images.size() > 0) {
-        hasImages.setValue(true);
-      }
+    }
+    if (images.size() > 0) {
+      hasImages.setValue(true);
     }
     return hasImages;
   }
