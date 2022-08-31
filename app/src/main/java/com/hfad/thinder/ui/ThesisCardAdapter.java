@@ -1,5 +1,8 @@
 package com.hfad.thinder.ui;
 
+import static android.content.ContentValues.TAG;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +15,24 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hfad.thinder.R;
+import com.hfad.thinder.viewmodels.CourseOfStudyItem;
 import com.hfad.thinder.viewmodels.ThesisCardItem;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class ThesisCardAdapter
         extends RecyclerView.Adapter<ThesisCardAdapter.ThesisManagerViewHolder> implements Filterable {
 
-    private final ArrayList<ThesisCardItem> elementsFull;
+    private ArrayList<ThesisCardItem> elementsFull;
     private ArrayList<ThesisCardItem> elements;
     private final Filter elementsFilter = new Filter() {
+        /**
+         * returns all objects corresponding to the given charSequence
+         *
+         * @param charSequence filter input
+         * @return             filtered output
+         */
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
             ArrayList<ThesisCardItem> filteredList = new ArrayList<>();
@@ -43,10 +54,18 @@ public class ThesisCardAdapter
             return results;
         }
 
+        /**
+         * Once filtering is completed this method performs the actual data change
+         *
+         * @param charSequence  filter input
+         * @param filterResults results of filtering
+         */
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            ArrayList<ThesisCardItem> filteredList = (ArrayList) filterResults.values;
+            Log.i(TAG, "publishResults: " + filteredList.size());
             elements.clear();
-            elements.addAll((ArrayList) filterResults.values);
+            elements.addAll(filteredList);
             notifyDataSetChanged();
         }
     };
@@ -56,6 +75,7 @@ public class ThesisCardAdapter
         if (elements != null && !(elements.isEmpty())) {
             this.elements = new ArrayList<>(elements);
             elementsFull = new ArrayList<>(elements);
+            Log.i(TAG, "ThesisCardAdapter: " + elementsFull.size());
         } else {
             this.elements = new ArrayList<>();
             elementsFull = new ArrayList<>();
@@ -98,8 +118,11 @@ public class ThesisCardAdapter
     }
 
     public void setElements(ArrayList<ThesisCardItem> elements) {
-        this.elements = elements;
-        notifyDataSetChanged();
+        if(elements != null){
+            this.elements = (ArrayList<ThesisCardItem>) elements.clone();
+            elementsFull = (ArrayList<ThesisCardItem>) elements.clone();
+            notifyDataSetChanged();
+        }
     }
 
     public interface OnItemClickListener {
