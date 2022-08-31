@@ -70,6 +70,8 @@
     <string name="dislikes">Dislikes</string>
     <string name="total_rating_number">Gesamtanzahl der Bewertungen:</string>
     <string name="refresh">Aktualisieren</string>
+    <string name="successful_password_change">Änderung des Passworts war erfolgreich</string>
+    <string name="failure">Fehlschlag</string>
 
     <!-- student strings -->
     <string name="swipe_screen">Swipe-Seite</string>

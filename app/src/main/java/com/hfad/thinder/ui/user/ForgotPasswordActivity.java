@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -80,17 +81,14 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         final Observer<ViewModelResult> resultObserver = new Observer<ViewModelResult>() {
             @Override
             public void onChanged(ViewModelResult viewModelResult) {
-                if (viewModelResult.isSuccess()) {
-                    if (viewModelResult.getSuccess() == ViewModelResultTypes.STUDENT) {
-                        goToStudentActivity();
-                    }
-                    if (viewModelResult.getSuccess() == ViewModelResultTypes.SUPERVISOR) {
-                        goToSupervisorActivity();
-                    }
-                    if (viewModelResult.getSuccess() == ViewModelResultTypes.UNVERIFIED) {
-                        goToVerifyTokenActivity();
-                    }
+                if(viewModelResult == null)
+                    return;
+                if(viewModelResult.isSuccess()) {
+                    Toast.makeText(getApplicationContext(), R.string.successful_password_change, Toast.LENGTH_SHORT).show();
+                    goToLoginActivity();
                 }
+                else
+                    Toast.makeText(getApplicationContext(), R.string.failure, Toast.LENGTH_SHORT).show();
             }
         };
 
@@ -100,18 +98,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         binding.etconfirmpassword.addTextChangedListener(afterTextChangedListener);
     }
 
-    private void goToVerifyTokenActivity() {
-        Intent intent = new Intent(this, VerifyTokenActivity.class);
+    private void goToLoginActivity(){
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 
-    private void goToStudentActivity() {
-        Intent intent = new Intent(this, StudentActivity.class);
-        startActivity(intent);
-    }
-
-    private void goToSupervisorActivity() {
-        Intent intent = new Intent(this, SupervisorActivity.class);
-        startActivity(intent);
-    }
 }

@@ -181,15 +181,9 @@ public class ForgotPasswordViewModel extends ViewModel {
         loginResult.setValue(
                 new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
       } else if (result.getSuccess()) {
-        USERTYPE usertype = userRepository.getType();
-        if (usertype == USERTYPE.STUDENT) {
-          loginResult.setValue(
-                  new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.STUDENT));
-        } else if (usertype == USERTYPE.SUPERVISOR) {
-          loginResult.setValue(
-                  new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.SUPERVISOR));
-        }
+        loginResult.setValue(new ViewModelResult("", ViewModelResultTypes.SUCCESSFUL));
       }
+      loginResult.setValue(null);
       isLoading.setValue(false);
     }
   }
