@@ -30,7 +30,6 @@ public final class UserRepository {
     private USERTYPE type = null;
     private User user = null;
     private Result result = null;
-    private String mail = null;
 
     private UserRepository() {
     }
@@ -44,16 +43,84 @@ public final class UserRepository {
         if (INSTANCE == null) {
             INSTANCE = new UserRepository();
         }
-
         return INSTANCE;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public UsersRemoteDataSource getDatasource() {
+        return usersDataSource;
     }
 
-    public String getMail() {
-        return this.mail;
+    public Pair<Thesis, Result> getUserThesis(UUID thesisId) {
+        return thesisRemoteDataSource.getNewThesis(thesisId);
+    }
+
+    /**
+     * handles the login -> sends the password and the mail and checks if such a user is already registrated.
+     *
+     * @return the id of the user
+     */
+
+    public Result login(String password, String mail) {
+        return usersDataSource.login(new Login(mail, password));
+    }
+
+    /**
+     * Used to verify the token, returns the necessary Result class.
+     *
+     * @param token
+     * @return The result class with error message null and success value true or, when the call is unsuccessful, a full error message and a success value of false.
+     */
+
+    public Result verifyUser(String token) {
+        return usersDataSource.verify(token);
+    }
+
+    /**
+     * Adds the given user to the private local users list.
+     *
+     * @param firstName
+     * @param secondName
+     * @param password
+     * @param mail
+     * @return
+     */
+    public Result register(String firstName, String secondName, String password, String mail) {
+        return usersDataSource.createNewUser(new UserCreation(firstName, secondName, mail, password));
+    }
+
+    /**
+     * Deletes the user that is currently using the application.
+     * if the call is not successful false is returned.
+     *
+     * @param
+     * @return Result
+     */
+
+    public Result delete() {
+        return usersDataSource.deleteUser();
+    }
+
+
+    /**
+     * The Backend sends the code that the user needs to reset their email.
+     *
+     * @param email
+     * @return Result
+     */
+    public Result sendRecoveryEmail(String email) {
+        return usersDataSource.resetPassword(email);
+    }
+
+    /**
+     * Sends the token that was received over the users mail to the backend
+     * and changes the password of the user in the DB.
+     *
+     * @param token
+     * @param newPassword
+     * @return Result
+     */
+    public Result resetPasswordWithToken(String token, String newPassword) {
+        return usersDataSource.sendNewPassword(token, newPassword);
     }
 
     public Result getResult() {
@@ -95,95 +162,4 @@ public final class UserRepository {
     public void setType(USERTYPE type) {
         this.type = type;
     }
-
-    public UsersRemoteDataSource getDatasource() {
-        return usersDataSource;
-    }
-
-    public Pair<Thesis, Result> getUserThesis(UUID thesisId) {
-        return thesisRemoteDataSource.getNewThesis(thesisId);
-
-    }
-
-    /**
-     * handles the login -> sends the password and the mail and checks if such a user is already registrated.
-     *
-     * @return the id of the user
-     */
-
-    public Result login(String password, String mail) {
-
-        return usersDataSource.login(new Login(mail, password));
-    }
-
-    /**
-     * Used to verify the token, returns the necessary Result class.
-     *
-     * @param token
-     * @return The result class with error message null and success value true or, when the call is unsuccessful, a full error message and a success value of false.
-     */
-
-    public Result verifyUser(String token) {
-
-        return usersDataSource.verify(token);
-    }
-
-    /**
-     * Adds the given user to the private local users list.
-     *
-     * @param firstName
-     * @param secondName
-     * @param password
-     * @param mail
-     * @return
-     */
-    public Result register(String firstName, String secondName, String password, String mail) {
-        return usersDataSource.createNewUser(new UserCreation(firstName, secondName, mail, password));
-
-
-    }
-
-    /**
-     * Deletes the user that is currently using the application.
-     * if the call is not successful false is returned.
-     *
-     * @param
-     * @return Result
-     */
-
-    public Result delete() {
-        return usersDataSource.deleteUser();
-    }
-
-
-    /**
-     * The Backend sends the code that the user needs to reset their email.
-     *
-     * @param email
-     * @return Result
-     */
-    public Result sendRecoveryEmail(String email) {
-        Result result = usersDataSource.resetPassword(email);
-        if (result.getSuccess()) {
-            UserRepository.getInstance().setMail(email);
-        }
-        return result;
-    }
-
-    /**
-     * Sends the token that was received over the users mail to the backend
-     * and changes the password of the user in the DB.
-     *
-     * @param token
-     * @param newPassword
-     * @return Result
-     */
-    public Result resetPasswordWithToken(String token, String newPassword) {
-        Result result = usersDataSource.sendNewPassword(token, newPassword);
-        if (result.getSuccess()) {
-            login(newPassword, UserRepository.getInstance().getMail());
-        }
-        return result;
-    }
-
 }
