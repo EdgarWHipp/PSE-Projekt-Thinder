@@ -2,6 +2,8 @@ package com.hfad.thinder.data.source.repository;
 
 
 import android.util.Log;
+
+import com.hfad.thinder.R;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Image;
@@ -85,9 +87,8 @@ public final class ThesisRepository {
   public Result setThesis(final UUID thesisId) {
     if (thesisMap.containsKey(thesisId)) {
       setCurrentlySelectedThesis(thesisMap.get(thesisId));
-      return new Result((true));
-    } else {
-      return new Result("not successful", false);
+      return new Result(true);
+    } else {      return new Result(R.string.exception_during_HTTP_call, false);
     }
   }
 
