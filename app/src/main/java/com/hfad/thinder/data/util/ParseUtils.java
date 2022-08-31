@@ -15,7 +15,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Base64;
-import java.util.HashSet;
 import java.util.Set;
 
 public class ParseUtils {
@@ -73,7 +72,7 @@ public class ParseUtils {
         thesis.setSupervisingProfessor(dtoObject.getSupervisingProfessor());
         thesis.setSupervisor(dtoObject.getSupervisor());
         thesis.setTask(dtoObject.getTask());
-        thesis.setRatings(new Pair(dtoObject.getNumPositiveRated(), dtoObject.getNumNegativeRated()));
+        thesis.setRatings(new Pair(dtoObject.getPositivelyRatedNum(), dtoObject.getNegativelyRatedNum()));
         return thesis;
     }
 }
