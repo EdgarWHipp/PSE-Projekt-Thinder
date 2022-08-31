@@ -38,11 +38,11 @@ public class VerifyTokenViewModel extends ViewModel {
 
         if (userRepository.getType().toString() == USERTYPE.STUDENT.toString()) {
           verifyTokenResult.setValue(
-              new ViewModelResult("STUDENT", ViewModelResultTypes.STUDENT));
+              new ViewModelResult(null, ViewModelResultTypes.STUDENT));
           state.setValue(VerifyTokenStates.SUCCESSFUL);
         } else if (userRepository.getType().toString() == USERTYPE.SUPERVISOR.toString()) {
           verifyTokenResult.setValue(
-              new ViewModelResult("SUPERVISOR", ViewModelResultTypes.SUPERVISOR));
+              new ViewModelResult(null, ViewModelResultTypes.SUPERVISOR));
           state.setValue(VerifyTokenStates.SUCCESSFUL);
         } else {
           state.setValue(VerifyTokenStates.FAILURE);

@@ -10,7 +10,7 @@ import com.hfad.thinder.data.source.result.Result;
 public class ViewModelResult {
 
   @Nullable
-  private final String errorMessage;
+  private final Integer errorMessage;
 
   @Nullable
   private final ViewModelResultTypes viewModelResultType;
@@ -19,7 +19,7 @@ public class ViewModelResult {
    * @param errorMessage        an error message
    * @param viewModelResultType a {@link ViewModelResultTypes ViewModelResultType}
    */
-  public ViewModelResult(@Nullable String errorMessage, @Nullable
+  public ViewModelResult(@Nullable Integer errorMessage, @Nullable
       ViewModelResultTypes viewModelResultType) {
     this.errorMessage = errorMessage;
     this.viewModelResultType = viewModelResultType;
@@ -29,7 +29,7 @@ public class ViewModelResult {
    * @return the error message produced by the model call. Returns null if no error occurred.
    */
   @Nullable
-  public String getErrorMessage() {
+  public Integer getErrorMessage() {
     return this.errorMessage;
   }
 

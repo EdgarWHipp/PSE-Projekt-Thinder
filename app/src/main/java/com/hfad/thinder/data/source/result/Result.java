@@ -11,7 +11,7 @@ public class Result {
 
     private final boolean success;
 
-    public Result(@Nullable int errorMessage, boolean success) {
+    public Result(@Nullable Integer errorMessage, boolean success) {
         this.errorMessage = errorMessage;
         this.success = success;
     }
@@ -22,7 +22,7 @@ public class Result {
     }
 
     @Nullable
-    public int getErrorMessage() {
+    public Integer getErrorMessage() {
         return this.errorMessage;
     }
 

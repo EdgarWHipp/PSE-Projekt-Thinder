@@ -181,7 +181,7 @@ public class ForgotPasswordViewModel extends ViewModel {
         loginResult.setValue(
                 new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
       } else if (result.getSuccess()) {
-        loginResult.setValue(new ViewModelResult("", ViewModelResultTypes.SUCCESSFUL));
+        loginResult.setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
       }
       loginResult.setValue(null);
       isLoading.setValue(false);
