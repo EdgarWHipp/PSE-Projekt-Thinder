@@ -2,6 +2,7 @@ package com.hfad.thinder.data.source.remote;
 
 import android.util.Log;
 
+import com.hfad.thinder.R;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.source.remote.okhttp.ThesesApiService;
 import com.hfad.thinder.data.source.result.Pair;
@@ -9,6 +10,7 @@ import com.hfad.thinder.data.source.result.Result;
 
 import org.json.JSONException;
 
+import java.sql.Time;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -19,6 +21,7 @@ import java.util.concurrent.TimeoutException;
  * This class handles all the errors that occur through HTTP requests on the /thesis/ endpoint.
  */
 public class ThesisRemoteDataSource {
+    private final int TIMEOUT_SECONDS = 1;
     private final ThesesApiService okHttpService = new ThesesApiService();
 
     /**
@@ -31,15 +34,9 @@ public class ThesisRemoteDataSource {
 
         try {
             CompletableFuture<Result> result = okHttpService.createNewThesisFuture(thesis);
-            return result.get(10000, TimeUnit.SECONDS);
-        } catch (JSONException e) {
-            return new Result("not successful", false);
-        } catch (ExecutionException e) {
-            return new Result("not successful", false);
-        } catch (InterruptedException e) {
-            return new Result("not successful", false);
-        } catch (TimeoutException e) {
-            return new Result("not successful", false);
+            return result.get(TIMEOUT_SECONDS,TimeUnit.SECONDS);
+        } catch (JSONException | ExecutionException | InterruptedException | TimeoutException e) {
+            return new Result(R.string.exception_during_HTTP_call, false);
         }
     }
 
@@ -52,14 +49,10 @@ public class ThesisRemoteDataSource {
     public Pair<Thesis, Result> getNewThesis(final UUID id) {
         try {
             Pair<CompletableFuture<Thesis>, CompletableFuture<Result>> result = okHttpService.getSpecificThesisFuture(id);
-            return new Pair<>(result.getFirst().get(10000, TimeUnit.SECONDS), result.getSecond().get(10000, TimeUnit.SECONDS));
+            return new Pair<>(result.getFirst().get(), result.getSecond().get(TIMEOUT_SECONDS, TimeUnit.SECONDS));
 
-        } catch (ExecutionException e) {
-            return new Pair<>(null, new Result("not successful", false));
-        } catch (InterruptedException e) {
-            return new Pair<>(null, new Result("not successful", false));
-        } catch (TimeoutException e) {
-            return new Pair<>(null, new Result("not successful", false));
+        } catch (ExecutionException | InterruptedException | TimeoutException e) {
+            return new Pair<>(null, new Result(R.string.exception_during_HTTP_call, false));
         }
     }
 
@@ -73,13 +66,9 @@ public class ThesisRemoteDataSource {
     public Result deleteThesis(final UUID thesisId) {
         try {
             CompletableFuture<Result> result = okHttpService.deleteThesisFuture(thesisId);
-            return result.get(100, TimeUnit.SECONDS);
-        } catch (ExecutionException e) {
-            return new Result("not successful", false);
-        } catch (InterruptedException e) {
-            return new Result("not successful", false);
-        } catch (TimeoutException e) {
-            return new Result("not successful", false);
+            return result.get(TIMEOUT_SECONDS,TimeUnit.SECONDS);
+        } catch (ExecutionException | InterruptedException | TimeoutException e) {
+            return new Result(R.string.exception_during_HTTP_call, false);
         }
     }
 }

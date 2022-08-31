@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
+import com.hfad.thinder.R;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Image;
@@ -101,7 +102,7 @@ public class SupervisorApiService {
         callSupervisor.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result("failed HTTP request", false));
+                resultCompletableFuture.complete(new Result(R.string.failure_on_call, false));
             }
 
             @Override
@@ -117,7 +118,7 @@ public class SupervisorApiService {
                     ((Supervisor)UserRepository.getInstance().getUser()).setAcademicDegree(degree);
                     resultCompletableFuture.complete(new Result(true));
                 } else {
-                    resultCompletableFuture.complete(new Result("unsuccessful server response", false));
+                    resultCompletableFuture.complete(new Result(R.string.unsuccessful_response, false));
                 }
             }
         });
@@ -157,7 +158,7 @@ public class SupervisorApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result("failed HTTP request", false));
+                resultCompletableFuture.complete(new Result(R.string.failure_on_call, false));
             }
 
             @Override
@@ -165,7 +166,7 @@ public class SupervisorApiService {
                 if (response.isSuccessful()) {
                     resultCompletableFuture.complete(new Result(true));
                 } else {
-                    resultCompletableFuture.complete(new Result("unsuccessful server response", false));
+                    resultCompletableFuture.complete(new Result(R.string.unsuccessful_response, false));
                 }
 
             }
@@ -200,7 +201,7 @@ public class SupervisorApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result("failed HTTP request", false));
+                resultCompletableFuture.complete(new Result(R.string.failure_on_call, false));
 
             }
 
@@ -223,7 +224,7 @@ public class SupervisorApiService {
                     thesisHashmap.complete(thesisHashMap);
                 } else {
                     Log.e("",new String(String.valueOf(response.code())));
-                    resultCompletableFuture.complete(new Result("unsuccessful server response", false));
+                    resultCompletableFuture.complete(new Result(R.string.unsuccessful_response, false));
                 }
             }
         });

@@ -2,6 +2,7 @@ package com.hfad.thinder.data.source.remote;
 
 import android.util.Log;
 
+import com.hfad.thinder.R;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Thesis;
@@ -28,6 +29,7 @@ import java.util.concurrent.TimeoutException;
  * This class handles all the errors that occur during HTTP requests that are call on students.
  */
 public class StudentRemoteDataSource {
+    private final int TIMEOUT_SECONDS = 1;
     private final StudentApiService okHttpService = new StudentApiService();
 
     /**
@@ -42,19 +44,11 @@ public class StudentRemoteDataSource {
 
         try {
             CompletableFuture<Result> result = okHttpService.editStudentProfileFuture(degrees, firstName, lastName);
-            return result.get(10000, TimeUnit.SECONDS);
+            return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
 
 
-        } catch (IOException e) {
-            return new Result("not successful", false);
-        } catch (JSONException j) {
-            return new Result("not successful", false);
-        } catch (ExecutionException e) {
-            return new Result("not successful", false);
-        } catch (InterruptedException e) {
-            return new Result("not successful", false);
-        } catch (TimeoutException e) {
-            return new Result("not successful", false);
+        } catch (IOException | TimeoutException | InterruptedException | ExecutionException | JSONException e) {
+            return new Result(R.string.exception_during_HTTP_call, false);
         }
     }
 
@@ -69,17 +63,11 @@ public class StudentRemoteDataSource {
         try {
             CompletableFuture<Result> result =
                     okHttpService.rateThesisFuture(ratings);
-            return result.get(10000, TimeUnit.SECONDS);
+            return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
 
 
-        } catch (JSONException j) {
-            return new Result("not successful", false);
-        } catch (ExecutionException e) {
-            return new Result("not successful", false);
-        } catch (InterruptedException e) {
-            return new Result("not successful", false);
-        } catch (TimeoutException e) {
-            return new Result("not successful", false);
+        } catch (JSONException | TimeoutException | InterruptedException | ExecutionException j) {
+            return new Result(R.string.exception_during_HTTP_call, false);
         }
     }
 
@@ -91,21 +79,17 @@ public class StudentRemoteDataSource {
     public Result getAllLikedThesesFromAStudent() {
         try {
             Pair<CompletableFuture<HashMap<UUID, Thesis>>, CompletableFuture<Result>> result = okHttpService.getAllPositiveRatedThesesFuture();
-            Result resultValue = result.getSecond().get();
-            HashMap<UUID,Thesis> map= result.getFirst().get();
+            Result resultValue = result.getSecond().get(TIMEOUT_SECONDS,TimeUnit.SECONDS);
+            HashMap<UUID,Thesis> map= result.getFirst().get(TIMEOUT_SECONDS,TimeUnit.SECONDS);
             if (resultValue.getSuccess()) {
-                Log.e("","thesismap is set");
                 ThesisRepository.getInstance().setThesisMap(map);
-                Log.e("",String.valueOf(resultValue.getSuccess()));
                 return resultValue;
             } else {
-                return new Result("not successful", false);
+                return new Result(R.string.unsuccessful_response, false);
             }
 
-        } catch (ExecutionException e) {
-            return new Result("not successful", false);
-        } catch (InterruptedException e) {
-            return new Result("not successful", false);
+        } catch (ExecutionException | InterruptedException | TimeoutException e) {
+            return new Result(R.string.exception_during_HTTP_call, false);
         }
     }
 
@@ -117,19 +101,18 @@ public class StudentRemoteDataSource {
     public Result getAllThesisForAStudent() {
         try {
             Pair<CompletableFuture<ArrayList<Thesis>>, CompletableFuture<Result>> result = okHttpService.getAllThesesForTheStudentFuture();
-            Result resultValue = result.getSecond().get();
-            ArrayList<Thesis> list = result.getFirst().get();
+            Result resultValue = result.getSecond().get(TIMEOUT_SECONDS,TimeUnit.SECONDS);
+            ArrayList<Thesis> list = result.getFirst().get(TIMEOUT_SECONDS,TimeUnit.SECONDS);
             if (resultValue.getSuccess()) {
                 ThesisRepository.getInstance().setTheses(list);
                 return resultValue;
             } else {
-                return new Result("not successful", false);
+                return new Result(R.string.unsuccessful_response, false);
             }
 
-        } catch (ExecutionException e) {
-            return null;
-        } catch (InterruptedException e) {
-            return null;
+        } catch (ExecutionException | InterruptedException |TimeoutException e) {
+            return new Result(R.string.exception_during_HTTP_call, false);
+
         }
     }
 
@@ -144,16 +127,10 @@ public class StudentRemoteDataSource {
         try {
             CompletableFuture<Result> result =
                     okHttpService.sendThesisFormToSupervisorFuture(form, thesisId);
-            return result.get(10000, TimeUnit.SECONDS);
+            return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
 
-        } catch (JSONException j) {
-            return new Result("not successful", false);
-        } catch (ExecutionException e) {
-            return new Result("not successful", false);
-        } catch (InterruptedException e) {
-            return new Result("not successful", false);
-        } catch (TimeoutException e) {
-            return new Result("not successful", false);
+        } catch (JSONException | ExecutionException | InterruptedException | TimeoutException j) {
+            return new Result(R.string.exception_during_HTTP_call, false);
         }
     }
 
@@ -166,13 +143,9 @@ public class StudentRemoteDataSource {
     public Result removeLikedThesisFromStudent(UUID thesisId) {
         try {
             CompletableFuture<Result> result = okHttpService.removeALikedThesisFromAStudentFuture(thesisId);
-            return result.get(100, TimeUnit.SECONDS);
-        } catch (ExecutionException e) {
-            return new Result("not successful", false);
-        } catch (InterruptedException e) {
-            return new Result("not successful", false);
-        } catch (TimeoutException e) {
-            return new Result("not successful", false);
+            return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
+        } catch (ExecutionException | InterruptedException | TimeoutException e) {
+            return new Result(R.string.exception_during_HTTP_call, false);
         }
 
     }

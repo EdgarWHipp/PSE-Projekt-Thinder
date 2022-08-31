@@ -9,6 +9,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
+import com.hfad.thinder.R;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Image;
@@ -82,7 +83,7 @@ public class ThesesApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result("failed HTTP request", false));
+                resultCompletableFuture.complete(new Result(R.string.failure_on_call, false));
             }
 
             @Override
@@ -90,7 +91,7 @@ public class ThesesApiService {
                 if (response.isSuccessful()) {
                     resultCompletableFuture.complete(new Result(true));
                 } else {
-                    resultCompletableFuture.complete(new Result("unsuccessful server response", false));
+                    resultCompletableFuture.complete(new Result(R.string.unsuccessful_response, false));
                 }
             }
 
@@ -126,7 +127,7 @@ public class ThesesApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result("failed HTTP request", false));
+                resultCompletableFuture.complete(new Result(R.string.failure_on_call, false));
             }
 
             @Override
@@ -137,7 +138,7 @@ public class ThesesApiService {
                     resultThesis.complete(parseDTOtoThesis(thesis));
                     resultCompletableFuture.complete(new Result(true));
                 } else {
-                    resultCompletableFuture.complete(new Result("unsuccessful server response", false));
+                    resultCompletableFuture.complete(new Result(R.string.unsuccessful_response, false));
                 }
             }
         });
@@ -172,7 +173,7 @@ public class ThesesApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result("failed HTTP request", false));
+                resultCompletableFuture.complete(new Result(R.string.failure_on_call, false));
             }
 
             @Override
@@ -180,7 +181,7 @@ public class ThesesApiService {
                 if (response.isSuccessful()) {
                     resultCompletableFuture.complete(new Result(true));
                 } else {
-                    resultCompletableFuture.complete(new Result("unsuccessful server response", false));
+                    resultCompletableFuture.complete(new Result(R.string.unsuccessful_response, false));
                 }
             }
         });

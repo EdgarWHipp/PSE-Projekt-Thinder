@@ -1,5 +1,6 @@
 package com.hfad.thinder.data.source.remote;
 
+import com.hfad.thinder.R;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.source.remote.okhttp.DegreeApiService;
 import com.hfad.thinder.data.source.repository.DegreeRepository;
@@ -30,12 +31,12 @@ public class DegreeRemoteDataSource {
                 DegreeRepository.getInstance().setAllDegrees(list.getFirst().get());
                 return list.getSecond().get();
             } else {
-                return new Result("not successful", false);
+                return new Result(R.string.unsuccessful_response, false);
             }
         } catch (ExecutionException e) {
-            return new Result("not successful", false);
+            return new Result(R.string.exception_during_HTTP_call, false);
         } catch (InterruptedException e) {
-            return new Result("not successful", false);
+            return new Result(R.string.exception_during_HTTP_call, false);
         }
     }
 

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.hfad.thinder.R;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Pair;
@@ -59,7 +60,7 @@ public class DegreeApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result("failed HTTP request",false));
+                resultCompletableFuture.complete(new Result(R.string.failure_on_call,false));
             }
 
             @Override
@@ -74,7 +75,7 @@ public class DegreeApiService {
                     ArrayList<Degree> list = gson.fromJson(body, listType);
                     degrees.complete(list);
                 } else {
-                    resultCompletableFuture.complete(new Result("unsuccessful server response", false));
+                    resultCompletableFuture.complete(new Result(R.string.unsuccessful_response, false));
                 }
 
             }
