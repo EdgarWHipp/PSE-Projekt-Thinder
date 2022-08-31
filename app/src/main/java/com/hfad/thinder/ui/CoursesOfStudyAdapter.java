@@ -74,13 +74,15 @@ public class CoursesOfStudyAdapter extends RecyclerView.Adapter<CoursesOfStudyAd
     public void onBindViewHolder(@NonNull CoursesOfStudyViewHolder holder, int position) {
         int currentPosition = position;
         CourseOfStudyItem current = elements.get(position);
+        Log.i(TAG, current.getCourseOfStudy() + " " + current.isPicked());
         holder.mCheckBox.setText(current.getCourseOfStudy());
         holder.mCheckBox.setChecked(current.isPicked());
-        holder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        holder.setItemClickListener(new CoursesOfStudyViewHolder.ItemClickListener(){
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                Log.i(TAG, "onCheckedChanged: " + elements.get(currentPosition).getCourseOfStudy() + " " + b);
-                viewModel.makeCourseOfStudySelection(elements.get(currentPosition).getCourseOfStudy(), b);
+            public void onItemClick(View v, int pos) {
+                CheckBox checkBox = (CheckBox) v;
+                viewModel.makeCourseOfStudySelection(elements.get(currentPosition).getCourseOfStudy(), checkBox.isChecked());
             }
         });
     }
@@ -100,13 +102,30 @@ public class CoursesOfStudyAdapter extends RecyclerView.Adapter<CoursesOfStudyAd
         notifyDataSetChanged();
     }
 
-    public static class CoursesOfStudyViewHolder extends RecyclerView.ViewHolder {
+    public static class CoursesOfStudyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public CheckBox mCheckBox;
+
+        ItemClickListener itemClickListener;
 
         public CoursesOfStudyViewHolder(@NonNull View itemView) {
             super(itemView);
+
             mCheckBox = itemView.findViewById(R.id.cbCoursesOfStudy);
+
+            mCheckBox.setOnClickListener(this);
         }
 
+        public void setItemClickListener(ItemClickListener ic){
+            this.itemClickListener = ic;
+        }
+
+        @Override
+        public void onClick(View view) {
+            this.itemClickListener.onItemClick(view, getLayoutPosition());
+        }
+
+        interface ItemClickListener {
+            void onItemClick(View v, int pos);
+        }
     }
 }
