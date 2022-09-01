@@ -21,7 +21,7 @@ import java.util.concurrent.TimeoutException;
  * This class handles all the errors that occur through HTTP requests on the /thesis/ endpoint.
  */
 public class ThesisRemoteDataSource {
-    private final int TIMEOUT_SECONDS = 1;
+    private final int TIMEOUT_SECONDS = 10000;
     private final ThesesApiService okHttpService = new ThesesApiService();
 
     /**

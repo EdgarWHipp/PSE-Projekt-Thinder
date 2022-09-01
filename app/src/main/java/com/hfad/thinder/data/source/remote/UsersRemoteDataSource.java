@@ -18,7 +18,7 @@ import java.util.concurrent.TimeoutException;
  * This Class handles all errors that the HTTP requests on the /users/ endpoint creates in addition to all necessary functions needed to verify a user/ a change in password.
  */
 public class UsersRemoteDataSource {
-    private final int TIMEOUT_SECONDS = 1;
+    private final int TIMEOUT_SECONDS = 10000;
     private final UsersApiService usersApiService = new UsersApiService();
 
     public UsersApiService getUsersApiService() {

@@ -1,5 +1,7 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
@@ -342,6 +344,7 @@ public class UsersApiService {
         Gson gson = new Gson();
         UserRepository userRepository = UserRepository.getInstance();
         String type = new JSONObject(body).get("type").toString();
+        Log.e("",type.toString());
         switch (type) {
             case "STUDENT":
                 Student student = gson.fromJson(body, Student.class);

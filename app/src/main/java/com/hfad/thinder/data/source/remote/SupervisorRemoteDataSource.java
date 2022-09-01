@@ -22,7 +22,7 @@ import java.util.concurrent.TimeoutException;
  * This class handles all the errors that occur during HTTP requests that are call on supervisors.
  */
 public class SupervisorRemoteDataSource {
-    private final int TIMEOUT_SECONDS = 1;
+    private final int TIMEOUT_SECONDS = 10000;
     private final SupervisorApiService supervisorApiService = new SupervisorApiService();
 
 

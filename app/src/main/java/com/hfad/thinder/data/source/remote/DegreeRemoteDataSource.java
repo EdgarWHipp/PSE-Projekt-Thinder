@@ -7,15 +7,19 @@ import com.hfad.thinder.data.source.repository.DegreeRepository;
 import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.data.source.result.Result;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * This class handles the exceptions of all functionalities that are related to the courses of study.
  *
  */
 public class DegreeRemoteDataSource {
+    private final int TIMEOUT_SECONDS = 10000;
     private final DegreeApiService okHttpService = new DegreeApiService();
 
     /**
@@ -27,15 +31,14 @@ public class DegreeRemoteDataSource {
     public Result fetchAllCoursesOfStudyFromAUniverisity() {
         try {
             Pair<CompletableFuture<ArrayList<Degree>>, CompletableFuture<Result>> list = okHttpService.fetchAllCoursesOfStudyFuture();
-            if (list.getSecond().get().getSuccess()) {
+            Result result = list.getSecond().get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
+            if (result.getSuccess()) {
                 DegreeRepository.getInstance().setAllDegrees(list.getFirst().get());
-                return list.getSecond().get();
+                return list.getSecond().get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
             } else {
                 return new Result(R.string.unsuccessful_response, false);
             }
-        } catch (ExecutionException e) {
-            return new Result(R.string.exception_during_HTTP_call, false);
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException | TimeoutException e) {
             return new Result(R.string.exception_during_HTTP_call, false);
         }
     }

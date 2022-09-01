@@ -29,7 +29,7 @@ import java.util.concurrent.TimeoutException;
  * This class handles all the errors that occur during HTTP requests that are call on students.
  */
 public class StudentRemoteDataSource {
-    private final int TIMEOUT_SECONDS = 1;
+    private final int TIMEOUT_SECONDS = 10000;
     private final StudentApiService okHttpService = new StudentApiService();
 
     /**
