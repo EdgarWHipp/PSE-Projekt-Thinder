@@ -134,4 +134,5 @@
     <string name="unsuccessful_response">Unsuccessful server response</string>
     <string name="exception_during_HTTP_call">An error occurred, please try again or restart the application</string>
     <string name="timeout_exception">The server is currently offline or under a high workload, please try again later</string>
+    <string name="failed_login">The entered password and/or the email address is incorrect</string>
 </resources>

@@ -42,7 +42,7 @@ public class UsersApiService {
 
     /**
      * This function creates the HTTP GET request that firstly makes sure the email, password tuple exists in the database and then fetches a JSON with attributes type and id.
-     * Checks if the asynchronous call return fails or responds.
+     * Checks if the asynchronous call return fails or responds. It has the "login" functionality.
      *
      * @param login
      * @throws JSONException
@@ -72,6 +72,9 @@ public class UsersApiService {
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.code()==401){
+                    resultCompletableFuture.complete(new Result(R.string.failed_login, false));
+                }
                 if (response.isSuccessful()) {
                     try {
                         UserRepository.getInstance().setPassword(login.getPassword());
