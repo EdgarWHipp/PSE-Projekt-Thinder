@@ -1,6 +1,5 @@
 package com.hfad.thinder.data.source.remote;
 
-import android.util.Log;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.data.model.Thesis;
@@ -12,7 +11,6 @@ import com.hfad.thinder.data.source.result.Result;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.sql.Time;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
