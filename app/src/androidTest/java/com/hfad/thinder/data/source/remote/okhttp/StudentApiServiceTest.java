@@ -30,6 +30,8 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import okhttp3.MediaType;
 import okhttp3.mockwebserver.MockResponse;
@@ -247,8 +249,11 @@ public class StudentApiServiceTest {
         UserRepository.getInstance().setPassword("password");
         MockResponse response = new MockResponse().setResponseCode(200);
         server.enqueue(response);
-        Pair<CompletableFuture<HashMap<UUID,Thesis>>,CompletableFuture<Result>> result = studentApiService.getAllPositiveRatedThesesFuture();
-        assertTrue(result.getSecond().get().getSuccess());
+        Pair<CompletableFuture<HashMap<UUID,Thesis>>,CompletableFuture<Result>> values = studentApiService.getAllPositiveRatedThesesFuture();
+        HashMap<UUID,Thesis> theses= values.getFirst().get();
+        Result result= values.getSecond().get();
+       // assertTrue(!ThesisRepository.getInstance().getAllSwipeableTheses().contains(theses));
+        assertTrue(result.getSuccess());
         RecordedRequest request = server.takeRequest();
 
     }
@@ -267,7 +272,7 @@ public class StudentApiServiceTest {
         MockResponse response = new MockResponse().setResponseCode(500);
         server.enqueue(response);
         Pair<CompletableFuture<HashMap<UUID,Thesis>>,CompletableFuture<Result>> result = studentApiService.getAllPositiveRatedThesesFuture();
-        assertTrue(result.getSecond().get().getSuccess());
+        assertFalse(result.getSecond().get().getSuccess());
         RecordedRequest request = server.takeRequest();
     }
 
@@ -291,8 +296,23 @@ public class StudentApiServiceTest {
         RecordedRequest request = server.takeRequest();
     }
     @Test
-    public void removeLikedThesisSuccess(){
+    public void removeLikedThesisSuccess() throws ExecutionException, InterruptedException {
+        MockResponse response= new MockResponse().setResponseCode(200);
+        server.enqueue(response);
+        //Set user
+        Student student = new Student(USERTYPE.STUDENT,
+                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                true, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                "mail@gmail.com", "Olf", "Molf", null, true);
+        // Actual Thesis Rating call
+        UserRepository.getInstance().setUser(student);
+        //set password
+        UserRepository.getInstance().setPassword("password");
+        UserRepository.getInstance().setType(USERTYPE.STUDENT);
+        CompletableFuture<Result> result=studentApiService.removeALikedThesisFromAStudentFuture(new UUID(32,32));
 
+        assertFalse(result.get().getSuccess());
+        RecordedRequest request = server.takeRequest();
     }
     @Test
     public void sendFormToSupervisorFail() throws JSONException, ExecutionException, InterruptedException {
