@@ -125,4 +125,22 @@ public class SupervisorApiServiceTest {
     }
 
 
+    @Test
+    public void createThesisFail(){
+        //set up supervisor
+        Supervisor supervisor = new Supervisor(USERTYPE.SUPERVISOR, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),false,
+                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                "edasd@kit.edu","Olf", "Molf" ,"Dr","101","1092","Telematik","0123123",false);
+
+        UserRepository userRepository = UserRepository.getInstance();
+        userRepository.setUser(supervisor);
+        userRepository.setPassword("password");
+        MockResponse response = new MockResponse().setResponseCode(500);
+    }
+    @Test
+    public void createThesisSuccess(){
+
+    }
+
+
 }

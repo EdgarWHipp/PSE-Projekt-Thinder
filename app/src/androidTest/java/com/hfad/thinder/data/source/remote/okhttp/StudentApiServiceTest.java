@@ -2,11 +2,13 @@ package com.hfad.thinder.data.source.remote.okhttp;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import android.util.Log;
 
 import com.hfad.thinder.data.model.Degree;
+import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.USERTYPE;
@@ -17,6 +19,7 @@ import com.hfad.thinder.data.source.result.Result;
 
 import org.json.JSONException;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -58,7 +61,7 @@ public class StudentApiServiceTest {
     }
 
     @Test
-    public void editStudentProfileFuture() throws JSONException, IOException, InterruptedException,
+    public void editStudentProfileFutureSuccess() throws JSONException, IOException, InterruptedException,
             ExecutionException {
         MockResponse response = new MockResponse().setResponseCode(200);
         server.enqueue(response);
@@ -74,6 +77,7 @@ public class StudentApiServiceTest {
 
         UserRepository userRepository = UserRepository.getInstance();
         userRepository.setUser(student);
+        UserRepository.getInstance().setType(USERTYPE.STUDENT);
         userRepository.setPassword("password");
         Degree degreeMathe = new Degree("Mathematik Msc", new UUID(32, 31));
         ArrayList<Degree> degreesNew = new ArrayList<>();
@@ -87,13 +91,48 @@ public class StudentApiServiceTest {
         String body = request.getBody().toString();
         assertTrue(result.get().getSuccess());
         assertEquals("Basic bWFpbEBnbWFpbC5jb206cGFzc3dvcmQ=", authToken);
-        assertEquals(UserRepository.getInstance().getUser().getFirstName(), "Tom");
+        assertEquals(((Student)UserRepository.getInstance().getUser()).getFirstName(), "Tom");
         assertEquals(((Student) UserRepository.getInstance().getUser()).getDegrees(), degreesNew);
-        assertEquals(UserRepository.getInstance().getUser().getLastName(), "Müller");
+        assertEquals(((Student)UserRepository.getInstance().getUser()).getLastName(), "Müller");
+    }
+    @Test
+    public void editStudentProfileFutureFail() throws JSONException, IOException, InterruptedException,
+            ExecutionException {
+        MockResponse response = new MockResponse().setResponseCode(500);
+        server.enqueue(response);
+
+        Degree degreeCS = new Degree("Informatik Bsc", new UUID(32, 32));
+        ArrayList<Degree> degreesOld = new ArrayList<>();
+        degreesOld.add(degreeCS);
+
+        Student student = new Student(USERTYPE.STUDENT,
+                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                true, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                "mail@gmail.com", "Olf", "Molf", degreesOld, true);
+
+        UserRepository userRepository = UserRepository.getInstance();
+        userRepository.setUser(student);
+        UserRepository.getInstance().setType(USERTYPE.STUDENT);
+        userRepository.setPassword("password");
+        Degree degreeMathe = new Degree("Mathematik Msc", new UUID(32, 31));
+        ArrayList<Degree> degreesNew = new ArrayList<>();
+        degreesNew.add(degreeMathe);
+
+        CompletableFuture<Result> result = studentApiService
+                .editStudentProfileFuture(degreesNew, "Tom", "Müller");
+
+        RecordedRequest request = server.takeRequest();
+        String authToken = request.getHeader("Authorization");
+        String body = request.getBody().toString();
+        assertFalse(result.get().getSuccess());
+        assertEquals("Basic bWFpbEBnbWFpbC5jb206cGFzc3dvcmQ=", authToken);
+        assertNotEquals(UserRepository.getInstance().getUser().getFirstName(), "Tom");
+        assertNotEquals(((Student) UserRepository.getInstance().getUser()).getDegrees(), degreesNew);
+        assertNotEquals(UserRepository.getInstance().getUser().getLastName(), "Müller");
     }
 
     @Test
-    public void rateThesisFuture() throws JSONException, InterruptedException, ExecutionException {
+    public void rateThesisFutureSuccess() throws JSONException, InterruptedException, ExecutionException {
         Degree degreeInformatik = new Degree("Informatik Bsc", new UUID(32, 32));
         ArrayList<Degree> degreesOld = new ArrayList<>();
         degreesOld.add(degreeInformatik);
@@ -149,7 +188,7 @@ public class StudentApiServiceTest {
     }
     //Erst wenn bei den Thesis alles steht!
     @Test
-    public void getRateableThesis() throws ExecutionException, InterruptedException {
+    public void getRateableThesisSuccess() throws ExecutionException, InterruptedException {
         //Set user
         Student student = new Student(USERTYPE.STUDENT,
                 new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
@@ -166,14 +205,13 @@ public class StudentApiServiceTest {
         Pair<CompletableFuture<ArrayList<Thesis>>, CompletableFuture<Result>> values = studentApiService.getAllThesesForTheStudentFuture();
         ArrayList<Thesis> theses= values.getFirst().get();
         assertEquals(theses, ThesisRepository.getInstance().getAllSwipeableTheses());
-        Log.e("",ThesisRepository.getInstance().getAllSwipeableTheses().toString());
         assertTrue(ThesisRepository.getInstance().getAllSwipeableTheses().contains(theses));
         RecordedRequest request = server.takeRequest();
-        Log.e("",request.getBody().toString());
+        assertTrue(values.getSecond().get().getSuccess());
     }
 
     @Test
-    public void getRateableThesisFail() {
+    public void getRateableThesisFail() throws ExecutionException, InterruptedException {
         //Set user
         Student student = new Student(USERTYPE.STUDENT,
                 new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
@@ -186,12 +224,18 @@ public class StudentApiServiceTest {
 
         MockResponse response = new MockResponse().setResponseCode(500);
         server.enqueue(response);
+        Pair<CompletableFuture<ArrayList<Thesis>>, CompletableFuture<Result>> values = studentApiService.getAllThesesForTheStudentFuture();
+        ArrayList<Thesis> theses= values.getFirst().get();
+        assertEquals(new ArrayList<>(), ThesisRepository.getInstance().getAllSwipeableTheses());
+        assertFalse(ThesisRepository.getInstance().getAllSwipeableTheses().contains(theses));
+        RecordedRequest request = server.takeRequest();
+        assertFalse(values.getSecond().get().getSuccess());
 
     }
 
 
     @Test
-    public void getAllLikedTheses() throws InterruptedException, ExecutionException {
+    public void getAllLikedThesesSuccess() throws InterruptedException, ExecutionException {
         //Set user
         Student student = new Student(USERTYPE.STUDENT,
                 new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
@@ -226,5 +270,70 @@ public class StudentApiServiceTest {
         assertTrue(result.getSecond().get().getSuccess());
         RecordedRequest request = server.takeRequest();
     }
+
+    @Test
+    public void removeLikedThesisFail() throws ExecutionException, InterruptedException {
+        MockResponse response= new MockResponse().setResponseCode(500);
+        server.enqueue(response);
+        //Set user
+        Student student = new Student(USERTYPE.STUDENT,
+                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                true, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                "mail@gmail.com", "Olf", "Molf", null, true);
+        // Actual Thesis Rating call
+        UserRepository.getInstance().setUser(student);
+        //set password
+        UserRepository.getInstance().setPassword("password");
+        UserRepository.getInstance().setType(USERTYPE.STUDENT);
+        CompletableFuture<Result> result=studentApiService.removeALikedThesisFromAStudentFuture(new UUID(32,32));
+
+        assertFalse(result.get().getSuccess());
+        RecordedRequest request = server.takeRequest();
+    }
+    @Test
+    public void removeLikedThesisSuccess(){
+
+    }
+    @Test
+    public void sendFormToSupervisorFail() throws JSONException, ExecutionException, InterruptedException {
+        MockResponse response= new MockResponse().setResponseCode(500);
+        server.enqueue(response);
+        //Set user
+        Student student = new Student(USERTYPE.STUDENT,
+                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                true, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                "mail@gmail.com", "Olf", "Molf", null, true);
+        // Actual Thesis Rating call
+        UserRepository.getInstance().setUser(student);
+        //set password
+        UserRepository.getInstance().setPassword("password");
+        UserRepository.getInstance().setType(USERTYPE.STUDENT);
+        Form form = new Form("Wie geht es dir?","gut");
+        CompletableFuture<Result> result=studentApiService.sendThesisFormToSupervisorFuture(form,new UUID(32,32));
+
+        assertFalse(result.get().getSuccess());
+        RecordedRequest request = server.takeRequest();
+    }
+    @Test
+    public void sendFormToSupervisorSuccess() throws JSONException, ExecutionException, InterruptedException {
+        MockResponse response= new MockResponse().setResponseCode(200);
+        server.enqueue(response);
+        //Set user
+        Student student = new Student(USERTYPE.STUDENT,
+                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                true, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                "mail@gmail.com", "Olf", "Molf", null, true);
+        // Actual Thesis Rating call
+        UserRepository.getInstance().setUser(student);
+        //set password
+        UserRepository.getInstance().setPassword("password");
+        UserRepository.getInstance().setType(USERTYPE.STUDENT);
+        Form form = new Form("Wie geht es dir?","gut");
+        CompletableFuture<Result> result=studentApiService.sendThesisFormToSupervisorFuture(form,new UUID(32,32));
+
+        assertTrue(result.get().getSuccess());
+        RecordedRequest request = server.takeRequest();
+    }
+
 
 }
