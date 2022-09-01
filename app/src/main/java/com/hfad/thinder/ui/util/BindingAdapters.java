@@ -81,4 +81,10 @@ public class BindingAdapters {
     public static void loadImage(ImageView iv, Bitmap bitmap) {
         iv.setImageBitmap(bitmap);
     }
+
+    @BindingAdapter("setResourceText")
+    public static void setResourceText(TextView textView, Integer resource){
+        if(resource != null)
+            textView.setText(resource);
+    }
 }
