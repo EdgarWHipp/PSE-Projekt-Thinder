@@ -144,9 +144,9 @@ public final class ThesisRepository {
         return this.getTheses();
       }
     } else {
-      return null;
+      return new ArrayList<Thesis>();
     }
-    return null;
+    return new ArrayList<Thesis>();
   }
 
 

@@ -7,7 +7,7 @@ import androidx.annotation.Nullable;
  */
 public class Result {
     @Nullable
-    private final int errorMessage;
+    private Integer errorMessage;
 
     private final boolean success;
 
@@ -17,7 +17,6 @@ public class Result {
     }
 
     public Result(boolean success) {
-        this.errorMessage = Integer.parseInt(null);
         this.success = success;
     }
 

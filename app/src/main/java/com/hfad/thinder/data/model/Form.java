@@ -14,6 +14,10 @@ public class Form {
     public Form(String questions) {
         this.questions = questions;
     }
+    public Form(String questions,String answers) {
+        this.questions = questions;
+        this.answers = answers;
+    }
 
     public String getAnswers() {
         return answers;
