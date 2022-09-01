@@ -132,5 +132,6 @@
     <!-- Model Return Strings -->
     <string name="failure_on_call">Failed HTTP request</string>
     <string name="unsuccessful_response">Unsuccessful server response</string>
-    <string name="exception_during_HTTP_call">Internal error, please try again or restart the application</string>
+    <string name="exception_during_HTTP_call">An error occurred, please try again or restart the application</string>
+    <string name="timeout_exception">The server is currently offline or under a high workload, please try again later</string>
 </resources>

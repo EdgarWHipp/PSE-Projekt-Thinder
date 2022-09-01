@@ -38,9 +38,12 @@ public class DegreeRemoteDataSource {
             } else {
                 return new Result(R.string.unsuccessful_response, false);
             }
-        } catch (ExecutionException | InterruptedException | TimeoutException e) {
+        } catch (ExecutionException | InterruptedException e) {
             return new Result(R.string.exception_during_HTTP_call, false);
+        }catch (TimeoutException e){
+            return new Result(R.string.timeout_exception, false);
         }
+
     }
 
 }
