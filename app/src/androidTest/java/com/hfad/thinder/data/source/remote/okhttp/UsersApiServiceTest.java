@@ -145,7 +145,7 @@ public class UsersApiServiceTest {
     }
 
     @Test
-    public void testCreateNewUserFuture() throws Exception {
+    public void testCreateNewUserFutureSuccess() throws Exception {
         MockResponse response = new MockResponse().setResponseCode(200);
         server.enqueue(response);
 
@@ -183,7 +183,7 @@ public class UsersApiServiceTest {
     }
 
     @Test
-    public void testDeleteUserFuture() throws IOException, InterruptedException,
+    public void testDeleteUserFutureSuccess() throws IOException, InterruptedException,
             ExecutionException {
         MockResponse response = new MockResponse().setResponseCode(200);
         server.enqueue(response);
@@ -207,7 +207,7 @@ public class UsersApiServiceTest {
     }
 
     @Test
-    public void testResetPassword() throws InterruptedException, ExecutionException {
+    public void testResetPasswordSuccess() throws InterruptedException, ExecutionException {
         MockResponse response = new MockResponse().setResponseCode(200);
         server.enqueue(response);
 
@@ -223,9 +223,25 @@ public class UsersApiServiceTest {
         // Check if status 200 response is handled properly
         Assert.assertTrue(result.get().getSuccess());
     }
+    @Test
+    public void testResetPasswordFail() throws InterruptedException, ExecutionException {
+        MockResponse response = new MockResponse().setResponseCode(500);
+        server.enqueue(response);
+
+        CompletableFuture<Result> result = usersApiService.resetPassword(SampleUser.mail);
+
+        RecordedRequest request = server.takeRequest();
+
+        String mail = Objects.requireNonNull(request.getRequestUrl()).queryParameter("mail");
+
+
+
+        // Check if status 200 response is handled properly
+        Assert.assertFalse(result.get().getSuccess());
+    }
 
     @Test
-    public void testPostNewPassword() throws JSONException, InterruptedException,
+    public void testPostNewPasswordSuccess() throws JSONException, InterruptedException,
             ExecutionException {
         MockResponse response = new MockResponse().setResponseCode(200);
         server.enqueue(response);
@@ -245,5 +261,27 @@ public class UsersApiServiceTest {
 
         // Check if status 200 response is handled properly
         Assert.assertTrue(result.get().getSuccess());
+    }
+    @Test
+    public void testPostNewPasswordFail() throws JSONException, InterruptedException,
+            ExecutionException {
+        MockResponse response = new MockResponse().setResponseCode(500);
+        server.enqueue(response);
+
+        CompletableFuture<Result> result = usersApiService.postNewPassword("xyztoken",
+                SampleUser.password);
+
+        RecordedRequest request = server.takeRequest();
+
+        String requestBody = request.getBody().readUtf8();
+        JSONObject requestBodyJson = new JSONObject(requestBody);
+
+        // Correct mail set
+        Assert.assertEquals(SampleUser.password, requestBodyJson.get("newPassword"));
+        Assert.assertEquals("xyztoken", requestBodyJson.get("token"));
+
+
+        // Check if status 200 response is handled properly
+        Assert.assertFalse(result.get().getSuccess());
     }
 }

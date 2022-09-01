@@ -41,8 +41,10 @@ public class SupervisorRemoteDataSource {
 
             CompletableFuture<Result> result = supervisorApiService.editSupervisorProfileFuture(degree, officeNumber, building, institute, phoneNumber, firstName, lastName);
             return result.get(TIMEOUT_SECONDS,TimeUnit.SECONDS);
-        } catch (JSONException | IOException | ExecutionException | InterruptedException | TimeoutException j) {
+        } catch (JSONException | IOException | ExecutionException | InterruptedException j) {
             return new Result(R.string.exception_during_HTTP_call, false);
+        }catch(TimeoutException e){
+            return new Result(R.string.timeout_exception,false);
         }
 
     }
@@ -58,8 +60,10 @@ public class SupervisorRemoteDataSource {
         try {
             CompletableFuture<Result> result = supervisorApiService.editThesisFuture(thesisId, thesis);
             return result.get(TIMEOUT_SECONDS,TimeUnit.SECONDS);
-        } catch (ExecutionException | InterruptedException | JSONException | TimeoutException e) {
+        } catch (ExecutionException | InterruptedException | JSONException e) {
             return new Result(R.string.exception_during_HTTP_call, false);
+        }catch(TimeoutException e){
+            return new Result(R.string.timeout_exception,false);
         }
 
     }
@@ -79,8 +83,10 @@ public class SupervisorRemoteDataSource {
                 return new Result(R.string.unsuccessful_response, false);
             }
 
-        } catch (ExecutionException | InterruptedException | TimeoutException e) {
+        } catch (ExecutionException | InterruptedException  e) {
             return new Result(R.string.exception_during_HTTP_call, false);
+        }catch(TimeoutException e){
+            return new Result(R.string.timeout_exception,false);
         }
     }
 }

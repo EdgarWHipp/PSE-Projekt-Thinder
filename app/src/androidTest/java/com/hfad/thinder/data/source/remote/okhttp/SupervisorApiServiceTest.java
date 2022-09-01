@@ -4,12 +4,19 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
+import android.app.VoiceInteractor;
+import android.util.ArraySet;
 import android.util.Log;
 
 import com.hfad.thinder.data.model.Degree;
+import com.hfad.thinder.data.model.Form;
+import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Supervisor;
+import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.USERTYPE;
+import com.hfad.thinder.data.source.remote.okhttp.Utils.SampleThesis;
 import com.hfad.thinder.data.source.repository.UserRepository;
+import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.data.source.result.Result;
 
 import org.json.JSONException;
@@ -19,6 +26,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -48,7 +57,7 @@ public class SupervisorApiServiceTest {
         server.shutdown();
     }
     @Test
-    public void editSupervisorProfileFuture() throws JSONException, IOException, InterruptedException,
+    public void editSupervisorProfileFutureSuccess() throws JSONException, IOException, InterruptedException,
             ExecutionException {
         MockResponse response = new MockResponse().setResponseCode(200);
         server.enqueue(response);
@@ -110,7 +119,6 @@ public class SupervisorApiServiceTest {
                 .editSupervisorProfileFuture("Msc","21",
                         "100","Robotik","0123123123", "Tom", "Müller");
 
-        Log.e("",userRepository.getUser().getFirstName().toString());
         RecordedRequest request = server.takeRequest();
         String authToken = request.getHeader("Authorization");
         String body = request.getBody().toString();
@@ -124,23 +132,76 @@ public class SupervisorApiServiceTest {
         assertEquals(((Supervisor) UserRepository.getInstance().getUser()).getPhoneNumber(), "0123123");
     }
 
-
     @Test
-    public void createThesisFail(){
-        //set up supervisor
+    public void editThesisFail() throws JSONException, InterruptedException, ExecutionException {
+        //set user
         Supervisor supervisor = new Supervisor(USERTYPE.SUPERVISOR, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),false,
                 new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
                 "edasd@kit.edu","Olf", "Molf" ,"Dr","101","1092","Telematik","0123123",false);
 
         UserRepository userRepository = UserRepository.getInstance();
         userRepository.setUser(supervisor);
-        userRepository.setPassword("password");
+        userRepository.setPassword("hello!");
         MockResponse response = new MockResponse().setResponseCode(500);
+        server.enqueue(response);
+        Thesis thesis = SampleThesis.thesisObject();
+        CompletableFuture<Result> result = supervisorApiService.editThesisFuture(new UUID(31,32),thesis);
+        RecordedRequest request = server.takeRequest();
+        assertFalse(result.get().getSuccess());
     }
     @Test
-    public void createThesisSuccess(){
+    public void editThesisSuccess() throws InterruptedException, JSONException, ExecutionException {
+        //set user
+        Supervisor supervisor = new Supervisor(USERTYPE.SUPERVISOR, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),false,
+                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                "edasd@kit.edu","Olf", "Molf" ,"Dr","101","1092","Telematik","0123123",false);
 
+        UserRepository userRepository = UserRepository.getInstance();
+        userRepository.setUser(supervisor);
+        userRepository.setPassword("hello!");
+        MockResponse response = new MockResponse().setResponseCode(200);
+        server.enqueue(response);
+        Thesis thesis = SampleThesis.thesisObject();
+        CompletableFuture<Result> result = supervisorApiService.editThesisFuture(new UUID(31,32),thesis);
+        RecordedRequest request = server.takeRequest();
+        assertTrue(result.get().getSuccess());
     }
 
+    @Test
+    public void getCreatedThesisFromSupervisorSuccess() throws ExecutionException, InterruptedException {
+        //set user
+        Supervisor supervisor = new Supervisor(USERTYPE.SUPERVISOR, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),false,
+                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                "edasd@kit.edu","Olf", "Molf" ,"Dr","101","1092","Telematik","0123123",false);
+
+        UserRepository userRepository = UserRepository.getInstance();
+        userRepository.setUser(supervisor);
+        userRepository.setPassword("hello!");
+        MockResponse response = new MockResponse().setResponseCode(200);
+        server.enqueue(response);
+        Pair<CompletableFuture<HashMap<UUID,Thesis>>,CompletableFuture<Result>> values=supervisorApiService.getCreatedThesisFromSupervisorFuture();
+        HashMap<UUID,Thesis> theses=values.getFirst().get();
+        Result result = values.getSecond().get();
+        RecordedRequest request = server.takeRequest();
+        assertTrue(result.getSuccess());
+    }
+    @Test
+    public void getCreatedThesisFromSupervisorFail() throws ExecutionException, InterruptedException {
+        //set user
+        Supervisor supervisor = new Supervisor(USERTYPE.SUPERVISOR, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),false,
+                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
+                "edasd@kit.edu","Olf", "Molf" ,"Dr","101","1092","Telematik","0123123",false);
+
+        UserRepository userRepository = UserRepository.getInstance();
+        userRepository.setUser(supervisor);
+        userRepository.setPassword("hello!");
+        MockResponse response = new MockResponse().setResponseCode(500);
+        server.enqueue(response);
+        Pair<CompletableFuture<HashMap<UUID,Thesis>>,CompletableFuture<Result>> values=supervisorApiService.getCreatedThesisFromSupervisorFuture();
+        HashMap<UUID,Thesis> theses=values.getFirst().get();
+        Result result = values.getSecond().get();
+        RecordedRequest request = server.takeRequest();
+        assertFalse(result.getSuccess());
+    }
 
 }

@@ -15,6 +15,7 @@ import com.hfad.thinder.data.source.result.Result;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -47,8 +48,10 @@ public class StudentRemoteDataSource {
             return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
 
 
-        } catch (IOException | TimeoutException | InterruptedException | ExecutionException | JSONException e) {
+        } catch (IOException | InterruptedException | ExecutionException | JSONException e) {
             return new Result(R.string.exception_during_HTTP_call, false);
+        }catch(TimeoutException e){
+            return new Result(R.string.timeout_exception,false);
         }
     }
 
@@ -66,8 +69,10 @@ public class StudentRemoteDataSource {
             return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
 
 
-        } catch (JSONException | TimeoutException | InterruptedException | ExecutionException j) {
+        } catch (JSONException | InterruptedException | ExecutionException j) {
             return new Result(R.string.exception_during_HTTP_call, false);
+        }catch(TimeoutException e){
+            return new Result(R.string.timeout_exception,false);
         }
     }
 
@@ -88,8 +93,10 @@ public class StudentRemoteDataSource {
                 return new Result(R.string.unsuccessful_response, false);
             }
 
-        } catch (ExecutionException | InterruptedException | TimeoutException e) {
+        } catch (ExecutionException | InterruptedException  e) {
             return new Result(R.string.exception_during_HTTP_call, false);
+        }catch(TimeoutException e){
+            return new Result(R.string.timeout_exception,false);
         }
     }
 
@@ -110,9 +117,11 @@ public class StudentRemoteDataSource {
                 return new Result(R.string.unsuccessful_response, false);
             }
 
-        } catch (ExecutionException | InterruptedException |TimeoutException e) {
+        } catch (ExecutionException | InterruptedException e) {
             return new Result(R.string.exception_during_HTTP_call, false);
 
+        }catch(TimeoutException e){
+            return new Result(R.string.timeout_exception,false);
         }
     }
 
@@ -129,8 +138,10 @@ public class StudentRemoteDataSource {
                     okHttpService.sendThesisFormToSupervisorFuture(form, thesisId);
             return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
 
-        } catch (JSONException | ExecutionException | InterruptedException | TimeoutException j) {
+        } catch (JSONException | ExecutionException | InterruptedException j) {
             return new Result(R.string.exception_during_HTTP_call, false);
+        }catch(TimeoutException e){
+            return new Result(R.string.timeout_exception,false);
         }
     }
 
@@ -144,8 +155,10 @@ public class StudentRemoteDataSource {
         try {
             CompletableFuture<Result> result = okHttpService.removeALikedThesisFromAStudentFuture(thesisId);
             return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
-        } catch (ExecutionException | InterruptedException | TimeoutException e) {
+        } catch (ExecutionException | InterruptedException e) {
             return new Result(R.string.exception_during_HTTP_call, false);
+        }catch(TimeoutException e){
+            return new Result(R.string.timeout_exception,false);
         }
 
     }

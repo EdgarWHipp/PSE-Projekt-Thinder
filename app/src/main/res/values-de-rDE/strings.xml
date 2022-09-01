@@ -135,6 +135,7 @@
     <!-- Model Return Strings -->
     <string name="failure_on_call">Gescheiterte HTTP Anfrage</string>
     <string name="unsuccessful_response">Inkorrekte Server Antwort</string>
-    <string name="exception_during_HTTP_call">Interner Fehler, bitte versuchen sie es erneut oder starten sie die Anwendung neu</string>
-
+    <string name="exception_during_HTTP_call">Es ist ein Fehler aufgetreten, bitte versuchen sie es erneut oder starten sie die Anwendung neu</string>
+    <string name="timeout_exception">Der Server ist zurzeit offline oder hat eine hohe Auslastung, bitte versuchen sie es später erneut</string>
+    <string name="failed_login">Das eingegebene Password und/oder die E-Mail-Adresse ist inkorrekt</string>
 </resources>

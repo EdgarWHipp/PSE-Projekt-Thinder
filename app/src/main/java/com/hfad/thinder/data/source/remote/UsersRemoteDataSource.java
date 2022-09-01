@@ -36,8 +36,10 @@ public class UsersRemoteDataSource {
         try {
             CompletableFuture<Result> result = usersApiService.verifyUser(token);
             return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
-        } catch (JSONException | IOException | TimeoutException | InterruptedException | ExecutionException j) {
+        } catch (JSONException | IOException | InterruptedException | ExecutionException j) {
             return new Result(R.string.exception_during_HTTP_call, false);
+        }catch(TimeoutException e){
+            return new Result(R.string.timeout_exception,false);
         }
 
 
@@ -55,8 +57,10 @@ public class UsersRemoteDataSource {
             CompletableFuture<Result> resultFuture = usersApiService.getUserDetails(login);
             return resultFuture.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
         } catch (IOException | JSONException | ExecutionException
-                | TimeoutException | InterruptedException e) {
+                | InterruptedException e) {
             return new Result(R.string.exception_during_HTTP_call, false);
+        }catch(TimeoutException e){
+            return new Result(R.string.timeout_exception,false);
         }
     }
 
@@ -70,8 +74,10 @@ public class UsersRemoteDataSource {
         try {
             CompletableFuture<Result> result = usersApiService.createNewUserFuture(user);
             return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
-        } catch (JSONException | InterruptedException | TimeoutException | ExecutionException e) {
+        } catch (JSONException | InterruptedException |  ExecutionException e) {
             return new Result(R.string.exception_during_HTTP_call, false);
+        }catch(TimeoutException e){
+            return new Result(R.string.timeout_exception,false);
         }
     }
 
@@ -84,8 +90,10 @@ public class UsersRemoteDataSource {
         try {
             CompletableFuture<Result> result = usersApiService.deleteUserFuture();
             return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
-        } catch (IOException | ExecutionException | InterruptedException | TimeoutException e) {
+        } catch (IOException | ExecutionException | InterruptedException  e) {
             return new Result(R.string.exception_during_HTTP_call, false);
+        }catch(TimeoutException e){
+            return new Result(R.string.timeout_exception,false);
         }
     }
 
@@ -99,8 +107,10 @@ public class UsersRemoteDataSource {
         try {
             CompletableFuture<Result> result = usersApiService.resetPassword(email);
             return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
-        } catch (ExecutionException | InterruptedException | TimeoutException e) {
+        } catch (ExecutionException | InterruptedException  e) {
             return new Result(R.string.exception_during_HTTP_call, false);
+        }catch(TimeoutException e){
+            return new Result(R.string.timeout_exception,false);
         }
     }
 
@@ -114,8 +124,10 @@ public class UsersRemoteDataSource {
         try {
             CompletableFuture<Result> result = usersApiService.postNewPassword(token, newPassword);
             return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
-        } catch (JSONException | ExecutionException | InterruptedException | TimeoutException e) {
+        } catch (JSONException | ExecutionException | InterruptedException e) {
             return new Result(R.string.exception_during_HTTP_call, false);
+        }catch(TimeoutException e){
+            return new Result(R.string.timeout_exception,false);
         }
     }
 
