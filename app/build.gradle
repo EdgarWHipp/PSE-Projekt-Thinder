@@ -75,4 +75,18 @@ dependencies {
     testImplementation 'com.squareup.okhttp3:mockwebserver:5.0.0-alpha.10'
     implementation 'com.squareup.okhttp3:mockwebserver:5.0.0-alpha.10'
 
+
+    // Optional -- Robolectric environment
+    testImplementation "androidx.test:core:1.4.0"
+    // Optional -- Mockito framework
+    testImplementation "org.mockito:mockito-core:4.3.1"
+    // Optional -- mockito-kotlin
+    testImplementation "org.mockito.kotlin:mockito-kotlin:3.2.0"
+    // Optional -- Mockk framework
+    testImplementation "io.mockk:mockk:1.4.1"
+    // Opional -- for InstantTaskExecutorRule
+    testImplementation 'android.arch.core:core-testing:1.0.0-alpha3'
+    // Otional -- for Mocking of final classes
+    testImplementation 'org.mockito:mockito-inline:2.13.0'
+
 }

@@ -1,10 +1,6 @@
 package com.hfad.thinder.viewmodels.user;
 
-import static android.content.ContentValues.TAG;
-
 import android.os.AsyncTask;
-import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.data.source.repository.UserRepository;
@@ -25,7 +21,6 @@ public class PasswordResetRequestViewModel extends ViewModel {
    * Use this method to send a request to reset the users password.
    */
   public void resetRequest() {
-    Log.e(TAG, "resetRequest: ");
     new ResetRequestTask().execute(getEmail().getValue());
 
   }
@@ -60,7 +55,7 @@ public class PasswordResetRequestViewModel extends ViewModel {
   }
 
   public MutableLiveData<Boolean> getIsLoading() {
-    if(isLoading == null) {
+    if (isLoading == null) {
       isLoading = new MutableLiveData<>();
       isLoading.setValue(false);
     }
@@ -85,7 +80,7 @@ public class PasswordResetRequestViewModel extends ViewModel {
         resetRequestResult.setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
       } else {
         resetRequestResult.setValue(
-                new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
+            new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
       }
       isLoading.setValue(false);
     }

@@ -24,28 +24,28 @@ public class VerifyTokenViewModel extends ViewModel {
   public void VerifyToken() {
     Result result = userRepository.verifyUser(token.getValue());
     if (!result.getSuccess()) {
-      verifyTokenResult.setValue(new ViewModelResult(result.getErrorMessage(),
+      getVerifyTokenResult().setValue(new ViewModelResult(result.getErrorMessage(),
           ViewModelResultTypes.ERROR));
-      state.setValue(VerifyTokenStates.FAILURE);
+      getState().setValue(VerifyTokenStates.FAILURE);
     } else {
       Result roleResult =
           userRepository.login(userRepository.getPassword(), userRepository.getUser().getMail());
       if (!roleResult.getSuccess()) {
-        verifyTokenResult.setValue(new ViewModelResult(result.getErrorMessage(),
+        getVerifyTokenResult().setValue(new ViewModelResult(result.getErrorMessage(),
             ViewModelResultTypes.ERROR));
-        state.setValue(VerifyTokenStates.FAILURE);
+        getState().setValue(VerifyTokenStates.FAILURE);
       } else {
 
-        if (userRepository.getType().toString() == USERTYPE.STUDENT.toString()) {
-          verifyTokenResult.setValue(
-              new ViewModelResult(null, ViewModelResultTypes.STUDENT));
-          state.setValue(VerifyTokenStates.SUCCESSFUL);
+        if (userRepository.getType() == USERTYPE.STUDENT) {
+          getVerifyTokenResult().setValue(
+              new ViewModelResult("STUDENT", ViewModelResultTypes.STUDENT));
+          getState().setValue(VerifyTokenStates.SUCCESSFUL);
         } else if (userRepository.getType().toString() == USERTYPE.SUPERVISOR.toString()) {
-          verifyTokenResult.setValue(
-              new ViewModelResult(null, ViewModelResultTypes.SUPERVISOR));
-          state.setValue(VerifyTokenStates.SUCCESSFUL);
+          getVerifyTokenResult().setValue(
+              new ViewModelResult("SUPERVISOR", ViewModelResultTypes.SUPERVISOR));
+          getState().setValue(VerifyTokenStates.SUCCESSFUL);
         } else {
-          state.setValue(VerifyTokenStates.FAILURE);
+          getState().setValue(VerifyTokenStates.FAILURE);
         }
       }
 
