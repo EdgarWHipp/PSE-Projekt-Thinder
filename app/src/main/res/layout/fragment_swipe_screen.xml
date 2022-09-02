@@ -103,7 +103,7 @@
                 android:layout_margin="@dimen/fab_margin"
                 android:background="@drawable/round_button"
                 android:elevation="30dp"
-                android:onClick="@{v) -> fragment.rightClick()}"
+                android:onClick="@{() -> fragment.rightClick()}"
                 android:src="@drawable/ic_swipe_right"
                 android:translationZ="45dp"
                 app:altSrc="@drawable/ic_arrow_right"
