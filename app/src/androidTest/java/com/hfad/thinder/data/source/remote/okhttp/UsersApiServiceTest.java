@@ -50,7 +50,7 @@ public class UsersApiServiceTest {
     }
 
     @Test
-    public void testLoginSuccessStudent() throws JSONException, InterruptedException,
+    public void testLoginStudentSuccess() throws JSONException, InterruptedException,
             ExecutionException, IOException {
         MockResponse response = new MockResponse().setResponseCode(200);
         response.setBody(SampleStudent.getStudentJson().toString());
@@ -69,9 +69,6 @@ public class UsersApiServiceTest {
         UserRepository userRepository = UserRepository.getInstance();
         Student student = (Student) userRepository.getUser();
 
-        // TODO
-        //Assert.assertEquals(UserJson.studentObject(), student);
-
 
 
         // User data
@@ -88,7 +85,7 @@ public class UsersApiServiceTest {
     }
 
     @Test
-    public void testLoginSuccessSupervisor() throws JSONException, InterruptedException,
+    public void testLoginSupervisorSuccess() throws JSONException, InterruptedException,
             ExecutionException, IOException {
         MockResponse response = new MockResponse().setResponseCode(200);
         response.setBody(SampleSupervisor.getSupervisorJson().toString());
@@ -108,8 +105,6 @@ public class UsersApiServiceTest {
         Assert.assertTrue(result.get().getSuccess());
 
         Supervisor supervisor = (Supervisor) userRepository.getUser();
-
-        // TODO 1 assert per test
 
         // User data
         Assert.assertEquals(USERTYPE.SUPERVISOR, supervisor.getType());

@@ -214,7 +214,12 @@ public class SupervisorApiService {
                     }.getType());
 
                     ArrayList<Thesis> returnTheses = new ArrayList<>();
-
+                    //if fetched thesisDTO arraylist is null, continue with a true Result value.
+                    if(theses==null){
+                        resultCompletableFuture.complete(new Result(true));
+                        thesisHashmap.complete(null);
+                        return;
+                    }
                     for(ThesisDTO thesisDTO : theses){
                         returnTheses.add(ParseUtils.parseDTOtoThesis(thesisDTO));
                     }
@@ -223,7 +228,6 @@ public class SupervisorApiService {
                     resultCompletableFuture.complete(new Result(true));
                     thesisHashmap.complete(thesisHashMap);
                 } else {
-                    Log.e("",new String(String.valueOf(response.code())));
                     resultCompletableFuture.complete(new Result(R.string.unsuccessful_response, false));
                 }
             }
