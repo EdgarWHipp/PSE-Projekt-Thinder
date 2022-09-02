@@ -163,8 +163,41 @@ public class StudentApiService {
         });
         return resultCompletableFuture;
     }
-    private HashMap<UUID,Thesis> parseHashMap(ArrayList<ThesisDTO> theses){
 
+    /**
+     * This function parses the arraylist of ThesisDTO object that the backend returns to a Hashmap<UUID,Thesis> (this is necessary for the frontend)
+     * @param theses
+     * @return HashMap<UUID,Thesis>
+     */
+    private HashMap<UUID,Thesis> parseHashMap(ArrayList<ThesisDTO> theses){
+        ArrayList<Thesis> returnTheses = new ArrayList<>();
+        Thesis thesis=new Thesis();
+        Set<Image> images= new ArraySet<>();
+        Set<Degree> degrees= new ArraySet<>();
+        for(ThesisDTO thesisIter : theses){
+            thesis.setId(thesisIter.getId());
+            thesis.setForm(new Form(thesisIter.getQuestions()));
+            for(String string : thesisIter.getImages()){
+                byte[] image = java.util.Base64.getDecoder().decode(string);
+                images.add(new Image(image));
+            }
+            for(Degree degree : thesisIter.getPossibleDegrees()){
+                degrees.add(degree);
+            }
+            thesis.setImages(images);
+            thesis.setMotivation(thesisIter.getMotivation());
+            thesis.setName(thesisIter.getName());
+            thesis.setPossibleDegrees(degrees);
+            thesis.setSupervisingProfessor(thesisIter.getSupervisingProfessor());
+            thesis.setSupervisor(thesisIter.getSupervisor());
+            thesis.setTask(thesisIter.getTask());
+            returnTheses.add(thesis);
+            thesis = new Thesis();
+            images = new ArraySet<>();
+            degrees = new ArraySet<>();
+        }
+        HashMap<UUID, Thesis> thesisHashMap = (HashMap<UUID, Thesis>) returnTheses.stream().collect(Collectors.toMap(v -> v.getId(), v -> v));
+        return thesisHashMap;
     }
     /**
      * Get all already liked thesis for the student. If the response is successful, set the Hashmap in the ThesisRepository for the viewmodel.
@@ -213,33 +246,8 @@ public class StudentApiService {
                         Log.e("","this is called");
                         return;
                     }
-                    ArrayList<Thesis> returnTheses = new ArrayList<>();
-                    Thesis thesis=new Thesis();
-                    Set<Image> images= new ArraySet<>();
-                    Set<Degree> degrees= new ArraySet<>();
-                    for(ThesisDTO thesisIter : theses){
-                        thesis.setId(thesisIter.getId());
-                        thesis.setForm(new Form(thesisIter.getQuestions()));
-                        for(String string : thesisIter.getImages()){
-                            byte[] image = java.util.Base64.getDecoder().decode(string);
-                            images.add(new Image(image));
-                        }
-                        for(Degree degree : thesisIter.getPossibleDegrees()){
-                            degrees.add(degree);
-                        }
-                        thesis.setImages(images);
-                        thesis.setMotivation(thesisIter.getMotivation());
-                        thesis.setName(thesisIter.getName());
-                        thesis.setPossibleDegrees(degrees);
-                        thesis.setSupervisingProfessor(thesisIter.getSupervisingProfessor());
-                        thesis.setSupervisor(thesisIter.getSupervisor());
-                        thesis.setTask(thesisIter.getTask());
-                        returnTheses.add(thesis);
-                        thesis = new Thesis();
-                        images = new ArraySet<>();
-                        degrees = new ArraySet<>();
-                    }
-                    HashMap<UUID, Thesis> thesisHashMap = (HashMap<UUID, Thesis>) returnTheses.stream().collect(Collectors.toMap(v -> v.getId(), v -> v));
+
+
                     HashMap<UUID, Thesis> thesisHashMap = parseHashMap(theses);
                     resultCompletableFuture.complete(new Result(true));
                     thesisListFuture.complete(thesisHashMap);
@@ -255,6 +263,44 @@ public class StudentApiService {
         return resultCompletableFuturePair;
     }
 
+    /**
+     * This function parses the returned ArrayList<ThesisDTO> from the backend into a ArrayList<Thesis> (which is necessary for the frontend)
+     * @param theses
+     * @return ArrayList<Thesis>
+     */
+    private ArrayList<Thesis> parseThesisArrayList(ArrayList<ThesisDTO> theses){
+        ArrayList<Thesis> returnTheses = new ArrayList<>();
+
+        Thesis thesis=new Thesis();
+        Set<Image> images= new ArraySet<>();
+        Set<Degree> degrees=new ArraySet<>();
+        for(ThesisDTO thesisIter : theses){
+            thesis.setId(thesisIter.getId());
+            thesis.setForm(new Form(thesisIter.getQuestions()));
+            for(String string : thesisIter.getImages()){
+                byte[] image = java.util.Base64.getDecoder().decode(string);
+                images.add(new Image(image));
+
+            }
+            for(Degree degree : thesisIter.getPossibleDegrees()){
+                degrees.add(degree);
+            }
+            thesis.setImages(images);
+            thesis.setMotivation(thesisIter.getMotivation());
+            thesis.setName(thesisIter.getName());
+            thesis.setPossibleDegrees(degrees);
+            thesis.setSupervisingProfessor(thesisIter.getSupervisingProfessor());
+
+
+            thesis.setSupervisor(thesisIter.getSupervisor());
+            thesis.setTask(thesisIter.getTask());
+            returnTheses.add(thesis);
+            thesis = new Thesis();
+            images = new ArraySet<>();
+            degrees = new ArraySet<>();
+        }
+        return returnTheses;
+    }
     /**
      * Returns all theses that a student swipes, based on a certain critiera (currently just implemented as random in the backend)
      *
@@ -297,38 +343,12 @@ public class StudentApiService {
                     String body = response.body().string();
                     ArrayList<ThesisDTO> theses = (ArrayList<ThesisDTO>) gson.fromJson(body, new TypeToken<List<ThesisDTO>>() {
                     }.getType());
-
-                    ArrayList<Thesis> returnTheses = new ArrayList<>();
-
-                    Thesis thesis=new Thesis();
-                    Set<Image> images= new ArraySet<>();
-                    Set<Degree> degrees=new ArraySet<>();
-                    for(ThesisDTO thesisIter : theses){
-                        thesis.setId(thesisIter.getId());
-                        thesis.setForm(new Form(thesisIter.getQuestions()));
-                        for(String string : thesisIter.getImages()){
-                            byte[] image = java.util.Base64.getDecoder().decode(string);
-                            images.add(new Image(image));
-
-                        }
-                        for(Degree degree : thesisIter.getPossibleDegrees()){
-                            degrees.add(degree);
-                        }
-                        thesis.setImages(images);
-                        thesis.setMotivation(thesisIter.getMotivation());
-                        thesis.setName(thesisIter.getName());
-                        thesis.setPossibleDegrees(degrees);
-                        thesis.setSupervisingProfessor(thesisIter.getSupervisingProfessor());
-
-
-                        thesis.setSupervisor(thesisIter.getSupervisor());
-                        thesis.setTask(thesisIter.getTask());
-                        returnTheses.add(thesis);
-                        thesis = new Thesis();
-                        images = new ArraySet<>();
-                        degrees = new ArraySet<>();
+                    if (theses == null) {
+                        resultCompletableFuture.complete(new Result(true));
+                        resultThesisFuture.complete(null);
                     }
 
+                    ArrayList<Thesis> returnTheses = parseThesisArrayList(theses);
                     resultCompletableFuture.complete(new Result(true));
                     resultThesisFuture.complete(returnTheses);
 

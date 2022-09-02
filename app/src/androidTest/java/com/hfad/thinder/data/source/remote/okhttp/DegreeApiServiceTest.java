@@ -74,9 +74,7 @@ public class DegreeApiServiceTest {
         UserRepository.getInstance().setPassword("password");
         MockResponse response = new MockResponse().setResponseCode(500);
         server.enqueue(response);
-        Log.e("","works till here");
         Pair<CompletableFuture<ArrayList<Degree>>, CompletableFuture<Result>> values =  degreeApiService.fetchAllCoursesOfStudyFuture();
-        Log.e("","http call worked ");
         Result result = values.getSecond().get();
         Assert.assertFalse(result.getSuccess());
     }

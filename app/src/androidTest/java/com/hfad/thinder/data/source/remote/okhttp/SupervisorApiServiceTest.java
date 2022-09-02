@@ -69,9 +69,7 @@ public class SupervisorApiServiceTest {
         ArrayList<Degree> degreesOld = new ArrayList<>();
         degreesOld.add(degreeInformatik);
 
-        Supervisor supervisor = new Supervisor(USERTYPE.SUPERVISOR, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),false,
-                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
-                "edasd@kit.edu","Olf", "Molf" ,"Dr","101","1092","Telematik","0123123",false);
+        Supervisor supervisor = SampleSupervisor.supervisorObject();
 
         UserRepository userRepository = UserRepository.getInstance();
         userRepository.setUser(supervisor);
@@ -107,9 +105,7 @@ public class SupervisorApiServiceTest {
         ArrayList<Degree> degreesOld = new ArrayList<>();
         degreesOld.add(degreeInformatik);
 
-        Supervisor supervisor = new Supervisor(USERTYPE.SUPERVISOR, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),false,
-                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
-                "edasd@kit.edu","Olf", "Molf" ,"Dr","101","1092","Telematik","0123123",false);
+        Supervisor supervisor = SampleSupervisor.supervisorObject();
 
         UserRepository userRepository = UserRepository.getInstance();
         userRepository.setUser(supervisor);
@@ -138,9 +134,7 @@ public class SupervisorApiServiceTest {
     @Test
     public void editThesisFail() throws JSONException, InterruptedException, ExecutionException {
         //set user
-        Supervisor supervisor = new Supervisor(USERTYPE.SUPERVISOR, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),false,
-                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
-                "edasd@kit.edu","Olf", "Molf" ,"Dr","101","1092","Telematik","0123123",false);
+        Supervisor supervisor = SampleSupervisor.supervisorObject();
 
         UserRepository userRepository = UserRepository.getInstance();
         userRepository.setUser(supervisor);
@@ -155,9 +149,7 @@ public class SupervisorApiServiceTest {
     @Test
     public void editThesisSuccess() throws InterruptedException, JSONException, ExecutionException {
         //set user
-        Supervisor supervisor = new Supervisor(USERTYPE.SUPERVISOR, new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),false,
-                new UUID(0x8a3a5503cd414b9aL, 0xa86eaa3d64c4c314L),
-                "edasd@kit.edu","Olf", "Molf" ,"Dr","101","1092","Telematik","0123123",false);
+        Supervisor supervisor = SampleSupervisor.supervisorObject();
 
         UserRepository userRepository = UserRepository.getInstance();
         userRepository.setUser(supervisor);
