@@ -20,6 +20,10 @@ import com.hfad.thinder.viewmodels.ViewModelResult;
 import com.hfad.thinder.viewmodels.user.ForgotPasswordFormState;
 import com.hfad.thinder.viewmodels.user.ForgotPasswordViewModel;
 
+/**
+ * Handles the display of all view elements that make up the forgot password screen. Also handles
+ * input from the user and transmits the data to the {@link ForgotPasswordViewModel}
+ */
 public class ForgotPasswordActivity extends AppCompatActivity {
 
 
