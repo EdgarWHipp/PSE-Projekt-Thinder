@@ -50,7 +50,7 @@ public class UsersApiServiceTest {
     }
 
     @Test
-    public void testLoginSuccessStudent() throws JSONException, InterruptedException,
+    public void testLoginStudentSuccess() throws JSONException, InterruptedException,
             ExecutionException, IOException {
         MockResponse response = new MockResponse().setResponseCode(200);
         response.setBody(SampleStudent.getStudentJson().toString());
@@ -88,7 +88,7 @@ public class UsersApiServiceTest {
     }
 
     @Test
-    public void testLoginSuccessSupervisor() throws JSONException, InterruptedException,
+    public void testLoginupervisorSuccessS() throws JSONException, InterruptedException,
             ExecutionException, IOException {
         MockResponse response = new MockResponse().setResponseCode(200);
         response.setBody(SampleSupervisor.getSupervisorJson().toString());
