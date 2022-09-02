@@ -28,12 +28,13 @@ public class SampleThesis {
     public static String task = "Very complex.";
     public static int positivelyRatedNum = 3;
     public static int negativelyRatedNum = 2;
+    public static HashSet<Degree> degrees = new HashSet<>();
     public static Supervisor supervisor = SampleSupervisor.supervisorObject();
     public static UUID id = new UUID(0x8a3a5503cd414a9aL, 0xa86eaa2d64c4d314L);
 
     public static Thesis thesisObject() {
         return new Thesis(supervisingProfessor, name, motivation, task, form, images,
-                SampleSupervisor.supervisorObject(), new HashSet<>(SampleStudent.degrees));
+                supervisor, degrees);
     }
 
     public static JSONObject getThesisJson() throws JSONException {

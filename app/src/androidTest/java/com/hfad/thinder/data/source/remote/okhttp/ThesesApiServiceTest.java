@@ -20,6 +20,7 @@ import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.data.source.result.Result;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.After;
@@ -86,10 +87,13 @@ public class ThesesApiServiceTest {
         assertEquals(SampleThesis.motivation, newThesisJson.get("motivation"));
         assertEquals(SampleThesis.task, newThesisJson.get("task"));
         assertEquals(SampleThesis.form.getQuestions(), newThesisJson.get("questions"));
-//        assertEquals(SampleSupervisor.supervisorObject().toString(), newThesisJson.get("supervisor")); TODO
-//        assertEquals(SampleStudent.degrees, newThesisJson.get("degrees"));
-//        assertEquals(SampleThesis.images.stream().toArray()[0],
-//                newThesisJson.getJSONArray("images").getJSONArray(0).toString());
+        assertEquals(
+                new JSONObject()
+                        .put("id", SampleThesis.supervisor.getId().toString())
+                        .put("type", SampleThesis.supervisor.getType().toString()).toString(),
+                newThesisJson.get("supervisor").toString());
+        assertEquals(new JSONArray().toString(), newThesisJson.get("possibleDegrees").toString());
+//        assertEquals(new JSONArray().toString(), newThesisJson.getJSONArray("images").toString()); // TODO: properly test this
 
         assertEquals(SampleSupervisor.authHeader, request.getHeader("Authorization"));
     }
@@ -141,7 +145,7 @@ public class ThesesApiServiceTest {
         assertTrue(result.getSecond().get().getSuccess());
         assertEquals(SampleSupervisor.authHeader, authToken);
         assertEquals(SampleThesis.form.getQuestions(),
-                result.getFirst().get().getForm().getQuestions());
+                Objects.requireNonNull(result.getFirst().get().getForm()).getQuestions());
         assertEquals(SampleThesis.task, result.getFirst().get().getTask());
         assertEquals(SampleThesis.id.toString(), result.getFirst().get().getId().toString());
         assertEquals(SampleThesis.motivation, result.getFirst().get().getMotivation());
@@ -151,7 +155,8 @@ public class ThesesApiServiceTest {
         assertEquals(SampleThesis.supervisor.getFirstName(),
                 result.getFirst().get().getSupervisor().getFirstName());
         assertEquals("{}", result.getFirst().get().getPossibleDegrees().toString());
-        assertEquals("{}", result.getFirst().get().getImages().toString());
+        assertEquals("{}",
+                Objects.requireNonNull(result.getFirst().get().getImages()).toString());
         assertEquals(SampleThesis.negativelyRatedNum,
                 result.getFirst().get().getRatings().getSecond().intValue());
         assertEquals(SampleThesis.positivelyRatedNum,
