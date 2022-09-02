@@ -1,14 +1,9 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
-import android.util.Log;
-
-import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Supervisor;
-import com.hfad.thinder.data.model.User;
+import com.hfad.thinder.data.source.remote.DegreeRemoteDataSource;
 import com.hfad.thinder.data.source.remote.okhttp.Utils.SampleSupervisor;
-import com.hfad.thinder.data.source.remote.okhttp.Utils.SampleUser;
 import com.hfad.thinder.data.source.repository.UserRepository;
-import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.data.source.result.Result;
 
 import org.junit.After;
@@ -16,26 +11,18 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-
-import okhttp3.MediaType;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
-import okhttp3.mockwebserver.RecordedRequest;
 
-public class DegreeApiServiceTest {
+public class DegreeRemoteDataSourceTest {
     private MockWebServer server;
-    private DegreeApiService degreeApiService;
+    private DegreeRemoteDataSource degreeRemoteDataSource;
     private ApiUtils apiUtils;
     @Before
     public void setUp() {
         server = new MockWebServer();
 
-        degreeApiService = new DegreeApiService();
+        degreeRemoteDataSource = new DegreeRemoteDataSource();
         apiUtils = ApiUtils.getInstance();
 
         apiUtils.setLiveSetup(false);
@@ -49,31 +36,31 @@ public class DegreeApiServiceTest {
     }
 
     @Test
-    public void fetchAllCoursesOfStudySuccess() throws ExecutionException, InterruptedException {
+    public void fetchAllCoursesOfStudyFromAUniverisitySuccess(){
         //set a user
         Supervisor supervisor = SampleSupervisor.supervisorObject();
         UserRepository.getInstance().setUser(supervisor);
         UserRepository.getInstance().setPassword("password");
+
+
         MockResponse response = new MockResponse().setResponseCode(200);
         server.enqueue(response);
-
-        Pair<CompletableFuture<ArrayList<Degree>>, CompletableFuture<Result>> values =  degreeApiService.fetchAllCoursesOfStudyFuture();
-        ArrayList<Degree> degrees=values.getFirst().get();
-        Result result = values.getSecond().get();
-        Assert.assertEquals(degrees,null);
-        RecordedRequest request = server.takeRequest();
+        Result result = degreeRemoteDataSource.fetchAllCoursesOfStudyFromAUniverisity();
         Assert.assertTrue(result.getSuccess());
+
     }
     @Test
-    public void fetchAllCoursesOfStudyFail() throws ExecutionException, InterruptedException {
+    public void fetchAllCoursesOfStudyFromAUniverisityFail(){
         //set a user
         Supervisor supervisor = SampleSupervisor.supervisorObject();
         UserRepository.getInstance().setUser(supervisor);
         UserRepository.getInstance().setPassword("password");
+
+
         MockResponse response = new MockResponse().setResponseCode(500);
         server.enqueue(response);
-        Pair<CompletableFuture<ArrayList<Degree>>, CompletableFuture<Result>> values =  degreeApiService.fetchAllCoursesOfStudyFuture();
-        Result result = values.getSecond().get();
+        Result result = degreeRemoteDataSource.fetchAllCoursesOfStudyFromAUniverisity();
         Assert.assertFalse(result.getSuccess());
     }
+
 }

@@ -34,9 +34,9 @@ public class StudentRemoteDataSource {
     private final StudentApiService okHttpService = new StudentApiService();
 
     /**
-     * The purpose of this function is to parse the result of the HTTP request and handle all errors that might occur. All necessary parameters are passed
+     * The purpose of this function is to handle all errors that might occur. All necessary parameters are passed
      * * to the extendUserToStudentResponse class in the UsersApiService.
-     * he function returns the result - the success of the HTTP request and an appropriate error message in the case of failure are included in the result.
+     * The function returns the result - the success of the HTTP request and an appropriate error message in the case of failure are included in the result.
      *
      * @param degrees
      * @return Result

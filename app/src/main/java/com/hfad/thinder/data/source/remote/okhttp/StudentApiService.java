@@ -101,9 +101,10 @@ public class StudentApiService {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     UserRepository.getInstance().login(UserRepository.getInstance().getPassword(), UserRepository.getInstance().getUser().getMail());
-                    UserRepository.getInstance().getUser().setFirstName(firstName);
-                    UserRepository.getInstance().getUser().setLastName(lastName);
+                    ((Student)UserRepository.getInstance().getUser()).setFirstName(firstName);
+                    ((Student)UserRepository.getInstance().getUser()).setLastName(lastName);
                     ((Student)UserRepository.getInstance().getUser()).setDegrees(degrees);
+                    Log.e("","success");
                     resultCompletableFuture.complete(new Result(true));
                 } else {
                     resultCompletableFuture.complete(new Result(R.string.unsuccessful_response, false));

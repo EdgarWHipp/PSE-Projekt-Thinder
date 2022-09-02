@@ -46,7 +46,6 @@ public class SupervisorRemoteDataSource {
         }catch(TimeoutException e){
             return new Result(R.string.timeout_exception,false);
         }
-
     }
 
     /**

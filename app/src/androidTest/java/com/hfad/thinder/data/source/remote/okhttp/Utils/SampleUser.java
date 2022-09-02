@@ -1,6 +1,8 @@
 package com.hfad.thinder.data.source.remote.okhttp.Utils;
 
 import com.hfad.thinder.data.model.Login;
+import com.hfad.thinder.data.model.USERTYPE;
+import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.model.UserCreation;
 
 import org.json.JSONException;
@@ -38,7 +40,13 @@ public class SampleUser {
     public static UserCreation userCreation() {
         return new UserCreation(firstName, lastName, mail, password);
     }
-
+    // two incomplete Users
+    public static User emptyStudent(){
+        return new User(USERTYPE.STUDENT,id,active,uni_id,mail,firstName,lastName,false);
+    }
+    public static User emptySupervisor(){
+        return new User(USERTYPE.SUPERVISOR,id,active,uni_id,mail,firstName,lastName,false);
+    }
     public static String authHeader() {
         return authHeader;
     }
