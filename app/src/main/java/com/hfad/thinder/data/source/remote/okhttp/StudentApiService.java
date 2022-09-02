@@ -163,7 +163,9 @@ public class StudentApiService {
         });
         return resultCompletableFuture;
     }
+    private HashMap<UUID,Thesis> parseHashMap(ArrayList<ThesisDTO> theses){
 
+    }
     /**
      * Get all already liked thesis for the student. If the response is successful, set the Hashmap in the ThesisRepository for the viewmodel.
      *
@@ -204,6 +206,13 @@ public class StudentApiService {
                     String body = response.body().string();
                     ArrayList<ThesisDTO> theses = gson.fromJson(body, new TypeToken<List<ThesisDTO>>() {
                     }.getType());
+                    //if the theses returned are null (which is a normal response), return a correct result value.
+                    if(theses==null){
+                        resultCompletableFuture.complete(new Result(true));
+                        thesisListFuture.complete(null);
+                        Log.e("","this is called");
+                        return;
+                    }
                     ArrayList<Thesis> returnTheses = new ArrayList<>();
                     Thesis thesis=new Thesis();
                     Set<Image> images= new ArraySet<>();
@@ -231,6 +240,7 @@ public class StudentApiService {
                         degrees = new ArraySet<>();
                     }
                     HashMap<UUID, Thesis> thesisHashMap = (HashMap<UUID, Thesis>) returnTheses.stream().collect(Collectors.toMap(v -> v.getId(), v -> v));
+                    HashMap<UUID, Thesis> thesisHashMap = parseHashMap(theses);
                     resultCompletableFuture.complete(new Result(true));
                     thesisListFuture.complete(thesisHashMap);
                 } else {

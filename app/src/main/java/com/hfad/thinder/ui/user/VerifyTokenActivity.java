@@ -9,7 +9,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.hfad.thinder.R;
-import com.hfad.thinder.databinding.ActivityVerifyTokenBinding;
 import com.hfad.thinder.ui.student.StudentActivity;
 import com.hfad.thinder.ui.supervisor.SupervisorActivity;
 import com.hfad.thinder.viewmodels.ViewModelResult;
@@ -18,20 +17,21 @@ import com.hfad.thinder.viewmodels.user.VerifyTokenViewModel;
 
 public class VerifyTokenActivity extends AppCompatActivity {
 
-    private ActivityVerifyTokenBinding binding;
-    private VerifyTokenViewModel viewmodel;
-
-
+    /**
+     * Called upon creation of the {@link VerifyTokenActivity}. Acts as a constructor sets up the member variables and inflates the layout.
+     *
+     * @param savedInstanceState not used
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_verify_token);
+        com.hfad.thinder.databinding.ActivityVerifyTokenBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_verify_token);
 
-        viewmodel = new ViewModelProvider(this).get(VerifyTokenViewModel.class);
+        VerifyTokenViewModel viewModel = new ViewModelProvider(this).get(VerifyTokenViewModel.class);
 
-        binding.setViewmodel(viewmodel);
+        binding.setViewmodel(viewModel);
         binding.setLifecycleOwner(this);
 
         final Observer<ViewModelResult> verifyTokenResultObserver =
@@ -48,15 +48,20 @@ public class VerifyTokenActivity extends AppCompatActivity {
                     }
 
                 };
-        viewmodel.getVerifyTokenResult().observe(this, verifyTokenResultObserver);
+        viewModel.getVerifyTokenResult().observe(this, verifyTokenResultObserver);
     }
 
-
+    /**
+     * Moves to the {@link StudentActivity}
+     */
     private void goToStudentActivity() {
         Intent intent = new Intent(this, StudentActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Moves to the {@link SupervisorActivity}
+     */
     private void goToSupervisorActivity() {
         Intent intent = new Intent(this, SupervisorActivity.class);
         startActivity(intent);

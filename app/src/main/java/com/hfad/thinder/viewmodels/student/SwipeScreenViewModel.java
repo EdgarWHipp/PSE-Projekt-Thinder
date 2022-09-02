@@ -1,11 +1,8 @@
 package com.hfad.thinder.viewmodels.student;
 
-import static android.content.ContentValues.TAG;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -269,10 +266,10 @@ public class SwipeScreenViewModel extends ViewModel {
     if (mail == null) {
       mail = new MutableLiveData<>();
     }
-    if (getCurrentCard().getEmail() == null) {
+    if (getCurrentCard().getMail() == null) {
       return null;
     }
-    mail.setValue(getCurrentCard().getEmail());
+    mail.setValue(getCurrentCard().getMail());
     return mail;
   }
 

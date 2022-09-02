@@ -16,26 +16,32 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.ActivityForgotPasswordBinding;
-import com.hfad.thinder.ui.student.StudentActivity;
-import com.hfad.thinder.ui.supervisor.SupervisorActivity;
 import com.hfad.thinder.viewmodels.ViewModelResult;
-import com.hfad.thinder.viewmodels.ViewModelResultTypes;
 import com.hfad.thinder.viewmodels.user.ForgotPasswordFormState;
 import com.hfad.thinder.viewmodels.user.ForgotPasswordViewModel;
 
+/**
+ * Handles the display of all view elements that make up the forgot password screen. Also handles
+ * input from the user and transmits the data to the {@link ForgotPasswordViewModel}
+ */
 public class ForgotPasswordActivity extends AppCompatActivity {
 
 
     private ActivityForgotPasswordBinding binding;
-    private ForgotPasswordViewModel viewmodel;
+    private ForgotPasswordViewModel viewModel;
 
+    /**
+     * Called upon creation of the {@link ForgotPasswordActivity}. Acts as a constructor sets up the member variables and inflates the layout.
+     *
+     * @param savedInstanceState not used
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_forgot_password);
-        viewmodel = new ViewModelProvider(this).get(ForgotPasswordViewModel.class);
-        binding.setViewmodel(viewmodel);
+        viewModel = new ViewModelProvider(this).get(ForgotPasswordViewModel.class);
+        binding.setViewmodel(viewModel);
         binding.setLifecycleOwner(this);
 
         // my_child_toolbar is defined in the layout file
@@ -48,6 +54,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         // Enable the Up button
         ab.setDisplayHomeAsUpEnabled(true);
 
+        // informs the viewModel about input changes
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -61,11 +68,12 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                viewmodel.passwordForgotDataChanged();
+                viewModel.passwordForgotDataChanged();
             }
         };
 
-        viewmodel.getFormState().observe(this, new Observer<ForgotPasswordFormState>() {
+        // observes the ForgotPasswordState and sets error accordingly
+        viewModel.getFormState().observe(this, new Observer<ForgotPasswordFormState>() {
             @Override
             public void onChanged(ForgotPasswordFormState forgotPasswordFormState) {
                 Resources resources = getResources();
@@ -78,6 +86,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             }
         });
 
+        // observes the result of the password change operation and informs the user accordingly
         final Observer<ViewModelResult> resultObserver = new Observer<ViewModelResult>() {
             @Override
             public void onChanged(ViewModelResult viewModelResult) {
@@ -92,12 +101,15 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             }
         };
 
-        viewmodel.getLoginResult().observe(this, resultObserver);
+        viewModel.getLoginResult().observe(this, resultObserver);
         binding.etcode.addTextChangedListener(afterTextChangedListener);
         binding.etLoginPassword.addTextChangedListener(afterTextChangedListener);
         binding.etconfirmpassword.addTextChangedListener(afterTextChangedListener);
     }
 
+    /**
+     * Moves to the {@link LoginActivity}
+     */
     private void goToLoginActivity(){
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);

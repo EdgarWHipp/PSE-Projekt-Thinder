@@ -218,6 +218,7 @@ public class SupervisorApiService {
                     if(theses==null){
                         resultCompletableFuture.complete(new Result(true));
                         thesisHashmap.complete(null);
+                        return;
                     }
                     for(ThesisDTO thesisDTO : theses){
                         returnTheses.add(ParseUtils.parseDTOtoThesis(thesisDTO));
@@ -227,7 +228,6 @@ public class SupervisorApiService {
                     resultCompletableFuture.complete(new Result(true));
                     thesisHashmap.complete(thesisHashMap);
                 } else {
-                    Log.e("",new String(String.valueOf(response.code())));
                     resultCompletableFuture.complete(new Result(R.string.unsuccessful_response, false));
                 }
             }

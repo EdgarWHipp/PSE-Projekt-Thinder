@@ -71,6 +71,11 @@ public class ThesisCardAdapter
     };
     private OnItemClickListener listener;
 
+    /**
+     * Constructor
+     *
+     * @param elements list of all the theses
+     */
     public ThesisCardAdapter(ArrayList<ThesisCardItem> elements) {
         if (elements != null && !(elements.isEmpty())) {
             this.elements = new ArrayList<>(elements);
@@ -83,10 +88,22 @@ public class ThesisCardAdapter
 
     }
 
+    /**
+     * Used for observer pattern. Registers ItemClickListener
+     *
+     * @param listener click listener
+     */
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
 
+    /**
+     * Creates new viewholder
+     *
+     * @param parent    ParentViewGroup
+     * @param viewType  type of the view
+     * @return          ThesisManagerViewHolder
+     */
     @NonNull
     @Override
     public ThesisCardAdapter.ThesisManagerViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
@@ -98,6 +115,12 @@ public class ThesisCardAdapter
         return coursesOfStudyViewHolder;
     }
 
+    /**
+     * Binds data to views
+     *
+     * @param holder    viewholder holding the views
+     * @param position  position used to get the data
+     */
     @Override
     public void onBindViewHolder(@NonNull ThesisCardAdapter.ThesisManagerViewHolder holder,
                                  int position) {
@@ -107,33 +130,60 @@ public class ThesisCardAdapter
         holder.image.setImageBitmap(current.getImage());
     }
 
+    /**
+     * returns number of elements in recyclerview
+     *
+     * @return Integer
+     */
     @Override
     public int getItemCount() {
         return elements.size();
     }
 
+    /**
+     * returns filter
+     *
+     * @return Filter
+     */
     @Override
     public Filter getFilter() {
         return elementsFilter;
     }
 
+    /**
+     * Sets elements of recyclerview and notifies about changed data
+     *
+     * @param elements new elements
+     */
     public void setElements(ArrayList<ThesisCardItem> elements) {
         if(elements != null){
-            this.elements = (ArrayList<ThesisCardItem>) elements.clone();
-            elementsFull = (ArrayList<ThesisCardItem>) elements.clone();
+            this.elements = new ArrayList<>(elements);
+            elementsFull = new ArrayList<>(elements);
             notifyDataSetChanged();
         }
     }
 
+    /**
+     * Used for observer pattern
+     */
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
 
+    /**
+     *  Holds all the views of one recyclerview item.
+     */
     public static class ThesisManagerViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
         public TextView description;
         public ImageView image;
 
+        /**
+         * Constructor
+         *
+         * @param itemView view of the viewholder
+         * @param listener used for click observation
+         */
         public ThesisManagerViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             title = itemView.findViewById(R.id.tvTitle);
