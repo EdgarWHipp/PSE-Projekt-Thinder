@@ -19,52 +19,41 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hfad.thinder.R;
-import com.hfad.thinder.databinding.FragmentCoursesOfStudyBinding;
 import com.hfad.thinder.viewmodels.CourseOfStudyItem;
 import com.hfad.thinder.viewmodels.CoursesOfStudyPicker;
 
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.
- * create an instance of this fragment.
+ * Abstract Fragment class that handles binding and layout inflation for the course of study
+ * selection screen.
  */
 public abstract class CoursesOfStudyFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     protected CoursesOfStudyPicker viewModel;
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-    private ArrayList<CourseOfStudyItem> elements;
+
     private RecyclerView mRecyclerView;
     private CoursesOfStudyAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private FragmentCoursesOfStudyBinding binding;
-    private View view;
 
+    /**
+     * Required empty public constructor
+     */
     public CoursesOfStudyFragment() {
         // Required empty public constructor
     }
 
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
+    /**
+     * Called after onCreateView. Sets up the {@link RecyclerView}. Observes Changes of the course
+     * of study list in the {@link CoursesOfStudyPicker} ViewModel
+     *
+     * @param view                  view returned by {@link CoursesOfStudyFragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)}
+     * @param savedInstanceState    not used
+     */
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         mRecyclerView = view.findViewById(R.id.rvCoursesOfStudy);
-        mLayoutManager = new LinearLayoutManager(view.getContext());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(view.getContext());
         mAdapter = new CoursesOfStudyAdapter(viewModel);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -80,16 +69,32 @@ public abstract class CoursesOfStudyFragment extends Fragment {
         viewModel.getCoursesOfStudyList().observe(getViewLifecycleOwner(), coursesOfStudyItemsObserver);
     }
 
+    /**
+     * Handles layout inflation. Connects binding with fragment.
+     *
+     * @param inflater            used for layout inflation
+     * @param container           used for layout inflation
+     * @param savedInstanceState  not used
+     * @return                    View for fragment's UI
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_courses_of_study, container, false);
-        binding.setFragment(this);
         // Inflate the layout for this fragment
-        view = binding.getRoot();
-        return view;
+        com.hfad.thinder.databinding.FragmentCoursesOfStudyBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_courses_of_study, container, false);
+        binding.setFragment(this);
+
+        return binding.getRoot();
     }
 
+
+
+    /**
+     * Sets up the top action bar for {@link RecyclerView} search actions.
+     *
+     * @param menu      options menu in which items are placed
+     * @param inflater  inflates menu
+     */
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -114,6 +119,11 @@ public abstract class CoursesOfStudyFragment extends Fragment {
         });
     }
 
+    /**
+     * Moves to previous screen
+     *
+     * @param view  used to find fragment in the NavController
+     */
     public void save(View view) {
         Navigation.findNavController(view).popBackStack();
     }

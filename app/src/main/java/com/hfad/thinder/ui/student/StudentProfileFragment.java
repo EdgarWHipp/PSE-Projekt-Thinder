@@ -26,57 +26,29 @@ import com.hfad.thinder.viewmodels.student.EditProfileFormState;
 import com.hfad.thinder.viewmodels.student.EditProfileViewModel;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link StudentProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Student profile screen where the student can change her/his personal data.
  */
 public class StudentProfileFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
     private FragmentStudentProfileBinding binding;
     private EditProfileViewModel viewModel;
-    private View view;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
+    /**
+     * Required empty constructor
+     */
     public StudentProfileFragment() {
         // Required empty public constructor
     }
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
+     * Handles layout inflation and binding. Gets the {@link EditProfileViewModel}
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment StudentProfileFragment.
+     * @param inflater            used for layout inflation
+     * @param container           used for layout inflation
+     * @param savedInstanceState  not used
+     * @return                    View for fragment's UI
      */
-    // TODO: Rename and change types and number of parameters
-    public static StudentProfileFragment newInstance(String param1, String param2) {
-        StudentProfileFragment fragment = new StudentProfileFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -84,11 +56,13 @@ public class StudentProfileFragment extends Fragment {
         binding =
                 DataBindingUtil.inflate(inflater, R.layout.fragment_student_profile, container, false);
 
-        view = binding.getRoot();
+        View view = binding.getRoot();
         viewModel = new ViewModelProvider(requireActivity()).get(EditProfileViewModel.class);
         binding.setFragment(this);
         binding.setViewmodel(viewModel);
         binding.setLifecycleOwner(getViewLifecycleOwner());
+
+        // observes the result of a profile deletion and moves user to login-screen if successful
         final Observer<ViewModelResult> deleteResultObserver = new Observer<ViewModelResult>() {
             @Override
             public void onChanged(ViewModelResult viewModelResult) {
@@ -102,7 +76,7 @@ public class StudentProfileFragment extends Fragment {
             }
         };
 
-
+        // observes the result of a data change and informs user about success/failure
         final Observer<ViewModelResult> saveResultObserver = new Observer<ViewModelResult>() {
             @Override
             public void onChanged(ViewModelResult viewModelResult) {
@@ -170,7 +144,10 @@ public class StudentProfileFragment extends Fragment {
         return view;
     }
 
-    public void removeProfile(View view) {
+    /**
+     * Opens confirmation prompt and calls delete method in the {@link EditProfileViewModel}
+     */
+    public void removeProfile() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setCancelable(true);
         builder.setTitle(getContext().getResources().getString(R.string.account_remove));
@@ -192,11 +169,19 @@ public class StudentProfileFragment extends Fragment {
         dialog.show();
     }
 
+    /**
+     * Moves user to the {@link CoursesOfStudyStudentFragment}
+     *
+     * @param view needed to get fragment in NavController
+     */
     public void goToCoursesOfStudyFragment(View view) {
         Navigation.findNavController(view)
                 .navigate(R.id.action_studentProfileFragment_to_coursesOfStudyStudentFragment);
     }
 
+    /**
+     * Starts the {@link LoginActivity}
+     */
     private void goToLoginActivity() {
         Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
         getActivity().startActivity(intent);

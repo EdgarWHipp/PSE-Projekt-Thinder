@@ -18,23 +18,15 @@ import com.hfad.thinder.databinding.FragmentSwipeScreenBinding;
 import com.hfad.thinder.viewmodels.student.SwipeScreenViewModel;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link SwipeScreenFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Presents swipeable cards to the student. Handles swipe animation and the transition into the
+ * detailed view of the swipe card. There are always two cards present. The top card is the one that
+ * the user can interact with and the bottom card is used to make the illusion of an infinitely
+ * large swipe deck.
  */
 public class SwipeScreenFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private FragmentSwipeScreenBinding binding;
-    private SwipeScreenViewModel viewmodel;
+    private SwipeScreenViewModel viewModel;
 
     private ImageFilterButton like;
     private ImageFilterButton dislike;
@@ -48,50 +40,39 @@ public class SwipeScreenFragment extends Fragment {
     // used to prevent user from starting another animation while one is already ongoing
     private View blockTouch;
 
+    /**
+     * Required empty constructor
+     */
     public SwipeScreenFragment() {
         // Required empty public constructor
     }
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SwipeScreenFragment.
+     * Called on deletion of the fragment. Pushes the user ratings to the backend when user leaves
+     * the swipescreen.
      */
-    // TODO: Rename and change types and number of parameters
-    public static SwipeScreenFragment newInstance(String param1, String param2) {
-        SwipeScreenFragment fragment = new SwipeScreenFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
-        viewmodel.pushRatings();
+        viewModel.pushRatings();
     }
 
+    /**
+     * Handles layout inflation and binding. Gets the {@link SwipeScreenViewModel}. Observes the
+     * animation transitions caused by user input.
+     *
+     * @param inflater            used for layout inflation
+     * @param container           used for layout inflation
+     * @param savedInstanceState  not used
+     * @return                    View for fragment's UI
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_swipe_screen, container, false);
         binding.setFragment(this);
-        viewmodel = new ViewModelProvider(requireActivity()).get(SwipeScreenViewModel.class);
-        binding.setViewModel(viewmodel);
+        viewModel = new ViewModelProvider(requireActivity()).get(SwipeScreenViewModel.class);
+        binding.setViewModel(viewModel);
         binding.setLifecycleOwner(getViewLifecycleOwner());
 
         View view = binding.getRoot();
@@ -99,10 +80,10 @@ public class SwipeScreenFragment extends Fragment {
         dislike = binding.btSwipeLeft;
         redraw = binding.btRedraw;
 
-
         blockTouch = binding.vBlockTouch;
         cardTwo = binding.cardTwo;
         motionLayout = binding.motionLayoutSwipeScreen;
+        // observes changes in the animation states
         motionLayout.setTransitionListener(new MotionLayout.TransitionListener() {
 
             @Override
@@ -128,13 +109,12 @@ public class SwipeScreenFragment extends Fragment {
                 switch (currentId) {
                     case R.id.offScreenLike:
                         if (motionLayout.getEndState() == R.id.start) {
-                            viewmodel.like();
+                            viewModel.like();
                         }
-
                         break;
                     case R.id.offScreenUnlike:
                         if (motionLayout.getEndState() == R.id.start) {
-                            viewmodel.dislike();
+                            viewModel.dislike();
                         }
                         break;
                     case R.id.detail:
@@ -159,39 +139,52 @@ public class SwipeScreenFragment extends Fragment {
                 populateCards();
             }
         };
-        viewmodel.getCurrentDeckPosition()
+        viewModel.getCurrentDeckPosition()
                 .observe(getViewLifecycleOwner(), currentDeckPositionObserver);
         return view;
     }
 
-    public void rightClick(View view) {
+    /**
+     * Called when user presses button on the right. Either likes a thesis or when in detailed view
+     * shows next screen.
+     */
+    public void rightClick() {
         if (motionLayout.getCurrentState() != R.id.detail) {
             // implicitly calls viewmodel.like()
             motionLayout.transitionToState(R.id.like);
         } else {
-            if (viewmodel.incrementCurrentDetailViewPosition()) {
-                populateDetailView(viewmodel.getCurrentDetailViewState(), R.anim.slide_in_left,
+            if (viewModel.incrementCurrentDetailViewPosition()) {
+                populateDetailView(viewModel.getCurrentDetailViewState(), R.anim.slide_in_left,
                         R.anim.slide_out_left);
             }
         }
     }
 
-
-    public void leftClick(View view) {
+    /**
+     * Called when user presses button on the left. Either dislikes a thesis or when in detailed view
+     * shows previous screen.
+     */
+    public void leftClick() {
         if (motionLayout.getCurrentState() != R.id.detail) {
             motionLayout.transitionToState(R.id.unlike);
         } else {
-            if (viewmodel.decrementCurrentDetailViewPosition()) {
-                populateDetailView(viewmodel.getCurrentDetailViewState(), R.anim.slide_in_right,
+            if (viewModel.decrementCurrentDetailViewPosition()) {
+                populateDetailView(viewModel.getCurrentDetailViewState(), R.anim.slide_in_right,
                         R.anim.slide_out_right);
             }
         }
     }
 
-    public void redrawCard(View view) {
-        viewmodel.redraw();
+    /**
+     * Reverts the last rating.
+     */
+    public void redrawCard() {
+        viewModel.redraw();
     }
 
+    /**
+     * Sets the correct data to both the card in the front and in the back.
+     */
     private void populateCards() {
         Bundle cardOneBundle = new Bundle();
         cardOneBundle.putBoolean("isCardOne", true);
@@ -207,6 +200,13 @@ public class SwipeScreenFragment extends Fragment {
                 .commit();
     }
 
+    /**
+     * Populates cards in the detail view with the correct data.
+     *
+     * @param currentDetailViewState    what kind of detail view card
+     * @param inAnimationId             transition going into the screen
+     * @param outAnimationId            transition leaving the screen
+     */
     private void populateDetailView(DetailViewStates currentDetailViewState, int inAnimationId,
                                     int outAnimationId) {
         switch (currentDetailViewState) {
@@ -258,11 +258,14 @@ public class SwipeScreenFragment extends Fragment {
         }
     }
 
+    /**
+     * all the different detail view states
+     */
     public enum DetailViewStates {
-        TOP,
-        IMAGE,
-        TEXT,
-        INFO
+        TOP,       // the card on the swipe deck
+        IMAGE,     // card showing an image
+        TEXT,      // card showing the task and motivation of the thesis
+        INFO       // information about the supervisor and thesis in general
     }
 
 

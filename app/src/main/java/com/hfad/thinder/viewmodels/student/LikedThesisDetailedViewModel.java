@@ -38,6 +38,7 @@ public class LikedThesisDetailedViewModel extends ViewModel implements ImageGall
   private MutableLiveData<String> building;
   private MutableLiveData<String> supervisingProf;
   private MutableLiveData<String> institute;
+  private MutableLiveData<String> title;
 
   private UUID thesisId;
 
@@ -76,13 +77,22 @@ public class LikedThesisDetailedViewModel extends ViewModel implements ImageGall
     getCurrentImage().setValue(iterator.previous());
   }
 
-  public void setThesisId(UUID thesisId, ArrayList<Bitmap> images) {
-    this.images = images;
+  public void setThesisId(UUID thesisId) {
     this.thesisId = thesisId;
     loadThesis();
   }
 
   //-----------------------getter and setter-----------------------------
+
+
+  /**
+   * @return a {@link MutableLiveData} object of the thesis title as a {@link String}.
+   */
+  public MutableLiveData<String> getTitle() {
+    if(title == null)
+      title = new MutableLiveData<>();
+    return title;
+  }
 
   /**
    * @return a {@link MutableLiveData} object containing all currently selected courses of study as a {@link String}.
@@ -198,6 +208,7 @@ public class LikedThesisDetailedViewModel extends ViewModel implements ImageGall
     return hasImages;
   }
 
+
   //-----------------------private methods--------------------------------
 
   private void loadThesis() {//Todo in kleinere Methoden unterteilen
@@ -205,6 +216,7 @@ public class LikedThesisDetailedViewModel extends ViewModel implements ImageGall
     Supervisor supervisor = thesis.getSupervisor();
     images = convertImages(thesis.getImages());
     iterator = new ImageListIterator<>(images);
+    getTitle().setValue(thesis.getName());
     getTask().setValue(thesis.getTask());
     getMotivation().setValue(thesis.getMotivation());
     coursesOfStudyList = coursesOfStudyAdapter(thesis.getPossibleDegrees());

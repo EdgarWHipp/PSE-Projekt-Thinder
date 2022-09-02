@@ -91,15 +91,6 @@ public class StudentActivity extends AppCompatActivity {
     }
 
     /**
-     * Sets the title of the top action bar
-     *
-     * @param title new title
-     */
-    public void setActionBarTitle(String title) {
-        topActionBar.setTitle(title);
-    }
-
-    /**
      * signals to the {@link StudentViewModel} that the profile is complete
      */
     public void profileCompleted() {

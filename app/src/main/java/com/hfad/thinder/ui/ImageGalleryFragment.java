@@ -12,34 +12,27 @@ import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentImageGalleryBinding;
 
 /**
- * A simple {@link Fragment} subclass.
- * create an instance of this fragment.
+ * Abstract Fragment class that handles binding and layout inflation for ImageGalleries
  */
 public abstract class ImageGalleryFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     protected FragmentImageGalleryBinding binding;
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
+    /**
+     * Required empty public constructor
+     */
     public ImageGalleryFragment() {
         // Required empty public constructor
     }
 
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
+    /**
+     * Acts as a constructor
+     *
+     * @param inflater            used for layout inflation
+     * @param container           used for layout inflation
+     * @param savedInstanceState  not used
+     * @return                    View for fragment's UI
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

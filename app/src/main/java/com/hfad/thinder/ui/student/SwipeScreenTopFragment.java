@@ -11,69 +11,38 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.hfad.thinder.R;
-import com.hfad.thinder.databinding.FragmentSwipeScreenTopBinding;
 import com.hfad.thinder.viewmodels.student.SwipeScreenViewModel;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link SwipeScreenTopFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Top fragment seen in the swipe deck.
  */
 public class SwipeScreenTopFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private FragmentSwipeScreenTopBinding binding;
-    private View view;
-    private SwipeScreenViewModel viewModel;
-
     private Boolean isCardOne = true;
 
+    /**
+     * Required empty constructor
+     */
     public SwipeScreenTopFragment() {
         // Required empty public constructor
     }
 
+
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
+     * Handles layout inflation and binding.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SwipeScreenTopFragment.
+     * @param inflater            used for layout inflation
+     * @param container           used for layout inflation
+     * @param savedInstanceState  not used
+     * @return                    View for fragment's UI
      */
-    // TODO: Rename and change types and number of parameters
-    public static SwipeScreenTopFragment newInstance(String param1, String param2) {
-        SwipeScreenTopFragment fragment = new SwipeScreenTopFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_swipe_screen_top, container, false);
-        view = binding.getRoot();
-        viewModel = new ViewModelProvider(requireActivity()).get(SwipeScreenViewModel.class);
+        com.hfad.thinder.databinding.FragmentSwipeScreenTopBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_swipe_screen_top, container, false);
+        View view = binding.getRoot();
+        SwipeScreenViewModel viewModel = new ViewModelProvider(requireActivity()).get(SwipeScreenViewModel.class);
         binding.setFragment(this);
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(getViewLifecycleOwner());
@@ -81,6 +50,12 @@ public class SwipeScreenTopFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Extracts information from bundle and sets {@link com.hfad.thinder.ui.student.SwipeScreenTopFragment#isCardOne} accordingly
+     *
+     * @param view                  view returned by {@link LikedThesesFragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)}
+     * @param savedInstanceState    not used
+     */
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         Bundle bundle = this.getArguments();
@@ -89,6 +64,10 @@ public class SwipeScreenTopFragment extends Fragment {
         }
     }
 
+    /**
+     *
+     * @return {@link Boolean} whether it is card one or card two
+     */
     public boolean isCardOne() {
         return isCardOne;
     }

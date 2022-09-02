@@ -15,12 +15,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hfad.thinder.R;
-import com.hfad.thinder.viewmodels.CourseOfStudyItem;
 import com.hfad.thinder.viewmodels.ThesisCardItem;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
+/**
+ *  Is responsible for displaying a given List of {@link ThesisCardItem} in a RecyclerView.
+ *  Also handles click events and filter operations.
+ */
 public class ThesisCardAdapter
         extends RecyclerView.Adapter<ThesisCardAdapter.ThesisManagerViewHolder> implements Filterable {
 

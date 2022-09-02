@@ -30,7 +30,17 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
+                <TextView
+                    android:id="@+id/tvTitleContent"
+                    style="@style/headline_h6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.title}"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/tvTask"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
                 <TextView
                     android:id="@+id/tvTask"
                     style="@style/headline_h6"
@@ -41,7 +51,7 @@
                     app:layout_constraintBottom_toTopOf="@id/tvTaskContent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@id/tvTitleContent" />
 
                 <TextView
                     android:id="@+id/tvTaskContent"
@@ -253,7 +263,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/fab_margin"
             android:drawableTop="@drawable/ic_remove"
-            android:onClick="@{(v) -> fragment.deleteThesis(v)}"
+            android:onClick="@{() -> fragment.deleteThesis()}"
             android:text="@string/remove"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btImages"
@@ -301,7 +311,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:drawableTop="@drawable/ic_mail"
-            android:onClick="@{(v) -> fragment.startEmailClient(v)}"
+            android:onClick="@{() -> fragment.startEmailClient()}"
             android:text="@string/contact"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
