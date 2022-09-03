@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -19,66 +20,44 @@ import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.hfad.thinder.R;
 import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.databinding.FragmentThesisStatisticsBinding;
+import com.hfad.thinder.ui.ThesisCardAdapter;
+import com.hfad.thinder.ui.student.LikedThesesFragment;
+import com.hfad.thinder.viewmodels.student.LikedThesesViewModel;
 import com.hfad.thinder.viewmodels.supervisor.EditThesisViewModel;
 
 import java.util.ArrayList;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link ThesisStatisticsFragment#newInstance} factory method to
- * create an instance of this fragment.
+ *  UI to show the like/dislike ratio of rated theses
  */
 public class ThesisStatisticsFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    public static final int DURATION_MILLIS = 1400;
+    public static final float TEXT_SIZE = 13f;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private FragmentThesisStatisticsBinding binding;
     private PieChart pieChart;
     private EditThesisViewModel viewModel;
 
+    /**
+     * Required empty constructor
+     */
     public ThesisStatisticsFragment() {
         // Required empty public constructor
     }
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
+     * Handles layout inflation and binding. Gets the {@link EditThesisViewModel}
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ThesisStatisticsFragment.
+     * @param inflater            used for layout inflation
+     * @param container           used for layout inflation
+     * @param savedInstanceState  not used
+     * @return                    View for fragment's UI
      */
-    // TODO: Rename and change types and number of parameters
-    public static ThesisStatisticsFragment newInstance(String param1, String param2) {
-        ThesisStatisticsFragment fragment = new ThesisStatisticsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_thesis_statistics, container, false);
+        com.hfad.thinder.databinding.FragmentThesisStatisticsBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_thesis_statistics, container, false);
         pieChart = binding.pcStatistics;
         viewModel = new ViewModelProvider(requireActivity()).get(EditThesisViewModel.class);
         binding.setViewModel(viewModel);
@@ -86,11 +65,23 @@ public class ThesisStatisticsFragment extends Fragment {
         return binding.getRoot();
     }
 
+    /**
+     * Called after {@link ThesisStatisticsFragment#onCreateView(android.view.LayoutInflater,
+     * android.view.ViewGroup, android.os.Bundle)}. Sets up pie chart.
+     *
+     * @param view                  view returned by {@link ThesisStatisticsFragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)}
+     * @param savedInstanceState    not used
+     */
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         setPieChart(viewModel.getThesisStatistics());
     }
 
+    /**
+     * Creates a pie chart with the given like/dislike-ratio and sets up all necessary parameters.
+     *
+     * @param statistics like/dislike-ratio
+     */
     private void setPieChart(Pair<Integer, Integer> statistics) {
         ArrayList<PieEntry> entries = new ArrayList<>();
         entries.add(new PieEntry(statistics.getFirst(), getContext().getResources().getString(R.string.likes)));
@@ -103,9 +94,9 @@ public class ThesisStatisticsFragment extends Fragment {
         PieData data = new PieData(dataSet);
         data.setValueTextColor(Color.WHITE);
         data.setValueFormatter(new LargeValueFormatter());
-        data.setValueTextSize(13f);
+        data.setValueTextSize(TEXT_SIZE);
         pieChart.getDescription().setEnabled(false);
-        pieChart.animateY(1400, Easing.EaseInOutQuad);
+        pieChart.animateY(DURATION_MILLIS, Easing.EaseInOutQuad);
         pieChart.setData(data);
     }
 }

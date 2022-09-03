@@ -49,18 +49,15 @@ public class SupervisorActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(SupervisorViewModel.class);
 
         // observes if profile is complete. If that is the case moves to the theses manager screen and enables the buttons
-        final Observer<Boolean> profileCreatedObserver = new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean profileCreated) {
+        final Observer<Boolean> profileCreatedObserver = profileCreated -> {
 
-                if (profileCreated) {
-                    bottomNavigationView.getMenu().findItem(R.id.thesisManagerFragment).setEnabled(true);
-                    bottomNavigationView.setSelectedItemId(R.id.thesisManagerFragment);
-                } else {
-                    bottomNavigationView.getMenu().findItem(R.id.thesisManagerFragment).setEnabled(false);
-                }
-
+            if (profileCreated) {
+                bottomNavigationView.getMenu().findItem(R.id.thesisManagerFragment).setEnabled(true);
+                bottomNavigationView.setSelectedItemId(R.id.thesisManagerFragment);
+            } else {
+                bottomNavigationView.getMenu().findItem(R.id.thesisManagerFragment).setEnabled(false);
             }
+
         };
 
         viewModel.getProfileComplete().observe(this, profileCreatedObserver);

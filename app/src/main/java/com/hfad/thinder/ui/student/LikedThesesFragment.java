@@ -35,13 +35,10 @@ public class LikedThesesFragment extends Fragment implements SwipeRefreshLayout.
 
     private FragmentLikedThesesBinding binding;
     private LikedThesesViewModel viewModel;
-    private View view;
 
 
-    private RecyclerView recyclerView;
     private SwipeRefreshLayout refreshLayout;
     private ThesisCardAdapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
 
     /**
      * Required empty constructor
@@ -63,7 +60,7 @@ public class LikedThesesFragment extends Fragment implements SwipeRefreshLayout.
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_liked_theses, container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(LikedThesesViewModel.class);
-        view = binding.getRoot();
+        View view = binding.getRoot();
         return view;
     }
 
@@ -80,19 +77,9 @@ public class LikedThesesFragment extends Fragment implements SwipeRefreshLayout.
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
         buildRecyclerView(view);
-        final Observer<ArrayList<ThesisCardItem>> likedThesesObserver = new Observer<ArrayList<ThesisCardItem>>() {
-            @Override
-            public void onChanged(ArrayList<ThesisCardItem> thesisCardItems) {
-                adapter.setElements(viewModel.getLikedTheses().getValue());
-            }
-        };
+        final Observer<ArrayList<ThesisCardItem>> likedThesesObserver = thesisCardItems -> adapter.setElements(viewModel.getLikedTheses().getValue());
         viewModel.getLikedTheses().observe(getViewLifecycleOwner(), likedThesesObserver);
-        final Observer<Boolean> isLoadingObserver = new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                refreshLayout.setRefreshing(aBoolean);
-            }
-        };
+        final Observer<Boolean> isLoadingObserver = aBoolean -> refreshLayout.setRefreshing(aBoolean);
 
         viewModel.getIsLoading().observe(getViewLifecycleOwner(), isLoadingObserver);
     }
@@ -105,25 +92,22 @@ public class LikedThesesFragment extends Fragment implements SwipeRefreshLayout.
     private void buildRecyclerView(View view) {
         refreshLayout = binding.refreshLayout;
         refreshLayout.setOnRefreshListener(this);
-        layoutManager = new LinearLayoutManager(view.getContext());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         adapter = new ThesisCardAdapter(viewModel.getLikedTheses().getValue());
-        recyclerView = binding.recyclerView;
+        RecyclerView recyclerView = binding.recyclerView;
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
         // sends user to the thesis he/she clicked on
-        adapter.setOnItemClickListener(new ThesisCardAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                ThesisCardItem thesisCardItem = viewModel.getLikedTheses().getValue().get(position);
+        adapter.setOnItemClickListener(position -> {
+            ThesisCardItem thesisCardItem = viewModel.getLikedTheses().getValue().get(position);
 
-                UUID UUID = thesisCardItem.getThesisUUID();
-                Bundle bundle = new Bundle();
-                bundle.putString("thesisUUID", UUID.toString());
+            UUID UUID = thesisCardItem.getThesisUUID();
+            Bundle bundle = new Bundle();
+            bundle.putString("thesisUUID", UUID.toString());
 
-                Navigation.findNavController(view).navigate(R.id.action_likedThesesFragment_to_likedThesisDetailedFragment, bundle);
-            }
+            Navigation.findNavController(view).navigate(R.id.action_likedThesesFragment_to_likedThesisDetailedFragment, bundle);
         });
     }
 
@@ -134,8 +118,6 @@ public class LikedThesesFragment extends Fragment implements SwipeRefreshLayout.
     public void onRefresh() {
         loadRecyclerViewData();
     }
-
-
 
     /**
      * adds filtering of the {@link RecyclerView} in the top action bar
@@ -148,6 +130,15 @@ public class LikedThesesFragment extends Fragment implements SwipeRefreshLayout.
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.liked_theses_menu, menu);
 
+        buildSearchMenu(menu);
+    }
+
+    /**
+     * Sets up the search menu for filtering
+     *
+     * @param menu menu component to attach search function to
+     */
+    private void buildSearchMenu(Menu menu) {
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
 
@@ -168,7 +159,7 @@ public class LikedThesesFragment extends Fragment implements SwipeRefreshLayout.
     }
 
     /**
-     * Adds refresh button to top action bar
+     * Adds refresh button to the top action bar
      *
      * @param   item menu item
      * @return  returns true if handled successfully

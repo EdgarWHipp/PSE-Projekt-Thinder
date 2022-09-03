@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -15,9 +16,7 @@ import com.hfad.thinder.viewmodels.student.EditProfileViewModel;
 import com.hfad.thinder.viewmodels.student.SwipeScreenViewModel;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link SwipeScreenTextFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * UI that displays the task and motivation of a thesis
  */
 public class SwipeScreenTextFragment extends Fragment {
 
@@ -37,14 +36,14 @@ public class SwipeScreenTextFragment extends Fragment {
      * @return                    View for fragment's UI
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         FragmentSwipeScreenTextBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_swipe_screen_text, container, false);
         SwipeScreenViewModel viewModel = new ViewModelProvider(requireActivity()).get(SwipeScreenViewModel.class);
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(getViewLifecycleOwner());
 
-        // Inflate the layout for this fragment
         return binding.getRoot();
     }
 }

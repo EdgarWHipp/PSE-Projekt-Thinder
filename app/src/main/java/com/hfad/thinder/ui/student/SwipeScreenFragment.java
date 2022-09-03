@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.constraintlayout.utils.widget.ImageFilterButton;
 import androidx.databinding.DataBindingUtil;
@@ -48,16 +49,6 @@ public class SwipeScreenFragment extends Fragment {
     }
 
     /**
-     * Called on deletion of the fragment. Pushes the user ratings to the backend when user leaves
-     * the swipescreen.
-     */
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        viewModel.pushRatings();
-    }
-
-    /**
      * Handles layout inflation and binding. Gets the {@link SwipeScreenViewModel}. Observes the
      * animation transitions caused by user input.
      *
@@ -67,7 +58,7 @@ public class SwipeScreenFragment extends Fragment {
      * @return                    View for fragment's UI
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_swipe_screen, container, false);
         binding.setFragment(this);
@@ -133,15 +124,20 @@ public class SwipeScreenFragment extends Fragment {
             }
         });
 
-        final Observer<Integer> currentDeckPositionObserver = new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                populateCards();
-            }
-        };
+        final Observer<Integer> currentDeckPositionObserver = integer -> populateCards();
         viewModel.getCurrentDeckPosition()
                 .observe(getViewLifecycleOwner(), currentDeckPositionObserver);
         return view;
+    }
+
+    /**
+     * Called on deletion of the fragment. Pushes the user ratings to the backend when user leaves
+     * the swipescreen.
+     */
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        viewModel.pushRatings();
     }
 
     /**

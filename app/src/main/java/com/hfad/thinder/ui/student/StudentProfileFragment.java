@@ -56,42 +56,35 @@ public class StudentProfileFragment extends Fragment {
         binding =
                 DataBindingUtil.inflate(inflater, R.layout.fragment_student_profile, container, false);
 
-        View view = binding.getRoot();
         viewModel = new ViewModelProvider(requireActivity()).get(EditProfileViewModel.class);
         binding.setFragment(this);
         binding.setViewmodel(viewModel);
         binding.setLifecycleOwner(getViewLifecycleOwner());
 
         // observes the result of a profile deletion and moves user to login-screen if successful
-        final Observer<ViewModelResult> deleteResultObserver = new Observer<ViewModelResult>() {
-            @Override
-            public void onChanged(ViewModelResult viewModelResult) {
-                if (viewModelResult.isSuccess()) {
-                    goToLoginActivity();
-                } else {
-                    Toast toast = Toast.makeText(getContext(), viewModelResult.getErrorMessage(),
-                            Toast.LENGTH_LONG);
-                    toast.show();
-                }
+        final Observer<ViewModelResult> deleteResultObserver = viewModelResult -> {
+            if (viewModelResult.isSuccess()) {
+                goToLoginActivity();
+            } else {
+                Toast toast = Toast.makeText(getContext(), viewModelResult.getErrorMessage(),
+                        Toast.LENGTH_LONG);
+                toast.show();
             }
         };
 
         // observes the result of a data change and informs user about success/failure
-        final Observer<ViewModelResult> saveResultObserver = new Observer<ViewModelResult>() {
-            @Override
-            public void onChanged(ViewModelResult viewModelResult) {
-                if(viewModelResult == null)
-                    return;
-                if (viewModelResult.isSuccess()) {
-                    Toast toast =
-                            Toast.makeText(getContext(), getText(R.string.save_successful), Toast.LENGTH_LONG);
-                    toast.show();
-                    ((StudentActivity) getActivity()).profileCompleted();
-                } else {
-                    Toast toast =
-                            Toast.makeText(getContext(), viewModelResult.getErrorMessage(), Toast.LENGTH_LONG);
-                    toast.show();
-                }
+        final Observer<ViewModelResult> saveResultObserver = viewModelResult -> {
+            if(viewModelResult == null)
+                return;
+            if (viewModelResult.isSuccess()) {
+                Toast toast =
+                        Toast.makeText(getContext(), getText(R.string.save_successful), Toast.LENGTH_LONG);
+                toast.show();
+                ((StudentActivity) getActivity()).profileCompleted();
+            } else {
+                Toast toast =
+                        Toast.makeText(getContext(), viewModelResult.getErrorMessage(), Toast.LENGTH_LONG);
+                toast.show();
             }
         };
 
@@ -114,26 +107,18 @@ public class StudentProfileFragment extends Fragment {
         };
 
 
-        viewModel.getSelectedCoursesOfStudy().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                viewModel.profileDataChanged();
-            }
-        });
+        viewModel.getSelectedCoursesOfStudy().observe(getViewLifecycleOwner(), s -> viewModel.profileDataChanged());
 
-        viewModel.getFormState().observe(getViewLifecycleOwner(), new Observer<EditProfileFormState>() {
-            @Override
-            public void onChanged(EditProfileFormState editProfileFormState) {
-                Resources resources = getResources();
-                if (editProfileFormState.getFirstNameErrorMessage() != null) {
-                    binding.etFirstName.setError(resources.getString(editProfileFormState.getFirstNameErrorMessage()));
-                }
-                if (editProfileFormState.getLastNameErrorMessage() != null) {
-                    binding.etLastName.setError(resources.getString(editProfileFormState.getLastNameErrorMessage()));
-                }
-                if (editProfileFormState.getCoursesOfStudyErrorMessage() != null) {
-                    binding.tvCoursesOfStudy.setError(resources.getString(editProfileFormState.getCoursesOfStudyErrorMessage()));
-                }
+        viewModel.getFormState().observe(getViewLifecycleOwner(), editProfileFormState -> {
+            Resources resources = getResources();
+            if (editProfileFormState.getFirstNameErrorMessage() != null) {
+                binding.etFirstName.setError(resources.getString(editProfileFormState.getFirstNameErrorMessage()));
+            }
+            if (editProfileFormState.getLastNameErrorMessage() != null) {
+                binding.etLastName.setError(resources.getString(editProfileFormState.getLastNameErrorMessage()));
+            }
+            if (editProfileFormState.getCoursesOfStudyErrorMessage() != null) {
+                binding.tvCoursesOfStudy.setError(resources.getString(editProfileFormState.getCoursesOfStudyErrorMessage()));
             }
         });
         viewModel.getDeleteResult().observe(getViewLifecycleOwner(), deleteResultObserver);
@@ -141,7 +126,7 @@ public class StudentProfileFragment extends Fragment {
         binding.etFirstName.addTextChangedListener(afterTextChangedListener);
         binding.etLastName.addTextChangedListener(afterTextChangedListener);
 
-        return view;
+        return binding.getRoot();
     }
 
     /**
@@ -153,16 +138,8 @@ public class StudentProfileFragment extends Fragment {
         builder.setTitle(getContext().getResources().getString(R.string.account_remove));
         builder.setMessage(getContext().getResources().getString(R.string.account_remove_text));
         builder.setPositiveButton(getContext().getResources().getString(R.string.remove),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        viewModel.delete();
-                    }
-                });
-        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
+                (dialog, which) -> viewModel.delete());
+        builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> {
         });
 
         AlertDialog dialog = builder.create();

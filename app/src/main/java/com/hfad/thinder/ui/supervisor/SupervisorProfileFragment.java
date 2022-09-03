@@ -24,95 +24,65 @@ import com.hfad.thinder.viewmodels.supervisor.EditProfileFormState;
 import com.hfad.thinder.viewmodels.supervisor.EditProfileViewModel;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link SupervisorProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Supervisor profile screen where the supervisor can change her/his personal data.
  */
 public class SupervisorProfileFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private EditProfileViewModel viewmodel;
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+    private EditProfileViewModel viewModel;
     private FragmentSupervisorProfileBinding binding;
 
+    /**
+     * Required empty constructor
+     */
     public SupervisorProfileFragment() {
         // Required empty public constructor
     }
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
+     * Handles layout inflation and binding. Gets the {@link EditProfileViewModel}
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SupervisorProfileFragment.
+     * @param inflater            used for layout inflation
+     * @param container           used for layout inflation
+     * @param savedInstanceState  not used
+     * @return                    View for fragment's UI
      */
-    // TODO: Rename and change types and number of parameters
-    public static SupervisorProfileFragment newInstance(String param1, String param2) {
-        SupervisorProfileFragment fragment = new SupervisorProfileFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(false);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_supervisor_profile, container,
                 false);
 
-        viewmodel = new ViewModelProvider(this).get(EditProfileViewModel.class);
+        viewModel = new ViewModelProvider(this).get(EditProfileViewModel.class);
         binding.setFragment(this);
-        binding.setViewmodel(viewmodel);
+        binding.setViewmodel(viewModel);
         binding.setLifecycleOwner(getViewLifecycleOwner());
 
-        viewmodel.getFormState().observe(getViewLifecycleOwner(), new Observer<EditProfileFormState>() {
-            @Override
-            public void onChanged(EditProfileFormState editProfileFormState) {
-                if (editProfileFormState.getFirstNameErrorMessage() != null) {
-                    binding.etFirstName.setError(
-                            getResources().getString(editProfileFormState.getFirstNameErrorMessage()));
-                }
-                if (editProfileFormState.getLastNameErrorMessage() != null) {
-                    binding.etLastName.setError(
-                            getResources().getString(editProfileFormState.getLastNameErrorMessage()));
-                }
-                if (editProfileFormState.getBuildingErrorMessage() != null) {
-                    binding.etBuilding.setError(
-                            getResources().getString(editProfileFormState.getBuildingErrorMessage()));
-                }
-                if (editProfileFormState.getRoomErrorMessage() != null) {
-                    binding.etRoom.setError(
-                            getResources().getString(editProfileFormState.getRoomErrorMessage()));
-                }
-                if (editProfileFormState.getPhoneNumberErrorMessage() != null) {
-                    binding.etPhoneNumber.setError(
-                            getResources().getString(editProfileFormState.getPhoneNumberErrorMessage()));
-                }
-                if (editProfileFormState.getInstituteErrorMessage() != null) {
-                    binding.etInstitute.setError(
-                            getResources().getString(editProfileFormState.getInstituteErrorMessage()));
-                }
+        // observes the result of a profile deletion and moves user to login-screen if successful
+        viewModel.getFormState().observe(getViewLifecycleOwner(), editProfileFormState -> {
+            if (editProfileFormState.getFirstNameErrorMessage() != null) {
+                binding.etFirstName.setError(
+                        getResources().getString(editProfileFormState.getFirstNameErrorMessage()));
+            }
+            if (editProfileFormState.getLastNameErrorMessage() != null) {
+                binding.etLastName.setError(
+                        getResources().getString(editProfileFormState.getLastNameErrorMessage()));
+            }
+            if (editProfileFormState.getBuildingErrorMessage() != null) {
+                binding.etBuilding.setError(
+                        getResources().getString(editProfileFormState.getBuildingErrorMessage()));
+            }
+            if (editProfileFormState.getRoomErrorMessage() != null) {
+                binding.etRoom.setError(
+                        getResources().getString(editProfileFormState.getRoomErrorMessage()));
+            }
+            if (editProfileFormState.getPhoneNumberErrorMessage() != null) {
+                binding.etPhoneNumber.setError(
+                        getResources().getString(editProfileFormState.getPhoneNumberErrorMessage()));
+            }
+            if (editProfileFormState.getInstituteErrorMessage() != null) {
+                binding.etInstitute.setError(
+                        getResources().getString(editProfileFormState.getInstituteErrorMessage()));
             }
         });
 
@@ -129,44 +99,39 @@ public class SupervisorProfileFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                viewmodel.profileDataChanged();
+                viewModel.profileDataChanged();
             }
         };
 
-        final Observer<ViewModelResult> saveResultObserver = new Observer<ViewModelResult>() {
-            @Override
-            public void onChanged(ViewModelResult editProfileResult) {
-                if(editProfileResult == null)
-                    return;
-                Toast toast;
-                if (editProfileResult.isSuccess()) {
-                    toast = Toast.makeText(getContext(),
-                            getResources().getString(R.string.edit_profile_success_message), Toast.LENGTH_LONG);
-                    toast.show();
-                    ((SupervisorActivity) getActivity()).profileCompleted();
-                } else if (!editProfileResult.isSuccess()) {
-                    toast =
-                            Toast.makeText(getContext(), editProfileResult.getErrorMessage(), Toast.LENGTH_LONG);
-                    toast.show();
-                }
+        // observes the result of a data change and informs user about success/failure
+        final Observer<ViewModelResult> saveResultObserver = editProfileResult -> {
+            if(editProfileResult == null)
+                return;
+            Toast toast;
+            if (editProfileResult.isSuccess()) {
+                toast = Toast.makeText(getContext(),
+                        getResources().getString(R.string.edit_profile_success_message), Toast.LENGTH_LONG);
+                toast.show();
+                ((SupervisorActivity) getActivity()).profileCompleted();
+            } else if (!editProfileResult.isSuccess()) {
+                toast =
+                        Toast.makeText(getContext(), editProfileResult.getErrorMessage(), Toast.LENGTH_LONG);
+                toast.show();
             }
         };
 
-        final Observer<ViewModelResult> deleteResultObserver = new Observer<ViewModelResult>() {
-            @Override
-            public void onChanged(ViewModelResult editProfileResult) {
-                if (editProfileResult.isSuccess()) {
-                    goToLoginActivity();
-                } else if (!editProfileResult.isSuccess()) {
-                    Toast toast =
-                            Toast.makeText(getContext(), editProfileResult.getErrorMessage(), Toast.LENGTH_LONG);
-                    toast.show();
-                }
+        final Observer<ViewModelResult> deleteResultObserver = editProfileResult -> {
+            if (editProfileResult.isSuccess()) {
+                goToLoginActivity();
+            } else if (!editProfileResult.isSuccess()) {
+                Toast toast =
+                        Toast.makeText(getContext(), editProfileResult.getErrorMessage(), Toast.LENGTH_LONG);
+                toast.show();
             }
         };
 
-        viewmodel.getSafeResult().observe(getViewLifecycleOwner(), saveResultObserver);
-        viewmodel.getDeleteResult().observe(getViewLifecycleOwner(), deleteResultObserver);
+        viewModel.getSafeResult().observe(getViewLifecycleOwner(), saveResultObserver);
+        viewModel.getDeleteResult().observe(getViewLifecycleOwner(), deleteResultObserver);
         binding.etFirstName.addTextChangedListener(afterTextChangedListener);
         binding.etLastName.addTextChangedListener(afterTextChangedListener);
         binding.etBuilding.addTextChangedListener(afterTextChangedListener);
@@ -174,38 +139,34 @@ public class SupervisorProfileFragment extends Fragment {
         binding.etPhoneNumber.addTextChangedListener(afterTextChangedListener);
         binding.etInstitute.addTextChangedListener(afterTextChangedListener);
 
-        // Inflate the layout for this fragment
-        View view = binding.getRoot();
-        return view;
+        return binding.getRoot();
     }
 
+    /**
+     * Starts the {@link LoginActivity}
+     */
     private void goToLoginActivity() {
         Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
         getActivity().startActivity(intent);
     }
 
-    public void deleteProfile(View view) {
+    /**
+     * Opens confirmation prompt and calls delete method in the {@link EditProfileViewModel}
+     */
+    public void deleteProfile() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setCancelable(true);
         builder.setTitle(getContext().getResources().getString(R.string.account_remove));
         builder.setMessage(getContext().getResources().getString(R.string.account_remove_text));
         builder.setPositiveButton(getContext().getResources().getString(R.string.remove),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        viewmodel.delete();
-                        goToLoginActivity();
-                    }
+                (dialog, which) -> {
+                    viewModel.delete();
+                    goToLoginActivity();
                 });
-        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
+        builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> {
         });
 
         AlertDialog dialog = builder.create();
         dialog.show();
-
     }
-
 }

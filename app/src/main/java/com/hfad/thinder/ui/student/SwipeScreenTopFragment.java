@@ -14,7 +14,7 @@ import com.hfad.thinder.R;
 import com.hfad.thinder.viewmodels.student.SwipeScreenViewModel;
 
 /**
- * Top fragment seen in the swipe deck.
+ * Top fragment seen in the swipe deck. First fragment in the detail view.
  */
 public class SwipeScreenTopFragment extends Fragment {
 
@@ -37,7 +37,7 @@ public class SwipeScreenTopFragment extends Fragment {
      * @return                    View for fragment's UI
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         com.hfad.thinder.databinding.FragmentSwipeScreenTopBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_swipe_screen_top, container, false);

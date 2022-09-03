@@ -55,35 +55,28 @@ public class StudentActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(topActionBar, navController, appBarConfiguration);
 
         // hides the top action bar if the displayed fragment is the swipe screen fragment
-        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
-            @Override
-            public void onDestinationChanged(@NonNull NavController controller,
-                                             @NonNull NavDestination destination, @Nullable Bundle arguments) {
-                if (destination.getId() == R.id.swipeScreenFragment) {
-                    topActionBar.setVisibility(View.GONE);
-                    mBinding.separator.setVisibility(View.GONE);
-                } else {
-                    topActionBar.setVisibility(View.VISIBLE);
-                    mBinding.separator.setVisibility(View.VISIBLE);
-                }
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            if (destination.getId() == R.id.swipeScreenFragment) {
+                topActionBar.setVisibility(View.GONE);
+                mBinding.separator.setVisibility(View.GONE);
+            } else {
+                topActionBar.setVisibility(View.VISIBLE);
+                mBinding.separator.setVisibility(View.VISIBLE);
             }
         });
 
         viewModel = new ViewModelProvider(this).get(StudentViewModel.class);
 
         // observes if profile is complete. If that is the case moves to the swipe screen and enables the buttons
-        final Observer<Boolean> profileCreatedObserver = new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean profileCreated) {
+        final Observer<Boolean> profileCreatedObserver = profileCreated -> {
 
-                if (profileCreated) {
-                    bottomNavigationView.getMenu().findItem(R.id.likedThesesFragment).setEnabled(true);
-                    bottomNavigationView.getMenu().findItem(R.id.swipeScreenFragment).setEnabled(true);
-                    bottomNavigationView.setSelectedItemId(R.id.swipeScreenFragment);
-                } else {
-                    bottomNavigationView.getMenu().findItem(R.id.likedThesesFragment).setEnabled(false);
-                    bottomNavigationView.getMenu().findItem(R.id.swipeScreenFragment).setEnabled(false);
-                }
+            if (profileCreated) {
+                bottomNavigationView.getMenu().findItem(R.id.likedThesesFragment).setEnabled(true);
+                bottomNavigationView.getMenu().findItem(R.id.swipeScreenFragment).setEnabled(true);
+                bottomNavigationView.setSelectedItemId(R.id.swipeScreenFragment);
+            } else {
+                bottomNavigationView.getMenu().findItem(R.id.likedThesesFragment).setEnabled(false);
+                bottomNavigationView.getMenu().findItem(R.id.swipeScreenFragment).setEnabled(false);
             }
         };
 

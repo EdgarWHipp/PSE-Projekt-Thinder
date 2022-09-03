@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -35,7 +36,7 @@ public class SwipeScreenImageFragment extends Fragment {
      * @return                    View for fragment's UI
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         com.hfad.thinder.databinding.FragmentSwipeScreenImageBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_swipe_screen_image, container, false);
         SwipeScreenViewModel viewModel = new ViewModelProvider(requireActivity()).get(SwipeScreenViewModel.class);

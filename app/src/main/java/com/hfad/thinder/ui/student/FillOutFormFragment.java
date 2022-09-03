@@ -59,17 +59,14 @@ public class FillOutFormFragment extends Fragment {
         View view = binding.getRoot();
 
         // Observes the result of the send operation and informs the user of its success
-        final Observer<ViewModelResult> sendResultObserver = new Observer<ViewModelResult>() {
-            @Override
-            public void onChanged(ViewModelResult viewModelResult) {
-                if (viewModelResult.isSuccess()) {
-                    Toast toast = Toast.makeText(getContext(), getContext().getResources().getString(R.string.send_form_success), Toast.LENGTH_LONG);
-                    toast.show();
+        final Observer<ViewModelResult> sendResultObserver = viewModelResult -> {
+            if (viewModelResult.isSuccess()) {
+                Toast toast = Toast.makeText(getContext(), getContext().getResources().getString(R.string.send_form_success), Toast.LENGTH_LONG);
+                toast.show();
 
-                } else if (!viewModelResult.isSuccess()) {
-                    Toast toast = Toast.makeText(getContext(), viewModelResult.getErrorMessage(), Toast.LENGTH_LONG);
-                    toast.show();
-                }
+            } else if (!viewModelResult.isSuccess()) {
+                Toast toast = Toast.makeText(getContext(), viewModelResult.getErrorMessage(), Toast.LENGTH_LONG);
+                toast.show();
             }
         };
 

@@ -65,19 +65,16 @@ public class LikedThesisDetailedFragment extends Fragment {
         binding.setLifecycleOwner(getViewLifecycleOwner());
 
         // observes the result of a thesis deletion and informs user if it was successful or not
-        final Observer<ViewModelResult> deleteResultObserver = new Observer<ViewModelResult>() {
-            @Override
-            public void onChanged(ViewModelResult viewModelResult) {
-                if(viewModelResult == null)
-                    return;
-                if (viewModelResult.isSuccess()) {
-                    Toast toast = Toast.makeText(getContext(), getText(R.string.delete_successful), Toast.LENGTH_LONG);
-                    toast.show();
-                    Navigation.findNavController(binding.getRoot()).popBackStack();
-                } else if (!viewModelResult.isSuccess()) {
-                    Toast toast = Toast.makeText(getContext(), viewModelResult.getErrorMessage(), Toast.LENGTH_LONG);
-                    toast.show();
-                }
+        final Observer<ViewModelResult> deleteResultObserver = viewModelResult -> {
+            if(viewModelResult == null)
+                return;
+            if (viewModelResult.isSuccess()) {
+                Toast toast = Toast.makeText(getContext(), getText(R.string.delete_successful), Toast.LENGTH_LONG);
+                toast.show();
+                Navigation.findNavController(binding.getRoot()).popBackStack();
+            } else if (!viewModelResult.isSuccess()) {
+                Toast toast = Toast.makeText(getContext(), viewModelResult.getErrorMessage(), Toast.LENGTH_LONG);
+                toast.show();
             }
         };
 
@@ -132,10 +129,7 @@ public class LikedThesisDetailedFragment extends Fragment {
                         viewModel.delete();
                     }
                 });
-        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
+        builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> {
         });
 
         AlertDialog dialog = builder.create();
