@@ -27,8 +27,6 @@ import okhttp3.Response;
  * This Class is a collection of all HTTP requests that deal with courses of study in the backend.
  */
 public class DegreeApiService {
-    private static final MediaType JSON
-            = MediaType.parse("application/json; charset=utf-8");
     private static final ApiUtils apiUtils = ApiUtils.getInstance();
 
     /**
@@ -80,7 +78,7 @@ public class DegreeApiService {
 
             }
         });
-        return new Pair<CompletableFuture<ArrayList<Degree>>, CompletableFuture<Result>>(degrees,
+        return new Pair<>(degrees,
                 resultCompletableFuture);
     }
 

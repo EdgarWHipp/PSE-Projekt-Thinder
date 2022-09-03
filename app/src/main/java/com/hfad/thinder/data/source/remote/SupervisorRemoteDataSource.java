@@ -40,7 +40,8 @@ public class SupervisorRemoteDataSource {
         try {
 
             CompletableFuture<Result> result = supervisorApiService.editSupervisorProfileFuture(degree, officeNumber, building, institute, phoneNumber, firstName, lastName);
-            return result.get(TIMEOUT_SECONDS,TimeUnit.SECONDS);
+            Result resultValue = result.get(TIMEOUT_SECONDS,TimeUnit.SECONDS);
+            return resultValue;
         } catch (JSONException | IOException | ExecutionException | InterruptedException j) {
             return new Result(R.string.exception_during_HTTP_call, false);
         }catch(TimeoutException e){
@@ -58,7 +59,8 @@ public class SupervisorRemoteDataSource {
     public Result editThesis(final UUID thesisId, final Thesis thesis) {
         try {
             CompletableFuture<Result> result = supervisorApiService.editThesisFuture(thesisId, thesis);
-            return result.get(TIMEOUT_SECONDS,TimeUnit.SECONDS);
+            Result resultValue = result.get(TIMEOUT_SECONDS,TimeUnit.SECONDS);
+            return resultValue;
         } catch (ExecutionException | InterruptedException | JSONException e) {
             return new Result(R.string.exception_during_HTTP_call, false);
         }catch(TimeoutException e){
@@ -75,8 +77,10 @@ public class SupervisorRemoteDataSource {
     public Result getCreatedThesisFromSupervisor() {
         try {
             Pair<CompletableFuture<HashMap<UUID, Thesis>>, CompletableFuture<Result>> result = supervisorApiService.getCreatedThesisFromSupervisorFuture();
-            if (result.getSecond().get(TIMEOUT_SECONDS,TimeUnit.SECONDS).getSuccess()) {
-                ThesisRepository.getInstance().setThesisMap(result.getFirst().get());
+            Result resultValue = result.getSecond().get(TIMEOUT_SECONDS,TimeUnit.SECONDS);
+            HashMap<UUID,Thesis> hashMap = result.getFirst().get(TIMEOUT_SECONDS,TimeUnit.SECONDS);
+            if (resultValue.getSuccess()) {
+                ThesisRepository.getInstance().setThesisMap(hashMap);
                 return result.getSecond().get();
             } else {
                 return new Result(R.string.unsuccessful_response, false);

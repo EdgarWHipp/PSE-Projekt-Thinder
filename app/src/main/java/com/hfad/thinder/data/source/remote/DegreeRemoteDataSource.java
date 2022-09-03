@@ -32,9 +32,10 @@ public class DegreeRemoteDataSource {
         try {
             Pair<CompletableFuture<ArrayList<Degree>>, CompletableFuture<Result>> list = okHttpService.fetchAllCoursesOfStudyFuture();
             Result result = list.getSecond().get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
+            ArrayList<Degree> degrees=list.getFirst().get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
             if (result.getSuccess()) {
-                DegreeRepository.getInstance().setAllDegrees(list.getFirst().get());
-                return list.getSecond().get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
+                DegreeRepository.getInstance().setAllDegrees(degrees);
+                return result;
             } else {
                 return new Result(R.string.unsuccessful_response, false);
             }

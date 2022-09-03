@@ -2,6 +2,9 @@ package com.hfad.thinder.data.source.remote.okhttp;
 
 import okhttp3.HttpUrl;
 
+/**
+ * This class holds various settings for the HTTP calls, mainly making the switch from the live setup to the test setup (local) possible.
+ */
 public class ApiUtils {
     private static ApiUtils instance;
 
@@ -11,6 +14,10 @@ public class ApiUtils {
 
     private int port = 8080;
 
+    /**
+     * Differentiates between the live setup (heroku) and the local test setup.
+     * @return HttpUrl.Builder
+     */
     public HttpUrl.Builder getHttpUrlBuilder() {
         if (liveSetup) {
             return new HttpUrl.Builder()
