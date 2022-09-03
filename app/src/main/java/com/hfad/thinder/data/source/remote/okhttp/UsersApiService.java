@@ -15,6 +15,7 @@ import com.hfad.thinder.data.model.UserCreation;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,6 +40,7 @@ public class UsersApiService {
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final OkHttpClient CLIENT = new OkHttpClient();
     private static final ApiUtils API_UTILS = ApiUtils.getInstance();
+    private UserRepository userRepository = UserRepository.getInstance();
 
     /**
      * This function creates the HTTP GET request that firstly makes sure the email, password tuple exists in the database and then fetches a JSON with attributes type and id.
@@ -47,7 +49,7 @@ public class UsersApiService {
      * @param login
      * @throws JSONException
      * @throws IOException
-     * @returnCompletableFuture<Result>
+     * @return CompletableFuture<Result>
      */
     public CompletableFuture<Result> getUserDetails(Login login) throws JSONException, IOException {
         OkHttpClient clientAuth = new OkHttpClient.Builder()
@@ -77,7 +79,7 @@ public class UsersApiService {
                 }
                 if (response.isSuccessful()) {
                     try {
-                        UserRepository.getInstance().setPassword(login.getPassword());
+                        userRepository.setPassword(login.getPassword());
                         Result valueSettingResult = setUserValues(response.body().string());
                         if (!valueSettingResult.getSuccess()) {
                             resultCompletableFuture.complete(valueSettingResult);
@@ -144,6 +146,26 @@ public class UsersApiService {
     }
 
     /**
+     * creates the JSONObject for the created user and correctly sets theses values inside the UserRepository.
+     * @param userCreation
+     * @return
+     * @throws JSONException
+     */
+    private JSONObject getUserJsonAndSetUser(UserCreation userCreation) throws JSONException {
+        JSONObject userJson = new JSONObject()
+                .put("firstName", userCreation.getFirstName())
+                .put("lastName", userCreation.getLastName())
+                .put("password", userCreation.getPassword())
+                .put("mail", userCreation.getMail())
+                .put("type", "USER");
+        userRepository
+                .setUser(new User(null, null, false, null,
+                        userCreation.getMail(), userCreation.getFirstName(),
+                        userCreation.getLastName(), false));
+        userRepository.setPassword(userCreation.getPassword());
+        return userJson;
+    }
+    /**
      * This function creates the HTTP POST request and thus, if no error occurs, leads to the creation of a new user in the postgres database.
      * Also already defines the id and type of the registrated user for the UserRepository.
      * Checks if the asynchronous call return fails or responds.
@@ -153,18 +175,8 @@ public class UsersApiService {
      * @throws JSONException
      */
     public CompletableFuture<Result> createNewUserFuture(UserCreation userCreation) throws JSONException {
+        JSONObject userJson = getUserJsonAndSetUser(userCreation);
 
-        JSONObject userJson = new JSONObject()
-                .put("firstName", userCreation.getFirstName())
-                .put("lastName", userCreation.getLastName())
-                .put("password", userCreation.getPassword())
-                .put("mail", userCreation.getMail())
-                .put("type", "USER");
-        UserRepository.getInstance()
-                .setUser(new User(null, null, false, null,
-                        userCreation.getMail(), userCreation.getFirstName(),
-                        userCreation.getLastName(), false));
-        UserRepository.getInstance().setPassword(userCreation.getPassword());
         RequestBody body = RequestBody.create(userJson.toString(), JSON);
 
         HttpUrl url = API_UTILS.getHttpUrlBuilder()
@@ -210,8 +222,8 @@ public class UsersApiService {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor(
-                        UserRepository.getInstance().getUser().getMail(),
-                        UserRepository.getInstance().getPassword()))
+                        userRepository.getUser().getMail(),
+                        userRepository.getPassword()))
                 .build();
 
         HttpUrl url = API_UTILS.getHttpUrlBuilder()
@@ -306,8 +318,8 @@ public class UsersApiService {
 
         RequestBody body = RequestBody.create(passwordResetDTOJSON.toString(), JSON);
 
-        HttpUrl url;
-        url = API_UTILS.getHttpUrlBuilder()
+
+        HttpUrl url = API_UTILS.getHttpUrlBuilder()
                 .addPathSegment("users")
                 .addPathSegment("resetPassword")
                 .build();
@@ -345,9 +357,7 @@ public class UsersApiService {
      */
     private Result setUserValues(String body) throws JSONException { // TODO refactor whole method
         Gson gson = new Gson();
-        UserRepository userRepository = UserRepository.getInstance();
         String type = new JSONObject(body).get("type").toString();
-        Log.e("",type.toString());
         switch (type) {
             case "STUDENT":
                 Student student = gson.fromJson(body, Student.class);

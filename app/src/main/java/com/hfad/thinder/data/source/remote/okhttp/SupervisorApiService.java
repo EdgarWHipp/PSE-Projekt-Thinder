@@ -50,6 +50,7 @@ public class SupervisorApiService {
     private static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
     private static final ApiUtils apiUtils = ApiUtils.getInstance();
+    private UserRepository userRepository = UserRepository.getInstance();
 
     /**
      * This function creates the HTTP PUT request that completes the user profile by extending the profile through either the additional attributes from the supervisor.
@@ -71,8 +72,8 @@ public class SupervisorApiService {
 
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(
-                        new AuthInterceptor(UserRepository.getInstance().
-                                getUser().getMail(), UserRepository.getInstance().
+                        new AuthInterceptor(userRepository.
+                                getUser().getMail(), userRepository.
                                 getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
@@ -108,14 +109,14 @@ public class SupervisorApiService {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    UserRepository.getInstance().login(UserRepository.getInstance().getPassword(), UserRepository.getInstance().getUser().getMail());
-                    UserRepository.getInstance().getUser().setFirstName(firstName);
-                    UserRepository.getInstance().getUser().setLastName(lastName);
-                    ((Supervisor)UserRepository.getInstance().getUser()).setPhoneNumber(phoneNumber);
-                    ((Supervisor)UserRepository.getInstance().getUser()).setBuilding(building);
-                    ((Supervisor)UserRepository.getInstance().getUser()).setOfficeNumber(officeNumber);
-                    ((Supervisor)UserRepository.getInstance().getUser()).setInstitute(institute);
-                    ((Supervisor)UserRepository.getInstance().getUser()).setAcademicDegree(degree);
+                    userRepository.login(userRepository.getPassword(), userRepository.getUser().getMail());
+                    userRepository.getUser().setFirstName(firstName);
+                    userRepository.getUser().setLastName(lastName);
+                    ((Supervisor)userRepository.getUser()).setPhoneNumber(phoneNumber);
+                    ((Supervisor)userRepository.getUser()).setBuilding(building);
+                    ((Supervisor)userRepository.getUser()).setOfficeNumber(officeNumber);
+                    ((Supervisor)userRepository.getUser()).setInstitute(institute);
+                    ((Supervisor)userRepository.getUser()).setAcademicDegree(degree);
                     resultCompletableFuture.complete(new Result(true));
                 } else {
                     resultCompletableFuture.complete(new Result(R.string.unsuccessful_response, false));
@@ -139,8 +140,8 @@ public class SupervisorApiService {
         //Add HTTP BASIC authentication
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor
-                        (UserRepository.getInstance().getUser().getMail(),
-                                UserRepository.getInstance().getPassword()))
+                        (userRepository.getUser().getMail(),
+                                userRepository.getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         JSONObject thesisJSON = ParseUtils.thesisToThesisDtoJson(thesis);
@@ -184,8 +185,8 @@ public class SupervisorApiService {
         //Add HTTP BASIC authentication
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor
-                        (UserRepository.getInstance().getUser().getMail(),
-                                UserRepository.getInstance().getPassword()))
+                        (userRepository.getUser().getMail(),
+                                userRepository.getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         CompletableFuture<HashMap<UUID, Thesis>> thesisHashmap = new CompletableFuture<>();
