@@ -51,6 +51,7 @@ public class ThesesApiService {
     private static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
     private static final ApiUtils apiUtils = ApiUtils.getInstance();
+    private UserRepository userRepository = UserRepository.getInstance();
 
     /**
      * This function creates the actual HTTP POST request to the backend that leads to a created thesis object inside the database.
@@ -63,8 +64,8 @@ public class ThesesApiService {
         //Add HTTP BASIC authentication
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor
-                        (UserRepository.getInstance().getUser().getMail(),
-                                UserRepository.getInstance().getPassword()))
+                        (userRepository.getUser().getMail(),
+                                userRepository.getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 
@@ -109,8 +110,8 @@ public class ThesesApiService {
         //Add HTTP BASIC authentication
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor
-                        (UserRepository.getInstance().getUser().getMail(),
-                                UserRepository.getInstance().getPassword()))
+                        (userRepository.getUser().getMail(),
+                                userRepository.getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         CompletableFuture<Thesis> resultThesis = new CompletableFuture<>();
@@ -155,8 +156,8 @@ public class ThesesApiService {
         //Add HTTP BASIC authentication
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor
-                        (UserRepository.getInstance().getUser().getMail(),
-                                UserRepository.getInstance().getPassword()))
+                        (userRepository.getUser().getMail(),
+                                userRepository.getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 

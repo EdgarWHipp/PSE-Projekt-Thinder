@@ -27,9 +27,8 @@ import okhttp3.Response;
  * This Class is a collection of all HTTP requests that deal with courses of study in the backend.
  */
 public class DegreeApiService {
-    private static final MediaType JSON
-            = MediaType.parse("application/json; charset=utf-8");
     private static final ApiUtils apiUtils = ApiUtils.getInstance();
+    private UserRepository userRepository = UserRepository.getInstance();
 
     /**
      * Implements the actual HTTP GET request that fetches all courses of study for the users university.
@@ -42,13 +41,13 @@ public class DegreeApiService {
         //Add HTTP BASIC authentication
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(
-                        new AuthInterceptor(UserRepository.getInstance().
-                                getUser().getMail(), UserRepository.getInstance().getPassword()))
+                        new AuthInterceptor(userRepository.
+                                getUser().getMail(), userRepository.getPassword()))
                 .build();
 
         HttpUrl url = apiUtils.getHttpUrlBuilder()
                 .addPathSegment("university")
-                .addPathSegment(UserRepository.getInstance().getUser().getUniversityId().toString())
+                .addPathSegment(userRepository.getUser().getUniversityId().toString())
                 .addPathSegment("degrees")
                 .build();
 
@@ -80,7 +79,7 @@ public class DegreeApiService {
 
             }
         });
-        return new Pair<CompletableFuture<ArrayList<Degree>>, CompletableFuture<Result>>(degrees,
+        return new Pair<>(degrees,
                 resultCompletableFuture);
     }
 

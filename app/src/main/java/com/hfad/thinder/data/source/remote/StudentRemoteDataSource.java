@@ -45,7 +45,8 @@ public class StudentRemoteDataSource {
 
         try {
             CompletableFuture<Result> result = okHttpService.editStudentProfileFuture(degrees, firstName, lastName);
-            return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
+            Result resultValue = result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
+            return resultValue;
 
 
         } catch (IOException | InterruptedException | ExecutionException | JSONException e) {
@@ -66,7 +67,8 @@ public class StudentRemoteDataSource {
         try {
             CompletableFuture<Result> result =
                     okHttpService.rateThesisFuture(ratings);
-            return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
+            Result resultValue = result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
+            return resultValue;
 
 
         } catch (JSONException | InterruptedException | ExecutionException j) {
@@ -136,7 +138,8 @@ public class StudentRemoteDataSource {
         try {
             CompletableFuture<Result> result =
                     okHttpService.sendThesisFormToSupervisorFuture(form, thesisId);
-            return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
+            Result resultValue = result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
+            return resultValue;
 
         } catch (JSONException | ExecutionException | InterruptedException j) {
             return new Result(R.string.exception_during_HTTP_call, false);
@@ -154,7 +157,8 @@ public class StudentRemoteDataSource {
     public Result removeLikedThesisFromStudent(UUID thesisId) {
         try {
             CompletableFuture<Result> result = okHttpService.removeALikedThesisFromAStudentFuture(thesisId);
-            return result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
+            Result resultValue =result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
+            return resultValue;
         } catch (ExecutionException | InterruptedException e) {
             return new Result(R.string.exception_during_HTTP_call, false);
         }catch(TimeoutException e){

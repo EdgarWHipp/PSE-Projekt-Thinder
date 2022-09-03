@@ -34,7 +34,8 @@ public class ThesisRemoteDataSource {
 
         try {
             CompletableFuture<Result> result = okHttpService.createNewThesisFuture(thesis);
-            return result.get(TIMEOUT_SECONDS,TimeUnit.SECONDS);
+            Result resultValue = result.get(TIMEOUT_SECONDS,TimeUnit.SECONDS);
+            return resultValue;
         } catch (JSONException | ExecutionException | InterruptedException  e) {
             return new Result(R.string.exception_during_HTTP_call, false);
         }
@@ -52,7 +53,9 @@ public class ThesisRemoteDataSource {
     public Pair<Thesis, Result> getNewThesis(final UUID id) {
         try {
             Pair<CompletableFuture<Thesis>, CompletableFuture<Result>> result = okHttpService.getSpecificThesisFuture(id);
-            return new Pair<>(result.getFirst().get(), result.getSecond().get(TIMEOUT_SECONDS, TimeUnit.SECONDS));
+            Thesis thesis = result.getFirst().get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
+            Result resultValue = result.getSecond().get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
+            return new Pair<>(thesis, resultValue);
 
         } catch (ExecutionException | InterruptedException  e) {
             return new Pair<>(null, new Result(R.string.exception_during_HTTP_call, false));
@@ -72,7 +75,8 @@ public class ThesisRemoteDataSource {
     public Result deleteThesis(final UUID thesisId) {
         try {
             CompletableFuture<Result> result = okHttpService.deleteThesisFuture(thesisId);
-            return result.get(TIMEOUT_SECONDS,TimeUnit.SECONDS);
+            Result resultValue =  result.get(TIMEOUT_SECONDS,TimeUnit.SECONDS);
+            return resultValue;
         } catch (ExecutionException | InterruptedException  e) {
             return new Result(R.string.exception_during_HTTP_call, false);
         }
