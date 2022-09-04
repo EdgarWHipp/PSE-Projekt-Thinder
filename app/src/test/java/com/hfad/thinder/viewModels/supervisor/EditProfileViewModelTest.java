@@ -222,7 +222,7 @@ public class EditProfileViewModelTest {
 
   @Test
   public void getPhoneNumber() {
-    assertEquals("01626221223", viewModel.getPhoneNumber());
+    assertEquals("01626221223", viewModel.getPhoneNumber().getValue());
   }
 
   @Test
