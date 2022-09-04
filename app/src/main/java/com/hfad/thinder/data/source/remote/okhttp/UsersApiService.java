@@ -15,7 +15,6 @@ import com.hfad.thinder.data.model.UserCreation;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,7 +39,6 @@ public class UsersApiService {
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final OkHttpClient CLIENT = new OkHttpClient();
     private static final ApiUtils API_UTILS = ApiUtils.getInstance();
-    private UserRepository userRepository = UserRepository.getInstance();
 
     /**
      * This function creates the HTTP GET request that firstly makes sure the email, password tuple exists in the database and then fetches a JSON with attributes type and id.
@@ -79,7 +77,7 @@ public class UsersApiService {
                 }
                 if (response.isSuccessful()) {
                     try {
-                        userRepository.setPassword(login.getPassword());
+                        UserRepository.getInstance().setPassword(login.getPassword());
                         Result valueSettingResult = setUserValues(response.body().string());
                         if (!valueSettingResult.getSuccess()) {
                             resultCompletableFuture.complete(valueSettingResult);
@@ -146,7 +144,7 @@ public class UsersApiService {
     }
 
     /**
-     * creates the JSONObject for the created user and correctly sets theses values inside the UserRepository.
+     * creates the JSONObject for the created user and correctly sets theses values inside the UserRepository.getInstance().
      * @param userCreation
      * @return
      * @throws JSONException
@@ -158,16 +156,16 @@ public class UsersApiService {
                 .put("password", userCreation.getPassword())
                 .put("mail", userCreation.getMail())
                 .put("type", "USER");
-        userRepository
+        UserRepository.getInstance()
                 .setUser(new User(null, null, false, null,
                         userCreation.getMail(), userCreation.getFirstName(),
                         userCreation.getLastName(), false));
-        userRepository.setPassword(userCreation.getPassword());
+        UserRepository.getInstance().setPassword(userCreation.getPassword());
         return userJson;
     }
     /**
      * This function creates the HTTP POST request and thus, if no error occurs, leads to the creation of a new user in the postgres database.
-     * Also already defines the id and type of the registrated user for the UserRepository.
+     * Also already defines the id and type of the registrated user for the UserRepository.getInstance().
      * Checks if the asynchronous call return fails or responds.
      *
      * @param userCreation
@@ -222,8 +220,8 @@ public class UsersApiService {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor(
-                        userRepository.getUser().getMail(),
-                        userRepository.getPassword()))
+                        UserRepository.getInstance().getUser().getMail(),
+                        UserRepository.getInstance().getPassword()))
                 .build();
 
         HttpUrl url = API_UTILS.getHttpUrlBuilder()
@@ -349,7 +347,7 @@ public class UsersApiService {
     }
 
     /**
-     * This function parses the returned JSON from the login HTTP GET request. All necessary user values are set inside the UserRepository.
+     * This function parses the returned JSON from the login HTTP GET request. All necessary user values are set inside the UserRepository.getInstance().
      *
      * @param body the response.body().string() that is returned from the getUserDetails function.
      * @return Result
@@ -361,13 +359,13 @@ public class UsersApiService {
         switch (type) {
             case "STUDENT":
                 Student student = gson.fromJson(body, Student.class);
-                userRepository.setType(USERTYPE.STUDENT);
-                userRepository.setUser(student);
+                UserRepository.getInstance().setType(USERTYPE.STUDENT);
+                UserRepository.getInstance().setUser(student);
                 break;
             case "SUPERVISOR":
                 Supervisor supervisor = gson.fromJson(body, Supervisor.class);
-                userRepository.setType(USERTYPE.SUPERVISOR);
-                userRepository.setUser(supervisor);
+                UserRepository.getInstance().setType(USERTYPE.SUPERVISOR);
+                UserRepository.getInstance().setUser(supervisor);
                 break;
             default:
                 return new Result(R.string.exception_during_HTTP_call, false);

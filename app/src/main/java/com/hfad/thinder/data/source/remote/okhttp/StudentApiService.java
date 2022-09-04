@@ -51,7 +51,6 @@ public class StudentApiService {
     private final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
     private static final ApiUtils apiUtils = ApiUtils.getInstance();
-    private UserRepository userRepository = UserRepository.getInstance();
 
     /**
      * This function creates the HTTP PUT request that completes the user profile by extending the profile through either the additional attributes from the student.
@@ -64,8 +63,8 @@ public class StudentApiService {
         //Add HTTP BASIC authentication
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(
-                        new AuthInterceptor(userRepository.
-                                getUser().getMail(), userRepository.getPassword()))
+                        new AuthInterceptor(UserRepository.getInstance().
+                                getUser().getMail(), UserRepository.getInstance().getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         JSONArray degreesJsonArray = new JSONArray();
@@ -79,7 +78,7 @@ public class StudentApiService {
                 .put("degrees", degreesJsonArray)
                 .put("firstName", firstName)
                 .put("lastName", lastName)
-                .put("type", userRepository.getType().toString());
+                .put("type", UserRepository.getInstance().getType().toString());
         RequestBody body = RequestBody.create(studentJson.toString(), JSON);
 
         HttpUrl url = apiUtils.getHttpUrlBuilder()
@@ -101,10 +100,10 @@ public class StudentApiService {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    userRepository.login(userRepository.getPassword(), userRepository.getUser().getMail());
-                    ((Student)userRepository.getUser()).setFirstName(firstName);
-                    ((Student)userRepository.getUser()).setLastName(lastName);
-                    ((Student)userRepository.getUser()).setDegrees(degrees);
+                    UserRepository.getInstance().login(UserRepository.getInstance().getPassword(), UserRepository.getInstance().getUser().getMail());
+                    ((Student) UserRepository.getInstance().getUser()).setFirstName(firstName);
+                    ((Student) UserRepository.getInstance().getUser()).setLastName(lastName);
+                    ((Student) UserRepository.getInstance().getUser()).setDegrees(degrees);
                     resultCompletableFuture.complete(new Result(true));
                 } else {
                     resultCompletableFuture.complete(new Result(R.string.unsuccessful_response, false));
@@ -128,8 +127,8 @@ public class StudentApiService {
         //Add HTTP BASIC authentication
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(
-                        new AuthInterceptor(userRepository.
-                                getUser().getMail(), userRepository.
+                        new AuthInterceptor(UserRepository.getInstance().
+                                getUser().getMail(), UserRepository.getInstance().
                                 getPassword()))
                 .build();
 
@@ -209,8 +208,8 @@ public class StudentApiService {
         //Add HTTP BASIC authentication
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor
-                        (userRepository.getUser().getMail(),
-                                userRepository.getPassword()))
+                        (UserRepository.getInstance().getUser().getMail(),
+                                UserRepository.getInstance().getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         CompletableFuture<HashMap<UUID, Thesis>> thesisListFuture = new CompletableFuture<>();
@@ -311,8 +310,8 @@ public class StudentApiService {
         //Add HTTP BASIC authentication
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor
-                        (userRepository.getUser().getMail(),
-                                userRepository.getPassword()))
+                        (UserRepository.getInstance().getUser().getMail(),
+                                UserRepository.getInstance().getPassword()))
                 .build();
 
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
@@ -378,8 +377,8 @@ public class StudentApiService {
         //Add HTTP BASIC authentication
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor
-                        (userRepository.getUser().getMail(),
-                                userRepository.getPassword()))
+                        (UserRepository.getInstance().getUser().getMail(),
+                                UserRepository.getInstance().getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         JSONObject formJson = null;
@@ -429,8 +428,8 @@ public class StudentApiService {
     public CompletableFuture<Result> removeALikedThesisFromAStudentFuture(final UUID thesisId) {
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor
-                        (userRepository.getUser().getMail(),
-                                userRepository.getPassword()))
+                        (UserRepository.getInstance().getUser().getMail(),
+                                UserRepository.getInstance().getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 
