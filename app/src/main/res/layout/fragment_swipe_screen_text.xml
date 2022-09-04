@@ -29,8 +29,8 @@
         <TextView
             android:id="@+id/tvTaskContent"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:autoSizeMaxTextSize="20sp"
+            android:layout_height="@dimen/no_dimension"
+            android:autoSizeMaxTextSize="@dimen/max_text_size"
             android:autoSizeTextType="uniform"
             android:ellipsize="end"
             android:text="@{viewModel.getCurrentTask}"
@@ -54,8 +54,8 @@
         <TextView
             android:id="@+id/tvMotivationContent"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:autoSizeMaxTextSize="20sp"
+            android:layout_height="@dimen/no_dimension"
+            android:autoSizeMaxTextSize="@dimen/max_text_size"
             android:autoSizeTextType="uniform"
             android:ellipsize="end"
             android:text="@{viewModel.getCurrentMotivation}"

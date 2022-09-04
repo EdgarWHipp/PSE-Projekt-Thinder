@@ -43,7 +43,7 @@
             android:layout_marginBottom="@dimen/fab_margin"
             android:onClick="@{() -> viewModel.nextImage()}"
             android:src="@drawable/ic_arrow_right"
-            android:translationZ="45dp"
+            android:translationZ="@dimen/button_elevation"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,7 +32,7 @@
 
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="@dimen/no_dimension"
                 app:layout_constraintBottom_toTopOf="@id/btSave"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -216,7 +216,7 @@
                     <Button
                         android:id="@+id/btShowImageSelection"
                         style="@style/button"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/no_dimension"
                         android:layout_height="wrap_content"
                         android:drawableEnd="@drawable/ic_images"
                         android:enabled="@{viewModel.formState.hasImages()}"
@@ -231,7 +231,7 @@
                     <Button
                         android:id="@+id/btDeleteImages"
                         android:layout_width="wrap_content"
-                        android:layout_height="0dp"
+                        android:layout_height="@dimen/no_dimension"
                         android:drawableTop="@drawable/ic_remove"
                         android:enabled="@{viewModel.formState.hasImages()}"
                         android:onClick="@{() -> viewModel.deleteImages()}"

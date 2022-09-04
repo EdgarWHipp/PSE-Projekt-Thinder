@@ -20,7 +20,7 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/no_dimension"
             app:layout_constraintBottom_toTopOf="@id/btRemove"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -100,7 +100,7 @@
                 <TextView
                     android:id="@+id/tvCoursesOfStudyContent"
                     style="@style/body_1"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/no_dimension"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fab_margin"
                     android:text="@{viewModel.coursesOfStudy}"
@@ -112,7 +112,7 @@
                 <TextView
                     android:id="@+id/tvSupervisorName"
                     style="@style/body_1"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/no_dimension"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fab_margin"
                     android:text="@string/supervisor_name"
@@ -124,7 +124,7 @@
                 <TextView
                     android:id="@+id/tvSupervisorNameContent"
                     style="@style/body_1"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/no_dimension"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fab_margin"
                     android:text="@{viewModel.supervisorName}"
@@ -148,7 +148,7 @@
                 <TextView
                     android:id="@+id/tvSupervisorEmailContent"
                     style="@style/body_1"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/no_dimension"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fab_margin"
                     android:text="@{viewModel.mail}"
@@ -172,7 +172,7 @@
                 <TextView
                     android:id="@+id/tvSupervisorPhoneNumberContent"
                     style="@style/body_1"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/no_dimension"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fab_margin"
                     android:text="@{viewModel.phoneNumber}"
@@ -196,7 +196,7 @@
                 <TextView
                     android:id="@+id/tvBuildingContent"
                     style="@style/body_1"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/no_dimension"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fab_margin"
                     android:text="@{viewModel.building}"
@@ -220,7 +220,7 @@
                 <TextView
                     android:id="@+id/tvSupervisingProfContent"
                     style="@style/body_1"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/no_dimension"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fab_margin"
                     android:text="@{viewModel.supervisingProf}"
@@ -244,7 +244,7 @@
                 <TextView
                     android:id="@+id/tvInstituteContent"
                     style="@style/body_1"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/no_dimension"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/fab_margin"
                     android:text="@{viewModel.institute}"
@@ -259,7 +259,7 @@
         <Button
             android:id="@+id/btRemove"
             style="@style/button_small"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/no_dimension"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/fab_margin"
             android:drawableTop="@drawable/ic_remove"
@@ -275,7 +275,7 @@
         <Button
             android:id="@+id/btImages"
             style="@style/button_small"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/no_dimension"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/fab_margin"
             android:drawableTop="@drawable/ic_images"
@@ -292,7 +292,7 @@
         <Button
             android:id="@+id/btForm"
             style="@style/button_small"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/no_dimension"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/fab_margin"
             android:drawableTop="@drawable/ic_form"
@@ -308,7 +308,7 @@
         <Button
             android:id="@+id/btContact"
             style="@style/button_small"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/no_dimension"
             android:layout_height="wrap_content"
             android:drawableTop="@drawable/ic_mail"
             android:onClick="@{() -> fragment.startEmailClient()}"

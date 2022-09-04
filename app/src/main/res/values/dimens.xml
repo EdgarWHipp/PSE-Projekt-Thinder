@@ -2,6 +2,20 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="logo_distance">40dp</dimen>
-    <dimen name="muliline_textview_linenum">5</dimen>
     <dimen name="multiline_textview_padding">2dp</dimen>
+    <dimen name="no_dimension">0dp</dimen>
+    <dimen name="small_margin">5dp</dimen>
+    <dimen name="button_elevation">45dp</dimen>
+    <dimen name="recyclerview_padding">4dp</dimen>
+    <dimen name="swipe_card_height">424dp</dimen>
+    <dimen name="swipe_card_width">270dp</dimen>
+    <dimen name="swipe_card_corner_radius">24dp</dimen>
+    <dimen name="top_card_elevation">20dp</dimen>
+    <dimen name="filter_button_dimension">64dp</dimen>
+    <dimen name="button_elevation_effect_dimen">30dp</dimen>
+    <dimen name="block_touch_elevation">90dp</dimen>
+    <dimen name="max_text_size">20sp</dimen>
+    <dimen name="swipe_screen_max_image_height">75dp</dimen>
+    <dimen name="thesis_item_image_dimen">60dp</dimen>
+    <dimen name="small_card_elevation">10dp</dimen>
 </resources>

@@ -5,17 +5,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
+    android:layout_margin="@dimen/small_margin"
     android:clickable="true"
     android:foreground="?android:selectableItemBackground"
-    app:cardCornerRadius="4dp"
-    app:cardElevation="8dp"
+    app:cardElevation="@dimen/small_card_elevation"
     card_view:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="4dp">
+        android:layout_margin="@dimen/small_margin"
+        >
 
         <TextView
             android:id="@+id/tvTitle"
@@ -26,7 +26,7 @@
             android:maxLines="1"
             android:text="Laserprozessierung von Dünnschicht Solarzellen"
             android:textStyle="bold"
-            android:layout_marginLeft="5dp"
+            android:layout_marginStart="@dimen/small_margin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivThesisManagerItem"
             app:layout_constraintTop_toTopOf="parent" />
@@ -34,12 +34,10 @@
         <TextView
             android:id="@+id/tvDescription"
             style="@style/body_2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/no_dimension"
+            android:layout_height="@dimen/no_dimension"
             android:ellipsize="end"
-            android:maxLines="2"
-            android:text="Diese Arbeit umfasst die Herstellung und Charakterisierung von Solarzellen und
-dünnen Funktionsschichten sowie insbesondere..."
+            android:maxLines="@integer/thesis_item_max_lines"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tvTitle"
@@ -47,8 +45,8 @@ dünnen Funktionsschichten sowie insbesondere..."
 
         <ImageView
             android:id="@+id/ivThesisManagerItem"
-            android:layout_width="62dp"
-            android:layout_height="62dp"
+            android:layout_width="@dimen/thesis_item_image_dimen"
+            android:layout_height="@dimen/thesis_item_image_dimen"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
             app:layout_constraintBottom_toBottomOf="parent"

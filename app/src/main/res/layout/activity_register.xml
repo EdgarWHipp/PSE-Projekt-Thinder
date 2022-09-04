@@ -28,15 +28,15 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="?android:background"
                 android:minHeight="?attr/actionBarSize"
                 app:title="@string/registration"
-                app:titleTextColor="@android:color/black"/>
+                app:titleTextColor="?colorOnBackground"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/grey_400" />
+                android:background="?colorOnSurface" />
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -191,7 +191,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     setResourceText="@{viewmodel.registrationResult.errorMessage}"
-                    android:textColor="@color/red_500"
+                    android:textColor="?colorError"
                     app:layout_constraintBottom_toTopOf="@+id/btRegister"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -201,7 +201,8 @@
                     style="@style/button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/green_400"
+                    android:backgroundTint="?colorSecondary"
+                    android:textColor="?colorOnSecondary"
                     android:enabled="@{viewmodel.registrationFormState.dataValid}"
                     android:onClick="@{() -> activity.register()}"
                     android:text="@string/register"

@@ -12,16 +12,16 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="?android:background"
             android:minHeight="?attr/actionBarSize"
             app:title="@string/app_name"
-            app:titleTextColor="@android:color/black" />
+            app:titleTextColor="?colorOnBackground" />
 
         <View
             android:id="@+id/separator"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/grey_400" />
+            android:background="?colorOnSurface" />
 
         <fragment
             android:id="@+id/studentFragmentContainer"

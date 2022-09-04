@@ -23,7 +23,7 @@
         <TextView
             android:id="@+id/tvTotalRatingNumber"
             style="@style/body_1"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/no_dimension"
             android:layout_height="wrap_content"
             android:text="@string/total_rating_number"
             android:textStyle="bold"
