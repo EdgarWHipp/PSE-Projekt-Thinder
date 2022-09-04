@@ -13,10 +13,21 @@ import okhttp3.Response;
 class AuthInterceptor implements Interceptor {
     private final String credentials;
 
+    /**
+     * Standard implementation of HTTP Basic Authentification
+     * @param email
+     * @param password
+     */
     protected AuthInterceptor(String email, String password) {
         this.credentials = Credentials.basic(email, password);
     }
 
+    /**
+     * Standard implementation of Intercept. This is already given in the Interceptor interface.
+     * @param chain
+     * @return
+     * @throws IOException
+     */
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();

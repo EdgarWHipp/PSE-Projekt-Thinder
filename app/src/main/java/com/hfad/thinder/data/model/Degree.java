@@ -11,6 +11,12 @@ public class Degree {
     private UUID id;
     private UUID university_id;
 
+    /**
+     * Constructor of the Degree Class.
+     * @param degree
+     * @param id
+     * @return Degree
+     */
     public Degree(String degree, UUID id) {
         this.degree = degree;
         this.id = id;
@@ -41,6 +47,11 @@ public class Degree {
         this.degree = degree;
     }
 
+    /**
+     * Checks if two Degree objects.
+     * @param obj
+     * @return boolean
+     */
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Degree)) {

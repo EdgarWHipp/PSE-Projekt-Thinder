@@ -14,6 +14,10 @@ public class ApiUtils {
 
     private int port = 8080;
 
+    /**
+     * Returns the current instance of the ApiUtils singleton.
+     * @return ApiUtils
+     */
     public static ApiUtils getInstance() {
         if (instance == null) {
             instance = new ApiUtils();
