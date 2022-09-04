@@ -1,16 +1,11 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
-import static android.content.ContentValues.TAG;
-
 import static com.hfad.thinder.data.util.ParseUtils.parseDTOtoThesis;
-
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.hfad.thinder.R;
-
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.ThesisDTO;
 import com.hfad.thinder.data.source.repository.UserRepository;
@@ -18,15 +13,12 @@ import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.data.util.ParseUtils;
 
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-
 
 import okhttp3.Call;
 import okhttp3.Callback;

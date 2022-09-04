@@ -1,7 +1,5 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
@@ -45,9 +43,9 @@ public class UsersApiService {
      * Checks if the asynchronous call return fails or responds. It has the "login" functionality.
      *
      * @param login
+     * @return CompletableFuture<Result>
      * @throws JSONException
      * @throws IOException
-     * @return CompletableFuture<Result>
      */
     public CompletableFuture<Result> getUserDetails(Login login) throws JSONException, IOException {
         OkHttpClient clientAuth = new OkHttpClient.Builder()
@@ -72,7 +70,7 @@ public class UsersApiService {
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if(response.code()==401){
+                if (response.code() == 401) {
                     resultCompletableFuture.complete(new Result(R.string.failed_login, false));
                 }
                 if (response.isSuccessful()) {
@@ -145,24 +143,21 @@ public class UsersApiService {
 
     /**
      * creates the JSONObject for the created user and correctly sets theses values inside the UserRepository.getInstance().
+     *
      * @param userCreation
      * @return
      * @throws JSONException
      */
-    private JSONObject getUserJsonAndSetUser(UserCreation userCreation) throws JSONException {
+    private JSONObject getUserJson(UserCreation userCreation) throws JSONException {
         JSONObject userJson = new JSONObject()
                 .put("firstName", userCreation.getFirstName())
                 .put("lastName", userCreation.getLastName())
                 .put("password", userCreation.getPassword())
                 .put("mail", userCreation.getMail())
                 .put("type", "USER");
-        UserRepository.getInstance()
-                .setUser(new User(null, null, false, null,
-                        userCreation.getMail(), userCreation.getFirstName(),
-                        userCreation.getLastName(), false));
-        UserRepository.getInstance().setPassword(userCreation.getPassword());
         return userJson;
     }
+
     /**
      * This function creates the HTTP POST request and thus, if no error occurs, leads to the creation of a new user in the postgres database.
      * Also already defines the id and type of the registrated user for the UserRepository.getInstance().
@@ -173,7 +168,7 @@ public class UsersApiService {
      * @throws JSONException
      */
     public CompletableFuture<Result> createNewUserFuture(UserCreation userCreation) throws JSONException {
-        JSONObject userJson = getUserJsonAndSetUser(userCreation);
+        JSONObject userJson = getUserJson(userCreation);
 
         RequestBody body = RequestBody.create(userJson.toString(), JSON);
 
@@ -197,6 +192,11 @@ public class UsersApiService {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
+                    UserRepository.getInstance()
+                            .setUser(new User(null, null, false, null,
+                                    userCreation.getMail(), userCreation.getFirstName(),
+                                    userCreation.getLastName(), false));
+                    UserRepository.getInstance().setPassword(userCreation.getPassword());
                     resultCompletableFuture.complete(new Result(true));
                 } else {
 

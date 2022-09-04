@@ -18,7 +18,6 @@ import java.util.concurrent.CompletableFuture;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -58,7 +57,7 @@ public class DegreeApiService {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                resultCompletableFuture.complete(new Result(R.string.failure_on_call,false));
+                resultCompletableFuture.complete(new Result(R.string.failure_on_call, false));
             }
 
             @Override

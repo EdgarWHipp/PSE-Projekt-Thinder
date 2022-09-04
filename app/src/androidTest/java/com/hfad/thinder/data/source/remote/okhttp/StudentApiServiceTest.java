@@ -5,8 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-import android.util.Log;
-
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Student;
@@ -20,7 +18,6 @@ import com.hfad.thinder.data.source.result.Result;
 
 import org.json.JSONException;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,8 +28,6 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import okhttp3.MediaType;
 import okhttp3.mockwebserver.MockResponse;
@@ -91,10 +86,11 @@ public class StudentApiServiceTest {
         String body = request.getBody().toString();
         assertTrue(result.get().getSuccess());
         assertEquals("Basic bWFpbEBnbWFpbC5jb206cGFzc3dvcmQ=", authToken);
-        assertEquals(((Student)UserRepository.getInstance().getUser()).getFirstName(), "Tom");
+        assertEquals(UserRepository.getInstance().getUser().getFirstName(), "Tom");
         assertEquals(((Student) UserRepository.getInstance().getUser()).getDegrees(), degreesNew);
-        assertEquals(((Student)UserRepository.getInstance().getUser()).getLastName(), "Müller");
+        assertEquals(UserRepository.getInstance().getUser().getLastName(), "Müller");
     }
+
     @Test
     public void editStudentProfileFutureFail() throws JSONException, IOException, InterruptedException,
             ExecutionException {
@@ -147,8 +143,6 @@ public class StudentApiServiceTest {
                 ratings);
         RecordedRequest request = server.takeRequest();
         String authToken = request.getHeader("Authorization");
-        String body = request.getBody().toString();
-
         assertTrue(result.get().getSuccess());
         assertEquals("Basic bWFpbEBnbWFpbC5jb206cGFzc3dvcmQ=", authToken);
     }
@@ -206,7 +200,7 @@ public class StudentApiServiceTest {
         MockResponse response = new MockResponse().setResponseCode(500);
         server.enqueue(response);
         Pair<CompletableFuture<ArrayList<Thesis>>, CompletableFuture<Result>> values = studentApiService.getAllThesesForTheStudentFuture();
-        ArrayList<Thesis> theses= values.getFirst().get();
+        ArrayList<Thesis> theses = values.getFirst().get();
         assertEquals(new ArrayList<>(), ThesisRepository.getInstance().getAllSwipeableTheses());
         assertFalse(ThesisRepository.getInstance().getAllSwipeableTheses().contains(theses));
         RecordedRequest request = server.takeRequest();
@@ -224,8 +218,10 @@ public class StudentApiServiceTest {
         UserRepository.getInstance().setPassword("password");
         MockResponse response = new MockResponse().setResponseCode(200);
         server.enqueue(response);
-        Pair<CompletableFuture<HashMap<UUID,Thesis>>,CompletableFuture<Result>> values = studentApiService.getAllPositiveRatedThesesFuture();
-        Result result= values.getSecond().get();
+        Pair<CompletableFuture<HashMap<UUID, Thesis>>, CompletableFuture<Result>> values = studentApiService.getAllPositiveRatedThesesFuture();
+        HashMap<UUID, Thesis> map = values.getFirst().get();
+        assertEquals(map, null);
+        Result result = values.getSecond().get();
         assertTrue(result.getSuccess());
         RecordedRequest request = server.takeRequest();
 
@@ -241,14 +237,14 @@ public class StudentApiServiceTest {
         UserRepository.getInstance().setPassword("password");
         MockResponse response = new MockResponse().setResponseCode(500);
         server.enqueue(response);
-        Pair<CompletableFuture<HashMap<UUID,Thesis>>,CompletableFuture<Result>> result = studentApiService.getAllPositiveRatedThesesFuture();
+        Pair<CompletableFuture<HashMap<UUID, Thesis>>, CompletableFuture<Result>> result = studentApiService.getAllPositiveRatedThesesFuture();
         assertFalse(result.getSecond().get().getSuccess());
         RecordedRequest request = server.takeRequest();
     }
 
     @Test
     public void removeLikedThesisFail() throws ExecutionException, InterruptedException {
-        MockResponse response= new MockResponse().setResponseCode(500);
+        MockResponse response = new MockResponse().setResponseCode(500);
         server.enqueue(response);
         //Set user
         Student student = SampleStudent.studentObject();
@@ -257,14 +253,15 @@ public class StudentApiServiceTest {
         //set password
         UserRepository.getInstance().setPassword("password");
         UserRepository.getInstance().setType(USERTYPE.STUDENT);
-        CompletableFuture<Result> result=studentApiService.removeALikedThesisFromAStudentFuture(new UUID(32,32));
+        CompletableFuture<Result> result = studentApiService.removeALikedThesisFromAStudentFuture(new UUID(32, 32));
 
         assertFalse(result.get().getSuccess());
         RecordedRequest request = server.takeRequest();
     }
+
     @Test
     public void removeLikedThesisSuccess() throws ExecutionException, InterruptedException {
-        MockResponse response= new MockResponse().setResponseCode(200);
+        MockResponse response = new MockResponse().setResponseCode(200);
         server.enqueue(response);
         //Set user
         Student student = SampleStudent.studentObject();
@@ -273,14 +270,15 @@ public class StudentApiServiceTest {
         //set password
         UserRepository.getInstance().setPassword("password");
         UserRepository.getInstance().setType(USERTYPE.STUDENT);
-        CompletableFuture<Result> result=studentApiService.removeALikedThesisFromAStudentFuture(new UUID(32,32));
+        CompletableFuture<Result> result = studentApiService.removeALikedThesisFromAStudentFuture(new UUID(32, 32));
 
         assertTrue(result.get().getSuccess());
         RecordedRequest request = server.takeRequest();
     }
+
     @Test
     public void sendFormToSupervisorFail() throws JSONException, ExecutionException, InterruptedException {
-        MockResponse response= new MockResponse().setResponseCode(500);
+        MockResponse response = new MockResponse().setResponseCode(500);
         server.enqueue(response);
         //Set user
         Student student = SampleStudent.studentObject();
@@ -289,15 +287,16 @@ public class StudentApiServiceTest {
         //set password
         UserRepository.getInstance().setPassword("password");
         UserRepository.getInstance().setType(USERTYPE.STUDENT);
-        Form form = new Form("Wie geht es dir?","gut");
-        CompletableFuture<Result> result=studentApiService.sendThesisFormToSupervisorFuture(form,new UUID(32,32));
+        Form form = new Form("Wie geht es dir?", "gut");
+        CompletableFuture<Result> result = studentApiService.sendThesisFormToSupervisorFuture(form, new UUID(32, 32));
 
         assertFalse(result.get().getSuccess());
         RecordedRequest request = server.takeRequest();
     }
+
     @Test
     public void sendFormToSupervisorSuccess() throws JSONException, ExecutionException, InterruptedException {
-        MockResponse response= new MockResponse().setResponseCode(200);
+        MockResponse response = new MockResponse().setResponseCode(200);
         server.enqueue(response);
         //Set user
         Student student = SampleStudent.studentObject();
@@ -306,8 +305,8 @@ public class StudentApiServiceTest {
         //set password
         UserRepository.getInstance().setPassword("password");
         UserRepository.getInstance().setType(USERTYPE.STUDENT);
-        Form form = new Form("Wie geht es dir?","gut");
-        CompletableFuture<Result> result=studentApiService.sendThesisFormToSupervisorFuture(form,new UUID(32,32));
+        Form form = new Form("Wie geht es dir?", "gut");
+        CompletableFuture<Result> result = studentApiService.sendThesisFormToSupervisorFuture(form, new UUID(32, 32));
 
         assertTrue(result.get().getSuccess());
         RecordedRequest request = server.takeRequest();

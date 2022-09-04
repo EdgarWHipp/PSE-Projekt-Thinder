@@ -4,14 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import android.util.Log;
-
-import com.hfad.thinder.data.model.Degree;
-import com.hfad.thinder.data.model.Form;
-import com.hfad.thinder.data.model.Image;
-import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
-import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.source.remote.okhttp.Utils.SampleStudent;
 import com.hfad.thinder.data.source.remote.okhttp.Utils.SampleSupervisor;
 import com.hfad.thinder.data.source.remote.okhttp.Utils.SampleThesis;
@@ -28,15 +21,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-import okhttp3.Request;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
@@ -124,7 +113,6 @@ public class ThesesApiServiceTest {
     public void getSpecificThesisFutureSuccess() throws InterruptedException, ExecutionException,
             JSONException {
 
-        // TODO: test runtime exception when incoming json doesnt match Thesis ??
 
         MockResponse response = new MockResponse()
                 .setResponseCode(200)

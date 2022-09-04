@@ -18,6 +18,7 @@ public class DegreeRemoteDataSourceTest {
     private MockWebServer server;
     private DegreeRemoteDataSource degreeRemoteDataSource;
     private ApiUtils apiUtils;
+
     @Before
     public void setUp() {
         server = new MockWebServer();
@@ -36,7 +37,7 @@ public class DegreeRemoteDataSourceTest {
     }
 
     @Test
-    public void fetchAllCoursesOfStudyFromAUniverisitySuccess(){
+    public void fetchAllCoursesOfStudyFromAUniverisitySuccess() {
         //set a user
         Supervisor supervisor = SampleSupervisor.supervisorObject();
         UserRepository.getInstance().setUser(supervisor);
@@ -49,8 +50,9 @@ public class DegreeRemoteDataSourceTest {
         Assert.assertTrue(result.getSuccess());
 
     }
+
     @Test
-    public void fetchAllCoursesOfStudyFromAUniverisityFail(){
+    public void fetchAllCoursesOfStudyFromAUniverisityFail() {
         //set a user
         Supervisor supervisor = SampleSupervisor.supervisorObject();
         UserRepository.getInstance().setUser(supervisor);

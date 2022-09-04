@@ -40,13 +40,16 @@ public class SampleUser {
     public static UserCreation userCreation() {
         return new UserCreation(firstName, lastName, mail, password);
     }
+
     // two incomplete Users
-    public static User emptyStudent(){
-        return new User(USERTYPE.STUDENT,id,active,uni_id,mail,firstName,lastName,false);
+    public static User emptyStudent() {
+        return new User(USERTYPE.STUDENT, id, active, uni_id, mail, firstName, lastName, false);
     }
-    public static User emptySupervisor(){
-        return new User(USERTYPE.SUPERVISOR,id,active,uni_id,mail,firstName,lastName,false);
+
+    public static User emptySupervisor() {
+        return new User(USERTYPE.SUPERVISOR, id, active, uni_id, mail, firstName, lastName, false);
     }
+
     public static String authHeader() {
         return authHeader;
     }

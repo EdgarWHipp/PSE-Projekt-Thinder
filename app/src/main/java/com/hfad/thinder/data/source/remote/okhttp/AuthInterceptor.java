@@ -11,7 +11,7 @@ import okhttp3.Response;
  * This class is used to create the authentication client for HTTP basic authentication - in our case the mail and password is used for this process.
  */
 class AuthInterceptor implements Interceptor {
-    private String credentials;
+    private final String credentials;
 
     protected AuthInterceptor(String email, String password) {
         this.credentials = Credentials.basic(email, password);

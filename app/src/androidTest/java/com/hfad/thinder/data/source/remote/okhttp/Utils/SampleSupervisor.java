@@ -1,6 +1,5 @@
 package com.hfad.thinder.data.source.remote.okhttp.Utils;
 
-import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.USERTYPE;
 

@@ -14,8 +14,16 @@ public class ApiUtils {
 
     private int port = 8080;
 
+    public static ApiUtils getInstance() {
+        if (instance == null) {
+            instance = new ApiUtils();
+        }
+        return instance;
+    }
+
     /**
      * Differentiates between the live setup (heroku) and the local test setup.
+     *
      * @return HttpUrl.Builder
      */
     public HttpUrl.Builder getHttpUrlBuilder() {
@@ -41,12 +49,5 @@ public class ApiUtils {
 
     public void setLiveSetup(boolean liveSetup) {
         this.liveSetup = liveSetup;
-    }
-
-    public static ApiUtils getInstance() {
-        if (instance == null) {
-            instance = new ApiUtils();
-        }
-        return instance;
     }
 }
