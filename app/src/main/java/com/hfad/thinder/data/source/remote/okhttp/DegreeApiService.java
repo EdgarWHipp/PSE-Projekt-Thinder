@@ -28,7 +28,6 @@ import okhttp3.Response;
  */
 public class DegreeApiService {
     private static final ApiUtils apiUtils = ApiUtils.getInstance();
-    private UserRepository userRepository = UserRepository.getInstance();
 
     /**
      * Implements the actual HTTP GET request that fetches all courses of study for the users university.
@@ -41,13 +40,13 @@ public class DegreeApiService {
         //Add HTTP BASIC authentication
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(
-                        new AuthInterceptor(userRepository.
-                                getUser().getMail(), userRepository.getPassword()))
+                        new AuthInterceptor(UserRepository.getInstance().
+                                getUser().getMail(), UserRepository.getInstance().getPassword()))
                 .build();
 
         HttpUrl url = apiUtils.getHttpUrlBuilder()
                 .addPathSegment("university")
-                .addPathSegment(userRepository.getUser().getUniversityId().toString())
+                .addPathSegment(UserRepository.getInstance().getUser().getUniversityId().toString())
                 .addPathSegment("degrees")
                 .build();
 

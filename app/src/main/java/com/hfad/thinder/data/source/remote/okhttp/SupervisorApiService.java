@@ -9,9 +9,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 import com.hfad.thinder.R;
-import com.hfad.thinder.data.model.Degree;
-import com.hfad.thinder.data.model.Form;
-import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.ThesisDTO;
@@ -22,14 +19,12 @@ import com.hfad.thinder.data.util.ParseUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONArray;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Base64;
+
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -50,7 +45,7 @@ public class SupervisorApiService {
     private static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
     private static final ApiUtils apiUtils = ApiUtils.getInstance();
-    private UserRepository userRepository = UserRepository.getInstance();
+
 
     /**
      * This function creates the HTTP PUT request that completes the user profile by extending the profile through either the additional attributes from the supervisor.
@@ -72,8 +67,8 @@ public class SupervisorApiService {
 
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(
-                        new AuthInterceptor(userRepository.
-                                getUser().getMail(), userRepository.
+                        new AuthInterceptor(UserRepository.getInstance().
+                                getUser().getMail(), UserRepository.getInstance().
                                 getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
@@ -109,14 +104,14 @@ public class SupervisorApiService {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    userRepository.login(userRepository.getPassword(), userRepository.getUser().getMail());
-                    userRepository.getUser().setFirstName(firstName);
-                    userRepository.getUser().setLastName(lastName);
-                    ((Supervisor)userRepository.getUser()).setPhoneNumber(phoneNumber);
-                    ((Supervisor)userRepository.getUser()).setBuilding(building);
-                    ((Supervisor)userRepository.getUser()).setOfficeNumber(officeNumber);
-                    ((Supervisor)userRepository.getUser()).setInstitute(institute);
-                    ((Supervisor)userRepository.getUser()).setAcademicDegree(degree);
+                    UserRepository.getInstance().login(UserRepository.getInstance().getPassword(), UserRepository.getInstance().getUser().getMail());
+                    UserRepository.getInstance().getUser().setFirstName(firstName);
+                    UserRepository.getInstance().getUser().setLastName(lastName);
+                    ((Supervisor) UserRepository.getInstance().getUser()).setPhoneNumber(phoneNumber);
+                    ((Supervisor) UserRepository.getInstance().getUser()).setBuilding(building);
+                    ((Supervisor) UserRepository.getInstance().getUser()).setOfficeNumber(officeNumber);
+                    ((Supervisor) UserRepository.getInstance().getUser()).setInstitute(institute);
+                    ((Supervisor) UserRepository.getInstance().getUser()).setAcademicDegree(degree);
                     resultCompletableFuture.complete(new Result(true));
                 } else {
                     resultCompletableFuture.complete(new Result(R.string.unsuccessful_response, false));
@@ -140,8 +135,8 @@ public class SupervisorApiService {
         //Add HTTP BASIC authentication
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor
-                        (userRepository.getUser().getMail(),
-                                userRepository.getPassword()))
+                        (UserRepository.getInstance().getUser().getMail(),
+                                UserRepository.getInstance().getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         JSONObject thesisJSON = ParseUtils.thesisToThesisDtoJson(thesis);
@@ -185,8 +180,8 @@ public class SupervisorApiService {
         //Add HTTP BASIC authentication
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor
-                        (userRepository.getUser().getMail(),
-                                userRepository.getPassword()))
+                        (UserRepository.getInstance().getUser().getMail(),
+                                UserRepository.getInstance().getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         CompletableFuture<HashMap<UUID, Thesis>> thesisHashmap = new CompletableFuture<>();

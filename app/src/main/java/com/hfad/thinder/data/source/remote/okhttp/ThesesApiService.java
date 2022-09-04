@@ -10,9 +10,7 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.hfad.thinder.R;
-import com.hfad.thinder.data.model.Degree;
-import com.hfad.thinder.data.model.Form;
-import com.hfad.thinder.data.model.Image;
+
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.ThesisDTO;
 import com.hfad.thinder.data.source.repository.UserRepository;
@@ -20,19 +18,15 @@ import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.data.source.result.Result;
 import com.hfad.thinder.data.util.ParseUtils;
 
-import org.json.JSONArray;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
+
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -51,7 +45,6 @@ public class ThesesApiService {
     private static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
     private static final ApiUtils apiUtils = ApiUtils.getInstance();
-    private UserRepository userRepository = UserRepository.getInstance();
 
     /**
      * This function creates the actual HTTP POST request to the backend that leads to a created thesis object inside the database.
@@ -64,8 +57,8 @@ public class ThesesApiService {
         //Add HTTP BASIC authentication
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor
-                        (userRepository.getUser().getMail(),
-                                userRepository.getPassword()))
+                        (UserRepository.getInstance().getUser().getMail(),
+                                UserRepository.getInstance().getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 
@@ -110,8 +103,8 @@ public class ThesesApiService {
         //Add HTTP BASIC authentication
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor
-                        (userRepository.getUser().getMail(),
-                                userRepository.getPassword()))
+                        (UserRepository.getInstance().getUser().getMail(),
+                                UserRepository.getInstance().getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         CompletableFuture<Thesis> resultThesis = new CompletableFuture<>();
@@ -156,8 +149,8 @@ public class ThesesApiService {
         //Add HTTP BASIC authentication
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor
-                        (userRepository.getUser().getMail(),
-                                userRepository.getPassword()))
+                        (UserRepository.getInstance().getUser().getMail(),
+                                UserRepository.getInstance().getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 
