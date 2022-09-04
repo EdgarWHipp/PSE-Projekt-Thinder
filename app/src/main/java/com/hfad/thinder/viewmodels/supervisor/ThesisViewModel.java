@@ -1,22 +1,19 @@
 package com.hfad.thinder.viewmodels.supervisor;
 
 
-import static android.content.ContentValues.TAG;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.R;
 import com.hfad.thinder.data.model.Degree;
+import com.hfad.thinder.data.source.repository.DegreeRepository;
 import com.hfad.thinder.viewmodels.CourseOfStudyItem;
 import com.hfad.thinder.viewmodels.CoursesOfStudyPicker;
 import com.hfad.thinder.viewmodels.ImageGalleryPicker;
 import com.hfad.thinder.viewmodels.ImageListIterator;
 import com.hfad.thinder.viewmodels.ViewModelResult;
-
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
@@ -26,8 +23,9 @@ import java.util.ArrayList;
  */
 public abstract class ThesisViewModel extends ViewModel
     implements CoursesOfStudyPicker, ImageGalleryPicker {
-  private static final int COMPRESSION_SIZE = 1000;
   public static final int QUALITY = 80;
+  private static final int COMPRESSION_SIZE = 1000;
+  private static final DegreeRepository degreeRepository = DegreeRepository.getInstance();
   private MutableLiveData<String> title;
   private MutableLiveData<String> task;
   private MutableLiveData<String> motivation;
@@ -41,6 +39,7 @@ public abstract class ThesisViewModel extends ViewModel
   private MutableLiveData<ThesisFormState> formState;
   private MutableLiveData<ViewModelResult> saveResult;
   private MutableLiveData<Boolean> isLoading;
+
   /**
    * Use this method to save a new thesis or the changes to an existing thesis.
    */
@@ -108,7 +107,7 @@ public abstract class ThesisViewModel extends ViewModel
     currentImage.setValue(iterator.previous());
   }
 
-  public void deleteImages(){
+  public void deleteImages() {
     iterator = null;
     getCurrentImage().setValue(null);
     getImages().setValue(null);
@@ -269,7 +268,7 @@ public abstract class ThesisViewModel extends ViewModel
   }
 
   public MutableLiveData<Boolean> getIsLoading() {
-    if(isLoading == null){
+    if (isLoading == null) {
       isLoading = new MutableLiveData<>();
       isLoading.setValue(false);
     }
@@ -279,7 +278,7 @@ public abstract class ThesisViewModel extends ViewModel
   //-----------------------------private methods---------------------------------------------------------------
 
   private void loadCoursesOfStudy() {
-    ArrayList<Degree> allDegrees = ThesisUtility.DEGREE_REPOSITORY.fetchAllCoursesOfStudy();
+    ArrayList<Degree> allDegrees = degreeRepository.fetchAllCoursesOfStudy();
     ArrayList<CourseOfStudyItem> courseOfStudyItems = new ArrayList<>();
     for (Degree degree : allDegrees) {
       courseOfStudyItems.add(new CourseOfStudyItem(degree.getDegree(), degree.getId(), false));
@@ -368,8 +367,7 @@ public abstract class ThesisViewModel extends ViewModel
     return BitmapFactory.decodeByteArray(compressedBitmap, 0, compressedBitmap.length);
   }
 
-  private class SetImagesTask extends AsyncTask<ArrayList<Bitmap>, Void, ArrayList<Bitmap>>
-  {
+  private class SetImagesTask extends AsyncTask<ArrayList<Bitmap>, Void, ArrayList<Bitmap>> {
 
     @Override
     protected ArrayList<Bitmap> doInBackground(ArrayList<Bitmap>... arrayLists) {
