@@ -1,7 +1,8 @@
-package com.hfad.thinder.data.source.remote.okhttp;
+package com.hfad.thinder.data.source.remote;
 
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.source.remote.DegreeRemoteDataSource;
+import com.hfad.thinder.data.source.remote.okhttp.ApiUtils;
 import com.hfad.thinder.data.source.remote.okhttp.Utils.SampleSupervisor;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;

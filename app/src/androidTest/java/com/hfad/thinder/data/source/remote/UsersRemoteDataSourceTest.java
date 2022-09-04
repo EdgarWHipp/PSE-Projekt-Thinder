@@ -1,10 +1,11 @@
-package com.hfad.thinder.data.source.remote.okhttp;
+package com.hfad.thinder.data.source.remote;
 
 import com.hfad.thinder.data.model.Login;
 import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.source.remote.UsersRemoteDataSource;
+import com.hfad.thinder.data.source.remote.okhttp.ApiUtils;
 import com.hfad.thinder.data.source.remote.okhttp.Utils.SampleStudent;
 import com.hfad.thinder.data.source.remote.okhttp.Utils.SampleSupervisor;
 import com.hfad.thinder.data.source.repository.UserRepository;
