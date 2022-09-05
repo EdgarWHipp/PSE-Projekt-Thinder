@@ -24,25 +24,25 @@ import java.util.ArrayList;
  *  Also handles click events and filter operations.
  */
 public class ThesisCardAdapter
-        extends RecyclerView.Adapter<ThesisCardAdapter.ThesisManagerViewHolder> implements Filterable {
+        extends RecyclerView.Adapter<ThesisCardAdapter.ThesisCardViewHolder> implements Filterable {
 
     private ArrayList<ThesisCardItem> elementsFull;
     private ArrayList<ThesisCardItem> elements;
     private final Filter elementsFilter = new Filter() {
         /**
-         * returns all objects corresponding to the given charSequence
+         * returns all objects corresponding to the given filterInput
          *
-         * @param charSequence filter input
+         * @param filterInput  filter input
          * @return             filtered output
          */
         @Override
-        protected FilterResults performFiltering(CharSequence charSequence) {
+        protected FilterResults performFiltering(CharSequence filterInput) {
             ArrayList<ThesisCardItem> filteredList = new ArrayList<>();
 
-            if (charSequence == null || charSequence.length() == 0) {
+            if (filterInput == null || filterInput.length() == 0) {
                 filteredList.addAll(elementsFull);
             } else {
-                String filterPattern = charSequence.toString().toLowerCase().trim();
+                String filterPattern = filterInput.toString().toLowerCase().trim();
 
                 for (ThesisCardItem item : elementsFull) {
                     if (item.getTitle().toLowerCase().contains(filterPattern)) {
@@ -100,7 +100,7 @@ public class ThesisCardAdapter
     }
 
     /**
-     * Creates new viewholder
+     * Creates new ViewHolder
      *
      * @param parent    ParentViewGroup
      * @param viewType  type of the view
@@ -108,23 +108,23 @@ public class ThesisCardAdapter
      */
     @NonNull
     @Override
-    public ThesisCardAdapter.ThesisManagerViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-                                                                        int viewType) {
+    public ThesisCardViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                                                   int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_thesis_manager, parent, false);
-        ThesisCardAdapter.ThesisManagerViewHolder coursesOfStudyViewHolder =
-                new ThesisCardAdapter.ThesisManagerViewHolder(v, listener);
+        ThesisCardViewHolder coursesOfStudyViewHolder =
+                new ThesisCardViewHolder(v, listener);
         return coursesOfStudyViewHolder;
     }
 
     /**
      * Binds data to views
      *
-     * @param holder    viewholder holding the views
+     * @param holder    ViewHolder holding the views
      * @param position  position used to get the data
      */
     @Override
-    public void onBindViewHolder(@NonNull ThesisCardAdapter.ThesisManagerViewHolder holder,
+    public void onBindViewHolder(@NonNull ThesisCardViewHolder holder,
                                  int position) {
         ThesisCardItem current = elements.get(position);
         holder.title.setText(current.getTitle());
@@ -175,7 +175,7 @@ public class ThesisCardAdapter
     /**
      *  Holds all the views of one recyclerview item.
      */
-    public static class ThesisManagerViewHolder extends RecyclerView.ViewHolder {
+    public static class ThesisCardViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
         public TextView description;
         public ImageView image;
@@ -186,20 +186,17 @@ public class ThesisCardAdapter
          * @param itemView view of the viewholder
          * @param listener used for click observation
          */
-        public ThesisManagerViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
+        public ThesisCardViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             title = itemView.findViewById(R.id.tvTitle);
             description = itemView.findViewById(R.id.tvDescription);
             image = itemView.findViewById(R.id.ivThesisManagerItem);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(position);
-                        }
+            itemView.setOnClickListener(view -> {
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(position);
                     }
                 }
             });

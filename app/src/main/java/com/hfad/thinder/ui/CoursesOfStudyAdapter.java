@@ -17,16 +17,16 @@ import com.hfad.thinder.viewmodels.CoursesOfStudyPicker;
 import java.util.ArrayList;
 
 /**
- *  Is responsible for displaying the given data by the ViewModel in a RecyclerView.
+ *  Is responsible for displaying the given ViewModel data in a RecyclerView.
  *  Also handles click events and filter operations.
  */
 public class CoursesOfStudyAdapter extends RecyclerView.Adapter<CoursesOfStudyAdapter.CoursesOfStudyViewHolder> implements Filterable {
 
     private ArrayList<CourseOfStudyItem> elements;
-    private ArrayList<CourseOfStudyItem> elementsFull;
-    private CoursesOfStudyPicker viewModel;
+    private final ArrayList<CourseOfStudyItem> elementsFull;
+    private final CoursesOfStudyPicker viewModel;
 
-    private Filter elementsFilter = new Filter() {
+    private final Filter elementsFilter = new Filter() {
         /**
          * returns all objects corresponding to the given charSequence
          *
@@ -107,12 +107,9 @@ public class CoursesOfStudyAdapter extends RecyclerView.Adapter<CoursesOfStudyAd
         holder.mCheckBox.setText(current.getCourseOfStudy());
         holder.mCheckBox.setChecked(current.isPicked());
 
-        holder.setItemClickListener(new CoursesOfStudyViewHolder.ItemClickListener(){
-            @Override
-            public void onItemClick(View v, int pos) {
-                CheckBox checkBox = (CheckBox) v;
-                viewModel.makeCourseOfStudySelection(elements.get(currentPosition).getCourseOfStudy(), checkBox.isChecked());
-            }
+        holder.setItemClickListener((v, pos) -> {
+            CheckBox checkBox = (CheckBox) v;
+            viewModel.makeCourseOfStudySelection(elements.get(currentPosition).getCourseOfStudy(), checkBox.isChecked());
         });
     }
 
