@@ -53,7 +53,7 @@ public class EditProfileViewModel extends ViewModel implements CoursesOfStudyPic
   /**
    * This method initiates the deletion of all data belonging to the corresponding user.
    */
-  public void delete() {
+  public void delete() {//Todo: paralelisieren
     Result result = userRepository.delete();
     if (result.getSuccess()) {
       getDeleteResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
