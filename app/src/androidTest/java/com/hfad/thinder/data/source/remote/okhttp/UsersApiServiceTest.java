@@ -70,7 +70,6 @@ public class UsersApiServiceTest {
         Student student = (Student) userRepository.getUser();
 
 
-
         // User data
         Assert.assertEquals(USERTYPE.STUDENT, student.getType());
         Assert.assertTrue(student.isActive());
@@ -82,6 +81,8 @@ public class UsersApiServiceTest {
 
         // Student data
         Assert.assertEquals(SampleStudent.degrees, student.getDegrees());
+
+        Assert.assertNotEquals(UserRepository.getInstance().getUser(), null);
     }
 
     @Test
@@ -121,6 +122,8 @@ public class UsersApiServiceTest {
         Assert.assertEquals(SampleSupervisor.officeNumber, supervisor.getOfficeNumber());
         Assert.assertEquals(SampleSupervisor.institute, supervisor.getInstitute());
         Assert.assertEquals(SampleSupervisor.phoneNumber, supervisor.getPhoneNumber());
+
+        Assert.assertNotEquals(UserRepository.getInstance().getUser(), null);
     }
 
     @Test
@@ -162,6 +165,8 @@ public class UsersApiServiceTest {
         Assert.assertEquals(SampleUser.lastName, newUserJson.get("lastName").toString());
         Assert.assertEquals(SampleUser.mail, newUserJson.get("mail").toString());
         Assert.assertEquals(SampleUser.password, newUserJson.get("password").toString());
+
+        Assert.assertNotEquals(UserRepository.getInstance().getUser(), null);
     }
 
     @Test
@@ -172,6 +177,16 @@ public class UsersApiServiceTest {
         UserCreation newUser = SampleUser.userCreation();
 
         CompletableFuture<Result> result = usersApiService.createNewUserFuture(newUser);
+        // Parse request body to Json
+        RecordedRequest request = server.takeRequest();
+        String requestBody = request.getBody().readUtf8();
+        JSONObject newUserJson = new JSONObject(requestBody);
+
+        // Check if status 200 response is handled properly
+        Assert.assertFalse(result.get().getSuccess());
+
+        // Check request body parameters (User should not be set, since the creation failed)
+        Assert.assertEquals(UserRepository.getInstance().getUser(), null);
 
         // Check if status 500 response is handled properly
         Assert.assertFalse(result.get().getSuccess());
@@ -191,7 +206,6 @@ public class UsersApiServiceTest {
         CompletableFuture<Result> result = usersApiService.deleteUserFuture();
 
         RecordedRequest request = server.takeRequest();
-
         String authToken = request.getHeader("Authorization");
 
         // Correct auth header set in request
@@ -211,13 +225,15 @@ public class UsersApiServiceTest {
         RecordedRequest request = server.takeRequest();
 
         String mail = Objects.requireNonNull(request.getRequestUrl()).queryParameter("mail");
-
+        String string = request.getBody().readUtf8();
+        Assert.assertEquals("", string);
         // Correct mail set
         Assert.assertEquals(SampleUser.mail, mail);
 
         // Check if status 200 response is handled properly
         Assert.assertTrue(result.get().getSuccess());
     }
+
     @Test
     public void testResetPasswordFail() throws InterruptedException, ExecutionException {
         MockResponse response = new MockResponse().setResponseCode(500);
@@ -228,7 +244,8 @@ public class UsersApiServiceTest {
         RecordedRequest request = server.takeRequest();
 
         String mail = Objects.requireNonNull(request.getRequestUrl()).queryParameter("mail");
-
+        String string = request.getBody().readUtf8();
+        Assert.assertEquals("", string);
 
 
         // Check if status 200 response is handled properly
@@ -248,7 +265,6 @@ public class UsersApiServiceTest {
 
         String requestBody = request.getBody().readUtf8();
         JSONObject requestBodyJson = new JSONObject(requestBody);
-
         // Correct mail set
         Assert.assertEquals(SampleUser.password, requestBodyJson.get("newPassword"));
         Assert.assertEquals("xyztoken", requestBodyJson.get("token"));
@@ -257,6 +273,7 @@ public class UsersApiServiceTest {
         // Check if status 200 response is handled properly
         Assert.assertTrue(result.get().getSuccess());
     }
+
     @Test
     public void testPostNewPasswordFail() throws JSONException, InterruptedException,
             ExecutionException {

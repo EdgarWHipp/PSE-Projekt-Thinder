@@ -7,7 +7,8 @@ import com.hfad.thinder.data.source.result.Result;
 import java.util.ArrayList;
 
 /**
- * Interface for the Viewmodel to
+ * Defines the interface between the frontend and backend, such that the ViewModel can use to interact with backend data.
+ * This class includes all functionalities surrounding the fetching of Degree objects.
  */
 public class DegreeRepository {
     public static DegreeRepository INSTANCE;
@@ -32,13 +33,6 @@ public class DegreeRepository {
         this.allCoursesOfStudy = allDegrees;
     }
 
-    public ArrayList<Degree> getAllCoursesOfStudy() {
-        return allCoursesOfStudy;
-    }
-
-    public void setAllCoursesOfStudy(ArrayList<Degree> allCoursesOfStudy) {
-        this.allCoursesOfStudy = allCoursesOfStudy;
-    }
 
     public ArrayList<String> getAcademicTitles() {
         ArrayList<String> list = new ArrayList<>();

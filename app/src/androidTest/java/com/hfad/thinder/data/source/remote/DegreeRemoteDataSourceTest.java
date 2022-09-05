@@ -1,7 +1,8 @@
-package com.hfad.thinder.data.source.remote.okhttp;
+package com.hfad.thinder.data.source.remote;
 
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.source.remote.DegreeRemoteDataSource;
+import com.hfad.thinder.data.source.remote.okhttp.ApiUtils;
 import com.hfad.thinder.data.source.remote.okhttp.Utils.SampleSupervisor;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Result;
@@ -18,6 +19,7 @@ public class DegreeRemoteDataSourceTest {
     private MockWebServer server;
     private DegreeRemoteDataSource degreeRemoteDataSource;
     private ApiUtils apiUtils;
+
     @Before
     public void setUp() {
         server = new MockWebServer();
@@ -36,7 +38,7 @@ public class DegreeRemoteDataSourceTest {
     }
 
     @Test
-    public void fetchAllCoursesOfStudyFromAUniverisitySuccess(){
+    public void fetchAllCoursesOfStudyFromAUniverisitySuccess() {
         //set a user
         Supervisor supervisor = SampleSupervisor.supervisorObject();
         UserRepository.getInstance().setUser(supervisor);
@@ -49,8 +51,9 @@ public class DegreeRemoteDataSourceTest {
         Assert.assertTrue(result.getSuccess());
 
     }
+
     @Test
-    public void fetchAllCoursesOfStudyFromAUniverisityFail(){
+    public void fetchAllCoursesOfStudyFromAUniverisityFail() {
         //set a user
         Supervisor supervisor = SampleSupervisor.supervisorObject();
         UserRepository.getInstance().setUser(supervisor);

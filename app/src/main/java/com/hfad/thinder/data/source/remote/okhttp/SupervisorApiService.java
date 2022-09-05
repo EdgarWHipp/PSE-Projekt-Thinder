@@ -1,12 +1,8 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
-import android.util.ArraySet;
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 import com.hfad.thinder.R;
 import com.hfad.thinder.data.model.Supervisor;
@@ -22,7 +18,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -47,13 +42,27 @@ public class SupervisorApiService {
     private static final ApiUtils apiUtils = ApiUtils.getInstance();
 
 
+    private void setSupervisorValues(String firstName, String lastName, String phoneNumber, String building, String officeNumber, String institute, String degree) {
+        UserRepository.getInstance().getUser().setFirstName(firstName);
+        UserRepository.getInstance().getUser().setLastName(lastName);
+        ((Supervisor) UserRepository.getInstance().getUser()).setPhoneNumber(phoneNumber);
+        ((Supervisor) UserRepository.getInstance().getUser()).setBuilding(building);
+        ((Supervisor) UserRepository.getInstance().getUser()).setOfficeNumber(officeNumber);
+        ((Supervisor) UserRepository.getInstance().getUser()).setInstitute(institute);
+        ((Supervisor) UserRepository.getInstance().getUser()).setAcademicDegree(degree);
+    }
+
     /**
      * This function creates the HTTP PUT request that completes the user profile by extending the profile through either the additional attributes from the supervisor.
      * Checks if the asynchronous call return fails or responds.
      *
      * @param degree
+     * @param officeNumber
+     * @param building
      * @param institute
      * @param phoneNumber
+     * @param firstName
+     * @param lastName
      * @return CompletableFuture<Result>
      * @throws JSONException
      * @throws IOException
@@ -105,13 +114,7 @@ public class SupervisorApiService {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     UserRepository.getInstance().login(UserRepository.getInstance().getPassword(), UserRepository.getInstance().getUser().getMail());
-                    UserRepository.getInstance().getUser().setFirstName(firstName);
-                    UserRepository.getInstance().getUser().setLastName(lastName);
-                    ((Supervisor) UserRepository.getInstance().getUser()).setPhoneNumber(phoneNumber);
-                    ((Supervisor) UserRepository.getInstance().getUser()).setBuilding(building);
-                    ((Supervisor) UserRepository.getInstance().getUser()).setOfficeNumber(officeNumber);
-                    ((Supervisor) UserRepository.getInstance().getUser()).setInstitute(institute);
-                    ((Supervisor) UserRepository.getInstance().getUser()).setAcademicDegree(degree);
+                    setSupervisorValues(firstName, lastName, phoneNumber, building, officeNumber, institute, degree);
                     resultCompletableFuture.complete(new Result(true));
                 } else {
                     resultCompletableFuture.complete(new Result(R.string.unsuccessful_response, false));
@@ -211,12 +214,12 @@ public class SupervisorApiService {
 
                     ArrayList<Thesis> returnTheses = new ArrayList<>();
                     //if fetched thesisDTO arraylist is null, continue with a true Result value.
-                    if(theses==null){
+                    if (theses == null) {
                         resultCompletableFuture.complete(new Result(true));
                         thesisHashmap.complete(null);
                         return;
                     }
-                    for(ThesisDTO thesisDTO : theses){
+                    for (ThesisDTO thesisDTO : theses) {
                         returnTheses.add(ParseUtils.parseDTOtoThesis(thesisDTO));
                     }
                     HashMap<UUID, Thesis> thesisHashMap = (HashMap<UUID, Thesis>) returnTheses.stream()

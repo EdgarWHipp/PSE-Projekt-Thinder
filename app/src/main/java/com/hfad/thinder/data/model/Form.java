@@ -11,9 +11,17 @@ public class Form {
     @SerializedName("answers")
     private String answers;
 
+    /**
+     * Constructor only with a questions field.
+     * @param questions
+     */
     public Form(String questions) {
         this.questions = questions;
     }
+    /**
+     * Constructor only with a questions and an answers field.
+     * @param questions
+     */
     public Form(String questions,String answers) {
         this.questions = questions;
         this.answers = answers;

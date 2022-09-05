@@ -1,9 +1,6 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
-import static android.content.ContentValues.TAG;
-
 import android.util.ArraySet;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -48,9 +45,9 @@ import okhttp3.Response;
  * These include editing the students profile, ratings theses through the swipe screen and getting already liked theses returned to the student.
  */
 public class StudentApiService {
+    private static final ApiUtils apiUtils = ApiUtils.getInstance();
     private final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
-    private static final ApiUtils apiUtils = ApiUtils.getInstance();
 
     /**
      * This function creates the HTTP PUT request that completes the user profile by extending the profile through either the additional attributes from the student.
@@ -101,8 +98,8 @@ public class StudentApiService {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     UserRepository.getInstance().login(UserRepository.getInstance().getPassword(), UserRepository.getInstance().getUser().getMail());
-                    ((Student) UserRepository.getInstance().getUser()).setFirstName(firstName);
-                    ((Student) UserRepository.getInstance().getUser()).setLastName(lastName);
+                    UserRepository.getInstance().getUser().setFirstName(firstName);
+                    UserRepository.getInstance().getUser().setLastName(lastName);
                     ((Student) UserRepository.getInstance().getUser()).setDegrees(degrees);
                     resultCompletableFuture.complete(new Result(true));
                 } else {
@@ -112,8 +109,6 @@ public class StudentApiService {
         });
         return resultCompletableFuture;
     }
-
-
 
 
     /**
@@ -166,22 +161,23 @@ public class StudentApiService {
 
     /**
      * This function parses the arraylist of ThesisDTO object that the backend returns to a Hashmap<UUID,Thesis> (this is necessary for the frontend)
+     *
      * @param theses
-     * @return HashMap<UUID,Thesis>
+     * @return HashMap<UUID, Thesis>
      */
-    private HashMap<UUID,Thesis> parseHashMap(ArrayList<ThesisDTO> theses){
+    private HashMap<UUID, Thesis> parseHashMap(ArrayList<ThesisDTO> theses) {
         ArrayList<Thesis> returnTheses = new ArrayList<>();
-        Thesis thesis=new Thesis();
-        Set<Image> images= new ArraySet<>();
-        Set<Degree> degrees= new ArraySet<>();
-        for(ThesisDTO thesisIter : theses){
+        Thesis thesis = new Thesis();
+        Set<Image> images = new ArraySet<>();
+        Set<Degree> degrees = new ArraySet<>();
+        for (ThesisDTO thesisIter : theses) {
             thesis.setId(thesisIter.getId());
             thesis.setForm(new Form(thesisIter.getQuestions()));
-            for(String string : thesisIter.getImages()){
+            for (String string : thesisIter.getImages()) {
                 byte[] image = java.util.Base64.getDecoder().decode(string);
                 images.add(new Image(image));
             }
-            for(Degree degree : thesisIter.getPossibleDegrees()){
+            for (Degree degree : thesisIter.getPossibleDegrees()) {
                 degrees.add(degree);
             }
             thesis.setImages(images);
@@ -196,9 +192,9 @@ public class StudentApiService {
             images = new ArraySet<>();
             degrees = new ArraySet<>();
         }
-        HashMap<UUID, Thesis> thesisHashMap = (HashMap<UUID, Thesis>) returnTheses.stream().collect(Collectors.toMap(v -> v.getId(), v -> v));
-        return thesisHashMap;
+        return (HashMap<UUID, Thesis>) returnTheses.stream().collect(Collectors.toMap(Thesis::getId, v -> v));
     }
+
     /**
      * Get all already liked thesis for the student. If the response is successful, set the Hashmap in the ThesisRepository for the viewmodel.
      *
@@ -240,10 +236,9 @@ public class StudentApiService {
                     ArrayList<ThesisDTO> theses = gson.fromJson(body, new TypeToken<List<ThesisDTO>>() {
                     }.getType());
                     //if the theses returned are null (which is a normal response), return a correct result value.
-                    if(theses==null){
+                    if (theses == null) {
                         resultCompletableFuture.complete(new Result(true));
                         thesisListFuture.complete(null);
-                        Log.e("","this is called");
                         return;
                     }
 
@@ -258,33 +253,30 @@ public class StudentApiService {
             }
         });
 
-        Pair<CompletableFuture<HashMap<UUID, Thesis>>, CompletableFuture<Result>> resultCompletableFuturePair
-                = new Pair<>(thesisListFuture, resultCompletableFuture);
-        return resultCompletableFuturePair;
+        return new Pair<>(thesisListFuture, resultCompletableFuture);
     }
 
     /**
      * This function parses the returned ArrayList<ThesisDTO> from the backend into a ArrayList<Thesis> (which is necessary for the frontend)
+     *
      * @param theses
      * @return ArrayList<Thesis>
      */
-    private ArrayList<Thesis> parseThesisArrayList(ArrayList<ThesisDTO> theses){
+    private ArrayList<Thesis> parseThesisArrayList(ArrayList<ThesisDTO> theses) {
         ArrayList<Thesis> returnTheses = new ArrayList<>();
 
-        Thesis thesis=new Thesis();
-        Set<Image> images= new ArraySet<>();
-        Set<Degree> degrees=new ArraySet<>();
-        for(ThesisDTO thesisIter : theses){
+        Thesis thesis = new Thesis();
+        Set<Image> images = new ArraySet<>();
+        Set<Degree> degrees = new ArraySet<>();
+        for (ThesisDTO thesisIter : theses) {
             thesis.setId(thesisIter.getId());
             thesis.setForm(new Form(thesisIter.getQuestions()));
-            for(String string : thesisIter.getImages()){
+            for (String string : thesisIter.getImages()) {
                 byte[] image = java.util.Base64.getDecoder().decode(string);
                 images.add(new Image(image));
 
             }
-            for(Degree degree : thesisIter.getPossibleDegrees()){
-                degrees.add(degree);
-            }
+            degrees.addAll(thesisIter.getPossibleDegrees());
             thesis.setImages(images);
             thesis.setMotivation(thesisIter.getMotivation());
             thesis.setName(thesisIter.getName());
@@ -301,6 +293,7 @@ public class StudentApiService {
         }
         return returnTheses;
     }
+
     /**
      * Returns all theses that a student swipes, based on a certain critiera (currently just implemented as random in the backend)
      *
@@ -341,7 +334,7 @@ public class StudentApiService {
                 if (response.isSuccessful()) {
                     Gson gson = new Gson();
                     String body = response.body().string();
-                    ArrayList<ThesisDTO> theses = (ArrayList<ThesisDTO>) gson.fromJson(body, new TypeToken<List<ThesisDTO>>() {
+                    ArrayList<ThesisDTO> theses = gson.fromJson(body, new TypeToken<List<ThesisDTO>>() {
                     }.getType());
                     if (theses == null) {
                         resultCompletableFuture.complete(new Result(true));
@@ -361,7 +354,7 @@ public class StudentApiService {
             }
 
         });
-        return new Pair<CompletableFuture<ArrayList<Thesis>>, CompletableFuture<Result>>(resultThesisFuture, resultCompletableFuture);
+        return new Pair<>(resultThesisFuture, resultCompletableFuture);
     }
 
     /**
@@ -381,7 +374,7 @@ public class StudentApiService {
                                 UserRepository.getInstance().getPassword()))
                 .build();
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
-        JSONObject formJson = null;
+        JSONObject formJson;
         formJson = new JSONObject().put("answers", form.getAnswers()).put("questions", form.getQuestions());
         String jsonBodyString = formJson.toString();
         RequestBody body = RequestBody.create(jsonBodyString, JSON);

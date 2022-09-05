@@ -1,12 +1,8 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
-import android.util.Log;
-
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Supervisor;
-import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.source.remote.okhttp.Utils.SampleSupervisor;
-import com.hfad.thinder.data.source.remote.okhttp.Utils.SampleUser;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.data.source.result.Result;
@@ -19,10 +15,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
-import okhttp3.MediaType;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
@@ -31,6 +24,7 @@ public class DegreeApiServiceTest {
     private MockWebServer server;
     private DegreeApiService degreeApiService;
     private ApiUtils apiUtils;
+
     @Before
     public void setUp() {
         server = new MockWebServer();
@@ -57,13 +51,14 @@ public class DegreeApiServiceTest {
         MockResponse response = new MockResponse().setResponseCode(200);
         server.enqueue(response);
 
-        Pair<CompletableFuture<ArrayList<Degree>>, CompletableFuture<Result>> values =  degreeApiService.fetchAllCoursesOfStudyFuture();
-        ArrayList<Degree> degrees=values.getFirst().get();
+        Pair<CompletableFuture<ArrayList<Degree>>, CompletableFuture<Result>> values = degreeApiService.fetchAllCoursesOfStudyFuture();
+        ArrayList<Degree> degrees = values.getFirst().get();
         Result result = values.getSecond().get();
-        Assert.assertEquals(degrees,null);
+        Assert.assertEquals(degrees, null);
         RecordedRequest request = server.takeRequest();
         Assert.assertTrue(result.getSuccess());
     }
+
     @Test
     public void fetchAllCoursesOfStudyFail() throws ExecutionException, InterruptedException {
         //set a user
@@ -72,7 +67,7 @@ public class DegreeApiServiceTest {
         UserRepository.getInstance().setPassword("password");
         MockResponse response = new MockResponse().setResponseCode(500);
         server.enqueue(response);
-        Pair<CompletableFuture<ArrayList<Degree>>, CompletableFuture<Result>> values =  degreeApiService.fetchAllCoursesOfStudyFuture();
+        Pair<CompletableFuture<ArrayList<Degree>>, CompletableFuture<Result>> values = degreeApiService.fetchAllCoursesOfStudyFuture();
         Result result = values.getSecond().get();
         Assert.assertFalse(result.getSuccess());
     }

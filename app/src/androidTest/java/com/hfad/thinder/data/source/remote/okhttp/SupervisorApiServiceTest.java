@@ -1,36 +1,28 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import android.app.VoiceInteractor;
-import android.util.ArraySet;
 import android.util.Log;
 
 import com.hfad.thinder.data.model.Degree;
-import com.hfad.thinder.data.model.Form;
-import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
-import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.source.remote.okhttp.Utils.SampleSupervisor;
 import com.hfad.thinder.data.source.remote.okhttp.Utils.SampleThesis;
-import com.hfad.thinder.data.source.remote.okhttp.Utils.SampleUser;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.data.source.result.Result;
 
 import org.json.JSONException;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -59,6 +51,7 @@ public class SupervisorApiServiceTest {
     public void tearDown() throws Exception {
         server.shutdown();
     }
+
     @Test
     public void editSupervisorProfileFutureSuccess() throws JSONException, IOException, InterruptedException,
             ExecutionException {
@@ -79,22 +72,23 @@ public class SupervisorApiServiceTest {
         degreesNew.add(degreeMathe);
 
         CompletableFuture<Result> result = supervisorApiService
-                .editSupervisorProfileFuture("Dr","21",
-                        "100","Telematik","0123123123", "Tom", "Müller");
+                .editSupervisorProfileFuture("Dr", "21",
+                        "100", "Telematik", "0123123123", "Tom", "Müller");
 
-        Log.e("",userRepository.getUser().getFirstName().toString());
+        Log.e("", userRepository.getUser().getFirstName());
         RecordedRequest request = server.takeRequest();
         String authToken = request.getHeader("Authorization");
         String body = request.getBody().toString();
         assertTrue(result.get().getSuccess());
         assertEquals(UserRepository.getInstance().getUser().getFirstName(), "Tom");
         assertEquals(UserRepository.getInstance().getUser().getLastName(), "Müller");
-        assertEquals(((Supervisor) UserRepository.getInstance().getUser()).getAcademicDegree(),"Dr");
+        assertEquals(((Supervisor) UserRepository.getInstance().getUser()).getAcademicDegree(), "Dr");
         assertEquals(((Supervisor) UserRepository.getInstance().getUser()).getBuilding(), "100");
         assertEquals(((Supervisor) UserRepository.getInstance().getUser()).getInstitute(), "Telematik");
         assertEquals(((Supervisor) UserRepository.getInstance().getUser()).getOfficeNumber(), "21");
         assertEquals(((Supervisor) UserRepository.getInstance().getUser()).getPhoneNumber(), "0123123123");
     }
+
     @Test
     public void editSupervisorProfileFutureFail() throws JSONException, IOException, InterruptedException,
             ExecutionException {
@@ -115,8 +109,8 @@ public class SupervisorApiServiceTest {
         degreesNew.add(degreeMathe);
 
         CompletableFuture<Result> result = supervisorApiService
-                .editSupervisorProfileFuture("Msc","21",
-                        "100","Robotik","0123123123", "Tom", "Müller");
+                .editSupervisorProfileFuture("Msc", "21",
+                        "100", "Robotik", "0123123123", "Tom", "Müller");
 
         RecordedRequest request = server.takeRequest();
         String authToken = request.getHeader("Authorization");
@@ -124,7 +118,7 @@ public class SupervisorApiServiceTest {
         assertFalse(result.get().getSuccess());
         assertEquals(UserRepository.getInstance().getUser().getFirstName(), "Olf");
         assertEquals(UserRepository.getInstance().getUser().getLastName(), "Molf");
-        assertEquals(((Supervisor) UserRepository.getInstance().getUser()).getAcademicDegree(),"Dr");
+        assertEquals(((Supervisor) UserRepository.getInstance().getUser()).getAcademicDegree(), "Dr");
         assertEquals(((Supervisor) UserRepository.getInstance().getUser()).getBuilding(), "101");
         assertEquals(((Supervisor) UserRepository.getInstance().getUser()).getInstitute(), "Telematik");
         assertEquals(((Supervisor) UserRepository.getInstance().getUser()).getOfficeNumber(), "1092");
@@ -142,10 +136,11 @@ public class SupervisorApiServiceTest {
         MockResponse response = new MockResponse().setResponseCode(500);
         server.enqueue(response);
         Thesis thesis = SampleThesis.thesisObject();
-        CompletableFuture<Result> result = supervisorApiService.editThesisFuture(new UUID(31,32),thesis);
+        CompletableFuture<Result> result = supervisorApiService.editThesisFuture(new UUID(31, 32), thesis);
         RecordedRequest request = server.takeRequest();
         assertFalse(result.get().getSuccess());
     }
+
     @Test
     public void editThesisSuccess() throws InterruptedException, JSONException, ExecutionException {
         //set user
@@ -157,7 +152,7 @@ public class SupervisorApiServiceTest {
         MockResponse response = new MockResponse().setResponseCode(200);
         server.enqueue(response);
         Thesis thesis = SampleThesis.thesisObject();
-        CompletableFuture<Result> result = supervisorApiService.editThesisFuture(new UUID(31,32),thesis);
+        CompletableFuture<Result> result = supervisorApiService.editThesisFuture(new UUID(31, 32), thesis);
         RecordedRequest request = server.takeRequest();
         assertTrue(result.get().getSuccess());
     }
@@ -172,10 +167,14 @@ public class SupervisorApiServiceTest {
         userRepository.setPassword("hello!");
         MockResponse response = new MockResponse().setResponseCode(200);
         server.enqueue(response);
-        Pair<CompletableFuture<HashMap<UUID,Thesis>>,CompletableFuture<Result>> values=supervisorApiService.getCreatedThesisFromSupervisorFuture();
+        Pair<CompletableFuture<HashMap<UUID, Thesis>>, CompletableFuture<Result>> values = supervisorApiService.getCreatedThesisFromSupervisorFuture();
+        HashMap<UUID, Thesis> map = values.getFirst().get();
+        //supervisor has not yet created any theses
+        assertEquals(map, null);
         Result result = values.getSecond().get();
         assertTrue(result.getSuccess());
     }
+
     @Test
     public void getCreatedThesisFromSupervisorFail() throws ExecutionException, InterruptedException {
         //set user
@@ -186,7 +185,7 @@ public class SupervisorApiServiceTest {
         userRepository.setPassword("hello!");
         MockResponse response = new MockResponse().setResponseCode(500);
         server.enqueue(response);
-        Pair<CompletableFuture<HashMap<UUID,Thesis>>,CompletableFuture<Result>> values=supervisorApiService.getCreatedThesisFromSupervisorFuture();
+        Pair<CompletableFuture<HashMap<UUID, Thesis>>, CompletableFuture<Result>> values = supervisorApiService.getCreatedThesisFromSupervisorFuture();
 
         Result result = values.getSecond().get();
         RecordedRequest request = server.takeRequest();

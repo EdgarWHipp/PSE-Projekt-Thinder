@@ -4,16 +4,14 @@ package com.hfad.thinder.viewmodels.supervisor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import androidx.loader.content.AsyncTaskLoader;
-
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Form;
 import com.hfad.thinder.data.model.Image;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
+import com.hfad.thinder.data.source.repository.DegreeRepository;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.repository.UserRepository;
 import com.hfad.thinder.data.source.result.Pair;
@@ -31,6 +29,7 @@ import java.util.UUID;
 public class EditThesisViewModel extends ThesisViewModel {
   private static final ThesisRepository thesisRepository = ThesisRepository.getInstance();
   private static final UserRepository userRepository = UserRepository.getInstance();
+  private static final DegreeRepository degreeRepository = DegreeRepository.getInstance();
   private MutableLiveData<String> totalRating;
   private UUID thesisId;
   // likes, dislikes
@@ -42,7 +41,7 @@ public class EditThesisViewModel extends ThesisViewModel {
     Thesis thesis =
         new Thesis(getProfessor().getValue(), getTitle().getValue(), getMotivation().getValue(),
             getTask().getValue(), null, null, (Supervisor) userRepository.getUser(),
-                null);
+            null);
     new SaveTask().execute(thesisId, thesis, getCoursesOfStudyList().getValue());
   }
 
@@ -61,7 +60,7 @@ public class EditThesisViewModel extends ThesisViewModel {
    */
   public MutableLiveData<String> getTotalRating() {
     if (totalRating == null) {
-      totalRating = new MutableLiveData<String>();
+      totalRating = new MutableLiveData<>();
     }
     return totalRating;
   }
@@ -140,7 +139,7 @@ public class EditThesisViewModel extends ThesisViewModel {
     return convertedImages;
   }
 
-  private class LoadThesisTask extends AsyncTask<UUID, Void, Pair<Thesis, Pair<Integer, Integer>>>{
+  private class LoadThesisTask extends AsyncTask<UUID, Void, Pair<Thesis, Pair<Integer, Integer>>> {
 
     @Override
     protected void onPreExecute() {
@@ -166,11 +165,11 @@ public class EditThesisViewModel extends ThesisViewModel {
 
       //courses of Study
       getSelectedCoursesOfStudy().setValue(
-              coursesOfStudyStringAdapter(thesis.getPossibleDegrees()));
+          coursesOfStudyStringAdapter(thesis.getPossibleDegrees()));
       MutableLiveData<ArrayList<CourseOfStudyItem>> coursesOfStudyList = new MutableLiveData<>();
-      ArrayList<Degree> allDegrees = ThesisUtility.DEGREE_REPOSITORY.fetchAllCoursesOfStudy();
+      ArrayList<Degree> allDegrees = degreeRepository.fetchAllCoursesOfStudy();
       coursesOfStudyList.setValue(
-              coursesOfStudyListAdapter(allDegrees, thesis.getPossibleDegrees()));
+          coursesOfStudyListAdapter(allDegrees, thesis.getPossibleDegrees()));
       setCoursesOfStudyList(coursesOfStudyList);
 
       //images
@@ -184,19 +183,19 @@ public class EditThesisViewModel extends ThesisViewModel {
       thesisStatistics = thesisStatisticsPair.getSecond();
 
       getTotalRating().postValue(
-              String.valueOf(thesisStatistics.getFirst() + thesisStatistics.getSecond()));
+          String.valueOf(thesisStatistics.getFirst() + thesisStatistics.getSecond()));
       getIsLoading().setValue(false);
     }
   }
 
-  private class SaveTask extends AsyncTask<Object, Void, Result>{
+  private class SaveTask extends AsyncTask<Object, Void, Result> {
 
     @Override
     protected Result doInBackground(Object... objects) {
       Form form = new Form(getQuestions().getValue());
       Set<Image> imageSet = ThesisUtility.getImageSet(getImages().getValue());
       Set<Degree> degreeSet =
-              ThesisUtility.getSelectedDegreeSet((ArrayList<CourseOfStudyItem>)objects[2]);
+          ThesisUtility.getSelectedDegreeSet((ArrayList<CourseOfStudyItem>) objects[2]);
       Thesis thesis = (Thesis) objects[1];
       thesis.setForm(form);
       thesis.setPossibleDegrees(degreeSet);
@@ -211,13 +210,13 @@ public class EditThesisViewModel extends ThesisViewModel {
         getSaveResult().setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
       } else {
         getSaveResult().setValue(
-                new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
+            new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
       }
       getSaveResult().setValue(null);
     }
   }
 
-  private class DeleteTask extends AsyncTask<UUID, Void, Result>{
+  private class DeleteTask extends AsyncTask<UUID, Void, Result> {
     @Override
     protected Result doInBackground(UUID... uuids) {
       return thesisRepository.deleteThesis(uuids[0]);
@@ -228,10 +227,10 @@ public class EditThesisViewModel extends ThesisViewModel {
       if (result.getSuccess()) {
         thesisRepository.setThesesDirty(true);
         getDeleteThesisResult().setValue(
-                new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
+            new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));
       } else {
         getDeleteThesisResult().setValue(
-                new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
+            new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
       }
       getDeleteThesisResult().setValue(null);
     }
