@@ -1,42 +1,35 @@
 package com.hfad.thinder.data.source.repository;
 
 
-import android.util.Log;
-
 import com.hfad.thinder.R;
-import com.hfad.thinder.data.model.Degree;
-import com.hfad.thinder.data.model.Form;
-import com.hfad.thinder.data.model.Image;
-import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.USERTYPE;
-import com.hfad.thinder.data.source.remote.StudentRemoteDataSource;
 import com.hfad.thinder.data.source.remote.SupervisorRemoteDataSource;
 import com.hfad.thinder.data.source.remote.ThesisRemoteDataSource;
 import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.data.source.result.Result;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.UUID;
 
 /**
- * Singleton instance of a ThesisRepository.
- * Database access to fetch theses is launched over this class.
+ * Defines the interface between the frontend and backend, such that the ViewModel can use to interact with backend data.
+ * This class includes all functionalities that interact with thesis objects.
  */
 public final class ThesisRepository {
   private static ThesisRepository INSTANCE;
   private final ThesisRemoteDataSource thesisRemoteDataSource = new ThesisRemoteDataSource();
   private final SupervisorRemoteDataSource supervisorRemoteDataSource =
       new SupervisorRemoteDataSource();
-  private final StudentRemoteDataSource studentRemoteDataSource = new StudentRemoteDataSource();
-  private final boolean flag = false;
   private Thesis currentlySelectedThesis;
   private HashMap<UUID, Thesis> thesisMap = new HashMap<>();
   private ArrayList<Thesis> theses = new ArrayList<>();
   private boolean thesesDirty;
   private boolean swipeDirty;
 
+  /**
+   * private constructor
+   */
   private ThesisRepository() {
   }
 
@@ -50,21 +43,21 @@ public final class ThesisRepository {
     return INSTANCE;
   }
 
+  /**
+   * Returns the saved Arraylist of Thesis objects inside the singleton ThesisRepository instance. This is initially set during the fetching of all liked thesis of the student
+   * and the created thesis for the supervisors.
+   * @return ArrayList<Thesis>
+   */
   public ArrayList<Thesis> getTheses() {
     return theses;
   }
 
+  /**
+   * Sets the Arraylist of Thesis objects inside the singleton ThesisRepository instance.
+   * @param theses
+   */
   public void setTheses(ArrayList<Thesis> theses) {
     this.theses = theses;
-  }
-
-  /**
-   * This function is used by the viewmodel to return a previously selected thesis for the detailed thesis screen.
-   *
-   * @return Thesis
-   */
-  public Thesis getCurrentlySelectedThesis() {
-    return currentlySelectedThesis;
   }
 
   /**
@@ -82,7 +75,7 @@ public final class ThesisRepository {
    * and setting the currentlySelectedThesis value.
    *
    * @param thesisId
-   * @return
+   * @return Result class, including success value and error message
    */
   public Result setThesis(final UUID thesisId) {
     if (thesisMap.containsKey(thesisId)) {
@@ -92,6 +85,10 @@ public final class ThesisRepository {
     }
   }
 
+  /**
+   * Returns the HashMap of UUID's and Theses. This hashmap is necessary for the students swipe screen.
+   * @return HashMap<UUID, Thesis>
+   */
   public HashMap<UUID, Thesis> returnThesisMap() {
     return thesisMap;
   }
@@ -126,6 +123,10 @@ public final class ThesisRepository {
     }
   }
 
+  /**
+   * Sets the Hashmap of UUID's and Theses inside the ThesisRepository singleton instance.
+   * @param thesisMap
+   */
   public void setThesisMap(HashMap<UUID, Thesis> thesisMap) {
     this.thesisMap = thesisMap;
   }
@@ -151,25 +152,12 @@ public final class ThesisRepository {
 
 
   /**
-   * Adds a new thesis to the global list of all thesis that the students can
+   * Adds a new thesis to the global list of all thesis that the students can access inside the swipe screen,
+   * if their profile settings (courses of study) match the thesis courses of study.
    *
-   * @param supervisingProf
-   * @param name
-   * @param motivation
-   * @param task
-   * @param questions
-   * @param degrees
-   * @param images
-   * @return Result class including success value and error message
+   * @param thesis
+   * @return Result class, including success value and error message
    */
-  public Result addThesis(String supervisingProf, String name, String motivation, String task,
-                          String questions, Set<Degree> degrees, Set<Image> images) {
-    Log.e("", "value in repo" + questions);
-    return thesisRemoteDataSource.createNewThesis(
-        new Thesis(supervisingProf, name, motivation, task, new Form(questions), images,
-            (Supervisor) UserRepository.getInstance().getUser(), degrees));
-  }
-
   public Result addThesis(Thesis thesis){
     return thesisRemoteDataSource.createNewThesis(thesis);
   }
@@ -184,21 +172,19 @@ public final class ThesisRepository {
    * Edit an existing thesis.
    *
    * @param thesisId
-   * @return
+   * @return Result class, including success value and error message
    */
   public Result editThesis(final UUID thesisId, final Thesis thesis) {
 
     return supervisorRemoteDataSource
         .editThesis(thesisId, thesis);
-
-
   }
 
   /**
    * Delete an existing thesis.
    *
    * @param thesisId
-   * @return
+   * @return Result class, including success value and error message
    */
   public Result deleteThesis(UUID thesisId) {
     return thesisRemoteDataSource.deleteThesis(thesisId);

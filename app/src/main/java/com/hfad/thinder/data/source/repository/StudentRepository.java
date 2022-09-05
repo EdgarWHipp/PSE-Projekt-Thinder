@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
+/**
+ * Defines the interface between the frontend and backend, such that the ViewModel can use to interact with backend data.
+ * This class includes all functionalities that can solely be executed when a student is currently logged in.
+ */
 public class StudentRepository {
 
     private static StudentRepository INSTANCE;

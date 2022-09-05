@@ -1,26 +1,20 @@
 package com.hfad.thinder.data.source.repository;
 
 import com.hfad.thinder.data.model.Login;
-import com.hfad.thinder.data.model.Thesis;
 import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.model.User;
 import com.hfad.thinder.data.model.UserCreation;
 import com.hfad.thinder.data.source.remote.ThesisRemoteDataSource;
 import com.hfad.thinder.data.source.remote.UsersRemoteDataSource;
-import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.data.source.result.Result;
 
 import java.util.UUID;
 
 /**
- * Singleton instance of a StudentRepository.
- * User data is saved locally in a List
- * for the first local test run of the frontend.
+ * Defines the interface between the frontend and backend, such that the ViewModel can use to interact with backend data.
+ * All interactions that regard the user and are not special functionalities for either the supervisor or the student are saved inside this repository.
  */
 public final class UserRepository {
-    /**
-     * Defines the Userrepository singleton instance.
-     */
     @SuppressWarnings("checkstyle:StaticVariableName")
     private static UserRepository INSTANCE;
     private final UsersRemoteDataSource usersDataSource = new UsersRemoteDataSource();
@@ -45,17 +39,8 @@ public final class UserRepository {
         }
         return INSTANCE;
     }
-
-    public UsersRemoteDataSource getDatasource() {
-        return usersDataSource;
-    }
-
-    public Pair<Thesis, Result> getUserThesis(UUID thesisId) {
-        return thesisRemoteDataSource.getNewThesis(thesisId);
-    }
-
     /**
-     * handles the login -> sends the password and the mail and checks if such a user is already registrated.
+     * handles the login - sends the password and the mail and checks if such a user is already registered.
      *
      * @return the id of the user
      */
@@ -147,13 +132,6 @@ public final class UserRepository {
         this.user = user;
     }
 
-    public UUID getCurrentUUID() {
-        return currentId;
-    }
-
-    public void setCurrentUUID(UUID currentId) {
-        this.currentId = currentId;
-    }
 
     public USERTYPE getType() {
         return type;
