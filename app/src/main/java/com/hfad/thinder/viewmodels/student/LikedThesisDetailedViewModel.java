@@ -89,8 +89,9 @@ public class LikedThesisDetailedViewModel extends ViewModel implements ImageGall
    * @return a {@link MutableLiveData} object of the thesis title as a {@link String}.
    */
   public MutableLiveData<String> getTitle() {
-    if(title == null)
+    if (title == null) {
       title = new MutableLiveData<>();
+    }
     return title;
   }
 
@@ -226,7 +227,7 @@ public class LikedThesisDetailedViewModel extends ViewModel implements ImageGall
             .append(supervisor.getFirstName()).append(" ").append(supervisor.getLastName())
             .toString());
     getMail().setValue(supervisor.getMail());
-    getBuilding().setValue(supervisor.getBuilding() + " " + supervisor.getBuilding());
+    getBuilding().setValue(supervisor.getBuilding() + " " + supervisor.getOfficeNumber());
     getPhoneNumber().setValue(supervisor.getPhoneNumber());
     getSupervisingProf().setValue(thesis.getSupervisingProfessor());
     getInstitute().setValue(supervisor.getInstitute());
