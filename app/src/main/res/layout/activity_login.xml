@@ -102,7 +102,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/white"
-                        android:onClick="goToRequestPasswordResetActivity"
+                        android:onClick="@{() -> activity.goToRequestPasswordResetActivity()}"
                         android:text="@string/forgot_password"
                         android:textColor="@color/blue_700" />
 
@@ -140,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="?colorSecondary"
                 android:textColor="?colorOnSecondary"
-                android:onClick="goToRegisterActivity"
+                android:onClick="@{() -> activity.goToRegisterActivity()}"
                 android:text="@string/register"
                 app:layout_constraintBottom_toBottomOf="parent" />
 

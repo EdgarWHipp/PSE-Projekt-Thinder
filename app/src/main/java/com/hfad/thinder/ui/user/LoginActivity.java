@@ -90,20 +90,16 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * Moves to the {@link RegisterActivity}
-     *
-     * @param view button that triggered the method call
      */
-    public void goToRegisterActivity(View view) {
+    public void goToRegisterActivity() {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 
     /**
      * Moves to the {@link RegisterActivity}
-     *
-     * @param view button that triggered the method call
      */
-    public void goToRequestPasswordResetActivity(View view) {
+    public void goToRequestPasswordResetActivity() {
         Intent intent = new Intent(this, RequestPasswordResetActivity.class);
         startActivity(intent);
     }
