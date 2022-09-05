@@ -1,4 +1,4 @@
-package com.hfad.thinder.ui.student;
+package com.hfad.thinder.ui.student.swipescreen;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.hfad.thinder.R;
+import com.hfad.thinder.ui.student.LikedThesesFragment;
 import com.hfad.thinder.viewmodels.student.SwipeScreenViewModel;
 
 /**
@@ -51,7 +52,7 @@ public class SwipeScreenTopFragment extends Fragment {
     }
 
     /**
-     * Extracts information from bundle and sets {@link com.hfad.thinder.ui.student.SwipeScreenTopFragment#isCardOne} accordingly
+     * Extracts information from bundle and sets {@link SwipeScreenTopFragment#isCardOne} accordingly
      *
      * @param view                  view returned by {@link LikedThesesFragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)}
      * @param savedInstanceState    not used

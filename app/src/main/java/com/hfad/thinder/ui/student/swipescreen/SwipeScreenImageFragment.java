@@ -1,4 +1,4 @@
-package com.hfad.thinder.ui.student;
+package com.hfad.thinder.ui.student.swipescreen;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,19 +11,19 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.hfad.thinder.R;
-import com.hfad.thinder.databinding.FragmentSwipeScreenTextBinding;
-import com.hfad.thinder.viewmodels.student.EditProfileViewModel;
+import com.hfad.thinder.databinding.FragmentSwipeScreenImageBinding;
 import com.hfad.thinder.viewmodels.student.SwipeScreenViewModel;
 
 /**
- * UI that displays the task and motivation of a thesis
+ *  Showing one of the images of the thesis
  */
-public class SwipeScreenTextFragment extends Fragment {
+public class SwipeScreenImageFragment extends Fragment {
+
 
     /**
-     * Required empty constructor
+     * required empty constructor
      */
-    public SwipeScreenTextFragment() {
+    public SwipeScreenImageFragment() {
         // Required empty public constructor
     }
 
@@ -38,12 +38,12 @@ public class SwipeScreenTextFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        FragmentSwipeScreenTextBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_swipe_screen_text, container, false);
+        com.hfad.thinder.databinding.FragmentSwipeScreenImageBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_swipe_screen_image, container, false);
         SwipeScreenViewModel viewModel = new ViewModelProvider(requireActivity()).get(SwipeScreenViewModel.class);
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(getViewLifecycleOwner());
 
         return binding.getRoot();
     }
+
 }

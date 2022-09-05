@@ -1,4 +1,4 @@
-package com.hfad.thinder.ui.student;
+package com.hfad.thinder.ui.student.swipescreen;
 
 import android.graphics.Bitmap;
 

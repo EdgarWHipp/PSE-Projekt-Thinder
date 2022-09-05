@@ -1,6 +1,5 @@
 package com.hfad.thinder.ui.supervisor;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -20,7 +19,6 @@ import com.hfad.thinder.R;
 import com.hfad.thinder.databinding.FragmentSupervisorProfileBinding;
 import com.hfad.thinder.ui.user.LoginActivity;
 import com.hfad.thinder.viewmodels.ViewModelResult;
-import com.hfad.thinder.viewmodels.supervisor.EditProfileFormState;
 import com.hfad.thinder.viewmodels.supervisor.EditProfileViewModel;
 
 /**
@@ -153,7 +151,7 @@ public class SupervisorProfileFragment extends Fragment {
     /**
      * Opens confirmation prompt and calls delete method in the {@link EditProfileViewModel}
      */
-    public void deleteProfile() {
+    public void removeProfile() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setCancelable(true);
         builder.setTitle(getContext().getResources().getString(R.string.account_remove));

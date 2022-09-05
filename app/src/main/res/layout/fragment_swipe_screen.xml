@@ -7,7 +7,7 @@
 
         <variable
             name="fragment"
-            type="com.hfad.thinder.ui.student.SwipeScreenFragment" />
+            type="com.hfad.thinder.ui.student.swipescreen.SwipeScreenFragment" />
 
         <variable
             name="viewModel"
@@ -24,7 +24,7 @@
             android:layout_height="match_parent"
             app:layoutDescription="@xml/swipe_screen_animations"
             app:showPaths="false"
-            tools:context=".ui.student.SwipeScreenFragment">
+            tools:context=".ui.student.swipescreen.SwipeScreenFragment">
 
             <ImageView
                 android:id="@+id/ivThinder"

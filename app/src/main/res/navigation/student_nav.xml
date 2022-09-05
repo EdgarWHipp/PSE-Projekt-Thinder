@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/swipeScreenFragment"
-        android:name="com.hfad.thinder.ui.student.SwipeScreenFragment"
+        android:name="com.hfad.thinder.ui.student.swipescreen.SwipeScreenFragment"
         android:label="@string/swipe_screen"
         tools:layout="@layout/fragment_swipe_screen" />
     <fragment

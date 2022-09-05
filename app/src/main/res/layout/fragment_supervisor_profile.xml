@@ -204,7 +204,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableTop="@drawable/ic_remove"
-            android:onClick="@{() -> fragment.deleteProfile()}"
+            android:onClick="@{() -> fragment.removeProfile()}"
             android:text="@string/remove"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btSaveProfile"

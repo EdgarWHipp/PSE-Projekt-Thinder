@@ -14,17 +14,22 @@ import com.hfad.thinder.data.source.repository.StudentRepository;
 import com.hfad.thinder.data.source.repository.ThesisRepository;
 import com.hfad.thinder.data.source.result.Pair;
 import com.hfad.thinder.data.source.result.Result;
-import com.hfad.thinder.ui.student.SwipeScreenCard;
-import com.hfad.thinder.ui.student.SwipeScreenFragment;
+import com.hfad.thinder.ui.student.swipescreen.SwipeScreenCard;
+import com.hfad.thinder.ui.student.swipescreen.SwipeScreenFragment;
+import com.hfad.thinder.ui.student.swipescreen.SwipeScreenImageFragment;
+import com.hfad.thinder.ui.student.swipescreen.SwipeScreenInfoFragment;
+import com.hfad.thinder.ui.student.swipescreen.SwipeScreenTextFragment;
+import com.hfad.thinder.ui.student.swipescreen.SwipeScreenTopFragment;
+
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.Stack;
 import java.util.UUID;
 
 /**
- * A class providing a shared {@link ViewModel} for the {@link SwipeScreenFragment}, the {@link com.hfad.thinder.ui.student.SwipeScreenImageFragment SwipeScreenImageFragment}
- * , the {@link com.hfad.thinder.ui.student.SwipeScreenTopFragment SwipeScreenTopFragment}, the {@link com.hfad.thinder.ui.student.SwipeScreenInfoFragment SwipeScreenInfoFragment}
- * and the {@link com.hfad.thinder.ui.student.SwipeScreenTextFragment SwipeScreenTextFragment}.
+ * A class providing a shared {@link ViewModel} for the {@link SwipeScreenFragment}, the {@link SwipeScreenImageFragment SwipeScreenImageFragment}
+ * , the {@link SwipeScreenTopFragment SwipeScreenTopFragment}, the {@link SwipeScreenInfoFragment SwipeScreenInfoFragment}
+ * and the {@link SwipeScreenTextFragment SwipeScreenTextFragment}.
  */
 public class SwipeScreenViewModel extends ViewModel {
   private static final ThesisRepository thesisRepository = ThesisRepository.getInstance();
@@ -143,14 +148,14 @@ public class SwipeScreenViewModel extends ViewModel {
   }
 
   /**
-   * @return the current {@link com.hfad.thinder.ui.student.SwipeScreenFragment.DetailViewStates DetailViewStates} of the currently displayed {@link SwipeScreenCard}
+   * @return the current {@link SwipeScreenFragment.DetailViewStates DetailViewStates} of the currently displayed {@link SwipeScreenCard}
    */
   public SwipeScreenFragment.DetailViewStates getCurrentDetailViewState() {
     return getDetailViewOrder().get(getCurrentDetailViewPosition().getValue());
   }
 
   /**
-   * @return the current image to be displayed in the {@link com.hfad.thinder.ui.student.SwipeScreenImageFragment SwipeScreenImageFragment}.
+   * @return the current image to be displayed in the {@link SwipeScreenImageFragment SwipeScreenImageFragment}.
    */
   public Bitmap getCurrentDetailViewImage() {
     if (getCurrentDetailViewPosition().getValue() > 0 &&

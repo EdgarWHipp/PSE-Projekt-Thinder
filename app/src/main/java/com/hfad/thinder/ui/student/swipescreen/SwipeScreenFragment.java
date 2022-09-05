@@ -1,4 +1,4 @@
-package com.hfad.thinder.ui.student;
+package com.hfad.thinder.ui.student.swipescreen;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

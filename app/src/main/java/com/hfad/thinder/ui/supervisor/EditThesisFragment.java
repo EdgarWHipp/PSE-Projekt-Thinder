@@ -173,7 +173,7 @@ public class EditThesisFragment extends Fragment {
      *
      * @param view used to find fragment in NavController
      */
-    public void goToStatistics(View view) {
+    public void goToStatisticsFragment(View view) {
         Navigation.findNavController(view)
                 .navigate(R.id.action_editThesisFragment_to_thesisStatisticsFragment);
     }
