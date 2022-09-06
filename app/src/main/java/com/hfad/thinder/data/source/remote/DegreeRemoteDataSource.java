@@ -1,5 +1,7 @@
 package com.hfad.thinder.data.source.remote;
 
+import android.util.Log;
+
 import com.hfad.thinder.R;
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.source.remote.okhttp.DegreeApiService;
@@ -32,6 +34,10 @@ public class DegreeRemoteDataSource {
         try {
             Pair<CompletableFuture<ArrayList<Degree>>, CompletableFuture<Result>> list = okHttpService.fetchAllCoursesOfStudyFuture();
             Result result = list.getSecond().get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
+            if(!result.getSuccess()){
+                DegreeRepository.getInstance().setAllDegrees(null);
+                return result;
+            }
             ArrayList<Degree> degrees=list.getFirst().get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
             if (result.getSuccess()) {
                 DegreeRepository.getInstance().setAllDegrees(degrees);

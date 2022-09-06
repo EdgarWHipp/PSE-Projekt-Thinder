@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * This class handles all the errors that occur during HTTP requests that are call on students.
+ * This class handles all the errors that occur during HTTP requests that are called exclusively by students.
  */
 public class StudentRemoteDataSource {
     private final int TIMEOUT_SECONDS = 10000;
@@ -111,7 +111,13 @@ public class StudentRemoteDataSource {
         try {
             Pair<CompletableFuture<ArrayList<Thesis>>, CompletableFuture<Result>> result = okHttpService.getAllThesesForTheStudentFuture();
             Result resultValue = result.getSecond().get(TIMEOUT_SECONDS,TimeUnit.SECONDS);
-            ArrayList<Thesis> list = result.getFirst().get(TIMEOUT_SECONDS,TimeUnit.SECONDS);
+            ArrayList<Thesis> list;
+            if(!resultValue.getSuccess()){
+                 list=new ArrayList<>();
+            }else{
+                list = result.getFirst().get(TIMEOUT_SECONDS,TimeUnit.SECONDS);
+            }
+
             if (resultValue.getSuccess()) {
                 ThesisRepository.getInstance().setTheses(list);
                 return resultValue;
@@ -139,6 +145,7 @@ public class StudentRemoteDataSource {
             CompletableFuture<Result> result =
                     okHttpService.sendThesisFormToSupervisorFuture(form, thesisId);
             Result resultValue = result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
+            Log.e("","value fetched");
             return resultValue;
 
         } catch (JSONException | ExecutionException | InterruptedException j) {

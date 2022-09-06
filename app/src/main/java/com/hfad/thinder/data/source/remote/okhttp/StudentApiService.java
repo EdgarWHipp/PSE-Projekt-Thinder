@@ -1,6 +1,7 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
 import android.util.ArraySet;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -29,6 +30,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 import okhttp3.Call;
@@ -54,9 +56,12 @@ public class StudentApiService {
      * Checks if the asynchronous call return fails or responds.
      *
      * @param degrees
+     * @throws JSONException
+     * @throws IOException
+     * @throws ExecutionException
      * @return CompletableFuture<Result>
      */
-    public CompletableFuture<Result> editStudentProfileFuture(ArrayList<Degree> degrees, String firstName, String lastName) throws JSONException, IOException {
+    public CompletableFuture<Result> editStudentProfileFuture(ArrayList<Degree> degrees, String firstName, String lastName) throws JSONException, IOException, ExecutionException {
         //Add HTTP BASIC authentication
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(
@@ -77,7 +82,6 @@ public class StudentApiService {
                 .put("lastName", lastName)
                 .put("type", UserRepository.getInstance().getType().toString());
         RequestBody body = RequestBody.create(studentJson.toString(), JSON);
-
         HttpUrl url = apiUtils.getHttpUrlBuilder()
                 .addPathSegment("users")
                 .addPathSegment("current")
@@ -103,6 +107,7 @@ public class StudentApiService {
                     ((Student) UserRepository.getInstance().getUser()).setDegrees(degrees);
                     resultCompletableFuture.complete(new Result(true));
                 } else {
+
                     resultCompletableFuture.complete(new Result(R.string.unsuccessful_response, false));
                 }
             }

@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * This class handles all the errors that occur during HTTP requests that are call on supervisors.
+ * This class handles all the errors that occur during HTTP requests that are called exclusively by supervisors.
  */
 public class SupervisorRemoteDataSource {
     private final int TIMEOUT_SECONDS = 10000;

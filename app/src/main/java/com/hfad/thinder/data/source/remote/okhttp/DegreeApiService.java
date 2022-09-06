@@ -1,5 +1,7 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
@@ -68,7 +70,6 @@ public class DegreeApiService {
                     Gson gson = new Gson();
                     Type listType = new TypeToken<ArrayList<Degree>>() {
                     }.getType();
-
                     ArrayList<Degree> list = gson.fromJson(body, listType);
                     degrees.complete(list);
                 } else {

@@ -1,6 +1,9 @@
 package com.hfad.thinder.data.source.remote;
 
+import android.util.Log;
+
 import com.hfad.thinder.data.model.Supervisor;
+import com.hfad.thinder.data.model.USERTYPE;
 import com.hfad.thinder.data.source.remote.DegreeRemoteDataSource;
 import com.hfad.thinder.data.source.remote.okhttp.ApiUtils;
 import com.hfad.thinder.data.source.remote.okhttp.Utils.SampleSupervisor;
@@ -43,7 +46,7 @@ public class DegreeRemoteDataSourceTest {
         Supervisor supervisor = SampleSupervisor.supervisorObject();
         UserRepository.getInstance().setUser(supervisor);
         UserRepository.getInstance().setPassword("password");
-
+        UserRepository.getInstance().setType(USERTYPE.SUPERVISOR);
 
         MockResponse response = new MockResponse().setResponseCode(200);
         server.enqueue(response);
@@ -58,7 +61,7 @@ public class DegreeRemoteDataSourceTest {
         Supervisor supervisor = SampleSupervisor.supervisorObject();
         UserRepository.getInstance().setUser(supervisor);
         UserRepository.getInstance().setPassword("password");
-
+        UserRepository.getInstance().setType(USERTYPE.SUPERVISOR);
 
         MockResponse response = new MockResponse().setResponseCode(500);
         server.enqueue(response);

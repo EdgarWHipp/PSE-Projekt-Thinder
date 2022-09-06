@@ -3,6 +3,10 @@ package com.hfad.thinder.data.model;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * This class defines a Thesis Data Transfer Object - this is the object that is passed from the backend. It is later parsed to a Thesis Object
+ * that can be used inside the frontend.
+ */
 public class ThesisDTO {
 
     private UUID id;
