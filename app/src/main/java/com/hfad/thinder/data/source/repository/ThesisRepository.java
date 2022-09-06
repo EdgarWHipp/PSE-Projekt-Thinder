@@ -46,6 +46,7 @@ public final class ThesisRepository {
   /**
    * Returns the saved Arraylist of Thesis objects inside the singleton ThesisRepository instance. This is initially set during the fetching of all liked thesis of the student
    * and the created thesis for the supervisors.
+   *
    * @return ArrayList<Thesis>
    */
   public ArrayList<Thesis> getTheses() {
@@ -54,6 +55,7 @@ public final class ThesisRepository {
 
   /**
    * Sets the Arraylist of Thesis objects inside the singleton ThesisRepository instance.
+   *
    * @param theses
    */
   public void setTheses(ArrayList<Thesis> theses) {
@@ -81,12 +83,14 @@ public final class ThesisRepository {
     if (thesisMap.containsKey(thesisId)) {
       setCurrentlySelectedThesis(thesisMap.get(thesisId));
       return new Result(true);
-    } else {      return new Result(R.string.exception_during_HTTP_call, false);
+    } else {
+      return new Result(R.string.exception_during_HTTP_call, false);
     }
   }
 
   /**
    * Returns the HashMap of UUID's and Theses. This hashmap is necessary for the students swipe screen.
+   *
    * @return HashMap<UUID, Thesis>
    */
   public HashMap<UUID, Thesis> returnThesisMap() {
@@ -125,29 +129,11 @@ public final class ThesisRepository {
 
   /**
    * Sets the Hashmap of UUID's and Theses inside the ThesisRepository singleton instance.
+   *
    * @param thesisMap
    */
   public void setThesisMap(HashMap<UUID, Thesis> thesisMap) {
     this.thesisMap = thesisMap;
-  }
-
-  /**
-   * Simply returns all theses that the student should be able to select from.
-   * Taken directly from the thesisRepository.
-   *
-   * @return ArrayList<Thesis>
-   */
-  public ArrayList<Thesis> getAllSwipeableTheses() {
-    Result result;
-    if (UserRepository.getInstance().getType() == USERTYPE.STUDENT) {
-      result = StudentRepository.getInstance().fetchAllSwipeableThesis();
-      if (result.getSuccess()) {
-        return this.getTheses();
-      }
-    } else {
-      return new ArrayList<Thesis>();
-    }
-    return new ArrayList<Thesis>();
   }
 
 
@@ -158,7 +144,7 @@ public final class ThesisRepository {
    * @param thesis
    * @return Result class, including success value and error message
    */
-  public Result addThesis(Thesis thesis){
+  public Result addThesis(Thesis thesis) {
     return thesisRemoteDataSource.createNewThesis(thesis);
   }
 

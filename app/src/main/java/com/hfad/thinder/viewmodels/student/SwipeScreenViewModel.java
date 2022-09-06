@@ -3,7 +3,6 @@ package com.hfad.thinder.viewmodels.student;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.hfad.thinder.data.model.Degree;
@@ -20,7 +19,6 @@ import com.hfad.thinder.ui.student.swipescreen.SwipeScreenImageFragment;
 import com.hfad.thinder.ui.student.swipescreen.SwipeScreenInfoFragment;
 import com.hfad.thinder.ui.student.swipescreen.SwipeScreenTextFragment;
 import com.hfad.thinder.ui.student.swipescreen.SwipeScreenTopFragment;
-
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.Stack;
@@ -335,7 +333,7 @@ public class SwipeScreenViewModel extends ViewModel {
   }
 
   public MutableLiveData<Boolean> getIsLoading() {
-    if(isLoading == null){
+    if (isLoading == null) {
       isLoading = new MutableLiveData<>();
       isLoading.setValue(true);
     }
@@ -450,7 +448,7 @@ public class SwipeScreenViewModel extends ViewModel {
 
     @Override
     protected ArrayList<Thesis> doInBackground(Void... voids) {
-      return thesisRepository.getAllSwipeableTheses();
+      return studentRepository.fetchAllSwipeableThesis();
     }
 
     @Override
