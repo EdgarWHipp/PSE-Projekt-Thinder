@@ -47,7 +47,7 @@ public class UsersApiService {
      * @throws JSONException
      * @throws IOException
      */
-    public CompletableFuture<Result> getUserDetails(Login login) throws JSONException, IOException {
+    public CompletableFuture<Result> getUserDetails(Login login) throws IOException {
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor(login.getMail(), login.getPassword()))
                 .build();
@@ -105,7 +105,7 @@ public class UsersApiService {
      * @throws JSONException
      * @throws IOException
      */
-    public CompletableFuture<Result> verifyUser(String token) throws JSONException {
+    public CompletableFuture<Result> verifyUser(String token) {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 
         HttpUrl url = API_UTILS.getHttpUrlBuilder()
