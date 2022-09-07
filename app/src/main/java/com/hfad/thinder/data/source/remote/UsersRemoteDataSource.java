@@ -37,7 +37,7 @@ public class UsersRemoteDataSource {
             CompletableFuture<Result> result = usersApiService.verifyUser(token);
             Result resultValue = result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
             return resultValue;
-        } catch (JSONException | IOException | InterruptedException | ExecutionException j) {
+        } catch (JSONException | InterruptedException | ExecutionException j) {
             return new Result(R.string.exception_during_HTTP_call, false);
         }catch(TimeoutException e){
             return new Result(R.string.timeout_exception,false);
@@ -94,7 +94,7 @@ public class UsersRemoteDataSource {
             CompletableFuture<Result> result = usersApiService.deleteUserFuture();
             Result resultValue = result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
             return resultValue;
-        } catch (IOException | ExecutionException | InterruptedException  e) {
+        } catch ( ExecutionException | InterruptedException  e) {
             return new Result(R.string.exception_during_HTTP_call, false);
         }catch(TimeoutException e){
             return new Result(R.string.timeout_exception,false);

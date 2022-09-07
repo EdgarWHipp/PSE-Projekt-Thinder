@@ -49,7 +49,7 @@ public class StudentRemoteDataSource {
             return resultValue;
 
 
-        } catch (IOException | InterruptedException | ExecutionException | JSONException e) {
+        } catch (InterruptedException | ExecutionException | JSONException e) {
             return new Result(R.string.exception_during_HTTP_call, false);
         }catch(TimeoutException e){
             return new Result(R.string.timeout_exception,false);

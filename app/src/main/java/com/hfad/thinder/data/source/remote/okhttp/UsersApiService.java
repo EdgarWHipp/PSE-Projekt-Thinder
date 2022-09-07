@@ -105,7 +105,7 @@ public class UsersApiService {
      * @throws JSONException
      * @throws IOException
      */
-    public CompletableFuture<Result> verifyUser(String token) throws JSONException, IOException, ExecutionException, InterruptedException, TimeoutException {
+    public CompletableFuture<Result> verifyUser(String token) throws JSONException {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
 
         HttpUrl url = API_UTILS.getHttpUrlBuilder()
@@ -190,7 +190,7 @@ public class UsersApiService {
             }
 
             @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull Response response) {
                 if (response.isSuccessful()) {
                     UserRepository.getInstance()
                             .setUser(new User(null, null, false, null,
@@ -214,9 +214,8 @@ public class UsersApiService {
      * Checks if the asynchronous call return fails or responds.
      *
      * @return CompletableFuture<Result> that is alter evaluated inside the UsersRemoteDataSource class
-     * @throws IOException
      */
-    public CompletableFuture<Result> deleteUserFuture() throws IOException {
+    public CompletableFuture<Result> deleteUserFuture()  {
         CompletableFuture<Result> resultCompletableFuture = new CompletableFuture<>();
         OkHttpClient clientAuth = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor(
@@ -241,7 +240,7 @@ public class UsersApiService {
             }
 
             @Override
-            public void onResponse(@NonNull Call call, @NonNull okhttp3.Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull okhttp3.Response response) {
                 if (response.isSuccessful()) {
 
 
@@ -287,7 +286,7 @@ public class UsersApiService {
             }
 
             @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull Response response) {
                 if (response.isSuccessful()) {
                     resultCompletableFuture.complete(new Result(true));
                 } else {

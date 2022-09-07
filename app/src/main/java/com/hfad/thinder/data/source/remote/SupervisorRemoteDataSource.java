@@ -42,7 +42,7 @@ public class SupervisorRemoteDataSource {
             CompletableFuture<Result> result = supervisorApiService.editSupervisorProfileFuture(degree, officeNumber, building, institute, phoneNumber, firstName, lastName);
             Result resultValue = result.get(TIMEOUT_SECONDS,TimeUnit.SECONDS);
             return resultValue;
-        } catch (JSONException | IOException | ExecutionException | InterruptedException j) {
+        } catch (JSONException  | ExecutionException | InterruptedException j) {
             return new Result(R.string.exception_during_HTTP_call, false);
         }catch(TimeoutException e){
             return new Result(R.string.timeout_exception,false);
