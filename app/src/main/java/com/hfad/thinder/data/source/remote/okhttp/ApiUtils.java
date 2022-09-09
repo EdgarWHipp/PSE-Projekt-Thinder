@@ -11,7 +11,7 @@ public class ApiUtils {
     private boolean liveSetup = true;
 
     private String host = "thinder-staging.herokuapp.com";
-
+    private String localHost = "10.0.2.2";
     private int port = 8080;
 
     /**
@@ -38,7 +38,7 @@ public class ApiUtils {
         } else {
             return new HttpUrl.Builder()
                     .scheme("http")
-                    .host(host)
+                    .host(localHost)
                     .port(port);
         }
     }
