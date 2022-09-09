@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hfad.thinder.R;
@@ -60,9 +61,13 @@ public class FillOutFormFragment extends Fragment {
 
         // Observes the result of the send operation and informs the user of its success
         final Observer<ViewModelResult> sendResultObserver = viewModelResult -> {
+            if(viewModelResult == null)
+                return;
             if (viewModelResult.isSuccess()) {
                 Toast toast = Toast.makeText(getContext(), getContext().getResources().getString(R.string.send_form_success), Toast.LENGTH_LONG);
                 toast.show();
+                Navigation.findNavController(view).popBackStack();
+                Navigation.findNavController(view).popBackStack();
 
             } else if (!viewModelResult.isSuccess()) {
                 Toast toast = Toast.makeText(getContext(), viewModelResult.getErrorMessage(), Toast.LENGTH_LONG);

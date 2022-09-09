@@ -130,6 +130,7 @@ public class FillOutFormViewModel extends ViewModel {
         getSendResult().setValue(
             new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));
       }
+      getSendResult().setValue(null);
     }
   }
 }
