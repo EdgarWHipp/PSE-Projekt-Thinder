@@ -1,5 +1,7 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
+import android.util.Log;
+
 import com.hfad.thinder.data.model.Degree;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.source.remote.okhttp.Utils.SampleSupervisor;
@@ -52,6 +54,7 @@ public class DegreeApiServiceTest {
         server.enqueue(response);
 
         Pair<CompletableFuture<ArrayList<Degree>>, CompletableFuture<Result>> values = degreeApiService.fetchAllCoursesOfStudyFuture();
+        Log.e("","went till here");
         ArrayList<Degree> degrees = values.getFirst().get();
         Result result = values.getSecond().get();
         Assert.assertEquals(degrees, null);

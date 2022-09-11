@@ -1,5 +1,7 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
+import android.util.Log;
+
 import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.USERTYPE;
@@ -148,9 +150,7 @@ public class UsersApiServiceTest {
         server.enqueue(response);
 
         UserCreation newUser = SampleUser.userCreation();
-
         CompletableFuture<Result> result = usersApiService.createNewUserFuture(newUser);
-
         RecordedRequest request = server.takeRequest();
 
         // Parse request body to Json
@@ -159,7 +159,6 @@ public class UsersApiServiceTest {
 
         // Check if status 200 response is handled properly
         Assert.assertTrue(result.get().getSuccess());
-
         // Check request body parameters
         Assert.assertEquals(SampleUser.firstName, newUserJson.get("firstName").toString());
         Assert.assertEquals(SampleUser.lastName, newUserJson.get("lastName").toString());
@@ -185,11 +184,6 @@ public class UsersApiServiceTest {
         // Check if status 200 response is handled properly
         Assert.assertFalse(result.get().getSuccess());
 
-        // Check request body parameters (User should not be set, since the creation failed)
-        Assert.assertEquals(UserRepository.getInstance().getUser(), null);
-
-        // Check if status 500 response is handled properly
-        Assert.assertFalse(result.get().getSuccess());
     }
 
     @Test

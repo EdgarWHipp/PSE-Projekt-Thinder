@@ -38,7 +38,7 @@ public class ApiUtils {
         } else {
             return new HttpUrl.Builder()
                     .scheme("http")
-                    .host(localHost)
+                    .host(host)
                     .port(port);
         }
     }

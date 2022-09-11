@@ -201,8 +201,8 @@ public class StudentApiServiceTest {
         server.enqueue(response);
         Pair<CompletableFuture<ArrayList<Thesis>>, CompletableFuture<Result>> values = studentApiService.getAllThesesForTheStudentFuture();
         ArrayList<Thesis> theses = values.getFirst().get();
-        assertEquals(new ArrayList<>(), ThesisRepository.getInstance().getAllSwipeableTheses());
-        assertFalse(ThesisRepository.getInstance().getAllSwipeableTheses().contains(theses));
+        assertEquals(new ArrayList<>(), ThesisRepository.getInstance().getTheses());
+        assertFalse(ThesisRepository.getInstance().getTheses().contains(theses));
         RecordedRequest request = server.takeRequest();
         assertFalse(values.getSecond().get().getSuccess());
     }

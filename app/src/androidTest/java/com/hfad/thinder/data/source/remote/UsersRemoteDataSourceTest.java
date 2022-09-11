@@ -63,5 +63,4 @@ public class UsersRemoteDataSourceTest {
         Result result = usersRemoteDataSource.login(login);
         Assert.assertTrue(result.getSuccess());
     }
-
 }

@@ -117,12 +117,12 @@ public class SupervisorApiServiceTest {
         String body = request.getBody().toString();
         assertFalse(result.get().getSuccess());
         assertEquals(UserRepository.getInstance().getUser().getFirstName(), "Olf");
-        assertEquals(UserRepository.getInstance().getUser().getLastName(), "Molf");
-        assertEquals(((Supervisor) UserRepository.getInstance().getUser()).getAcademicDegree(), "Dr");
-        assertEquals(((Supervisor) UserRepository.getInstance().getUser()).getBuilding(), "101");
+        assertEquals(UserRepository.getInstance().getUser().getLastName(), "Rieffel");
+        assertEquals(((Supervisor) UserRepository.getInstance().getUser()).getAcademicDegree(), "M. Sc.");
+        assertEquals(((Supervisor) UserRepository.getInstance().getUser()).getBuilding(), "Building 50.34");
         assertEquals(((Supervisor) UserRepository.getInstance().getUser()).getInstitute(), "Telematik");
-        assertEquals(((Supervisor) UserRepository.getInstance().getUser()).getOfficeNumber(), "1092");
-        assertEquals(((Supervisor) UserRepository.getInstance().getUser()).getPhoneNumber(), "0123123");
+        assertEquals(((Supervisor) UserRepository.getInstance().getUser()).getOfficeNumber(), "Room 102");
+        assertEquals(((Supervisor) UserRepository.getInstance().getUser()).getPhoneNumber(), "0173 1234567");
     }
 
     @Test

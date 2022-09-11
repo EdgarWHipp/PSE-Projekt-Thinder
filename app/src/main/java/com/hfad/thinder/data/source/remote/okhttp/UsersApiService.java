@@ -1,5 +1,7 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
@@ -175,7 +177,6 @@ public class UsersApiService {
         HttpUrl url = API_UTILS.getHttpUrlBuilder()
                 .addPathSegment("users")
                 .build();
-
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
@@ -198,6 +199,7 @@ public class UsersApiService {
                                     userCreation.getLastName(), false));
                     UserRepository.getInstance().setPassword(userCreation.getPassword());
                     resultCompletableFuture.complete(new Result(true));
+
                 } else {
 
                     resultCompletableFuture.complete(new Result(R.string.unsuccessful_response, false));

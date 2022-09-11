@@ -181,6 +181,7 @@ public class StudentRemoteDataSourceTest {
         server.enqueue(response);
         Form form = new Form("question?", "answers");
         Result result = studentRemoteDataSource.sendTheFormToTheSupervisor(form, new UUID(32, 32));
+        Log.e("","run");
         Assert.assertFalse(result.getSuccess());
     }
 
