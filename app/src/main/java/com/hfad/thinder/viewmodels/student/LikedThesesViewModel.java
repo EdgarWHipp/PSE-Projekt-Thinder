@@ -37,6 +37,9 @@ public class LikedThesesViewModel extends ViewModel {
     return likedTheses;
   }
 
+  /** Use this method to determine if a model call has finished or not.
+   * @return true if the call to the model is not finished, false otherwise.
+   */
   public MutableLiveData<Boolean> getIsLoading() {
     if(isLoading == null){
       isLoading = new MutableLiveData<>();
@@ -45,11 +48,15 @@ public class LikedThesesViewModel extends ViewModel {
     return isLoading;
   }
 
-//----------------public methods-----------------------------------------------------------------
 
+  /**
+   * Use this method to load the theses data from the model.
+   */
   public void loadLikedTheses() {
     new LoadLikedThesesTask().execute();
   }
+
+  //----------------private methods-----------------------------------------------------------------
 
   private class LoadLikedThesesTask extends AsyncTask<Void, Void, ArrayList<ThesisCardItem>> {
     @Override

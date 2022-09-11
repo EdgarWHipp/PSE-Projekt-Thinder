@@ -87,6 +87,9 @@ public class EditThesisViewModel extends ThesisViewModel {
   }
 
 
+  /**
+   * @return a {@link Pair} containing the number of positive and negative ratings
+   */
   public Pair<Integer, Integer> getThesisStatistics() {
     return thesisStatistics;
   }

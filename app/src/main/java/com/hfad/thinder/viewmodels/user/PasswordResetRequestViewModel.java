@@ -54,6 +54,9 @@ public class PasswordResetRequestViewModel extends ViewModel {
     this.email = email;
   }
 
+  /** Use this method to determine if a model call has finished or not.
+   * @return true if the call to the model is not finished, false otherwise.
+   */
   public MutableLiveData<Boolean> getIsLoading() {
     if (isLoading == null) {
       isLoading = new MutableLiveData<>();

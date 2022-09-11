@@ -40,6 +40,9 @@ public class ThesisManagerViewModel extends ViewModel {
         return thesisCardItems;
     }
 
+    /** Use this method to determine if a model call has finished or not.
+     * @return true if the call to the model is not finished, false otherwise.
+     */
     public MutableLiveData<Boolean> getIsLoading() {
         if(isLoading == null){
             isLoading = new MutableLiveData<>();
@@ -49,6 +52,9 @@ public class ThesisManagerViewModel extends ViewModel {
         return isLoading;
     }
 
+    /**
+     * Use this method to load the Thesis data from the model.
+     */
     public void loadThesisManagerItems() {
         new LoadThesisManagerItemsTask().execute();
     }

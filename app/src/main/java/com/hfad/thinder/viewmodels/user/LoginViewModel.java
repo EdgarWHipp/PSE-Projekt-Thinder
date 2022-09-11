@@ -96,7 +96,9 @@ public class LoginViewModel extends ViewModel {
     getPassword().setValue(password);
   }
 
-
+  /** Use this method to determine if a model call has finished or not.
+   * @return true if the call to the model is not finished, false otherwise.
+   */
   public MutableLiveData<Boolean> getIsLoading() {
     if (isLoading == null) {
       isLoading = new MutableLiveData<>();
@@ -105,9 +107,6 @@ public class LoginViewModel extends ViewModel {
     return isLoading;
   }
 
-  public void setIsLoading(MutableLiveData<Boolean> isLoading) {
-    this.isLoading = isLoading;
-  }
 
   private class LoginTask extends AsyncTask<String, Void, Result> {
 
