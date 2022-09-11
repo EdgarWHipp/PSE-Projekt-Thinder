@@ -1,7 +1,5 @@
 package com.hfad.thinder.data.source.remote.okhttp;
 
-import android.util.Log;
-
 import com.hfad.thinder.data.model.Student;
 import com.hfad.thinder.data.model.Supervisor;
 import com.hfad.thinder.data.model.USERTYPE;
