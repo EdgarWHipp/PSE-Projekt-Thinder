@@ -2,7 +2,6 @@ plugins {
     id 'com.android.application'
 }
 
-
 android {
 
 
@@ -34,6 +33,22 @@ android {
         dataBinding true
     }
 
+}
+
+task androidJavadocs(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    configurations.implementation.setCanBeResolved(true)
+    failOnError false
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator)) +
+            configurations.implementation
+    android.applicationVariants.all { variant ->
+        if (variant.name == 'release') {
+            owner.classpath += variant.javaCompileProvider.get().classpath +
+                    files("$buildDir/generated/data_binding_base_class_source_out/${variant.name}/out")
+        }
+    }
+    destinationDir = file("${project.buildDir}/outputs/javadoc/")
+    exclude '**/R.java', '**/R.*.java', '**/*Binding.java', '**/*Binding.*.java'
 }
 
 dependencies {
