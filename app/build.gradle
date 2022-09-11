@@ -36,7 +36,6 @@ android {
 }
 
 task androidJavadocs(type: Javadoc) {
-    dependsOn 'dataBindingGenBaseClassesRelease'
     source = android.sourceSets.main.java.srcDirs
     configurations.implementation.setCanBeResolved(true)
     failOnError false
@@ -44,6 +43,12 @@ task androidJavadocs(type: Javadoc) {
             configurations.implementation
     android.applicationVariants.all { variant ->
         if (variant.name == 'release') {
+            dependsOn "dataBindingGenBaseClassesRelease"
+            owner.classpath += variant.javaCompileProvider.get().classpath +
+                    files("$buildDir/generated/data_binding_base_class_source_out/${variant.name}/out")
+        }
+        else if (variant.name == 'debug') {
+            dependsOn "dataBindingGenBaseClassesDebug"
             owner.classpath += variant.javaCompileProvider.get().classpath +
                     files("$buildDir/generated/data_binding_base_class_source_out/${variant.name}/out")
         }
