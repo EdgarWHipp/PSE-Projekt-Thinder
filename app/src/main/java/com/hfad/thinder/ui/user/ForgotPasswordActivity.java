@@ -83,6 +83,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     binding.etLoginPassword.setError(resources.getString(forgotPasswordFormState.getNewPasswordErrorMessage()));
                 if(forgotPasswordFormState.getNewPasswordConfirmationErrorMessage() != null)
                     binding.etconfirmpassword.setError(resources.getString(forgotPasswordFormState.getNewPasswordConfirmationErrorMessage()));
+                if(forgotPasswordFormState.getNewPasswordConfirmationErrorMessage() == null)
+                    binding.etconfirmpassword.setError(null);
             }
         });
 

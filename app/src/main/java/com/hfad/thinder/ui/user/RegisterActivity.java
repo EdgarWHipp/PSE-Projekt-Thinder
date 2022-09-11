@@ -79,6 +79,9 @@ public class RegisterActivity extends AppCompatActivity {
           mBinding.etconfirmpassword.setError(getResources().getString(
               registrationFormState.getPasswordConfirmationErrorMessage()));
         }
+        if (registrationFormState.getPasswordConfirmationErrorMessage() == null) {
+          mBinding.etconfirmpassword.setError(null);
+        }
       }
     });
 

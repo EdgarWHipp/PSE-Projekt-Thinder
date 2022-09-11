@@ -148,7 +148,6 @@ public class ForgotPasswordViewModel extends ViewModel {
     if (newPasswordConfirmation.getValue() == null ||
         newPasswordConfirmation.getValue().equals("")) {
       return R.string.no_password_confirmation_error;
-      //Todo: seltsamen Bugg beheben
     }
     if (newPassword.getValue() == null ||
         !newPassword.getValue().equals(newPasswordConfirmation.getValue())) {

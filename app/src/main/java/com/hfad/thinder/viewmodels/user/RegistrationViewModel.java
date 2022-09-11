@@ -187,7 +187,7 @@ public class RegistrationViewModel extends ViewModel {
   private Integer passwordConfirmationFormIsValid() {
     if (passwordConfirmation.getValue() == null || passwordConfirmation.getValue().equals("")) {
       return R.string.no_password_confirmation_error;
-      //Todo: seltsamen Bugg beheben
+
     }
     if (password.getValue() == null ||
         !password.getValue().equals(passwordConfirmation.getValue())) {
