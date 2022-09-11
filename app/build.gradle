@@ -36,6 +36,7 @@ android {
 }
 
 task androidJavadocs(type: Javadoc) {
+    dependsOn 'dataBindingGenBaseClassesRelease'
     source = android.sourceSets.main.java.srcDirs
     configurations.implementation.setCanBeResolved(true)
     failOnError false
