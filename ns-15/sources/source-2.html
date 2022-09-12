@@ -1,0 +1,321 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ForgotPasswordViewModel</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.hfad.thinder.viewmodels.user</a>
+</div>
+
+<h1>Coverage Summary for Class: ForgotPasswordViewModel (com.hfad.thinder.viewmodels.user)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ForgotPasswordViewModel</td>
+<td class="coverageStat">
+  <span class="percent">
+    93.8%
+  </span>
+  <span class="absValue">
+    (15/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97.9%
+  </span>
+  <span class="absValue">
+    (47/48)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ForgotPasswordViewModel$LoginTask</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (15/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    81%
+  </span>
+  <span class="absValue">
+    (47/58)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.hfad.thinder.viewmodels.user;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import android.os.AsyncTask;
+<i class="no-highlight">4</i>&nbsp;
+<i class="no-highlight">5</i>&nbsp;import androidx.lifecycle.MutableLiveData;
+<i class="no-highlight">6</i>&nbsp;import androidx.lifecycle.ViewModel;
+<i class="no-highlight">7</i>&nbsp;import com.hfad.thinder.R;
+<i class="no-highlight">8</i>&nbsp;import com.hfad.thinder.data.model.USERTYPE;
+<i class="no-highlight">9</i>&nbsp;import com.hfad.thinder.data.source.repository.UserRepository;
+<i class="no-highlight">10</i>&nbsp;import com.hfad.thinder.data.source.result.Result;
+<i class="no-highlight">11</i>&nbsp;import com.hfad.thinder.viewmodels.ViewModelResult;
+<i class="no-highlight">12</i>&nbsp;import com.hfad.thinder.viewmodels.ViewModelResultTypes;
+<i class="no-highlight">13</i>&nbsp;import java.util.regex.Matcher;
+<i class="no-highlight">14</i>&nbsp;import java.util.regex.Pattern;
+<i class="no-highlight">15</i>&nbsp;
+<i class="no-highlight">16</i>&nbsp;/**
+<i class="no-highlight">17</i>&nbsp; * A class providing a {@link ViewModel} for the {@link com.hfad.thinder.ui.user.ForgotPasswordActivity ForgotPasswordActivity}.
+<i class="no-highlight">18</i>&nbsp; */
+<b class="fc"><i class="no-highlight">19</i>&nbsp;public class ForgotPasswordViewModel extends ViewModel {</b>
+<b class="fc"><i class="no-highlight">20</i>&nbsp;  private static final Pattern PASSWORD_PATTERN =</b>
+<b class="fc"><i class="no-highlight">21</i>&nbsp;      Pattern.compile(&quot;^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$&quot;);</b>
+<b class="fc"><i class="no-highlight">22</i>&nbsp;  private final UserRepository userRepository = UserRepository.getInstance();</b>
+<i class="no-highlight">23</i>&nbsp;  private MutableLiveData&lt;ForgotPasswordFormState&gt; formState;
+<i class="no-highlight">24</i>&nbsp;  private MutableLiveData&lt;ViewModelResult&gt; loginResult;
+<i class="no-highlight">25</i>&nbsp;
+<i class="no-highlight">26</i>&nbsp;  private MutableLiveData&lt;String&gt; code;
+<i class="no-highlight">27</i>&nbsp;  private MutableLiveData&lt;String&gt; newPassword;
+<i class="no-highlight">28</i>&nbsp;  private MutableLiveData&lt;String&gt; newPasswordConfirmation;
+<i class="no-highlight">29</i>&nbsp;  private MutableLiveData&lt;Boolean&gt; isLoading;
+<i class="no-highlight">30</i>&nbsp;
+<i class="no-highlight">31</i>&nbsp;  /**
+<i class="no-highlight">32</i>&nbsp;   * Use this method to log in to the users account with the token and a new password.
+<i class="no-highlight">33</i>&nbsp;   */
+<i class="no-highlight">34</i>&nbsp;  public void login() {
+<b class="nc"><i class="no-highlight">35</i>&nbsp;    new LoginTask().execute(code.getValue(), newPassword.getValue());</b>
+<i class="no-highlight">36</i>&nbsp;
+<i class="no-highlight">37</i>&nbsp;  }
+<i class="no-highlight">38</i>&nbsp;  //Todo: es fehlt noch ein Unverified
+<i class="no-highlight">39</i>&nbsp;
+<i class="no-highlight">40</i>&nbsp;  /**
+<i class="no-highlight">41</i>&nbsp;   * Use this method to check whether the entered profile data is valid. This method should be called everytime the user edits the data in the ui.
+<i class="no-highlight">42</i>&nbsp;   */
+<i class="no-highlight">43</i>&nbsp;  public void passwordForgotDataChanged() {
+<b class="fc"><i class="no-highlight">44</i>&nbsp;    getFormState().setValue(</b>
+<b class="fc"><i class="no-highlight">45</i>&nbsp;        new ForgotPasswordFormState(codeConfirmationIsValid(), passwordFormIsValid(),</b>
+<b class="fc"><i class="no-highlight">46</i>&nbsp;            passwordConfirmationFormIsValid()));</b>
+<i class="no-highlight">47</i>&nbsp;  }
+<i class="no-highlight">48</i>&nbsp;
+<i class="no-highlight">49</i>&nbsp;  //---------------------getter and setter----------------------------------------------------------
+<i class="no-highlight">50</i>&nbsp;
+<i class="no-highlight">51</i>&nbsp;  /**
+<i class="no-highlight">52</i>&nbsp;   * @return the current {@link ForgotPasswordFormState}.
+<i class="no-highlight">53</i>&nbsp;   */
+<i class="no-highlight">54</i>&nbsp;  public MutableLiveData&lt;ForgotPasswordFormState&gt; getFormState() {
+<b class="fc"><i class="no-highlight">55</i>&nbsp;    if (formState == null) {</b>
+<b class="fc"><i class="no-highlight">56</i>&nbsp;      formState = new MutableLiveData&lt;&gt;();</b>
+<i class="no-highlight">57</i>&nbsp;    }
+<b class="fc"><i class="no-highlight">58</i>&nbsp;    return formState;</b>
+<i class="no-highlight">59</i>&nbsp;  }
+<i class="no-highlight">60</i>&nbsp;
+<i class="no-highlight">61</i>&nbsp;  /**
+<i class="no-highlight">62</i>&nbsp;   * @return the {@link ViewModelResult} of the {@link #login()} operation.
+<i class="no-highlight">63</i>&nbsp;   */
+<i class="no-highlight">64</i>&nbsp;  public MutableLiveData&lt;ViewModelResult&gt; getLoginResult() {
+<b class="fc"><i class="no-highlight">65</i>&nbsp;    if (loginResult == null) {</b>
+<b class="fc"><i class="no-highlight">66</i>&nbsp;      loginResult = new MutableLiveData&lt;&gt;();</b>
+<i class="no-highlight">67</i>&nbsp;    }
+<b class="fc"><i class="no-highlight">68</i>&nbsp;    return loginResult;</b>
+<i class="no-highlight">69</i>&nbsp;  }
+<i class="no-highlight">70</i>&nbsp;
+<i class="no-highlight">71</i>&nbsp;  /**
+<i class="no-highlight">72</i>&nbsp;   * @return the token used to change the password
+<i class="no-highlight">73</i>&nbsp;   */
+<i class="no-highlight">74</i>&nbsp;  public MutableLiveData&lt;String&gt; getCode() {
+<b class="fc"><i class="no-highlight">75</i>&nbsp;    if (code == null) {</b>
+<b class="fc"><i class="no-highlight">76</i>&nbsp;      code = new MutableLiveData&lt;&gt;();</b>
+<i class="no-highlight">77</i>&nbsp;    }
+<b class="fc"><i class="no-highlight">78</i>&nbsp;    return code;</b>
+<i class="no-highlight">79</i>&nbsp;  }
+<i class="no-highlight">80</i>&nbsp;
+<i class="no-highlight">81</i>&nbsp;  /**
+<i class="no-highlight">82</i>&nbsp;   * @param code the token used to change the password
+<i class="no-highlight">83</i>&nbsp;   */
+<i class="no-highlight">84</i>&nbsp;  public void setCode(MutableLiveData&lt;String&gt; code) {
+<b class="fc"><i class="no-highlight">85</i>&nbsp;    this.code = code;</b>
+<i class="no-highlight">86</i>&nbsp;  }
+<i class="no-highlight">87</i>&nbsp;
+<i class="no-highlight">88</i>&nbsp;  /**
+<i class="no-highlight">89</i>&nbsp;   * @return the new password
+<i class="no-highlight">90</i>&nbsp;   */
+<i class="no-highlight">91</i>&nbsp;  public MutableLiveData&lt;String&gt; getNewPassword() {
+<b class="fc"><i class="no-highlight">92</i>&nbsp;    if (newPassword == null) {</b>
+<b class="fc"><i class="no-highlight">93</i>&nbsp;      newPassword = new MutableLiveData&lt;&gt;();</b>
+<i class="no-highlight">94</i>&nbsp;    }
+<b class="fc"><i class="no-highlight">95</i>&nbsp;    return newPassword;</b>
+<i class="no-highlight">96</i>&nbsp;  }
+<i class="no-highlight">97</i>&nbsp;
+<i class="no-highlight">98</i>&nbsp;  /**
+<i class="no-highlight">99</i>&nbsp;   * @param newPassword the new password
+<i class="no-highlight">100</i>&nbsp;   */
+<i class="no-highlight">101</i>&nbsp;  public void setNewPassword(MutableLiveData&lt;String&gt; newPassword) {
+<b class="fc"><i class="no-highlight">102</i>&nbsp;    this.newPassword = newPassword;</b>
+<i class="no-highlight">103</i>&nbsp;  }
+<i class="no-highlight">104</i>&nbsp;
+<i class="no-highlight">105</i>&nbsp;  /**
+<i class="no-highlight">106</i>&nbsp;   * @return the confirmation of the new password
+<i class="no-highlight">107</i>&nbsp;   */
+<i class="no-highlight">108</i>&nbsp;  public MutableLiveData&lt;String&gt; getNewPasswordConfirmation() {
+<b class="fc"><i class="no-highlight">109</i>&nbsp;    if (newPasswordConfirmation == null) {</b>
+<b class="fc"><i class="no-highlight">110</i>&nbsp;      newPasswordConfirmation = new MutableLiveData&lt;&gt;();</b>
+<i class="no-highlight">111</i>&nbsp;    }
+<b class="fc"><i class="no-highlight">112</i>&nbsp;    return newPasswordConfirmation;</b>
+<i class="no-highlight">113</i>&nbsp;  }
+<i class="no-highlight">114</i>&nbsp;
+<i class="no-highlight">115</i>&nbsp;  /**
+<i class="no-highlight">116</i>&nbsp;   * @param newPasswordConfirmation the confirmation of the new password
+<i class="no-highlight">117</i>&nbsp;   */
+<i class="no-highlight">118</i>&nbsp;  public void setNewPasswordConfirmation(
+<i class="no-highlight">119</i>&nbsp;      MutableLiveData&lt;String&gt; newPasswordConfirmation) {
+<b class="fc"><i class="no-highlight">120</i>&nbsp;    this.newPasswordConfirmation = newPasswordConfirmation;</b>
+<i class="no-highlight">121</i>&nbsp;  }
+<i class="no-highlight">122</i>&nbsp;
+<i class="no-highlight">123</i>&nbsp;  public MutableLiveData&lt;Boolean&gt; getIsLoading() {
+<b class="fc"><i class="no-highlight">124</i>&nbsp;    if(isLoading == null){</b>
+<b class="fc"><i class="no-highlight">125</i>&nbsp;      isLoading = new MutableLiveData&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">126</i>&nbsp;      isLoading.setValue(false);</b>
+<i class="no-highlight">127</i>&nbsp;    }
+<b class="fc"><i class="no-highlight">128</i>&nbsp;    return isLoading;</b>
+<i class="no-highlight">129</i>&nbsp;  }
+<i class="no-highlight">130</i>&nbsp;
+<i class="no-highlight">131</i>&nbsp;  //--------private methods-------------------------------------------
+<i class="no-highlight">132</i>&nbsp;
+<i class="no-highlight">133</i>&nbsp;  private Integer passwordFormIsValid() {
+<b class="fc"><i class="no-highlight">134</i>&nbsp;    if (newPassword.getValue() == null || newPassword.getValue().equals(&quot;&quot;)) {</b>
+<b class="fc"><i class="no-highlight">135</i>&nbsp;      return R.string.no_password_error;</b>
+<i class="no-highlight">136</i>&nbsp;    }
+<b class="fc"><i class="no-highlight">137</i>&nbsp;    if (newPassword.getValue().length() &lt; 8) {</b>
+<b class="fc"><i class="no-highlight">138</i>&nbsp;      return R.string.password_to_short_error;</b>
+<i class="no-highlight">139</i>&nbsp;    }
+<b class="fc"><i class="no-highlight">140</i>&nbsp;    Matcher m = PASSWORD_PATTERN.matcher(newPassword.getValue());</b>
+<b class="fc"><i class="no-highlight">141</i>&nbsp;    if (!m.matches()) {</b>
+<b class="fc"><i class="no-highlight">142</i>&nbsp;      return R.string.password_not_safe_error;</b>
+<i class="no-highlight">143</i>&nbsp;    }
+<b class="fc"><i class="no-highlight">144</i>&nbsp;    return null;</b>
+<i class="no-highlight">145</i>&nbsp;  }
+<i class="no-highlight">146</i>&nbsp;
+<i class="no-highlight">147</i>&nbsp;  private Integer passwordConfirmationFormIsValid() {
+<b class="fc"><i class="no-highlight">148</i>&nbsp;    if (newPasswordConfirmation.getValue() == null ||</b>
+<b class="fc"><i class="no-highlight">149</i>&nbsp;        newPasswordConfirmation.getValue().equals(&quot;&quot;)) {</b>
+<b class="fc"><i class="no-highlight">150</i>&nbsp;      return R.string.no_password_confirmation_error;</b>
+<i class="no-highlight">151</i>&nbsp;      //Todo: seltsamen Bugg beheben
+<i class="no-highlight">152</i>&nbsp;    }
+<b class="fc"><i class="no-highlight">153</i>&nbsp;    if (newPassword.getValue() == null ||</b>
+<b class="fc"><i class="no-highlight">154</i>&nbsp;        !newPassword.getValue().equals(newPasswordConfirmation.getValue())) {</b>
+<b class="fc"><i class="no-highlight">155</i>&nbsp;      return R.string.passwords_do_not_match_error;</b>
+<i class="no-highlight">156</i>&nbsp;    }
+<b class="fc"><i class="no-highlight">157</i>&nbsp;    return null;</b>
+<i class="no-highlight">158</i>&nbsp;  }
+<i class="no-highlight">159</i>&nbsp;
+<i class="no-highlight">160</i>&nbsp;  private Integer codeConfirmationIsValid() {
+<b class="fc"><i class="no-highlight">161</i>&nbsp;    if (code.getValue() == null || code.getValue().equals(&quot;&quot;)) {</b>
+<b class="fc"><i class="no-highlight">162</i>&nbsp;      return R.string.token_error;</b>
+<i class="no-highlight">163</i>&nbsp;    }
+<b class="fc"><i class="no-highlight">164</i>&nbsp;    return null;</b>
+<i class="no-highlight">165</i>&nbsp;  }
+<i class="no-highlight">166</i>&nbsp;  
+<b class="nc"><i class="no-highlight">167</i>&nbsp;  private class LoginTask extends AsyncTask&lt;String, Void, Result&gt; {</b>
+<i class="no-highlight">168</i>&nbsp;    @Override
+<i class="no-highlight">169</i>&nbsp;    protected void onPreExecute() {
+<b class="nc"><i class="no-highlight">170</i>&nbsp;      getIsLoading().setValue(true);</b>
+<i class="no-highlight">171</i>&nbsp;    }
+<i class="no-highlight">172</i>&nbsp;
+<i class="no-highlight">173</i>&nbsp;    @Override
+<i class="no-highlight">174</i>&nbsp;    protected Result doInBackground(String... strings) {
+<b class="nc"><i class="no-highlight">175</i>&nbsp;      return userRepository.resetPasswordWithToken(strings[0], strings[1]);</b>
+<i class="no-highlight">176</i>&nbsp;    }
+<i class="no-highlight">177</i>&nbsp;
+<i class="no-highlight">178</i>&nbsp;    @Override
+<i class="no-highlight">179</i>&nbsp;    protected void onPostExecute(Result result) {
+<b class="nc"><i class="no-highlight">180</i>&nbsp;      if (!result.getSuccess()) {</b>
+<b class="nc"><i class="no-highlight">181</i>&nbsp;        loginResult.setValue(</b>
+<b class="nc"><i class="no-highlight">182</i>&nbsp;                new ViewModelResult(result.getErrorMessage(), ViewModelResultTypes.ERROR));</b>
+<b class="nc"><i class="no-highlight">183</i>&nbsp;      } else if (result.getSuccess()) {</b>
+<b class="nc"><i class="no-highlight">184</i>&nbsp;        loginResult.setValue(new ViewModelResult(null, ViewModelResultTypes.SUCCESSFUL));</b>
+<i class="no-highlight">185</i>&nbsp;      }
+<b class="nc"><i class="no-highlight">186</i>&nbsp;      loginResult.setValue(null);</b>
+<b class="nc"><i class="no-highlight">187</i>&nbsp;      isLoading.setValue(false);</b>
+<i class="no-highlight">188</i>&nbsp;    }
+<i class="no-highlight">189</i>&nbsp;  }
+<i class="no-highlight">190</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-09-11 16:06</div>
+</div>
+</body>
+</html>

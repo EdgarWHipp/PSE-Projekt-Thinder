@@ -79,20 +79,5 @@ public class ThesisUtilityTest {
     Assert.assertTrue(ThesisUtility.getImageSet(bitmaps).isEmpty());
   }
 
-  //Todo: Method createBitmap in android.graphics.Bitmap not mocked
-  /*
-  @Test
-  public void getImageSet() {
-    Bitmap testBitmap1 = Bitmap.createBitmap(5, 5, null);
-    Bitmap testBitmap2 = Bitmap.createBitmap(5, 5, null);
-    bitmaps.add(testBitmap1);
-    bitmaps.add(testBitmap2);
-    Set<Image> images = ThesisUtility.getImageSet(bitmaps);
-    for (Image image : images) {
-      Bitmap bitmap = BitmapFactory.decodeByteArray(image.getImage(), 0, image.getImage().length);
-      Assert.assertTrue(bitmaps.contains(bitmap));
-    }
-  }
 
-   */
 }

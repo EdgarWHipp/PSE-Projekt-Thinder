@@ -93,13 +93,5 @@ public class LoginViewModelTest {
     Assert.assertNotNull(viewModel.getIsLoading());
   }
 
-  @Test
-  public void setIsLoading() {
-    boolean isLoading = true;
-    viewModel.setIsLoading(new MutableLiveData<>(isLoading));
-    Assert.assertTrue(viewModel.getIsLoading().getValue());
-    viewModel.setIsLoading(new MutableLiveData<>(!isLoading));
-    Assert.assertFalse(viewModel.getIsLoading().getValue());
 
-  }
 }

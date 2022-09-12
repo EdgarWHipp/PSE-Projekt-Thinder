@@ -28,48 +28,6 @@ public class SwipeScreenViewModelTest {
   }
 
   @Test
-  public void like() {
-
-  }
-
-  @Test
-  public void dislike() {
-  }
-
-  @Test
-  public void redraw() {
-  }
-
-  @Test
-  public void pushRatings() {
-  }
-
-  @Test
-  public void incrementCurrentDetailViewPosition() {
-  }
-
-  @Test
-  public void decrementCurrentDetailViewPosition() {
-  }
-
-  @Test
-  public void getCurrentCardNotNull() {
-
-  }
-
-  @Test
-  public void getNextCard() {
-  }
-
-  @Test
-  public void getCurrentDetailViewState() {
-  }
-
-  @Test
-  public void getCurrentDetailViewImage() {
-  }
-
-  @Test
   public void getCurrentDeckPositionNotNull() {
     Assert.assertNotNull(viewModel.getCurrentDeckPosition());
   }
@@ -89,45 +47,6 @@ public class SwipeScreenViewModelTest {
     Assert.assertNull(viewModel.getCoursesOfStudy());
   }
 
-  @Test
-  public void getSuperVisorName() {
-    //gibt exception, wenn getCurrentCard() null zurückgibt
-  }
-
-  @Test
-  public void getPhoneNumber() {
-    //wift exception, wenn getCurrentCard() null zurückgibt
-  }
-
-  @Test
-  public void getBuilding() {
-    //wirft exception, wenn getCurrentCard() null zurückgibt
-  }
-
-  @Test
-  public void getMail() {
-    //wirft exception, wenn getCurrentCard() null zurückgibt
-  }
-
-  @Test
-  public void getProfessorName() {
-    //wirft exception, wenn getCurrentCard() null zurückgibt
-  }
-
-  @Test
-  public void getInstitute() {
-    //wirft exception, wenn getCurrentCard() null zurückgibt
-  }
-
-  @Test
-  public void getCurrentTask() {
-    //wirft exception, wenn getCurrentCard() null zurückgibt
-  }
-
-  @Test
-  public void getCurrentMotivation() {
-    //wirft exception, wenn getCurrentCard() null zurückgibt
-  }
 
   @Test
   public void getIsLoadingNotNull() {

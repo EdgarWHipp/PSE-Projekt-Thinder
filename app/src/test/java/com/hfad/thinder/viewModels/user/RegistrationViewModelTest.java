@@ -45,24 +45,6 @@ public class RegistrationViewModelTest {
     registrationViewModel.setEmail(new MutableLiveData<>("g@kit.edu"));
   }
 
-  /*
-
-
-  @Test
-  public void registerFail() {
-    registrationViewModel.setFirstName(new MutableLiveData<>("firstName"));
-    registrationViewModel.setLastName(new MutableLiveData<>("lastName"));
-    registrationViewModel.setPassword(new MutableLiveData<>("password"));
-    registrationViewModel.setEmail(new MutableLiveData<>("mail"));
-    Result result = new Result("errorMessage", false);
-    Mockito.when(userRepository.register("firstName", "secondName", "password", "mail"))
-        .thenReturn(result);
-    registrationViewModel.register();
-    Assert.assertEquals(registrationViewModel.getRegistrationResult().getValue().getSuccess(),
-        ViewModelResultTypes.ERROR);
-  }
-
-   */
 
   @Test
   public void registrationDataValid() {

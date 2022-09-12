@@ -1,0 +1,211 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > EditProfileFormState</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.hfad.thinder.viewmodels.supervisor</a>
+</div>
+
+<h1>Coverage Summary for Class: EditProfileFormState (com.hfad.thinder.viewmodels.supervisor)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EditProfileFormState</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (15/15)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.hfad.thinder.viewmodels.supervisor;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import androidx.annotation.Nullable;
+<i class="no-highlight">4</i>&nbsp;
+<i class="no-highlight">5</i>&nbsp;/**
+<i class="no-highlight">6</i>&nbsp; * Class that represents state of validity of the data entered in the {@link EditProfileViewModel}.
+<i class="no-highlight">7</i>&nbsp; */
+<i class="no-highlight">8</i>&nbsp;public class EditProfileFormState {
+<i class="no-highlight">9</i>&nbsp;
+<i class="no-highlight">10</i>&nbsp;  private final boolean isDataValid;
+<i class="no-highlight">11</i>&nbsp;
+<i class="no-highlight">12</i>&nbsp;  @Nullable
+<i class="no-highlight">13</i>&nbsp;  private final Integer firstNameErrorMessage;
+<i class="no-highlight">14</i>&nbsp;  @Nullable
+<i class="no-highlight">15</i>&nbsp;  private final Integer lastNameErrorMessage;
+<i class="no-highlight">16</i>&nbsp;  @Nullable
+<i class="no-highlight">17</i>&nbsp;  private final Integer buildingErrorMessage;
+<i class="no-highlight">18</i>&nbsp;  @Nullable
+<i class="no-highlight">19</i>&nbsp;  private final Integer roomErrorMessage;
+<i class="no-highlight">20</i>&nbsp;  @Nullable
+<i class="no-highlight">21</i>&nbsp;  private final Integer phoneNumberErrorMessage;
+<i class="no-highlight">22</i>&nbsp;  @Nullable
+<i class="no-highlight">23</i>&nbsp;  private final Integer instituteErrorMessage;
+<i class="no-highlight">24</i>&nbsp;
+<i class="no-highlight">25</i>&nbsp;  /**
+<i class="no-highlight">26</i>&nbsp;   * @param firstNameErrorMessage   android string resource id for an error message, should be null if there is no error
+<i class="no-highlight">27</i>&nbsp;   * @param lastNameErrorMessage    android string resource id for an error message, should be null if there is no error
+<i class="no-highlight">28</i>&nbsp;   * @param buildingErrorMessage    android string resource id for an error message, should be null if there is no error
+<i class="no-highlight">29</i>&nbsp;   * @param roomErrorMessage        android string resource id for an error message, should be null if there is no error
+<i class="no-highlight">30</i>&nbsp;   * @param phoneNumberErrorMessage android string resource id for an error message, should be null if there is no error
+<i class="no-highlight">31</i>&nbsp;   * @param instituteErrorMessage   android string resource id for an error message, should be null if there is no error
+<i class="no-highlight">32</i>&nbsp;   */
+<i class="no-highlight">33</i>&nbsp;  public EditProfileFormState(@Nullable Integer firstNameErrorMessage,
+<i class="no-highlight">34</i>&nbsp;                              @Nullable Integer lastNameErrorMessage,
+<i class="no-highlight">35</i>&nbsp;                              @Nullable Integer buildingErrorMessage,
+<i class="no-highlight">36</i>&nbsp;                              @Nullable Integer roomErrorMessage,
+<i class="no-highlight">37</i>&nbsp;                              @Nullable Integer phoneNumberErrorMessage,
+<i class="no-highlight">38</i>&nbsp;                              @Nullable Integer instituteErrorMessage
+<b class="fc"><i class="no-highlight">39</i>&nbsp;  ) {</b>
+<i class="no-highlight">40</i>&nbsp;
+<b class="fc"><i class="no-highlight">41</i>&nbsp;    this.firstNameErrorMessage = firstNameErrorMessage;</b>
+<b class="fc"><i class="no-highlight">42</i>&nbsp;    this.lastNameErrorMessage = lastNameErrorMessage;</b>
+<b class="fc"><i class="no-highlight">43</i>&nbsp;    this.buildingErrorMessage = buildingErrorMessage;</b>
+<b class="fc"><i class="no-highlight">44</i>&nbsp;    this.roomErrorMessage = roomErrorMessage;</b>
+<b class="fc"><i class="no-highlight">45</i>&nbsp;    this.phoneNumberErrorMessage = phoneNumberErrorMessage;</b>
+<b class="fc"><i class="no-highlight">46</i>&nbsp;    this.instituteErrorMessage = instituteErrorMessage;</b>
+<b class="fc"><i class="no-highlight">47</i>&nbsp;    this.isDataValid = firstNameErrorMessage == null &amp;&amp;</b>
+<i class="no-highlight">48</i>&nbsp;        lastNameErrorMessage == null &amp;&amp; buildingErrorMessage == null &amp;&amp; roomErrorMessage == null &amp;&amp;
+<i class="no-highlight">49</i>&nbsp;        phoneNumberErrorMessage == null &amp;&amp; instituteErrorMessage == null;
+<i class="no-highlight">50</i>&nbsp;  }
+<i class="no-highlight">51</i>&nbsp;
+<i class="no-highlight">52</i>&nbsp;  /**
+<i class="no-highlight">53</i>&nbsp;   * @return true if all error messages are null
+<i class="no-highlight">54</i>&nbsp;   */
+<i class="no-highlight">55</i>&nbsp;  public boolean isDataValid() {
+<b class="fc"><i class="no-highlight">56</i>&nbsp;    return isDataValid;</b>
+<i class="no-highlight">57</i>&nbsp;  }
+<i class="no-highlight">58</i>&nbsp;
+<i class="no-highlight">59</i>&nbsp;  /**
+<i class="no-highlight">60</i>&nbsp;   * @return a resource id for a android string resource.
+<i class="no-highlight">61</i>&nbsp;   */
+<i class="no-highlight">62</i>&nbsp;  @Nullable
+<i class="no-highlight">63</i>&nbsp;  public Integer getFirstNameErrorMessage() {
+<b class="fc"><i class="no-highlight">64</i>&nbsp;    return firstNameErrorMessage;</b>
+<i class="no-highlight">65</i>&nbsp;  }
+<i class="no-highlight">66</i>&nbsp;
+<i class="no-highlight">67</i>&nbsp;  /**
+<i class="no-highlight">68</i>&nbsp;   * @return a resource id for a android string resource.
+<i class="no-highlight">69</i>&nbsp;   */
+<i class="no-highlight">70</i>&nbsp;  @Nullable
+<i class="no-highlight">71</i>&nbsp;  public Integer getLastNameErrorMessage() {
+<b class="fc"><i class="no-highlight">72</i>&nbsp;    return lastNameErrorMessage;</b>
+<i class="no-highlight">73</i>&nbsp;  }
+<i class="no-highlight">74</i>&nbsp;
+<i class="no-highlight">75</i>&nbsp;  /**
+<i class="no-highlight">76</i>&nbsp;   * @return a resource id for a android string resource.
+<i class="no-highlight">77</i>&nbsp;   */
+<i class="no-highlight">78</i>&nbsp;  @Nullable
+<i class="no-highlight">79</i>&nbsp;  public Integer getBuildingErrorMessage() {
+<b class="fc"><i class="no-highlight">80</i>&nbsp;    return buildingErrorMessage;</b>
+<i class="no-highlight">81</i>&nbsp;  }
+<i class="no-highlight">82</i>&nbsp;
+<i class="no-highlight">83</i>&nbsp;  /**
+<i class="no-highlight">84</i>&nbsp;   * @return a resource id for a android string resource.
+<i class="no-highlight">85</i>&nbsp;   */
+<i class="no-highlight">86</i>&nbsp;  @Nullable
+<i class="no-highlight">87</i>&nbsp;  public Integer getRoomErrorMessage() {
+<b class="fc"><i class="no-highlight">88</i>&nbsp;    return roomErrorMessage;</b>
+<i class="no-highlight">89</i>&nbsp;  }
+<i class="no-highlight">90</i>&nbsp;
+<i class="no-highlight">91</i>&nbsp;  /**
+<i class="no-highlight">92</i>&nbsp;   * @return a resource id for a android string resource.
+<i class="no-highlight">93</i>&nbsp;   */
+<i class="no-highlight">94</i>&nbsp;  @Nullable
+<i class="no-highlight">95</i>&nbsp;  public Integer getPhoneNumberErrorMessage() {
+<b class="fc"><i class="no-highlight">96</i>&nbsp;    return phoneNumberErrorMessage;</b>
+<i class="no-highlight">97</i>&nbsp;  }
+<i class="no-highlight">98</i>&nbsp;
+<i class="no-highlight">99</i>&nbsp;  /**
+<i class="no-highlight">100</i>&nbsp;   * @return a resource id for a android string resource.
+<i class="no-highlight">101</i>&nbsp;   */
+<i class="no-highlight">102</i>&nbsp;  @Nullable
+<i class="no-highlight">103</i>&nbsp;  public Integer getInstituteErrorMessage() {
+<b class="fc"><i class="no-highlight">104</i>&nbsp;    return instituteErrorMessage;</b>
+<i class="no-highlight">105</i>&nbsp;  }
+<i class="no-highlight">106</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-09-11 16:06</div>
+</div>
+</body>
+</html>

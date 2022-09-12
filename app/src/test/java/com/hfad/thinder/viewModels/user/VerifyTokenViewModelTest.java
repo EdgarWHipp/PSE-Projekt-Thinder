@@ -31,25 +31,6 @@ public class VerifyTokenViewModelTest {
 
   }
 
-  /*
-  @Test
-  public void verifyTokenSuccessStudent() {
-    Result success = new Result(true);
-    Mockito.when(userRepository.verifyUser(Mockito.anyString()))
-        .thenReturn(success);
-    Mockito.when(userRepository.getType()).thenReturn(USERTYPE.STUDENT);
-    Mockito.when(userRepository.getPassword()).thenReturn("password");
-    Mockito.when(userRepository.getUser())
-        .thenReturn(new User(USERTYPE.STUDENT, null, true, null, "mail", null, null, false));
-    Mockito.when(userRepository.login(Mockito.anyString(), Mockito.anyString()))
-        .thenReturn(success);
-    viewModel.VerifyToken();
-    Assert.assertEquals(USERTYPE.STUDENT, userRepository.getType());
-    Assert.assertEquals(ViewModelResultTypes.STUDENT,
-        viewModel.getVerifyTokenResult().getValue().getSuccess());
-    Assert.assertEquals(VerifyTokenStates.SUCCESSFUL, viewModel.getState().getValue());
-    }
-   */
 
 
   @Test

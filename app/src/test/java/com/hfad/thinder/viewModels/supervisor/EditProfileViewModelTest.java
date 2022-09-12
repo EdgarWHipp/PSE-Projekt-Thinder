@@ -152,20 +152,6 @@ public class EditProfileViewModelTest {
     assertNotNull(viewModel.getDeleteResult());
   }
 
-  /*
-  @Test
-  public void getAcademicTitlesNotNull() {
-    assertNotNull(viewModel.getAcademicTitles());
-  }
-
-
-  @Test
-  public void getSelectedAcademicTitlePosition() {
-  }
-  geht nicht weil Repository nicht gemockt werden kann
-   */
-
-
   @Test
   public void setSelectedAcademicTitlePosition() {
     viewModel.setSelectedAcademicTitlePosition(new MutableLiveData<>(1));

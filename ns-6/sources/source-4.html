@@ -1,0 +1,730 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > StudentApiService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.hfad.thinder.data.source.remote.okhttp</a>
+</div>
+
+<h1>Coverage Summary for Class: StudentApiService (com.hfad.thinder.data.source.remote.okhttp)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">StudentApiService</td>
+<td class="coverageStat">
+  <span class="percent">
+    90%
+  </span>
+  <span class="absValue">
+    (9/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    74%
+  </span>
+  <span class="absValue">
+    (134/181)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">StudentApiService$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88.9%
+  </span>
+  <span class="absValue">
+    (8/9)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">StudentApiService$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/5)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">StudentApiService$3</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    64.7%
+  </span>
+  <span class="absValue">
+    (11/17)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">StudentApiService$3$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">StudentApiService$4</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    70.6%
+  </span>
+  <span class="absValue">
+    (12/17)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">StudentApiService$4$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">StudentApiService$5</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/5)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">StudentApiService$6</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/5)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    76.7%
+  </span>
+  <span class="absValue">
+    (23/30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    74.3%
+  </span>
+  <span class="absValue">
+    (179/241)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.hfad.thinder.data.source.remote.okhttp;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import android.util.ArraySet;
+<i class="no-highlight">4</i>&nbsp;import android.util.Log;
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;import androidx.annotation.NonNull;
+<i class="no-highlight">7</i>&nbsp;
+<i class="no-highlight">8</i>&nbsp;import com.google.gson.Gson;
+<i class="no-highlight">9</i>&nbsp;import com.google.gson.reflect.TypeToken;
+<i class="no-highlight">10</i>&nbsp;import com.hfad.thinder.R;
+<i class="no-highlight">11</i>&nbsp;import com.hfad.thinder.data.model.Degree;
+<i class="no-highlight">12</i>&nbsp;import com.hfad.thinder.data.model.Form;
+<i class="no-highlight">13</i>&nbsp;import com.hfad.thinder.data.model.Image;
+<i class="no-highlight">14</i>&nbsp;import com.hfad.thinder.data.model.Student;
+<i class="no-highlight">15</i>&nbsp;import com.hfad.thinder.data.model.Thesis;
+<i class="no-highlight">16</i>&nbsp;import com.hfad.thinder.data.model.ThesisDTO;
+<i class="no-highlight">17</i>&nbsp;import com.hfad.thinder.data.source.repository.UserRepository;
+<i class="no-highlight">18</i>&nbsp;import com.hfad.thinder.data.source.result.Pair;
+<i class="no-highlight">19</i>&nbsp;import com.hfad.thinder.data.source.result.Result;
+<i class="no-highlight">20</i>&nbsp;
+<i class="no-highlight">21</i>&nbsp;import org.json.JSONArray;
+<i class="no-highlight">22</i>&nbsp;import org.json.JSONException;
+<i class="no-highlight">23</i>&nbsp;import org.json.JSONObject;
+<i class="no-highlight">24</i>&nbsp;
+<i class="no-highlight">25</i>&nbsp;import java.io.IOException;
+<i class="no-highlight">26</i>&nbsp;import java.util.ArrayList;
+<i class="no-highlight">27</i>&nbsp;import java.util.Collection;
+<i class="no-highlight">28</i>&nbsp;import java.util.HashMap;
+<i class="no-highlight">29</i>&nbsp;import java.util.List;
+<i class="no-highlight">30</i>&nbsp;import java.util.Set;
+<i class="no-highlight">31</i>&nbsp;import java.util.UUID;
+<i class="no-highlight">32</i>&nbsp;import java.util.concurrent.CompletableFuture;
+<i class="no-highlight">33</i>&nbsp;import java.util.concurrent.ExecutionException;
+<i class="no-highlight">34</i>&nbsp;import java.util.stream.Collectors;
+<i class="no-highlight">35</i>&nbsp;
+<i class="no-highlight">36</i>&nbsp;import okhttp3.Call;
+<i class="no-highlight">37</i>&nbsp;import okhttp3.Callback;
+<i class="no-highlight">38</i>&nbsp;import okhttp3.HttpUrl;
+<i class="no-highlight">39</i>&nbsp;import okhttp3.MediaType;
+<i class="no-highlight">40</i>&nbsp;import okhttp3.OkHttpClient;
+<i class="no-highlight">41</i>&nbsp;import okhttp3.Request;
+<i class="no-highlight">42</i>&nbsp;import okhttp3.RequestBody;
+<i class="no-highlight">43</i>&nbsp;import okhttp3.Response;
+<i class="no-highlight">44</i>&nbsp;
+<i class="no-highlight">45</i>&nbsp;/**
+<i class="no-highlight">46</i>&nbsp; * This class realises the HTTP calls that are relevant for the student.
+<i class="no-highlight">47</i>&nbsp; * These include editing the students profile, ratings theses through the swipe screen and getting already liked theses returned to the student.
+<i class="no-highlight">48</i>&nbsp; */
+<b class="fc"><i class="no-highlight">49</i>&nbsp;public class StudentApiService {</b>
+<b class="fc"><i class="no-highlight">50</i>&nbsp;    private static final ApiUtils apiUtils = ApiUtils.getInstance();</b>
+<b class="fc"><i class="no-highlight">51</i>&nbsp;    private final MediaType JSON</b>
+<b class="fc"><i class="no-highlight">52</i>&nbsp;            = MediaType.parse(&quot;application/json; charset=utf-8&quot;);</b>
+<i class="no-highlight">53</i>&nbsp;
+<i class="no-highlight">54</i>&nbsp;    /**
+<i class="no-highlight">55</i>&nbsp;     * This function creates the HTTP PUT request that completes the user profile by extending the profile through either the additional attributes from the student.
+<i class="no-highlight">56</i>&nbsp;     * Checks if the asynchronous call return fails or responds.
+<i class="no-highlight">57</i>&nbsp;     *
+<i class="no-highlight">58</i>&nbsp;     * @param degrees
+<i class="no-highlight">59</i>&nbsp;     * @throws JSONException
+<i class="no-highlight">60</i>&nbsp;     * @throws IOException
+<i class="no-highlight">61</i>&nbsp;     * @throws ExecutionException
+<i class="no-highlight">62</i>&nbsp;     * @return CompletableFuture&lt;Result&gt;
+<i class="no-highlight">63</i>&nbsp;     */
+<i class="no-highlight">64</i>&nbsp;    public CompletableFuture&lt;Result&gt; editStudentProfileFuture(ArrayList&lt;Degree&gt; degrees, String firstName, String lastName) throws JSONException{
+<i class="no-highlight">65</i>&nbsp;        //Add HTTP BASIC authentication
+<b class="fc"><i class="no-highlight">66</i>&nbsp;        OkHttpClient clientAuth = new OkHttpClient.Builder()</b>
+<b class="fc"><i class="no-highlight">67</i>&nbsp;                .addInterceptor(</b>
+<b class="fc"><i class="no-highlight">68</i>&nbsp;                        new AuthInterceptor(UserRepository.getInstance().</b>
+<b class="fc"><i class="no-highlight">69</i>&nbsp;                                getUser().getMail(), UserRepository.getInstance().getPassword()))</b>
+<b class="fc"><i class="no-highlight">70</i>&nbsp;                .build();</b>
+<b class="fc"><i class="no-highlight">71</i>&nbsp;        CompletableFuture&lt;Result&gt; resultCompletableFuture = new CompletableFuture&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">72</i>&nbsp;        JSONArray degreesJsonArray = new JSONArray();</b>
+<i class="no-highlight">73</i>&nbsp;        JSONObject degreeJson;
+<b class="fc"><i class="no-highlight">74</i>&nbsp;        for (Degree degree : degrees) {</b>
+<b class="fc"><i class="no-highlight">75</i>&nbsp;            degreeJson = new JSONObject().put(&quot;id&quot;, degree.getId());</b>
+<b class="fc"><i class="no-highlight">76</i>&nbsp;            degreesJsonArray.put(degreeJson);</b>
+<b class="fc"><i class="no-highlight">77</i>&nbsp;        }</b>
+<i class="no-highlight">78</i>&nbsp;
+<b class="fc"><i class="no-highlight">79</i>&nbsp;        JSONObject studentJson = new JSONObject()</b>
+<b class="fc"><i class="no-highlight">80</i>&nbsp;                .put(&quot;degrees&quot;, degreesJsonArray)</b>
+<b class="fc"><i class="no-highlight">81</i>&nbsp;                .put(&quot;firstName&quot;, firstName)</b>
+<b class="fc"><i class="no-highlight">82</i>&nbsp;                .put(&quot;lastName&quot;, lastName)</b>
+<b class="fc"><i class="no-highlight">83</i>&nbsp;                .put(&quot;type&quot;, UserRepository.getInstance().getType().toString());</b>
+<b class="fc"><i class="no-highlight">84</i>&nbsp;        RequestBody body = RequestBody.create(studentJson.toString(), JSON);</b>
+<b class="fc"><i class="no-highlight">85</i>&nbsp;        HttpUrl url = apiUtils.getHttpUrlBuilder()</b>
+<b class="fc"><i class="no-highlight">86</i>&nbsp;                .addPathSegment(&quot;users&quot;)</b>
+<b class="fc"><i class="no-highlight">87</i>&nbsp;                .addPathSegment(&quot;current&quot;)</b>
+<b class="fc"><i class="no-highlight">88</i>&nbsp;                .build();</b>
+<i class="no-highlight">89</i>&nbsp;
+<b class="fc"><i class="no-highlight">90</i>&nbsp;        Request request = new Request.Builder()</b>
+<b class="fc"><i class="no-highlight">91</i>&nbsp;                .url(url)</b>
+<b class="fc"><i class="no-highlight">92</i>&nbsp;                .put(body)</b>
+<b class="fc"><i class="no-highlight">93</i>&nbsp;                .build();</b>
+<b class="fc"><i class="no-highlight">94</i>&nbsp;        Call call = clientAuth.newCall(request);</b>
+<b class="fc"><i class="no-highlight">95</i>&nbsp;        call.enqueue(new Callback() {</b>
+<i class="no-highlight">96</i>&nbsp;            @Override
+<i class="no-highlight">97</i>&nbsp;            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+<b class="nc"><i class="no-highlight">98</i>&nbsp;                resultCompletableFuture.complete(new Result(R.string.failure_on_call, false));</b>
+<i class="no-highlight">99</i>&nbsp;            }
+<i class="no-highlight">100</i>&nbsp;
+<i class="no-highlight">101</i>&nbsp;            @Override
+<i class="no-highlight">102</i>&nbsp;            public void onResponse(@NonNull Call call, @NonNull Response response) {
+<b class="fc"><i class="no-highlight">103</i>&nbsp;                if (response.isSuccessful()) {</b>
+<b class="fc"><i class="no-highlight">104</i>&nbsp;                    UserRepository.getInstance().login(UserRepository.getInstance().getPassword(), UserRepository.getInstance().getUser().getMail());</b>
+<b class="fc"><i class="no-highlight">105</i>&nbsp;                    UserRepository.getInstance().getUser().setFirstName(firstName);</b>
+<b class="fc"><i class="no-highlight">106</i>&nbsp;                    UserRepository.getInstance().getUser().setLastName(lastName);</b>
+<b class="fc"><i class="no-highlight">107</i>&nbsp;                    ((Student) UserRepository.getInstance().getUser()).setDegrees(degrees);</b>
+<b class="fc"><i class="no-highlight">108</i>&nbsp;                    resultCompletableFuture.complete(new Result(true));</b>
+<i class="no-highlight">109</i>&nbsp;                } else {
+<i class="no-highlight">110</i>&nbsp;
+<b class="fc"><i class="no-highlight">111</i>&nbsp;                    resultCompletableFuture.complete(new Result(R.string.unsuccessful_response, false));</b>
+<i class="no-highlight">112</i>&nbsp;                }
+<i class="no-highlight">113</i>&nbsp;            }
+<i class="no-highlight">114</i>&nbsp;        });
+<b class="fc"><i class="no-highlight">115</i>&nbsp;        return resultCompletableFuture;</b>
+<i class="no-highlight">116</i>&nbsp;    }
+<i class="no-highlight">117</i>&nbsp;
+<i class="no-highlight">118</i>&nbsp;
+<i class="no-highlight">119</i>&nbsp;    /**
+<i class="no-highlight">120</i>&nbsp;     * This function creates the actual HTTP POST request that enables a student to like or dislike a thesis.
+<i class="no-highlight">121</i>&nbsp;     * If the thesis is liked it can be found inside their liked-theses screen.
+<i class="no-highlight">122</i>&nbsp;     *
+<i class="no-highlight">123</i>&nbsp;     * @return CompletableFuture&lt;Result&gt; The result is later fetched in the StudentRemoteDataSource class.
+<i class="no-highlight">124</i>&nbsp;     * @throws JSONException
+<i class="no-highlight">125</i>&nbsp;     */
+<i class="no-highlight">126</i>&nbsp;    public CompletableFuture&lt;Result&gt; rateThesisFuture(final Collection&lt;Pair&lt;UUID, Boolean&gt;&gt; ratings) throws JSONException {
+<i class="no-highlight">127</i>&nbsp;        //Add HTTP BASIC authentication
+<b class="fc"><i class="no-highlight">128</i>&nbsp;        OkHttpClient clientAuth = new OkHttpClient.Builder()</b>
+<b class="fc"><i class="no-highlight">129</i>&nbsp;                .addInterceptor(</b>
+<b class="fc"><i class="no-highlight">130</i>&nbsp;                        new AuthInterceptor(UserRepository.getInstance().</b>
+<b class="fc"><i class="no-highlight">131</i>&nbsp;                                getUser().getMail(), UserRepository.getInstance().</b>
+<b class="fc"><i class="no-highlight">132</i>&nbsp;                                getPassword()))</b>
+<b class="fc"><i class="no-highlight">133</i>&nbsp;                .build();</b>
+<i class="no-highlight">134</i>&nbsp;
+<b class="fc"><i class="no-highlight">135</i>&nbsp;        String json = new Gson().toJson(ratings);</b>
+<b class="fc"><i class="no-highlight">136</i>&nbsp;        RequestBody body = RequestBody.create(json, JSON);</b>
+<b class="fc"><i class="no-highlight">137</i>&nbsp;        CompletableFuture&lt;Result&gt; resultCompletableFuture = new CompletableFuture&lt;&gt;();</b>
+<i class="no-highlight">138</i>&nbsp;
+<b class="fc"><i class="no-highlight">139</i>&nbsp;        HttpUrl url = apiUtils.getHttpUrlBuilder()</b>
+<b class="fc"><i class="no-highlight">140</i>&nbsp;                .addPathSegment(&quot;students&quot;)</b>
+<b class="fc"><i class="no-highlight">141</i>&nbsp;                .addPathSegment(&quot;rated-theses&quot;).build();</b>
+<i class="no-highlight">142</i>&nbsp;
+<b class="fc"><i class="no-highlight">143</i>&nbsp;        Request request = new Request.Builder()</b>
+<b class="fc"><i class="no-highlight">144</i>&nbsp;                .url(url)</b>
+<b class="fc"><i class="no-highlight">145</i>&nbsp;                .post(body)</b>
+<b class="fc"><i class="no-highlight">146</i>&nbsp;                .build();</b>
+<i class="no-highlight">147</i>&nbsp;
+<b class="fc"><i class="no-highlight">148</i>&nbsp;        Call call = clientAuth.newCall(request);</b>
+<b class="fc"><i class="no-highlight">149</i>&nbsp;        call.enqueue(new Callback() {</b>
+<i class="no-highlight">150</i>&nbsp;            @Override
+<i class="no-highlight">151</i>&nbsp;            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+<b class="nc"><i class="no-highlight">152</i>&nbsp;                resultCompletableFuture.complete(new Result(R.string.failure_on_call, false));</b>
+<i class="no-highlight">153</i>&nbsp;            }
+<i class="no-highlight">154</i>&nbsp;
+<i class="no-highlight">155</i>&nbsp;            @Override
+<i class="no-highlight">156</i>&nbsp;            public void onResponse(@NonNull Call call, @NonNull Response response)  {
+<b class="fc"><i class="no-highlight">157</i>&nbsp;                if (response.isSuccessful()) {</b>
+<b class="fc"><i class="no-highlight">158</i>&nbsp;                    resultCompletableFuture.complete(new Result(true));</b>
+<i class="no-highlight">159</i>&nbsp;                } else {
+<b class="fc"><i class="no-highlight">160</i>&nbsp;                    resultCompletableFuture.complete(new Result(R.string.unsuccessful_response, false));</b>
+<i class="no-highlight">161</i>&nbsp;                }
+<i class="no-highlight">162</i>&nbsp;            }
+<i class="no-highlight">163</i>&nbsp;        });
+<b class="fc"><i class="no-highlight">164</i>&nbsp;        return resultCompletableFuture;</b>
+<i class="no-highlight">165</i>&nbsp;    }
+<i class="no-highlight">166</i>&nbsp;
+<i class="no-highlight">167</i>&nbsp;    /**
+<i class="no-highlight">168</i>&nbsp;     * This function parses the arraylist of ThesisDTO object that the backend returns to a Hashmap&lt;UUID,Thesis&gt; (this is necessary for the frontend)
+<i class="no-highlight">169</i>&nbsp;     *
+<i class="no-highlight">170</i>&nbsp;     * @param theses
+<i class="no-highlight">171</i>&nbsp;     * @return HashMap&lt;UUID, Thesis&gt;
+<i class="no-highlight">172</i>&nbsp;     */
+<i class="no-highlight">173</i>&nbsp;    private HashMap&lt;UUID, Thesis&gt; parseHashMap(ArrayList&lt;ThesisDTO&gt; theses) {
+<b class="nc"><i class="no-highlight">174</i>&nbsp;        ArrayList&lt;Thesis&gt; returnTheses = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">175</i>&nbsp;        Thesis thesis = new Thesis();</b>
+<b class="nc"><i class="no-highlight">176</i>&nbsp;        Set&lt;Image&gt; images = new ArraySet&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">177</i>&nbsp;        Set&lt;Degree&gt; degrees = new ArraySet&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">178</i>&nbsp;        for (ThesisDTO thesisIter : theses) {</b>
+<b class="nc"><i class="no-highlight">179</i>&nbsp;            thesis.setId(thesisIter.getId());</b>
+<b class="nc"><i class="no-highlight">180</i>&nbsp;            thesis.setForm(new Form(thesisIter.getQuestions()));</b>
+<b class="nc"><i class="no-highlight">181</i>&nbsp;            for (String string : thesisIter.getImages()) {</b>
+<b class="nc"><i class="no-highlight">182</i>&nbsp;                byte[] image = java.util.Base64.getDecoder().decode(string);</b>
+<b class="nc"><i class="no-highlight">183</i>&nbsp;                images.add(new Image(image));</b>
+<b class="nc"><i class="no-highlight">184</i>&nbsp;            }</b>
+<b class="nc"><i class="no-highlight">185</i>&nbsp;            for (Degree degree : thesisIter.getPossibleDegrees()) {</b>
+<b class="nc"><i class="no-highlight">186</i>&nbsp;                degrees.add(degree);</b>
+<b class="nc"><i class="no-highlight">187</i>&nbsp;            }</b>
+<b class="nc"><i class="no-highlight">188</i>&nbsp;            thesis.setImages(images);</b>
+<b class="nc"><i class="no-highlight">189</i>&nbsp;            thesis.setMotivation(thesisIter.getMotivation());</b>
+<b class="nc"><i class="no-highlight">190</i>&nbsp;            thesis.setName(thesisIter.getName());</b>
+<b class="nc"><i class="no-highlight">191</i>&nbsp;            thesis.setPossibleDegrees(degrees);</b>
+<b class="nc"><i class="no-highlight">192</i>&nbsp;            thesis.setSupervisingProfessor(thesisIter.getSupervisingProfessor());</b>
+<b class="nc"><i class="no-highlight">193</i>&nbsp;            thesis.setSupervisor(thesisIter.getSupervisor());</b>
+<b class="nc"><i class="no-highlight">194</i>&nbsp;            thesis.setTask(thesisIter.getTask());</b>
+<b class="nc"><i class="no-highlight">195</i>&nbsp;            returnTheses.add(thesis);</b>
+<b class="nc"><i class="no-highlight">196</i>&nbsp;            thesis = new Thesis();</b>
+<b class="nc"><i class="no-highlight">197</i>&nbsp;            images = new ArraySet&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">198</i>&nbsp;            degrees = new ArraySet&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">199</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">200</i>&nbsp;        return (HashMap&lt;UUID, Thesis&gt;) returnTheses.stream().collect(Collectors.toMap(Thesis::getId, v -&gt; v));</b>
+<i class="no-highlight">201</i>&nbsp;    }
+<i class="no-highlight">202</i>&nbsp;
+<i class="no-highlight">203</i>&nbsp;    /**
+<i class="no-highlight">204</i>&nbsp;     * Get all already liked thesis for the student. If the response is successful, set the Hashmap in the ThesisRepository for the viewmodel.
+<i class="no-highlight">205</i>&nbsp;     *
+<i class="no-highlight">206</i>&nbsp;     * @return Pair&lt;CompletableFuture &lt; HashMap &lt; UUID, Thesis&gt;&gt;, CompletableFuture&lt;Result&gt;&gt;
+<i class="no-highlight">207</i>&nbsp;     */
+<i class="no-highlight">208</i>&nbsp;    public Pair&lt;CompletableFuture&lt;HashMap&lt;UUID, Thesis&gt;&gt;, CompletableFuture&lt;Result&gt;&gt; getAllPositiveRatedThesesFuture() {
+<i class="no-highlight">209</i>&nbsp;        //Add HTTP BASIC authentication
+<b class="fc"><i class="no-highlight">210</i>&nbsp;        OkHttpClient clientAuth = new OkHttpClient.Builder()</b>
+<b class="fc"><i class="no-highlight">211</i>&nbsp;                .addInterceptor(new AuthInterceptor</b>
+<b class="fc"><i class="no-highlight">212</i>&nbsp;                        (UserRepository.getInstance().getUser().getMail(),</b>
+<b class="fc"><i class="no-highlight">213</i>&nbsp;                                UserRepository.getInstance().getPassword()))</b>
+<b class="fc"><i class="no-highlight">214</i>&nbsp;                .build();</b>
+<b class="fc"><i class="no-highlight">215</i>&nbsp;        CompletableFuture&lt;Result&gt; resultCompletableFuture = new CompletableFuture&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">216</i>&nbsp;        CompletableFuture&lt;HashMap&lt;UUID, Thesis&gt;&gt; thesisListFuture = new CompletableFuture&lt;&gt;();</b>
+<i class="no-highlight">217</i>&nbsp;
+<b class="fc"><i class="no-highlight">218</i>&nbsp;        HttpUrl url = apiUtils.getHttpUrlBuilder()</b>
+<b class="fc"><i class="no-highlight">219</i>&nbsp;                .addPathSegment(&quot;students&quot;)</b>
+<b class="fc"><i class="no-highlight">220</i>&nbsp;                .addPathSegment(&quot;rated-theses&quot;)</b>
+<b class="fc"><i class="no-highlight">221</i>&nbsp;                .build();</b>
+<i class="no-highlight">222</i>&nbsp;
+<b class="fc"><i class="no-highlight">223</i>&nbsp;        Request request = new Request.Builder()</b>
+<b class="fc"><i class="no-highlight">224</i>&nbsp;                .url(url)</b>
+<b class="fc"><i class="no-highlight">225</i>&nbsp;                .get()</b>
+<b class="fc"><i class="no-highlight">226</i>&nbsp;                .build();</b>
+<i class="no-highlight">227</i>&nbsp;
+<b class="fc"><i class="no-highlight">228</i>&nbsp;        Call call = clientAuth.newCall(request);</b>
+<b class="fc"><i class="no-highlight">229</i>&nbsp;        call.enqueue(new Callback() {</b>
+<i class="no-highlight">230</i>&nbsp;            @Override
+<i class="no-highlight">231</i>&nbsp;            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+<b class="nc"><i class="no-highlight">232</i>&nbsp;                resultCompletableFuture.complete(new Result(R.string.failure_on_call, false));</b>
+<b class="nc"><i class="no-highlight">233</i>&nbsp;                thesisListFuture.complete(null);</b>
+<i class="no-highlight">234</i>&nbsp;            }
+<i class="no-highlight">235</i>&nbsp;
+<i class="no-highlight">236</i>&nbsp;            @Override
+<i class="no-highlight">237</i>&nbsp;            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+<b class="fc"><i class="no-highlight">238</i>&nbsp;                if (response.isSuccessful()) {</b>
+<b class="fc"><i class="no-highlight">239</i>&nbsp;                    Gson gson = new Gson();</b>
+<b class="fc"><i class="no-highlight">240</i>&nbsp;                    String body = response.body().string();</b>
+<b class="fc"><i class="no-highlight">241</i>&nbsp;                    ArrayList&lt;ThesisDTO&gt; theses = gson.fromJson(body, new TypeToken&lt;List&lt;ThesisDTO&gt;&gt;() {</b>
+<b class="fc"><i class="no-highlight">242</i>&nbsp;                    }.getType());</b>
+<i class="no-highlight">243</i>&nbsp;                    //if the theses returned are null (which is a normal response), return a correct result value.
+<b class="fc"><i class="no-highlight">244</i>&nbsp;                    if (theses == null) {</b>
+<b class="fc"><i class="no-highlight">245</i>&nbsp;                        resultCompletableFuture.complete(new Result(true));</b>
+<b class="fc"><i class="no-highlight">246</i>&nbsp;                        thesisListFuture.complete(null);</b>
+<i class="no-highlight">247</i>&nbsp;                        return;
+<i class="no-highlight">248</i>&nbsp;                    }
+<i class="no-highlight">249</i>&nbsp;
+<i class="no-highlight">250</i>&nbsp;
+<b class="nc"><i class="no-highlight">251</i>&nbsp;                    HashMap&lt;UUID, Thesis&gt; thesisHashMap = parseHashMap(theses);</b>
+<b class="nc"><i class="no-highlight">252</i>&nbsp;                    resultCompletableFuture.complete(new Result(true));</b>
+<b class="nc"><i class="no-highlight">253</i>&nbsp;                    thesisListFuture.complete(thesisHashMap);</b>
+<b class="nc"><i class="no-highlight">254</i>&nbsp;                } else {</b>
+<b class="fc"><i class="no-highlight">255</i>&nbsp;                    resultCompletableFuture.complete(new Result(R.string.unsuccessful_response, false));</b>
+<b class="fc"><i class="no-highlight">256</i>&nbsp;                    thesisListFuture.complete(null);</b>
+<i class="no-highlight">257</i>&nbsp;                }
+<i class="no-highlight">258</i>&nbsp;            }
+<i class="no-highlight">259</i>&nbsp;        });
+<i class="no-highlight">260</i>&nbsp;
+<b class="fc"><i class="no-highlight">261</i>&nbsp;        return new Pair&lt;&gt;(thesisListFuture, resultCompletableFuture);</b>
+<i class="no-highlight">262</i>&nbsp;    }
+<i class="no-highlight">263</i>&nbsp;
+<i class="no-highlight">264</i>&nbsp;    /**
+<i class="no-highlight">265</i>&nbsp;     * This function parses the returned ArrayList&lt;ThesisDTO&gt; from the backend into a ArrayList&lt;Thesis&gt; (which is necessary for the frontend)
+<i class="no-highlight">266</i>&nbsp;     *
+<i class="no-highlight">267</i>&nbsp;     * @param theses
+<i class="no-highlight">268</i>&nbsp;     * @return ArrayList&lt;Thesis&gt;
+<i class="no-highlight">269</i>&nbsp;     */
+<i class="no-highlight">270</i>&nbsp;    private ArrayList&lt;Thesis&gt; parseThesisArrayList(ArrayList&lt;ThesisDTO&gt; theses) {
+<b class="fc"><i class="no-highlight">271</i>&nbsp;        ArrayList&lt;Thesis&gt; returnTheses = new ArrayList&lt;&gt;();</b>
+<i class="no-highlight">272</i>&nbsp;
+<b class="fc"><i class="no-highlight">273</i>&nbsp;        Thesis thesis = new Thesis();</b>
+<b class="fc"><i class="no-highlight">274</i>&nbsp;        Set&lt;Image&gt; images = new ArraySet&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">275</i>&nbsp;        Set&lt;Degree&gt; degrees = new ArraySet&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">276</i>&nbsp;        for (ThesisDTO thesisIter : theses) {</b>
+<b class="nc"><i class="no-highlight">277</i>&nbsp;            thesis.setId(thesisIter.getId());</b>
+<b class="nc"><i class="no-highlight">278</i>&nbsp;            thesis.setForm(new Form(thesisIter.getQuestions()));</b>
+<b class="nc"><i class="no-highlight">279</i>&nbsp;            for (String string : thesisIter.getImages()) {</b>
+<b class="nc"><i class="no-highlight">280</i>&nbsp;                byte[] image = java.util.Base64.getDecoder().decode(string);</b>
+<b class="nc"><i class="no-highlight">281</i>&nbsp;                images.add(new Image(image));</b>
+<i class="no-highlight">282</i>&nbsp;
+<b class="nc"><i class="no-highlight">283</i>&nbsp;            }</b>
+<b class="nc"><i class="no-highlight">284</i>&nbsp;            degrees.addAll(thesisIter.getPossibleDegrees());</b>
+<b class="nc"><i class="no-highlight">285</i>&nbsp;            thesis.setImages(images);</b>
+<b class="nc"><i class="no-highlight">286</i>&nbsp;            thesis.setMotivation(thesisIter.getMotivation());</b>
+<b class="nc"><i class="no-highlight">287</i>&nbsp;            thesis.setName(thesisIter.getName());</b>
+<b class="nc"><i class="no-highlight">288</i>&nbsp;            thesis.setPossibleDegrees(degrees);</b>
+<b class="nc"><i class="no-highlight">289</i>&nbsp;            thesis.setSupervisingProfessor(thesisIter.getSupervisingProfessor());</b>
+<i class="no-highlight">290</i>&nbsp;
+<i class="no-highlight">291</i>&nbsp;
+<b class="nc"><i class="no-highlight">292</i>&nbsp;            thesis.setSupervisor(thesisIter.getSupervisor());</b>
+<b class="nc"><i class="no-highlight">293</i>&nbsp;            thesis.setTask(thesisIter.getTask());</b>
+<b class="nc"><i class="no-highlight">294</i>&nbsp;            returnTheses.add(thesis);</b>
+<b class="nc"><i class="no-highlight">295</i>&nbsp;            thesis = new Thesis();</b>
+<b class="nc"><i class="no-highlight">296</i>&nbsp;            images = new ArraySet&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">297</i>&nbsp;            degrees = new ArraySet&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">298</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">299</i>&nbsp;        return returnTheses;</b>
+<i class="no-highlight">300</i>&nbsp;    }
+<i class="no-highlight">301</i>&nbsp;
+<i class="no-highlight">302</i>&nbsp;    /**
+<i class="no-highlight">303</i>&nbsp;     * Returns all theses that a student swipes, based on a certain critiera (currently just implemented as random in the backend)
+<i class="no-highlight">304</i>&nbsp;     *
+<i class="no-highlight">305</i>&nbsp;     * @return Pair&lt;CompletableFuture &lt; ArrayList &lt; Thesis&gt;&gt;,CompletableFuture&lt;Result&gt;&gt;
+<i class="no-highlight">306</i>&nbsp;     */
+<i class="no-highlight">307</i>&nbsp;    public Pair&lt;CompletableFuture&lt;ArrayList&lt;Thesis&gt;&gt;, CompletableFuture&lt;Result&gt;&gt; getAllThesesForTheStudentFuture() {
+<i class="no-highlight">308</i>&nbsp;        //Add HTTP BASIC authentication
+<b class="fc"><i class="no-highlight">309</i>&nbsp;        OkHttpClient clientAuth = new OkHttpClient.Builder()</b>
+<b class="fc"><i class="no-highlight">310</i>&nbsp;                .addInterceptor(new AuthInterceptor</b>
+<b class="fc"><i class="no-highlight">311</i>&nbsp;                        (UserRepository.getInstance().getUser().getMail(),</b>
+<b class="fc"><i class="no-highlight">312</i>&nbsp;                                UserRepository.getInstance().getPassword()))</b>
+<b class="fc"><i class="no-highlight">313</i>&nbsp;                .build();</b>
+<i class="no-highlight">314</i>&nbsp;
+<b class="fc"><i class="no-highlight">315</i>&nbsp;        CompletableFuture&lt;Result&gt; resultCompletableFuture = new CompletableFuture&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">316</i>&nbsp;        CompletableFuture&lt;ArrayList&lt;Thesis&gt;&gt; resultThesisFuture = new CompletableFuture&lt;&gt;();</b>
+<i class="no-highlight">317</i>&nbsp;
+<b class="fc"><i class="no-highlight">318</i>&nbsp;        HttpUrl url = apiUtils.getHttpUrlBuilder()</b>
+<b class="fc"><i class="no-highlight">319</i>&nbsp;                .addPathSegment(&quot;students&quot;)</b>
+<b class="fc"><i class="no-highlight">320</i>&nbsp;                .addPathSegment(&quot;theses&quot;)</b>
+<b class="fc"><i class="no-highlight">321</i>&nbsp;                .addPathSegment(&quot;get-swipe-theses&quot;)</b>
+<b class="fc"><i class="no-highlight">322</i>&nbsp;                .build();</b>
+<i class="no-highlight">323</i>&nbsp;
+<b class="fc"><i class="no-highlight">324</i>&nbsp;        Request request = new Request.Builder()</b>
+<b class="fc"><i class="no-highlight">325</i>&nbsp;                .url(url)</b>
+<b class="fc"><i class="no-highlight">326</i>&nbsp;                .get()</b>
+<b class="fc"><i class="no-highlight">327</i>&nbsp;                .build();</b>
+<i class="no-highlight">328</i>&nbsp;
+<b class="fc"><i class="no-highlight">329</i>&nbsp;        Call call = clientAuth.newCall(request);</b>
+<b class="fc"><i class="no-highlight">330</i>&nbsp;        call.enqueue(new Callback() {</b>
+<i class="no-highlight">331</i>&nbsp;            @Override
+<i class="no-highlight">332</i>&nbsp;            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+<b class="nc"><i class="no-highlight">333</i>&nbsp;                resultCompletableFuture.complete(new Result(R.string.failure_on_call, false));</b>
+<b class="nc"><i class="no-highlight">334</i>&nbsp;                resultThesisFuture.complete(null);</b>
+<i class="no-highlight">335</i>&nbsp;            }
+<i class="no-highlight">336</i>&nbsp;
+<i class="no-highlight">337</i>&nbsp;            @Override
+<i class="no-highlight">338</i>&nbsp;            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+<b class="fc"><i class="no-highlight">339</i>&nbsp;                if (response.isSuccessful()) {</b>
+<b class="fc"><i class="no-highlight">340</i>&nbsp;                    Gson gson = new Gson();</b>
+<b class="fc"><i class="no-highlight">341</i>&nbsp;                    String body = response.body().string();</b>
+<b class="fc"><i class="no-highlight">342</i>&nbsp;                    ArrayList&lt;ThesisDTO&gt; theses = gson.fromJson(body, new TypeToken&lt;List&lt;ThesisDTO&gt;&gt;() {</b>
+<b class="fc"><i class="no-highlight">343</i>&nbsp;                    }.getType());</b>
+<b class="fc"><i class="no-highlight">344</i>&nbsp;                    if (theses == null) {</b>
+<b class="fc"><i class="no-highlight">345</i>&nbsp;                        resultCompletableFuture.complete(new Result(true));</b>
+<b class="fc"><i class="no-highlight">346</i>&nbsp;                        resultThesisFuture.complete(null);</b>
+<i class="no-highlight">347</i>&nbsp;                    }
+<i class="no-highlight">348</i>&nbsp;
+<b class="fc"><i class="no-highlight">349</i>&nbsp;                    ArrayList&lt;Thesis&gt; returnTheses = parseThesisArrayList(theses);</b>
+<b class="nc"><i class="no-highlight">350</i>&nbsp;                    resultCompletableFuture.complete(new Result(true));</b>
+<b class="nc"><i class="no-highlight">351</i>&nbsp;                    resultThesisFuture.complete(returnTheses);</b>
+<i class="no-highlight">352</i>&nbsp;
+<i class="no-highlight">353</i>&nbsp;
+<b class="nc"><i class="no-highlight">354</i>&nbsp;                } else {</b>
+<b class="fc"><i class="no-highlight">355</i>&nbsp;                    resultCompletableFuture.complete(new Result(R.string.unsuccessful_response, false));</b>
+<b class="fc"><i class="no-highlight">356</i>&nbsp;                    resultThesisFuture.complete(null);</b>
+<i class="no-highlight">357</i>&nbsp;                }
+<i class="no-highlight">358</i>&nbsp;
+<i class="no-highlight">359</i>&nbsp;            }
+<i class="no-highlight">360</i>&nbsp;
+<i class="no-highlight">361</i>&nbsp;        });
+<b class="fc"><i class="no-highlight">362</i>&nbsp;        return new Pair&lt;&gt;(resultThesisFuture, resultCompletableFuture);</b>
+<i class="no-highlight">363</i>&nbsp;    }
+<i class="no-highlight">364</i>&nbsp;
+<i class="no-highlight">365</i>&nbsp;    /**
+<i class="no-highlight">366</i>&nbsp;     * Performs the actual HTTP POST request that sends the form to the supervisor mail. Both questions and answers are included.
+<i class="no-highlight">367</i>&nbsp;     *
+<i class="no-highlight">368</i>&nbsp;     * @param form
+<i class="no-highlight">369</i>&nbsp;     * @param thesisId
+<i class="no-highlight">370</i>&nbsp;     * @return CompletableFuture&lt;Result&gt;
+<i class="no-highlight">371</i>&nbsp;     * @throws JSONException
+<i class="no-highlight">372</i>&nbsp;     */
+<i class="no-highlight">373</i>&nbsp;    public CompletableFuture&lt;Result&gt; sendThesisFormToSupervisorFuture(Form form, final UUID thesisId) throws JSONException {
+<i class="no-highlight">374</i>&nbsp;
+<i class="no-highlight">375</i>&nbsp;        //Add HTTP BASIC authentication
+<b class="fc"><i class="no-highlight">376</i>&nbsp;        OkHttpClient clientAuth = new OkHttpClient.Builder()</b>
+<b class="fc"><i class="no-highlight">377</i>&nbsp;                .addInterceptor(new AuthInterceptor</b>
+<b class="fc"><i class="no-highlight">378</i>&nbsp;                        (UserRepository.getInstance().getUser().getMail(),</b>
+<b class="fc"><i class="no-highlight">379</i>&nbsp;                                UserRepository.getInstance().getPassword()))</b>
+<b class="fc"><i class="no-highlight">380</i>&nbsp;                .build();</b>
+<b class="fc"><i class="no-highlight">381</i>&nbsp;        CompletableFuture&lt;Result&gt; resultCompletableFuture = new CompletableFuture&lt;&gt;();</b>
+<i class="no-highlight">382</i>&nbsp;        JSONObject formJson;
+<b class="fc"><i class="no-highlight">383</i>&nbsp;        formJson = new JSONObject().put(&quot;answers&quot;, form.getAnswers()).put(&quot;questions&quot;, form.getQuestions());</b>
+<b class="fc"><i class="no-highlight">384</i>&nbsp;        String jsonBodyString = formJson.toString();</b>
+<b class="fc"><i class="no-highlight">385</i>&nbsp;        RequestBody body = RequestBody.create(jsonBodyString, JSON);</b>
+<i class="no-highlight">386</i>&nbsp;
+<b class="fc"><i class="no-highlight">387</i>&nbsp;        HttpUrl url = apiUtils.getHttpUrlBuilder()</b>
+<b class="fc"><i class="no-highlight">388</i>&nbsp;                .addPathSegment(&quot;students&quot;)</b>
+<b class="fc"><i class="no-highlight">389</i>&nbsp;                .addPathSegment(&quot;rated-theses&quot;)</b>
+<b class="fc"><i class="no-highlight">390</i>&nbsp;                .addPathSegment(thesisId.toString())</b>
+<b class="fc"><i class="no-highlight">391</i>&nbsp;                .addPathSegment(&quot;form&quot;)</b>
+<b class="fc"><i class="no-highlight">392</i>&nbsp;                .build();</b>
+<i class="no-highlight">393</i>&nbsp;
+<b class="fc"><i class="no-highlight">394</i>&nbsp;        Request request = new Request.Builder()</b>
+<b class="fc"><i class="no-highlight">395</i>&nbsp;                .url(url)</b>
+<b class="fc"><i class="no-highlight">396</i>&nbsp;                .post(body)</b>
+<b class="fc"><i class="no-highlight">397</i>&nbsp;                .build();</b>
+<b class="fc"><i class="no-highlight">398</i>&nbsp;        Call call = clientAuth.newCall(request);</b>
+<b class="fc"><i class="no-highlight">399</i>&nbsp;        call.enqueue(new Callback() {</b>
+<i class="no-highlight">400</i>&nbsp;            @Override
+<i class="no-highlight">401</i>&nbsp;            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+<b class="nc"><i class="no-highlight">402</i>&nbsp;                resultCompletableFuture.complete(new Result(R.string.failure_on_call, false));</b>
+<i class="no-highlight">403</i>&nbsp;            }
+<i class="no-highlight">404</i>&nbsp;
+<i class="no-highlight">405</i>&nbsp;            @Override
+<i class="no-highlight">406</i>&nbsp;            public void onResponse(@NonNull Call call, @NonNull Response response) {
+<b class="fc"><i class="no-highlight">407</i>&nbsp;                if (response.isSuccessful()) {</b>
+<b class="fc"><i class="no-highlight">408</i>&nbsp;                    resultCompletableFuture.complete(new Result(true));</b>
+<i class="no-highlight">409</i>&nbsp;                } else {
+<b class="fc"><i class="no-highlight">410</i>&nbsp;                    resultCompletableFuture.complete(new Result(R.string.unsuccessful_response, false));</b>
+<i class="no-highlight">411</i>&nbsp;                }
+<i class="no-highlight">412</i>&nbsp;            }
+<i class="no-highlight">413</i>&nbsp;        });
+<b class="fc"><i class="no-highlight">414</i>&nbsp;        return resultCompletableFuture;</b>
+<i class="no-highlight">415</i>&nbsp;
+<i class="no-highlight">416</i>&nbsp;
+<i class="no-highlight">417</i>&nbsp;    }
+<i class="no-highlight">418</i>&nbsp;
+<i class="no-highlight">419</i>&nbsp;    /**
+<i class="no-highlight">420</i>&nbsp;     * This function creates the actual HTTP POST request that removes an already liked thesis from the list of liked theses from the student.
+<i class="no-highlight">421</i>&nbsp;     *
+<i class="no-highlight">422</i>&nbsp;     * @param thesisId
+<i class="no-highlight">423</i>&nbsp;     * @return CompletableFuture&lt;Result&gt;
+<i class="no-highlight">424</i>&nbsp;     */
+<i class="no-highlight">425</i>&nbsp;
+<i class="no-highlight">426</i>&nbsp;    public CompletableFuture&lt;Result&gt; removeALikedThesisFromAStudentFuture(final UUID thesisId) {
+<b class="fc"><i class="no-highlight">427</i>&nbsp;        OkHttpClient clientAuth = new OkHttpClient.Builder()</b>
+<b class="fc"><i class="no-highlight">428</i>&nbsp;                .addInterceptor(new AuthInterceptor</b>
+<b class="fc"><i class="no-highlight">429</i>&nbsp;                        (UserRepository.getInstance().getUser().getMail(),</b>
+<b class="fc"><i class="no-highlight">430</i>&nbsp;                                UserRepository.getInstance().getPassword()))</b>
+<b class="fc"><i class="no-highlight">431</i>&nbsp;                .build();</b>
+<b class="fc"><i class="no-highlight">432</i>&nbsp;        CompletableFuture&lt;Result&gt; resultCompletableFuture = new CompletableFuture&lt;&gt;();</b>
+<i class="no-highlight">433</i>&nbsp;
+<b class="fc"><i class="no-highlight">434</i>&nbsp;        HttpUrl url = apiUtils.getHttpUrlBuilder()</b>
+<b class="fc"><i class="no-highlight">435</i>&nbsp;                .addPathSegment(&quot;students&quot;)</b>
+<b class="fc"><i class="no-highlight">436</i>&nbsp;                .addPathSegment(&quot;rated-theses&quot;)</b>
+<b class="fc"><i class="no-highlight">437</i>&nbsp;                .addPathSegment(thesisId.toString())</b>
+<b class="fc"><i class="no-highlight">438</i>&nbsp;                .addPathSegment(&quot;remove&quot;)</b>
+<b class="fc"><i class="no-highlight">439</i>&nbsp;                .build();</b>
+<i class="no-highlight">440</i>&nbsp;
+<b class="fc"><i class="no-highlight">441</i>&nbsp;        Request request = new Request.Builder()</b>
+<b class="fc"><i class="no-highlight">442</i>&nbsp;                .url(url)</b>
+<b class="fc"><i class="no-highlight">443</i>&nbsp;                .get()</b>
+<b class="fc"><i class="no-highlight">444</i>&nbsp;                .build();</b>
+<i class="no-highlight">445</i>&nbsp;
+<b class="fc"><i class="no-highlight">446</i>&nbsp;        Call call = clientAuth.newCall(request);</b>
+<b class="fc"><i class="no-highlight">447</i>&nbsp;        call.enqueue(new Callback() {</b>
+<i class="no-highlight">448</i>&nbsp;            @Override
+<i class="no-highlight">449</i>&nbsp;            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+<b class="nc"><i class="no-highlight">450</i>&nbsp;                resultCompletableFuture.complete(new Result(R.string.failure_on_call, false));</b>
+<i class="no-highlight">451</i>&nbsp;            }
+<i class="no-highlight">452</i>&nbsp;
+<i class="no-highlight">453</i>&nbsp;            @Override
+<i class="no-highlight">454</i>&nbsp;            public void onResponse(@NonNull Call call, @NonNull Response response) {
+<b class="fc"><i class="no-highlight">455</i>&nbsp;                if (response.isSuccessful()) {</b>
+<b class="fc"><i class="no-highlight">456</i>&nbsp;                    resultCompletableFuture.complete(new Result(true));</b>
+<i class="no-highlight">457</i>&nbsp;                } else {
+<b class="fc"><i class="no-highlight">458</i>&nbsp;                    resultCompletableFuture.complete(new Result(R.string.unsuccessful_response, false));</b>
+<i class="no-highlight">459</i>&nbsp;                }
+<i class="no-highlight">460</i>&nbsp;
+<i class="no-highlight">461</i>&nbsp;            }
+<i class="no-highlight">462</i>&nbsp;        });
+<b class="fc"><i class="no-highlight">463</i>&nbsp;        return resultCompletableFuture;</b>
+<i class="no-highlight">464</i>&nbsp;    }
+<i class="no-highlight">465</i>&nbsp;
+<i class="no-highlight">466</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-09-11 16:06</div>
+</div>
+</body>
+</html>
