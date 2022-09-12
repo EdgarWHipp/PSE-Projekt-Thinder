@@ -27,18 +27,11 @@ public class LikedThesesViewModelTest {
     viewModel = null;
   }
 
-  @Test
-  public void getLikedTheses() {
-    //Aufruf an AsyncTask
-  }
 
   @Test
   public void getIsLoadingNotNull() {
     Assert.assertNotNull(viewModel.getIsLoading());
   }
 
-  @Test
-  public void loadLikedTheses() {
-    //Aufruf an AsyncTask
-  }
+
 }

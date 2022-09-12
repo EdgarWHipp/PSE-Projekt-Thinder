@@ -26,14 +26,4 @@ public class StudentViewModelTest {
     viewModel = null;
   }
 
-  @Test
-  public void getProfileComplete() {
-    //ruft loadPfoileComplete() auf, UserRepository muss gemockt werde.
-  }
-
-  @Test
-  public void setProfileComplete() {
-    //überprüfung unmöglich (diese Methode setzt den Wert, nachdem exakt dieser Wert aus dem Backend geholt wurde.
-    
-  }
 }

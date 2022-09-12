@@ -13,7 +13,7 @@ import org.mockito.MockitoAnnotations;
 public class FillOutFormViewModelTest {
 
   @Rule
-  InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
+  public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
   private FillOutFormViewModel viewModel;
 

@@ -1,6 +1,8 @@
 package com.hfad.thinder.viewModels.student;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.lifecycle.ViewModel;
+
 import com.hfad.thinder.viewmodels.student.LikedThesisDetailedViewModel;
 import org.junit.After;
 import org.junit.Assert;
@@ -12,7 +14,7 @@ import org.mockito.MockitoAnnotations;
 public class LikedThesisDetailedViewModelTest {
 
   @Rule
-  InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
+  public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
   private LikedThesisDetailedViewModel viewModel;
 
@@ -28,29 +30,10 @@ public class LikedThesisDetailedViewModelTest {
   }
 
   @Test
-  public void delete() {
-    //Referenz auf student Repository und thesisRepository
-  }
-
-  @Test
   public void getCurrentImageNotNull() {
     Assert.assertNotNull(viewModel.getCurrentImage());
   }
 
-  @Test
-  public void nextImage() {
-    //iterator muss gesetzt sein, sonst exception
-  }
-
-  @Test
-  public void previousImage() {
-    //iterator muss gesetzt werden, sonst exception
-  }
-
-  @Test
-  public void setThesisIdNotNull() {
-    //hier wird load thesis aufgerufen
-  }
 
   @Test
   public void getTitle() {
@@ -107,8 +90,5 @@ public class LikedThesisDetailedViewModelTest {
     Assert.assertNotNull(viewModel.getDeleteResult());
   }
 
-  @Test
-  public void getHasImagesNoImages() {
-    Assert.assertFalse(viewModel.getHasImages().getValue());
-  }
+
 }

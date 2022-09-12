@@ -32,20 +32,9 @@ public class SwipeScreenViewModelTest {
     Assert.assertNotNull(viewModel.getCurrentDeckPosition());
   }
 
-  @Test
-  public void getCurrentImageIsNull() {
-    Assert.assertNull(viewModel.getCurrentImage());
-  }
 
-  @Test
-  public void getNextImageIsNull() {
-    Assert.assertNull(viewModel.getNextImage());
-  }
 
-  @Test
-  public void getCoursesOfStudy() {
-    Assert.assertNull(viewModel.getCoursesOfStudy());
-  }
+
 
 
   @Test

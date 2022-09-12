@@ -145,7 +145,6 @@ public class StudentRemoteDataSource {
             CompletableFuture<Result> result =
                     okHttpService.sendThesisFormToSupervisorFuture(form, thesisId);
             Result resultValue = result.get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
-            Log.e("","value fetched");
             return resultValue;
 
         } catch (JSONException | ExecutionException | InterruptedException j) {

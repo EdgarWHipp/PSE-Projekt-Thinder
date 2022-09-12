@@ -34,10 +34,6 @@ public class RegistrationViewModelTest {
   public void setUp() {
     MockitoAnnotations.initMocks(this);
     registrationViewModel = new RegistrationViewModel();
-    /*registrationViewModel.getRegistrationResult().observeForever(
-        resultObserver);
-    registrationViewModel.getRegistrationFormState().observeForever(formStateObserver);
-     */
     registrationViewModel.setFirstName(new MutableLiveData<>("firstName"));
     registrationViewModel.setLastName(new MutableLiveData<>("lastName"));
     registrationViewModel.setPassword(new MutableLiveData<>("Test1234"));
